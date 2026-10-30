@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | FeedFoodForward</title>
+  <meta name="theme-color" content="#16a34a">
+  <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2316a34a'/%3E%3Cpath d='M50 80 C28 62 18 50 18 37 A17 17 0 0 1 50 28 A17 17 0 0 1 82 37 C82 50 72 62 50 80 Z' fill='%23ffffff'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    (function guardAdmin() {
+      try {
+        var _tabId = sessionStorage.getItem('ff_tab_id') || 'tab_fallback';
+        var raw = localStorage.getItem('fff_current_user_' + _tabId);
+        var user = raw ? JSON.parse(raw) : null;
+        if (!user) { sessionStorage.setItem('ff_redirect_after_login', 'admin-portal.html'); location.replace('admin-login.html'); return; }
+        if (user.role !== 'admin') {
+          var HOME = { donor:'donor-dashboard.html', ashram:'ngo-dashboard.html', driver:'driver-home.html' };
+          location.replace(HOME[user.role] || 'guest-home.html');
+        }
+      } catch (e) { location.replace('admin-login.html'); }
+    })();
+  </script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-container">
+    <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    
+    <a href="admin-portal.html" class="brand-logo" aria-label="FeedFoodForward admin home">
+      <div class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="ffTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#067A54"/><stop offset="55%" stop-color="#0B9F6E"/><stop offset="100%" stop-color="#10B981"/></linearGradient>
+            <linearGradient id="ffHeart" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#FF5A7A"/><stop offset="100%" stop-color="#F03E64"/></linearGradient>
+            <linearGradient id="ffLeaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#A3E635"/><stop offset="100%" stop-color="#65A30D"/></linearGradient>
+          </defs>
+          <rect x="2" y="2" width="44" height="44" rx="11" fill="url(#ffTile)"/>
+          <g transform="translate(28 6) rotate(20)"><path d="M0 14 C0 6 5 1 12 0 C12 8 7 14 0 14 Z" fill="url(#ffLeaf)"/></g>
+          <g transform="translate(8 20)"><path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4 C7.4 0.4 9.2 1.8 10 3.4 C10.8 1.8 12.6 0.4 15 0.4 C18.3 0.4 21 2.6 21 6 C21 10 18 14 10 20 Z" fill="url(#ffHeart)"/></g>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">FeedFood<span>Forward</span></span>
+        <span class="brand-subtitle">ADMIN PANEL</span>
+      </div>
+    </a>
+    
+    <nav class="site-nav" id="site-nav" aria-label="Primary"></nav>
+    <div class="header-utilities">
+      <div id="header-user" class="header-user-group">
+        <button type="button" class="user-chip" id="user-chip" aria-haspopup="true" aria-expanded="false">
+          <span class="user-avatar" id="user-avatar">⚡</span>
+          <span class="user-name" id="user-name">Admin</span>
+          <span class="user-caret" aria-hidden="true">▾</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- The sliding sidebar is injected automatically by sidebar.js -->
+<main style="padding: 3rem 1.5rem 4rem; min-height: 80vh; max-width: 1200px; margin: 0 auto;">
+  <section class="admin-section">
+    <div class="section-title">
+      <h2>Admin Dashboard</h2>
+      <p>Total users, donations, and deliveries at a glance.</p>
+    </div>
+
+    <!-- STAT CARDS -->
+    <div style="max-width:1100px;margin:0 auto 2rem auto;padding:0 1.5rem;">
+      <div class="impact-grid admin-stats-grid" style="margin:0;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));">
+        <div class="impact-box admin-stat-card" style="padding:1.25rem;">
+          <h3 style="font-size:1.6rem;" data-count="0" id="stat-users">0</h3>
+          <p>Total Users</p>
+        </div>
+        <div class="impact-box admin-stat-card" style="padding:1.25rem;">
+          <h3 style="font-size:1.6rem;" data-count="0" id="stat-donations">0</h3>
+          <p>Total Donations</p>
+        </div>
+        <div class="impact-box admin-stat-card" style="padding:1.25rem;">
+          <h3 style="font-size:1.6rem;" data-count="0" id="stat-delivered">0</h3>
+          <p>Delivered</p>
+        </div>
+        <div class="impact-box admin-stat-card" style="padding:1.25rem;">
+          <h3 style="font-size:1.6rem;" data-count="0" id="stat-intransit">0</h3>
+          <p>In Transit</p>
+        </div>
+        <div class="impact-box admin-stat-card" style="padding:1.25rem;">
+          <h3 style="font-size:1.6rem;" data-count="0" id="stat-pending">0</h3>
+          <p>Pending</p>
+        </div>
+        <div class="impact-box admin-stat-card" style="padding:1.25rem;">
+          <h3 style="font-size:1.6rem;color:var(--accent-orange);" data-count="0" id="stat-rejected">0</h3>
+          <p>Rejected</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUICK LINKS -->
+    <div class="admin-box" style="max-width:1100px; margin: 0 auto;">
+      <h3>Quick Actions</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:0.75rem;margin-top:1rem;">
+        <a href="admin-users.html"      class="btn btn-primary btn-sm">👥 Manage Users</a>
+        <a href="admin-donations.html"  class="btn btn-primary btn-sm">📦 Manage Donations</a>
+        <a href="admin-drivers.html"    class="btn btn-primary btn-sm">🚚 Manage Drivers</a>
+        <a href="admin-deliveries.html" class="btn btn-primary btn-sm">🛣️ All Deliveries</a>
+        <a href="admin-reports.html"    class="btn btn-primary btn-sm">📄 Reports &amp; Impact</a>
+      </div>
+    </div>
+
+    <!-- RECENT ACTIVITY -->
+    <div class="admin-box" style="max-width:1100px; margin: 0 auto;">
+      <h3>Recent Platform Activity</h3>
+      <ul id="admin-activity" style="list-style:none;padding:0;margin:0;">
+        <li style="padding:0.75rem 0;border-bottom:1px solid var(--line);color:var(--text-muted);font-size:0.85rem;">⏳ Loading activity…</li>
+      </ul>
+    </div>
+
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-brand"><h3>FeedFoodForward</h3><p>"Rescue Food. Reduce Waste. Feed Communities."</p></div>
+    <div class="footer-copyright">© 2026 FeedFoodForward Platform.</div>
+  </div>
+</footer>
+
+<div id="ff-toast" role="status" aria-live="polite" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);background:#0f172a;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:all .3s ease;z-index:9999;"></div>
+
+<script src="app.js"></script>
+<script src="header-nav.js"></script>
+<script src="sidebar.js"></script>
+<script src="animations.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  'use strict';
+  const user = (window.ffAuth && window.ffAuth.getUser) ? window.ffAuth.getUser() : null;
+  const esc = s => String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  if (user) {
+    const n = document.getElementById('user-name');   if (n) n.textContent = user.name || 'Admin';
+    const a = document.getElementById('user-avatar'); if (a) a.textContent = user.avatar || '⚡';
+  }
+
+  /* Animated counters */
+  function countUp(el, target) {
+    const dur = 900, start = performance.now();
+    (function step(now) {
+      const t = Math.min((now - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = Math.round(target * eased).toLocaleString('en-IN');
+      if (t < 1) requestAnimationFrame(step);
+    })(start);
+  }
+
+  /* Load stats */
+  async function loadDashboard() {
+    try {
+      const r = await fetch('/api/admin/stats', {
+        headers: { 'x-user-email': user ? user.email : '' }
+      });
+      const data = await r.json();
+      if (!data.ok) throw new Error(data.error || 'Failed');
+      const s = data.stats || {};
+      const set = (id, v) => { const el = document.getElementById(id); if (el) countUp(el, v || 0); };
+      set('stat-users',     s.totalUsers     || 0);
+      set('stat-donations', s.totalDonations || 0);
+      set('stat-delivered', s.delivered      || 0);
+      set('stat-intransit', s.inTransit      || 0);
+      set('stat-pending',   s.pending        || 0);
+      set('stat-rejected',  s.rejected       || 0);
+    } catch (err) {
+      console.warn('Dashboard stats failed:', err);
+    }
+  }
+
+  /* Load recent activity */
+  async function loadActivity() {
+    const list = document.getElementById('admin-activity');
+    if (!list) return;
+    try {
+      const r = await fetch('/api/donations');
+      const data = await r.json();
+      const items = (data.donations || []).slice(0, 8);
+      if (!items.length) { list.innerHTML = '<li style="padding:0.75rem 0;color:#94a3b8;">No recent activity.</li>'; return; }
+      list.innerHTML = items.map(d => `
+        <li style="padding:0.75rem 0;border-bottom:1px solid #f1f5f9;font-size:0.85rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+          <span><strong>${esc(d.donationId)}</strong> — ${esc(d.foodName || 'Prepared Meal')} • ${esc(d.donorName || 'Donor')}</span>
+          <span style="color:#64748b;font-size:0.75rem;">${d.status || 'Pending'}</span>
+        </li>`).join('');
+    } catch (e) {
+      list.innerHTML = '<li style="padding:0.75rem 0;color:#dc2626;">Could not load activity.</li>';
+    }
+  }
+
+  loadDashboard();
+  loadActivity();
+});
+</script>
+
+<style>
+  /* HEAVY ANIMATION LAYER */
+  body.admin-anim-active {
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    background: 
+      radial-gradient(800px 600px at 10% 10%, rgba(16,185,129,0.08), transparent 60%),
+      radial-gradient(800px 600px at 90% 90%, rgba(59,130,246,0.06), transparent 60%),
+      radial-gradient(800px 600px at 50% 50%, rgba(245,158,11,0.04), transparent 60%),
+      #f6f9fc;
+    background-size: 200% 200%;
+    animation: adminBgShift 15s ease-in-out infinite alternate;
+  }
+  body.admin-anim-active.admin-ready {
+    opacity: 1;
+  }
+  @keyframes adminBgShift {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
+  }
+
+  .admin-particle {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    animation: adminFloatUp linear infinite;
+  }
+  @keyframes adminFloatUp {
+    0% { transform: translateY(105vh) scale(0.4) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.7; }
+    90% { opacity: 0.7; }
+    100% { transform: translateY(-20vh) scale(1.2) rotate(360deg); opacity: 0; }
+  }
+
+  .admin-cursor-glow {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(16,185,129,0.12), transparent 70%);
+    transform: translate(-50%, -50%);
+    filter: blur(40px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .admin-box, .impact-box, .section-title {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .admin-box.admin-in, .impact-box.admin-in, .section-title.admin-in {
+    opacity: 1;
+    transform: none;
+  }
+  
+  .admin-box::before {
+    content: "";
+    position: absolute;
+    top: 0; left: -100%; width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(16,185,129,0.08), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.7s ease;
+    pointer-events: none;
+  }
+  .admin-box:hover::before {
+    left: 200%;
+  }
+  .admin-box:hover {
+    transform: translateY(-5px);
+    border-color: #a7f3d0;
+    box-shadow: 0 15px 35px -10px rgba(16,185,129,0.25);
+  }
+
+  .leaderboard-table tbody tr {
+    opacity: 0;
+    transform: translateX(-15px);
+    transition: opacity 0.4s ease, transform 0.4s ease, background 0.3s ease;
+  }
+  .leaderboard-table tbody tr.row-in {
+    opacity: 1;
+    transform: none;
+  }
+  
+  .leaderboard-table tbody tr {
+    position: relative;
+    cursor: pointer;
+  }
+  .leaderboard-table tbody tr::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0; width: 3px;
+    background: #10b981;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.3s ease;
+  }
+  .leaderboard-table tbody tr:hover::before {
+    transform: scaleY(1);
+  }
+  .leaderboard-table tbody tr:hover {
+    background: #f0fdf4 !important;
+    transform: translateX(4px);
+  }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  'use strict';
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!reducedMotion) {
+    document.body.classList.add('admin-anim-active');
+    requestAnimationFrame(() => document.body.classList.add('admin-ready'));
+
+    const palette = [
+      'radial-gradient(circle, rgba(16,185,129,0.4), transparent 70%)',
+      'radial-gradient(circle, rgba(59,130,246,0.3), transparent 70%)',
+      'radial-gradient(circle, rgba(245,158,11,0.3), transparent 70%)'
+    ];
+    for (let i = 0; i < 25; i++) {
+      const p = document.createElement('div');
+      p.className = 'admin-particle';
+      p.style.left = (Math.random() * 100) + 'vw';
+      p.style.width = p.style.height = (4 + Math.random() * 8) + 'px';
+      p.style.background = palette[i % 3];
+      p.style.animationDuration = (12 + Math.random() * 16) + 's';
+      p.style.animationDelay = '-' + (Math.random() * 20) + 's';
+      document.body.appendChild(p);
+    }
+  }
+
+  if (!reducedMotion && window.matchMedia('(hover: hover) and (min-width: 1024px)').matches) {
+    const glow = document.createElement('div');
+    glow.className = 'admin-cursor-glow';
+    document.body.appendChild(glow);
+    let mouseX = 0, mouseY = 0, glowX = 0, glowY = 0;
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX; mouseY = e.clientY;
+      glow.style.opacity = '1';
+    });
+    document.addEventListener('mouseleave', () => { glow.style.opacity = '0'; });
+    (function animateGlow() {
+      glowX += (mouseX - glowX) * 0.15;
+      glowY += (mouseY - glowY) * 0.15;
+      glow.style.left = glowX + 'px';
+      glow.style.top = glowY + 'px';
+      requestAnimationFrame(animateGlow);
+    })();
+  }
+
+  const revealEls = document.querySelectorAll('.admin-box, .impact-box, .section-title');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => { entry.target.classList.add('admin-in'); }, i * 60);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
+    revealEls.forEach(el => io.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('admin-in'));
+  }
+
+  function animateRows() {
+    const rows = document.querySelectorAll('.leaderboard-table tbody tr');
+    rows.forEach((row, i) => {
+      if (!row.classList.contains('row-in')) {
+        row.style.transitionDelay = (i * 40) + 'ms';
+        row.classList.add('row-in');
+      }
+    });
+  }
+
+  setTimeout(animateRows, 300);
+
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((m) => {
+      if (m.addedNodes.length) animateRows();
+    });
+  });
+
+  const targets = document.querySelectorAll('.leaderboard-table tbody');
+  targets.forEach(t => observer.observe(t, { childList: true }));
+});
+</script>
+</body>
+</html>

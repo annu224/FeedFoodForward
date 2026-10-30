@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About | FeedFoodForward</title>
+<meta name="description" content="FeedFoodForward — turning surplus food into shared hope. Learn about our mission, our team, and the technology behind the platform.">
+<meta name="theme-color" content="#16a34a">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2316a34a'/%3E%3Cpath d='M50 80 C28 62 18 50 18 37 A17 17 0 0 1 50 28 A17 17 0 0 1 82 37 C82 50 72 62 50 80 Z' fill='%23ffffff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+/* ============================================================
+   ABOUT — animated editorial layout
+   ============================================================ */
+.ab {
+  --ab-ink: #0B1224;
+  --ab-muted: #64748b;
+  --ab-soft: #94a3b8;
+  --ab-line: #e8edf3;
+  --ab-bg: #f7f9fb;
+  --ab-green: #0B9F6E;
+  --ab-green-dark: #047857;
+  --ab-green-deep: #064e3b;
+  --ab-green-50: #ecfdf5;
+  --ab-amber: #f59e0b;
+  --ab-violet: #8b5cf6;
+  --ab-blue: #3b82f6;
+  background: var(--ab-bg);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ---------- Progress bar ---------- */
+.ab-progress {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 3px; z-index: 999;
+  transform-origin: 0 50%; transform: scaleX(0);
+  background: linear-gradient(90deg, #10b981, #f59e0b, #8b5cf6, #10b981);
+  background-size: 200% 100%;
+  animation: abHue 8s linear infinite;
+}
+@keyframes abHue { to { background-position: 200% 50%; } }
+
+/* ---------- Background orbs ---------- */
+.ab-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.ab-orb { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .5; }
+.ab-orb-1 { width: 520px; height: 520px; top: -180px; left: -150px;
+  background: radial-gradient(circle, rgba(16,185,129,.45), transparent 70%);
+  animation: abOrbFloat 22s ease-in-out infinite; }
+.ab-orb-2 { width: 460px; height: 460px; top: 25%; right: -180px;
+  background: radial-gradient(circle, rgba(245,158,11,.35), transparent 70%);
+  animation: abOrbFloat 26s ease-in-out infinite -8s; }
+.ab-orb-3 { width: 420px; height: 420px; bottom: -160px; left: 40%;
+  background: radial-gradient(circle, rgba(139,92,246,.28), transparent 70%);
+  animation: abOrbFloat 24s ease-in-out infinite -14s; }
+@keyframes abOrbFloat {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  33%      { transform: translate(40px,-30px) scale(1.08); }
+  66%      { transform: translate(-30px,40px) scale(.95); }
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.ab-hero {
+  position: relative; z-index: 1;
+  padding: 4rem 1.5rem 3rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+.ab-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  padding: .5rem 1rem;
+  background: rgba(255,255,255,.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(16,185,129,.25);
+  border-radius: 999px;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ab-green-dark);
+  margin-bottom: 1.5rem;
+  box-shadow: 0 8px 24px -10px rgba(11,159,110,.28);
+  opacity: 0;
+  animation: abFadeUp .8s ease forwards .05s;
+}
+.ab-badge-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--ab-green); position: relative;
+}
+.ab-badge-dot::after {
+  content: "";
+  position: absolute; inset: -4px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(16,185,129,.5);
+  animation: abPing 1.8s ease-out infinite;
+}
+@keyframes abPing { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(2); opacity: 0; } }
+
+.ab-hero h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -.035em;
+  color: var(--ab-ink);
+  margin: 0 0 1.25rem;
+  opacity: 0;
+  animation: abFadeUp .9s ease forwards .15s;
+}
+.ab-hero h1 em {
+  font-style: normal;
+  background: linear-gradient(100deg, #067a54 0%, #10b981 40%, #f59e0b 60%, #10b981 80%, #067a54 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: abShimmer 8s linear infinite;
+}
+@keyframes abShimmer { from { background-position: 0% 50%; } to { background-position: 250% 50%; } }
+
+.ab-hero p {
+  font-size: 1.08rem;
+  line-height: 1.7;
+  color: #475569;
+  max-width: 660px;
+  margin: 0 auto 2rem;
+  opacity: 0;
+  animation: abFadeUp .9s ease forwards .3s;
+}
+.ab-hero-actions {
+  display: flex;
+  gap: .75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: abFadeUp .9s ease forwards .45s;
+}
+.ab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  padding: 1rem 1.75rem;
+  font-family: inherit;
+  font-size: .9rem;
+  font-weight: 800;
+  text-decoration: none;
+  border-radius: 14px;
+  transition: all .28s cubic-bezier(.2,.7,.2,1);
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+.ab-btn.primary {
+  background: linear-gradient(135deg, #10b981, #047857);
+  color: #fff;
+  box-shadow: 0 14px 32px -12px rgba(11,159,110,.6);
+}
+.ab-btn.primary::after {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0; width: 40%; left: -70%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.5), transparent);
+  transform: skewX(-20deg);
+  animation: abSheen 3.2s ease-in-out infinite;
+}
+@keyframes abSheen { 0% { left: -70%; } 40%,100% { left: 130%; } }
+.ab-btn.primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 42px -12px rgba(11,159,110,.85);
+}
+.ab-btn.primary span {
+  display: inline-block;
+  transition: transform .25s ease;
+}
+.ab-btn.primary:hover span { transform: translateX(5px); }
+.ab-btn.ghost {
+  background: #fff;
+  color: var(--ab-ink);
+  border-color: var(--ab-line);
+}
+.ab-btn.ghost:hover {
+  border-color: var(--ab-green);
+  color: var(--ab-green-dark);
+  background: var(--ab-green-50);
+  transform: translateY(-3px);
+}
+
+@keyframes abFadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ============================================================
+   HERO IMAGE STRIP
+   ============================================================ */
+.ab-hero-images {
+  position: relative; z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem 4rem;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1.4fr;
+  gap: 1rem;
+  opacity: 0;
+  animation: abFadeUp 1s ease forwards .6s;
+}
+@media (max-width: 700px) { .ab-hero-images { grid-template-columns: 1fr; gap: .75rem; } }
+
+.ab-hero-img {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: #e2e8f0;
+  box-shadow: 0 20px 45px -18px rgba(11,18,36,.35);
+  transition: transform .5s cubic-bezier(.2,.7,.2,1);
+}
+.ab-hero-img:nth-child(2) { transform: translateY(-14px); }
+.ab-hero-img:hover { transform: translateY(-10px) scale(1.02); }
+.ab-hero-img:nth-child(2):hover { transform: translateY(-22px) scale(1.02); }
+.ab-hero-img img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  transition: transform 1.2s cubic-bezier(.2,.7,.2,1);
+}
+.ab-hero-img:hover img { transform: scale(1.08); }
+.ab-hero-img::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(6,78,59,.55) 100%);
+  pointer-events: none;
+}
+.ab-hero-img-cap {
+  position: absolute;
+  bottom: 1rem; left: 1.15rem; right: 1.15rem;
+  color: #fff;
+  font-family: 'Outfit', sans-serif;
+  font-size: .85rem;
+  font-weight: 700;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+}
+
+/* ============================================================
+   IMPACT NUMBERS
+   ============================================================ */
+.ab-numbers {
+  position: relative; z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto 4rem;
+  padding: 0 1.5rem;
+}
+.ab-numbers-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  background: #fff;
+  border: 1px solid var(--ab-line);
+  border-radius: 22px;
+  padding: 2rem 1.5rem;
+  box-shadow: 0 12px 32px -18px rgba(11,18,36,.15);
+}
+@media (max-width: 800px) { .ab-numbers-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .ab-numbers-grid { grid-template-columns: 1fr; } }
+
+.ab-num {
+  text-align: center;
+  padding: 1rem .5rem;
+  border-right: 1px solid var(--ab-line);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all .7s cubic-bezier(.2,.7,.2,1);
+}
+.ab-num:last-child { border-right: none; }
+@media (max-width: 800px) {
+  .ab-num:nth-child(2) { border-right: none; }
+  .ab-num:nth-child(-n+2) { border-bottom: 1px solid var(--ab-line); }
+  .ab-num { padding: 1.5rem .5rem; }
+}
+@media (max-width: 480px) {
+  .ab-num { border-right: none !important; border-bottom: 1px solid var(--ab-line); }
+  .ab-num:last-child { border-bottom: none; }
+}
+.ab-num.ab-in { opacity: 1; transform: none; }
+.ab-num strong {
+  display: block;
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(1.85rem, 3.5vw, 2.5rem);
+  font-weight: 800;
+  color: var(--ab-green-dark);
+  letter-spacing: -.03em;
+  line-height: 1;
+  margin-bottom: .35rem;
+}
+.ab-num span {
+  font-size: .74rem;
+  font-weight: 700;
+  color: var(--ab-muted);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+/* ============================================================
+   MISSION SECTION (Split)
+   ============================================================ */
+.ab-mission {
+  position: relative; z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 4rem;
+  align-items: center;
+}
+@media (max-width: 900px) { .ab-mission { grid-template-columns: 1fr; gap: 2.5rem; } }
+
+.ab-mission-text {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: all 1s cubic-bezier(.2,.7,.2,1);
+}
+.ab-mission-text.ab-in { opacity: 1; transform: none; }
+.ab-mission-text .kicker {
+  display: inline-block;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ab-amber);
+  margin-bottom: .85rem;
+}
+.ab-mission-text h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(1.75rem, 3.4vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -.03em;
+  line-height: 1.1;
+  color: var(--ab-ink);
+  margin: 0 0 1.25rem;
+}
+.ab-mission-text h2 em {
+  font-style: normal;
+  background: linear-gradient(120deg, #067a54, #10b981, #f59e0b);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.ab-mission-text p {
+  font-size: .98rem;
+  line-height: 1.75;
+  color: #475569;
+  margin: 0 0 1.15rem;
+}
+.ab-mission-quote {
+  margin-top: 1.75rem;
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(135deg, var(--ab-green-50), #f0fdf4);
+  border-left: 4px solid var(--ab-green);
+  border-radius: 0 14px 14px 0;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.02rem;
+  font-weight: 500;
+  font-style: italic;
+  color: var(--ab-green-deep);
+  line-height: 1.55;
+}
+
+.ab-collage {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-rows: 1fr 1fr;
+  gap: .85rem;
+  aspect-ratio: 1 / 1.05;
+  position: relative;
+}
+.ab-collage-item {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #e2e8f0;
+  box-shadow: 0 16px 36px -18px rgba(11,18,36,.3);
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 1s cubic-bezier(.2,.7,.2,1);
+}
+.ab-collage-item.ab-in { opacity: 1; transform: none; }
+.ab-collage-item:nth-child(1) { grid-row: 1 / 3; }
+.ab-collage-item:nth-child(2) { transition-delay: .15s; }
+.ab-collage-item:nth-child(3) { transition-delay: .3s; }
+.ab-collage-item img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  transition: transform 1.4s cubic-bezier(.2,.7,.2,1);
+}
+.ab-collage-item:hover img { transform: scale(1.08); }
+.ab-collage-badge {
+  position: absolute;
+  bottom: -18px; left: -18px;
+  background: #fff;
+  border-radius: 16px;
+  padding: .85rem 1.1rem;
+  box-shadow: 0 20px 45px -18px rgba(11,159,110,.45);
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  z-index: 3;
+  animation: abBadgeFloat 3.4s ease-in-out infinite;
+}
+@keyframes abBadgeFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+.ab-collage-badge-ico {
+  width: 42px; height: 42px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #10b981, #047857);
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+.ab-collage-badge strong {
+  display: block;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--ab-ink);
+  line-height: 1.1;
+}
+.ab-collage-badge span {
+  font-size: .68rem;
+  font-weight: 700;
+  color: var(--ab-muted);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+@media (max-width: 640px) {
+  .ab-collage { aspect-ratio: auto; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; }
+  .ab-collage-item:nth-child(1) { grid-column: 1 / 3; grid-row: auto; aspect-ratio: 4/3; }
+  .ab-collage-item:nth-child(2),
+  .ab-collage-item:nth-child(3) { aspect-ratio: 1/1; }
+  .ab-collage-badge { left: 0; bottom: -12px; }
+}
+
+/* ============================================================
+   VALUES GRID
+   ============================================================ */
+.ab-section {
+  position: relative; z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+}
+.ab-section-head {
+  text-align: center;
+  max-width: 660px;
+  margin: 0 auto 3rem;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: all .8s ease;
+}
+.ab-section-head.ab-in { opacity: 1; transform: none; }
+.ab-kicker {
+  display: inline-block;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ab-amber);
+  margin-bottom: .85rem;
+}
+.ab-section-head h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(1.6rem, 3.2vw, 2.3rem);
+  font-weight: 800;
+  letter-spacing: -.025em;
+  color: var(--ab-ink);
+  margin: 0 0 .6rem;
+  line-height: 1.15;
+}
+.ab-section-head h2 em { font-style: normal; color: var(--ab-green); }
+.ab-section-head p {
+  font-size: .98rem;
+  color: var(--ab-muted);
+  line-height: 1.65;
+  margin: 0;
+}
+
+.ab-values {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+@media (max-width: 900px) { .ab-values { grid-template-columns: 1fr; } }
+
+.ab-value {
+  background: #fff;
+  border: 1px solid var(--ab-line);
+  border-radius: 22px;
+  padding: 2rem 1.75rem;
+  position: relative;
+  overflow: hidden;
+  transition: all .4s cubic-bezier(.2,.7,.2,1);
+  opacity: 0;
+  transform: translateY(40px);
+}
+.ab-value.ab-in { opacity: 1; transform: none; }
+.ab-value::before {
+  content: "";
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(16,185,129,.12), transparent 70%);
+  opacity: 0;
+  transition: opacity .4s ease;
+}
+.ab-value:hover::before { opacity: 1; }
+.ab-value:hover {
+  transform: translateY(-8px);
+  border-color: var(--ab-green);
+  box-shadow: 0 24px 48px -22px rgba(16,185,129,.35);
+}
+.ab-value-ico {
+  width: 62px; height: 62px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--ab-green-50), rgba(16,185,129,.15));
+  color: var(--ab-green-dark);
+  display: grid; place-items: center;
+  font-size: 1.7rem;
+  margin-bottom: 1.35rem;
+  position: relative;
+  z-index: 1;
+  transition: transform .5s cubic-bezier(.34,1.56,.64,1);
+}
+.ab-value:hover .ab-value-ico { transform: rotate(-10deg) scale(1.12); }
+.ab-value h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--ab-ink);
+  margin: 0 0 .55rem;
+  letter-spacing: -.015em;
+  position: relative;
+  z-index: 1;
+}
+.ab-value p {
+  font-size: .9rem;
+  color: var(--ab-muted);
+  line-height: 1.65;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================================
+   HOW IT WORKS TIMELINE
+   ============================================================ */
+.ab-timeline {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+  position: relative;
+}
+@media (max-width: 900px) { .ab-timeline { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .ab-timeline { grid-template-columns: 1fr; } }
+.ab-timeline::before {
+  content: "";
+  position: absolute;
+  top: 42px;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: repeating-linear-gradient(90deg,
+    var(--ab-green) 0 8px,
+    transparent 8px 16px);
+  opacity: .4;
+  animation: abMarch 1.4s linear infinite;
+  z-index: 0;
+}
+@media (max-width: 900px) { .ab-timeline::before { display: none; } }
+@keyframes abMarch {
+  from { background-position: 0 0; }
+  to   { background-position: 16px 0; }
+}
+
+.ab-step {
+  position: relative;
+  z-index: 1;
+  background: #fff;
+  border: 1px solid var(--ab-line);
+  border-radius: 18px;
+  padding: 1.85rem 1.2rem 1.4rem;
+  text-align: center;
+  transition: all .4s cubic-bezier(.2,.7,.2,1);
+  opacity: 0;
+  transform: translateY(40px);
+}
+.ab-step.ab-in { opacity: 1; transform: none; }
+.ab-step:hover {
+  transform: translateY(-8px);
+  border-color: var(--ab-green);
+  box-shadow: 0 24px 48px -22px rgba(16,185,129,.35);
+}
+.ab-step-num {
+  position: absolute;
+  top: -14px; left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #10b981, #047857);
+  color: #fff;
+  font-family: 'Outfit', sans-serif;
+  font-size: .72rem;
+  font-weight: 800;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  box-shadow: 0 8px 18px -6px rgba(11,159,110,.6);
+}
+.ab-step-ico {
+  width: 54px; height: 54px;
+  border-radius: 15px;
+  background: linear-gradient(135deg, var(--ab-green-50), rgba(16,185,129,.12));
+  color: var(--ab-green-dark);
+  display: grid; place-items: center;
+  font-size: 1.45rem;
+  margin: 0 auto 1rem;
+  transition: transform .45s cubic-bezier(.34,1.56,.64,1);
+}
+.ab-step:hover .ab-step-ico { transform: rotate(-10deg) scale(1.12); }
+.ab-step h4 {
+  font-family: 'Outfit', sans-serif;
+  font-size: .95rem;
+  font-weight: 800;
+  color: var(--ab-ink);
+  margin: 0 0 .4rem;
+  letter-spacing: -.01em;
+}
+.ab-step p {
+  font-size: .78rem;
+  color: var(--ab-muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ============================================================
+   TEAM / TECHNOLOGY STRIP
+   ============================================================ */
+.ab-tech {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+@media (max-width: 800px) { .ab-tech { grid-template-columns: repeat(2, 1fr); } }
+.ab-tech-card {
+  background: #fff;
+  border: 1px solid var(--ab-line);
+  border-radius: 18px;
+  padding: 1.65rem 1.4rem;
+  transition: all .35s cubic-bezier(.2,.7,.2,1);
+  opacity: 0;
+  transform: translateY(30px);
+}
+.ab-tech-card.ab-in { opacity: 1; transform: none; }
+.ab-tech-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--ab-green);
+  box-shadow: 0 20px 40px -20px rgba(16,185,129,.3);
+}
+.ab-tech-ico {
+  width: 48px; height: 48px;
+  border-radius: 13px;
+  background: linear-gradient(135deg, var(--ab-green-50), rgba(16,185,129,.14));
+  color: var(--ab-green-dark);
+  display: grid; place-items: center;
+  font-size: 1.35rem;
+  margin-bottom: 1rem;
+  transition: transform .4s cubic-bezier(.34,1.56,.64,1);
+}
+.ab-tech-card:hover .ab-tech-ico { transform: rotate(-8deg) scale(1.1); }
+.ab-tech-card h4 {
+  font-family: 'Outfit', sans-serif;
+  font-size: .95rem;
+  font-weight: 800;
+  color: var(--ab-ink);
+  margin: 0 0 .35rem;
+  letter-spacing: -.01em;
+}
+.ab-tech-card p {
+  font-size: .78rem;
+  color: var(--ab-muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ============================================================
+   CTA
+   ============================================================ */
+.ab-cta-wrap {
+  position: relative; z-index: 1;
+  max-width: 1180px;
+  margin: 0 auto 4rem;
+  padding: 0 1.5rem;
+}
+.ab-cta {
+  background: linear-gradient(135deg, #0B1224 0%, #1e293b 100%);
+  border-radius: 26px;
+  padding: 3.5rem 3rem;
+  color: #fff;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all .9s ease;
+}
+.ab-cta.ab-in { opacity: 1; transform: none; }
+.ab-cta::before {
+  content: "";
+  position: absolute;
+  top: -140px; right: -90px;
+  width: 420px; height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(16,185,129,.4), transparent 65%);
+  animation: abOrbFloat 14s ease-in-out infinite;
+}
+.ab-cta::after {
+  content: "";
+  position: absolute;
+  bottom: -140px; left: -90px;
+  width: 360px; height: 360px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245,158,11,.3), transparent 65%);
+  animation: abOrbFloat 16s ease-in-out infinite reverse;
+}
+.ab-cta-inner { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
+.ab-cta h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(1.6rem, 3.2vw, 2.3rem);
+  font-weight: 800;
+  letter-spacing: -.025em;
+  line-height: 1.1;
+  margin: 0 0 .9rem;
+}
+.ab-cta h2 em {
+  font-style: normal;
+  background: linear-gradient(120deg, #6ee7b7, #34d399, #fbbf24);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.ab-cta p {
+  font-size: 1rem;
+  color: rgba(255,255,255,.75);
+  line-height: 1.65;
+  margin: 0 0 2rem;
+}
+.ab-cta-actions {
+  display: flex;
+  gap: .75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.ab-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  padding: 1rem 1.7rem;
+  font-family: inherit;
+  font-size: .88rem;
+  font-weight: 800;
+  text-decoration: none;
+  border-radius: 14px;
+  transition: all .25s ease;
+  border: 1.5px solid transparent;
+}
+.ab-cta-btn.primary {
+  background: #fff;
+  color: var(--ab-green-deep);
+  box-shadow: 0 12px 30px rgba(255,255,255,.15);
+}
+.ab-cta-btn.primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 42px rgba(255,255,255,.25);
+}
+.ab-cta-btn.outline {
+  background: transparent;
+  color: #fff;
+  border-color: rgba(255,255,255,.35);
+}
+.ab-cta-btn.outline:hover {
+  background: rgba(255,255,255,.1);
+  border-color: #fff;
+  transform: translateY(-3px);
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .ab-progress, .ab-orb, .ab-badge-dot::after,
+  .ab-hero h1 em, .ab-cta::before, .ab-cta::after,
+  .ab-timeline::before, .ab-btn.primary::after,
+  .ab-collage-badge {
+    animation: none !important;
+  }
+  .ab-mission-text, .ab-collage-item, .ab-value, .ab-step,
+  .ab-tech-card, .ab-section-head, .ab-cta, .ab-num,
+  .ab-hero > *, .ab-hero-images {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="ab-progress" id="ab-progress" aria-hidden="true"></div>
+
+<div class="ab-bg" aria-hidden="true">
+  <div class="ab-orb ab-orb-1"></div>
+  <div class="ab-orb ab-orb-2"></div>
+  <div class="ab-orb ab-orb-3"></div>
+</div>
+
+<header class="site-header">
+  <div class="header-container">
+    <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <a href="index.html" class="brand-logo" aria-label="FeedFoodForward home">
+      <div class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="ffTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#067A54"/><stop offset="55%" stop-color="#0B9F6E"/><stop offset="100%" stop-color="#10B981"/></linearGradient>
+            <linearGradient id="ffHeart" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#FF5A7A"/><stop offset="100%" stop-color="#F03E64"/></linearGradient>
+            <linearGradient id="ffLeaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#A3E635"/><stop offset="100%" stop-color="#65A30D"/></linearGradient>
+          </defs>
+          <rect x="2" y="2" width="44" height="44" rx="11" fill="url(#ffTile)"/>
+          <g transform="translate(28 6) rotate(20)"><path d="M0 14 C0 6 5 1 12 0 C12 8 7 14 0 14 Z" fill="url(#ffLeaf)"/></g>
+          <g transform="translate(8 20)"><path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4 C7.4 0.4 9.2 1.8 10 3.4 C10.8 1.8 12.6 0.4 15 0.4 C18.3 0.4 21 2.6 21 6 C21 10 18 14 10 20 Z" fill="url(#ffHeart)"/></g>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">FeedFood<span>Forward</span></span>
+        <span class="brand-subtitle">AI FOOD REDISTRIBUTION PLATFORM</span>
+      </div>
+    </a>
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation menu">☰</button>
+    <nav class="site-nav" id="site-nav" aria-label="Primary"></nav>
+    <div class="header-utilities">
+      <div id="header-guest" class="header-auth-group">
+        <button type="button" class="btn btn-outline btn-sm" id="header-login-btn">Login</button>
+        <button type="button" class="btn btn-primary btn-sm" id="header-signup-btn">Sign Up</button>
+      </div>
+      <div id="header-user" class="header-user-group" hidden>
+        <button type="button" class="user-chip" id="user-chip" aria-haspopup="true" aria-expanded="false">
+          <span class="user-avatar" id="user-avatar">👤</span>
+          <span class="user-name" id="user-name">User</span>
+          <span class="user-caret" aria-hidden="true">▾</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="ab">
+
+<!-- ==================== HERO ==================== -->
+<section class="ab-hero">
+  <span class="ab-badge">
+    <span class="ab-badge-dot"></span>
+    About FeedFoodForward
+  </span>
+  <h1>Turning surplus into <em>shared hope.</em></h1>
+  <p>We built FeedFoodForward because no plate of fresh food should be thrown away while someone nearby is hungry. Today, we're connecting India's kitchens to its communities — one verified rescue at a time.</p>
+  <div class="ab-hero-actions">
+    <a href="#mission" class="ab-btn primary">Our Mission <span>→</span></a>
+    <a href="how-it-works.html" class="ab-btn ghost">See How It Works</a>
+  </div>
+</section>
+
+<!-- ==================== HERO IMAGES ==================== -->
+<section class="ab-hero-images">
+  <div class="ab-hero-img">
+    <img src="https://images.unsplash.com/photo-1593113598332-cd288d649433?w=800&auto=format&fit=crop&q=80" alt="Volunteers preparing food">
+    <div class="ab-hero-img-cap">🍽️ Every meal tracked</div>
+  </div>
+  <div class="ab-hero-img">
+    <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=600&auto=format&fit=crop&q=80" alt="Elderly person receiving food">
+    <div class="ab-hero-img-cap">❤️ Someone fed</div>
+  </div>
+  <div class="ab-hero-img">
+    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&auto=format&fit=crop&q=80" alt="Delivery driver">
+    <div class="ab-hero-img-cap">🚚 Reached on time</div>
+  </div>
+</section>
+
+<!-- ==================== IMPACT NUMBERS ==================== -->
+<section class="ab-numbers">
+  <div class="ab-numbers-grid">
+    <div class="ab-num">
+      <strong data-count="1420">0</strong>
+      <span>KG Food Rescued</span>
+    </div>
+    <div class="ab-num">
+      <strong data-count="3570" data-suffix="+">0</strong>
+      <span>Meals Served</span>
+    </div>
+    <div class="ab-num">
+      <strong data-count="149">0</strong>
+      <span>Verified Receivers</span>
+    </div>
+    <div class="ab-num">
+      <strong data-count="22" data-suffix="+">0</strong>
+      <span>Active Drivers</span>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== MISSION ==================== -->
+<section class="ab-mission" id="mission">
+  <div class="ab-mission-text" data-reveal>
+    <span class="kicker">Our Mission</span>
+    <h2>Rescue Food. Reduce Waste. <em>Feed Communities.</em></h2>
+    <p>FeedFoodForward was built on one simple belief: no plate of fresh food should ever be thrown away while someone nearby is hungry. Every day, hotels, restaurants, bakeries, and event kitchens throw away perfectly edible surplus — while ashrams, orphanages, and shelters within two kilometres struggle to serve their next meal.</p>
+    <p>We bridge that gap with technology you can trust — AI vision inspection, live GPS tracking, and QR-verified handover. Every donation is physically inspected by a trained driver, timestamped, and confirmed on arrival. Not a single meal goes untracked.</p>
+    <blockquote class="ab-mission-quote">
+      "We don't just move food. We move dignity, nutrition, and hope — one verified delivery at a time."
+    </blockquote>
+  </div>
+
+  <div class="ab-collage">
+    <div class="ab-collage-item" data-reveal>
+      <img src="https://images.unsplash.com/photo-1593113630400-ea4288922497?w=800&auto=format&fit=crop&q=80" alt="Food being prepared for donation">
+    </div>
+    <div class="ab-collage-item" data-reveal>
+      <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=600&auto=format&fit=crop&q=80" alt="Children receiving food">
+    </div>
+    <div class="ab-collage-item" data-reveal>
+      <img src="https://images.unsplash.com/photo-1609766857041-ed402ea8069a?w=600&auto=format&fit=crop&q=80" alt="Elderly resident being fed">
+    </div>
+    <div class="ab-collage-badge">
+      <div class="ab-collage-badge-ico">❤️</div>
+      <div>
+        <strong>100% Free</strong>
+        <span>For donors &amp; receivers</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== VALUES ==================== -->
+<section class="ab-section">
+  <div class="ab-section-head" data-reveal>
+    <span class="ab-kicker">What We Stand For</span>
+    <h2>The values behind <em>every rescue.</em></h2>
+    <p>Three principles guide every feature, every delivery, and every decision we make.</p>
+  </div>
+
+  <div class="ab-values">
+    <div class="ab-value" data-reveal>
+      <div class="ab-value-ico">🛡️</div>
+      <h3>Safety First. Always.</h3>
+      <p>Every donation is physically inspected by a trained driver before pickup. If any check fails, the delivery is cancelled. No exceptions — ever.</p>
+    </div>
+    <div class="ab-value" data-reveal>
+      <div class="ab-value-ico">🤝</div>
+      <h3>Built on Trust</h3>
+      <p>Two QR scans, timestamped and logged, confirm every handover. Donors, drivers, and receivers all see the same truth — no ambiguity.</p>
+    </div>
+    <div class="ab-value" data-reveal>
+      <div class="ab-value-ico">🌱</div>
+      <h3>Zero Waste at Scale</h3>
+      <p>We combine AI inspection, smart matching, and live tracking to make sure every kilogram of good food reaches a real table — not a bin.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== HOW IT WORKS ==================== -->
+<section class="ab-section" style="padding-top: 0;">
+  <div class="ab-section-head" data-reveal>
+    <span class="ab-kicker">The Flow</span>
+    <h2>From surplus to <em>smiles</em></h2>
+    <p>A simple, verified pipeline that connects every donor to a nearby receiver — in under three hours typically.</p>
+  </div>
+
+  <div class="ab-timeline">
+    <div class="ab-step" data-reveal>
+      <span class="ab-step-num">01</span>
+      <div class="ab-step-ico">📷</div>
+      <h4>Photo &amp; Details</h4>
+      <p>Donor uploads food photo and quantity</p>
+    </div>
+    <div class="ab-step" data-reveal>
+      <span class="ab-step-num">02</span>
+      <div class="ab-step-ico">🤖</div>
+      <h4>AI Pre-Screen</h4>
+      <p>Gemini analyses freshness and category</p>
+    </div>
+    <div class="ab-step" data-reveal>
+      <span class="ab-step-num">03</span>
+      <div class="ab-step-ico">🏛️</div>
+      <h4>Smart Match</h4>
+      <p>Nearest suitable ashram is auto-selected</p>
+    </div>
+    <div class="ab-step" data-reveal>
+      <span class="ab-step-num">04</span>
+      <div class="ab-step-ico">🚚</div>
+      <h4>Driver Pickup</h4>
+      <p>Trained driver inspects and scans QR</p>
+    </div>
+    <div class="ab-step" data-reveal>
+      <span class="ab-step-num">05</span>
+      <div class="ab-step-ico">✅</div>
+      <h4>Confirmed Delivery</h4>
+      <p>Receiver scans QR, delivery logged instantly</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== TECHNOLOGY ==================== -->
+<section class="ab-section" style="padding-top: 0;">
+  <div class="ab-section-head" data-reveal>
+    <span class="ab-kicker">The Technology</span>
+    <h2>Powered by <em>real innovation.</em></h2>
+    <p>Every rescue is backed by production-grade tools that keep food safe, deliveries tracked, and data honest.</p>
+  </div>
+
+  <div class="ab-tech">
+    <div class="ab-tech-card" data-reveal>
+      <div class="ab-tech-ico">🤖</div>
+      <h4>Google Gemini AI</h4>
+      <p>Vision analysis for food type, freshness, and urgency</p>
+    </div>
+    <div class="ab-tech-card" data-reveal>
+      <div class="ab-tech-ico">🗺️</div>
+      <h4>OpenStreetMap</h4>
+      <p>Real-time geocoding and location-based matching</p>
+    </div>
+    <div class="ab-tech-card" data-reveal>
+      <div class="ab-tech-ico">🛣️</div>
+      <h4>OSRM Routing</h4>
+      <p>Road-accurate route calculation for live tracking</p>
+    </div>
+    <div class="ab-tech-card" data-reveal>
+      <div class="ab-tech-ico">🔐</div>
+      <h4>QR-Verified Chain</h4>
+      <p>Every handover is scanned, timestamped, and logged</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CTA ==================== -->
+<div class="ab-cta-wrap">
+  <div class="ab-cta" data-reveal>
+    <div class="ab-cta-inner">
+      <h2>Be part of the <em>story.</em></h2>
+      <p>Whether you cook too much, need food, or drive a few hours a week — there's a place for you in this network.</p>
+      <div class="ab-cta-actions">
+        <a href="donate-food.html" class="ab-cta-btn primary">Donate Surplus Food →</a>
+        <a href="contact.html" class="ab-cta-btn outline">Get in Touch</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-brand"><h3>FeedFoodForward</h3><p>"Rescue Food. Reduce Waste. Feed Communities."</p></div>
+    <div class="footer-copyright">© 2026 FeedFoodForward Platform.</div>
+  </div>
+</footer>
+
+<div id="ff-toast" role="status" aria-live="polite" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);background:#0f172a;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:all .3s ease;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.25);"></div>
+
+<script src="app.js"></script>
+<script src="header-nav.js"></script>
+<script src="sidebar.js"></script>
+<script src="animations.js"></script>
+<script src="chatbot.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  'use strict';
+
+  /* ==========================================================
+     PROGRESS BAR
+     ========================================================== */
+  const progress = document.getElementById('ab-progress');
+  let tick = false;
+  function updateProgress() {
+    if (!progress) return;
+    const h = document.documentElement;
+    const scrolled = h.scrollTop || document.body.scrollTop;
+    const height = (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
+    progress.style.transform = 'scaleX(' + (height > 0 ? scrolled / height : 0) + ')';
+  }
+  window.addEventListener('scroll', () => {
+    if (tick) return;
+    tick = true;
+    requestAnimationFrame(() => { updateProgress(); tick = false; });
+  }, { passive: true });
+  updateProgress();
+
+  /* ==========================================================
+     SCROLL REVEAL
+     ========================================================== */
+  const reveals = document.querySelectorAll('[data-reveal], .ab-mission-text, .ab-collage-item, .ab-value, .ab-step, .ab-tech-card, .ab-section-head, .ab-cta, .ab-num');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('ab-in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
+    reveals.forEach(el => io.observe(el));
+  } else {
+    reveals.forEach(el => el.classList.add('ab-in'));
+  }
+
+  /* ==========================================================
+     COUNT-UP ANIMATION for impact numbers
+     ========================================================== */
+  const counters = document.querySelectorAll('[data-count]');
+  const counted = new WeakSet();
+  function runCounter(el) {
+    if (counted.has(el)) return;
+    counted.add(el);
+    const target = parseFloat(el.dataset.count) || 0;
+    const suffix = el.dataset.suffix || '';
+    const dur = 1600;
+    const start = performance.now();
+    (function step(now) {
+      const t = Math.min((now - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - t, 4);
+      el.textContent = Math.round(target * eased).toLocaleString('en-IN') + suffix;
+      if (t < 1) requestAnimationFrame(step);
+    })(start);
+  }
+  if ('IntersectionObserver' in window) {
+    const cIO = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          runCounter(e.target);
+          cIO.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    counters.forEach(el => cIO.observe(el));
+    /* Failsafe */
+    setTimeout(() => counters.forEach(runCounter), 2500);
+  } else {
+    counters.forEach(runCounter);
+  }
+
+  /* ==========================================================
+     SMOOTH SCROLL for #mission
+     ========================================================== */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href');
+      if (id.length < 2) return;
+      const target = document.querySelector(id);
+      if (!target) return;
+      e.preventDefault();
+      const top = target.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({ top, behavior: 'smooth' });
+    });
+  });
+
+});
+</script>
+
+</body>
+</html>

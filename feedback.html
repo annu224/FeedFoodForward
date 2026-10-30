@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback | FeedFoodForward</title>
+  <meta name="description" content="Share your feedback with FeedFoodForward. Help us improve the platform and rescue more food.">
+  <meta name="theme-color" content="#16a34a">
+
+  <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2316a34a'/%3E%3Cpath d='M50 80 C28 62 18 50 18 37 A17 17 0 0 1 50 28 A17 17 0 0 1 82 37 C82 50 72 62 50 80 Z' fill='%23ffffff'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<noscript>
+  <div style="background:#fef3c7;color:#92400e;padding:12px 16px;text-align:center;font-weight:600;font-size:14px;border-bottom:1px solid #fde68a;">
+    ⚠️ JavaScript is disabled. The feedback form won't work without JS.
+  </div>
+</noscript>
+
+<header class="site-header">
+  <div class="header-container">
+
+    <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6"  x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+    <a href="index.html" class="brand-logo" aria-label="FeedFoodForward home">
+      <div class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img">
+          <defs>
+            <linearGradient id="ffTile" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#067A54"/>
+              <stop offset="55%" stop-color="#0B9F6E"/>
+              <stop offset="100%" stop-color="#10B981"/>
+            </linearGradient>
+            <linearGradient id="ffHeart" x1="0" y1="0" x2="0.5" y2="1">
+              <stop offset="0%" stop-color="#FF5A7A"/>
+              <stop offset="100%" stop-color="#F03E64"/>
+            </linearGradient>
+            <linearGradient id="ffLeaf" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#A3E635"/>
+              <stop offset="100%" stop-color="#65A30D"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="44" height="44" rx="11" fill="url(#ffTile)"/>
+          <rect x="2" y="2" width="44" height="20" rx="11" fill="#ffffff" opacity="0.08"/>
+          <g transform="translate(28 6) rotate(20)">
+            <path d="M0 14 C0 6 5 1 12 0 C12 8 7 14 0 14 Z" fill="url(#ffLeaf)"/>
+            <path d="M1 13 C4 10 8 6 11.5 1" stroke="#3E8A4E" stroke-width="0.9"
+                  stroke-linecap="round" fill="none" opacity="0.65"/>
+          </g>
+          <g transform="translate(8 20)">
+            <path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4
+                     C7.4 0.4 9.2 1.8 10 3.4 C10.8 1.8 12.6 0.4 15 0.4
+                     C18.3 0.4 21 2.6 21 6 C21 10 18 14 10 20 Z"
+                  fill="url(#ffHeart)"/>
+            <path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4
+                     C7.4 0.4 9.2 1.8 10 3.4"
+                  fill="#ffffff" opacity="0.22"/>
+          </g>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">FeedFood<span>Forward</span></span>
+        <span class="brand-subtitle">AI FOOD REDISTRIBUTION PLATFORM</span>
+      </div>
+    </a>
+
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation menu">☰</button>
+
+    <nav class="site-nav" id="site-nav" aria-label="Primary">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="donate-food.html" class="nav-link">Donate Food</a>
+      <a href="ai-inspection.html" class="nav-link">AI Inspection</a>
+      <a href="find-ashrams.html" class="nav-link">Find Ashrams</a>
+            <a href="pickup-track.html" class="nav-link nav-donor-only" data-nav="pickup" hidden>Pickup</a>
+      <a href="driver-hub.html" class="nav-link nav-driver-only" hidden>Driver Hub</a>
+    </nav>
+
+    <div class="header-utilities">
+      <div id="header-guest" class="header-auth-group">
+        <button type="button" class="btn btn-outline btn-sm" id="header-login-btn">Login</button>
+        <button type="button" class="btn btn-primary btn-sm" id="header-signup-btn">Sign Up</button>
+      </div>
+      <div id="header-user" class="header-user-group" hidden>
+        <button type="button" class="user-chip" id="user-chip" aria-haspopup="true" aria-expanded="false">
+          <span class="user-avatar" id="user-avatar">👤</span>
+          <span class="user-name" id="user-name">User</span>
+          <span class="user-caret" aria-hidden="true">▾</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="feedback-wrapper">
+
+  <div class="feedback-hero-icon" aria-hidden="true">
+    <div class="feedback-hero-emoji">💬</div>
+    <div class="feedback-hero-ring"></div>
+    <div class="feedback-hero-ring feedback-hero-ring-2"></div>
+  </div>
+
+  <div class="section-title">
+    <h2>We Value Your Feedback</h2>
+    <p>Help us improve FeedFoodForward so we can rescue more food and feed more communities.</p>
+  </div>
+
+  <div id="feedback-success" class="feedback-success-box" style="display:none;">
+    <div class="feedback-success-emoji">🎉</div>
+    <h3>Thank You for Your Feedback!</h3>
+    <p>Your response has been submitted successfully. We appreciate you taking the time to help us improve.</p>
+    <div class="feedback-success-stars" id="success-stars"></div>
+    <a href="index.html" class="btn btn-primary">← Back to Home</a>
+  </div>
+
+  <form id="feedback-form" class="ashram-card feedback-form-card">
+
+    <div class="form-group feedback-animate" data-anim-delay="0">
+      <label class="feedback-label">What type of feedback do you have?</label>
+      <div class="feedback-type-grid">
+        <label class="feedback-type-option">
+          <input type="radio" name="feedback-type" value="bug" checked>
+          <span>🐛 Bug Report</span>
+        </label>
+        <label class="feedback-type-option">
+          <input type="radio" name="feedback-type" value="feature">
+          <span>💡 Feature Request</span>
+        </label>
+        <label class="feedback-type-option">
+          <input type="radio" name="feedback-type" value="improvement">
+          <span>⚡ Improvement</span>
+        </label>
+        <label class="feedback-type-option">
+          <input type="radio" name="feedback-type" value="compliment">
+          <span>❤️ Compliment</span>
+        </label>
+        <label class="feedback-type-option">
+          <input type="radio" name="feedback-type" value="other">
+          <span>📝 Other</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group feedback-animate" data-anim-delay="1">
+      <label class="feedback-label">How would you rate your overall experience?</label>
+      <div class="feedback-rating" id="feedback-rating">
+        <button type="button" class="rating-star" data-rating="1" aria-label="Rate 1 star">★</button>
+        <button type="button" class="rating-star" data-rating="2" aria-label="Rate 2 stars">★</button>
+        <button type="button" class="rating-star" data-rating="3" aria-label="Rate 3 stars">★</button>
+        <button type="button" class="rating-star" data-rating="4" aria-label="Rate 4 stars">★</button>
+        <button type="button" class="rating-star" data-rating="5" aria-label="Rate 5 stars">★</button>
+      </div>
+      <input type="hidden" id="feedback-rating-value" name="rating" value="0">
+      <p id="rating-label" class="rating-label"></p>
+    </div>
+
+    <div class="form-group feedback-animate" data-anim-delay="2">
+      <label for="feedback-subject" class="feedback-label">Subject</label>
+      <input type="text" id="feedback-subject" name="subject" placeholder="Brief summary of your feedback" required class="feedback-input">
+    </div>
+
+    <div class="form-group feedback-animate" data-anim-delay="3">
+      <label for="feedback-message" class="feedback-label">Your Feedback</label>
+      <textarea id="feedback-message" name="message" rows="6"
+                placeholder="Please describe your feedback in detail. The more specific you are, the better we can help."
+                required class="feedback-textarea"></textarea>
+      <div class="feedback-char-counter">
+        <span id="char-count">0</span> / 500 characters
+      </div>
+    </div>
+
+    <div class="form-row feedback-animate" data-anim-delay="4">
+      <div class="form-group">
+        <label for="feedback-name" class="feedback-label">Your Name <span class="feedback-optional">(optional)</span></label>
+        <input type="text" id="feedback-name" name="name" placeholder="Your name" class="feedback-input">
+      </div>
+      <div class="form-group">
+        <label for="feedback-email" class="feedback-label">Your Email <span class="feedback-optional">(optional)</span></label>
+        <input type="email" id="feedback-email" name="email" placeholder="you@example.com" class="feedback-input">
+      </div>
+    </div>
+    <p class="feedback-hint">If you provide your email, we may follow up with you regarding your feedback.</p>
+
+    <p id="feedback-error" class="field-error" style="display:none;"></p>
+
+    <button type="submit" class="btn btn-primary btn-large feedback-submit-btn">
+      <span class="feedback-submit-inner">
+        <span class="feedback-submit-emoji">📨</span>
+        <span class="feedback-submit-text">Submit Feedback</span>
+      </span>
+    </button>
+
+  </form>
+
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-brand">
+      <h3>FeedFoodForward</h3>
+      <p>"Rescue Food. Reduce Waste. Feed Communities."</p>
+    </div>
+    <div class="footer-copyright">© 2026 FeedFoodForward Platform.</div>
+  </div>
+</footer>
+
+<div id="ff-toast" role="status" aria-live="polite"
+     style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);background:#0f172a;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:all .3s ease;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.25);"></div>
+
+<script src="app.js"></script>
+<script src="sidebar.js"></script>
+<script src="animations.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  /* ---------- 1. ENTRANCE ---------- */
+  const formCard = document.querySelector('.feedback-form-card');
+  const formGroups = document.querySelectorAll('.feedback-animate');
+
+  setTimeout(() => formCard && formCard.classList.add('feedback-card-ready'), 100);
+
+  formGroups.forEach(group => {
+    const delay = parseInt(group.dataset.animDelay || 0, 10);
+    setTimeout(() => group.classList.add('feedback-group-in'), 250 + delay * 120);
+  });
+
+  /* ---------- 2. STAR RATING ---------- */
+  const ratingStars = document.querySelectorAll('.rating-star');
+  const ratingInput = document.getElementById('feedback-rating-value');
+  const ratingLabel = document.getElementById('rating-label');
+  let currentRating = 0;
+
+  const ratingLabels = {
+    1: { text: '😞 Very Dissatisfied', color: '#dc2626' },
+    2: { text: '😕 Dissatisfied',      color: '#f59e0b' },
+    3: { text: '😐 Neutral',            color: '#64748b' },
+    4: { text: '😊 Satisfied',          color: '#10b981' },
+    5: { text: '😍 Very Satisfied',     color: '#059669' }
+  };
+
+  function updateStars(rating, animate) {
+    ratingStars.forEach((star, index) => {
+      star.classList.toggle('active', index < rating);
+      if (animate && index < rating) {
+        star.style.animation = 'none';
+        void star.offsetWidth;
+        star.style.animation = `feedbackStarPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) ${index * 0.06}s both`;
+      }
+    });
+    if (ratingLabel && rating > 0) {
+      ratingLabel.textContent = ratingLabels[rating].text;
+      ratingLabel.style.color = ratingLabels[rating].color;
+      ratingLabel.classList.add('rating-label-active');
+    } else if (ratingLabel) {
+      ratingLabel.textContent = '';
+      ratingLabel.classList.remove('rating-label-active');
+    }
+    if (ratingInput) ratingInput.value = rating;
+  }
+
+  ratingStars.forEach(star => {
+    star.addEventListener('click', () => {
+      currentRating = parseInt(star.dataset.rating, 10);
+      updateStars(currentRating, true);
+      if (window.ffToast && currentRating === 5) window.ffToast('🌟 Wow, thank you!');
+    });
+    star.addEventListener('mouseenter', () => {
+      const h = parseInt(star.dataset.rating, 10);
+      ratingStars.forEach((s, i) => {
+        s.classList.toggle('hover', i < h);
+        if (i < h) s.style.transform = 'translateY(-4px) scale(1.15)';
+      });
+    });
+    star.addEventListener('mouseleave', () => {
+      ratingStars.forEach(s => { s.classList.remove('hover'); s.style.transform = ''; });
+    });
+  });
+
+  /* ---------- 3. RADIO BOUNCE ---------- */
+  document.querySelectorAll('.feedback-type-option input').forEach(radio => {
+    radio.addEventListener('change', () => {
+      const parent = radio.closest('.feedback-type-option');
+      if (!parent) return;
+      parent.classList.remove('feedback-option-pop');
+      void parent.offsetWidth;
+      parent.classList.add('feedback-option-pop');
+    });
+  });
+
+  /* ---------- 4. CHARACTER COUNTER ---------- */
+  const messageEl = document.getElementById('feedback-message');
+  const charCountEl = document.getElementById('char-count');
+  const MAX = 500;
+
+  if (messageEl && charCountEl) {
+    messageEl.addEventListener('input', () => {
+      let len = messageEl.value.length;
+      if (len > MAX) { messageEl.value = messageEl.value.slice(0, MAX); len = MAX; }
+      charCountEl.textContent = len;
+      const counter = charCountEl.parentElement;
+      counter.classList.remove('warn', 'danger');
+      if (len > MAX * 0.9) counter.classList.add('danger');
+      else if (len > MAX * 0.7) counter.classList.add('warn');
+      charCountEl.style.transform = 'scale(1.2)';
+      setTimeout(() => charCountEl.style.transform = 'scale(1)', 150);
+    });
+  }
+
+  /* ---------- 5. INPUT FOCUS GLOW ---------- */
+  document.querySelectorAll('.feedback-input, .feedback-textarea').forEach(input => {
+    input.addEventListener('focus', () => input.closest('.form-group')?.classList.add('feedback-focused'));
+    input.addEventListener('blur',  () => input.closest('.form-group')?.classList.remove('feedback-focused'));
+  });
+
+  /* ---------- 6. SUBMIT ---------- */
+  const form = document.getElementById('feedback-form');
+  const successDiv = document.getElementById('feedback-success');
+  const errorEl = document.getElementById('feedback-error');
+  const submitBtn = form ? form.querySelector('button[type="submit"]') : null;
+  const successStars = document.getElementById('success-stars');
+
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const subject = document.getElementById('feedback-subject').value.trim();
+      const message = document.getElementById('feedback-message').value.trim();
+
+      if (!subject) { showError('Please enter a subject.', document.getElementById('feedback-subject')); return; }
+      if (!message || message.length < 10) { showError('Please enter your feedback (at least 10 characters).', messageEl); return; }
+      if (errorEl) errorEl.style.display = 'none';
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.classList.add('feedback-btn-loading');
+        const textEl = submitBtn.querySelector('.feedback-submit-text');
+        const emojiEl = submitBtn.querySelector('.feedback-submit-emoji');
+        if (textEl) textEl.textContent = 'Submitting…';
+        if (emojiEl) emojiEl.textContent = '';
+      }
+
+      try {
+        await new Promise(resolve => setTimeout(resolve, 1400));
+
+        form.classList.add('feedback-form-exit');
+
+        setTimeout(() => {
+          form.style.display = 'none';
+
+          if (successDiv) {
+            successDiv.style.display = 'block';
+            successDiv.classList.add('feedback-success-in');
+
+            if (successStars && currentRating > 0) {
+              successStars.innerHTML = '';
+              for (let i = 0; i < 5; i++) {
+                const s = document.createElement('span');
+                s.textContent = '★';
+                s.className = 'success-star' + (i < currentRating ? ' active' : '');
+                s.style.animationDelay = (i * 0.08) + 's';
+                successStars.appendChild(s);
+              }
+            }
+
+            if (typeof window.ffSuccess === 'function') {
+              const ratingText = currentRating > 0 ? ` · ${currentRating}★` : '';
+              window.ffSuccess('🎉 Feedback Submitted!', `Thank you for helping us improve${ratingText}`, { duration: 2400, confetti: true });
+            }
+            if (window.ffToast) window.ffToast('✅ Feedback submitted successfully!');
+            successDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 380);
+
+      } catch (err) {
+        showError('⚠️ ' + (err.message || 'Could not submit feedback. Please try again.'));
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.classList.remove('feedback-btn-loading');
+          const textEl = submitBtn.querySelector('.feedback-submit-text');
+          const emojiEl = submitBtn.querySelector('.feedback-submit-emoji');
+          if (textEl) textEl.textContent = 'Submit Feedback';
+          if (emojiEl) emojiEl.textContent = '📨';
+        }
+      }
+    });
+  }
+
+  function showError(msg, field) {
+    if (errorEl) {
+      errorEl.textContent = msg;
+      errorEl.style.display = 'block';
+      errorEl.classList.remove('feedback-error-in');
+      void errorEl.offsetWidth;
+      errorEl.classList.add('feedback-error-in');
+      errorEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    if (field && window.ffShake) window.ffShake(field);
+  }
+
+  /* ---------- 7. TYPEWRITER PRE-FILL ---------- */
+  const user = (window.ffAuth && window.ffAuth.getUser) ? window.ffAuth.getUser() : null;
+  if (user) {
+    const nameInput = document.getElementById('feedback-name');
+    const emailInput = document.getElementById('feedback-email');
+    if (nameInput && user.name && !nameInput.value) typewriter(nameInput, user.name);
+    if (emailInput && user.email && !emailInput.value) typewriter(emailInput, user.email);
+  }
+
+  function typewriter(el, text) {
+    if (!el || !text) return;
+    let i = 0;
+    el.value = '';
+    el.classList.add('feedback-typing');
+    const timer = setInterval(() => {
+      el.value += text[i++];
+      if (i >= text.length) { clearInterval(timer); el.classList.remove('feedback-typing'); }
+    }, 40);
+  }
+
+});
+</script>
+
+</body>
+</html>

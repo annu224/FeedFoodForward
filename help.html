@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Getting Started | FeedFoodForward</title>
+  <meta name="description" content="Learn how to donate surplus food on FeedFoodForward in 5 simple steps.">
+  <meta name="theme-color" content="#16a34a">
+
+  <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2316a34a'/%3E%3Cpath d='M50 80 C28 62 18 50 18 37 A17 17 0 0 1 50 28 A17 17 0 0 1 82 37 C82 50 72 62 50 80 Z' fill='%23ffffff'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* ==========================================================
+       GETTING STARTED — WITH ANIMATIONS
+       ========================================================== */
+
+    /* ---------- SCROLL PROGRESS BAR ---------- */
+    .gs-progress {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #10b981, #f59e0b);
+      transform-origin: 0 50%;
+      transform: scaleX(0);
+      z-index: 999;
+      pointer-events: none;
+      transition: transform 0.08s linear;
+    }
+
+    /* ==========================================================
+       HERO
+       ========================================================== */
+    .gs-hero {
+      position: relative;
+      padding: 4.5rem 1.5rem 3rem;
+      background: linear-gradient(180deg, #f3fbf8 0%, #ffffff 100%);
+      text-align: center;
+      overflow: hidden;
+    }
+    .gs-hero::before {
+      content: "";
+      position: absolute; inset: 0; pointer-events: none;
+      background-image: radial-gradient(rgba(11,18,36,.06) 1px, transparent 1px);
+      background-size: 26px 26px;
+      mask-image: linear-gradient(180deg, #000 0%, transparent 70%);
+      -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 70%);
+      animation: gsDotPan 60s linear infinite;
+    }
+    @keyframes gsDotPan {
+      from { background-position: 0 0; }
+      to   { background-position: 200px 200px; }
+    }
+
+    /* Floating background orbs */
+    .gs-orb {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(60px);
+      opacity: 0.55;
+      z-index: 0;
+      animation: gsOrbFloat 14s ease-in-out infinite;
+    }
+    .gs-orb-1 {
+      width: 420px; height: 420px;
+      top: -140px; left: -100px;
+      background: radial-gradient(circle, rgba(16,185,129,.35), transparent 70%);
+    }
+    .gs-orb-2 {
+      width: 380px; height: 380px;
+      top: -80px; right: -120px;
+      background: radial-gradient(circle, rgba(245,158,11,.28), transparent 70%);
+      animation-delay: -3s;
+    }
+    .gs-orb-3 {
+      width: 300px; height: 300px;
+      bottom: -160px; left: 50%;
+      transform: translateX(-50%);
+      background: radial-gradient(circle, rgba(139,92,246,.22), transparent 70%);
+      animation-delay: -6s;
+    }
+    @keyframes gsOrbFloat {
+      0%,100% { transform: translate(0, 0) scale(1); }
+      50%     { transform: translate(30px, -20px) scale(1.08); }
+    }
+
+    .gs-hero-inner {
+      position: relative;
+      max-width: 760px;
+      margin: 0 auto;
+      z-index: 1;
+    }
+
+    /* Hero entrance animation */
+    .gs-hero-eyebrow,
+    .gs-hero h1,
+    .gs-hero p,
+    .gs-hero-actions {
+      opacity: 0;
+      transform: translateY(24px);
+      animation: gsEnter 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+    }
+    .gs-hero-eyebrow    { animation-delay: 0.05s; }
+    .gs-hero h1         { animation-delay: 0.15s; }
+    .gs-hero p          { animation-delay: 0.25s; }
+    .gs-hero-actions    { animation-delay: 0.35s; }
+
+    @keyframes gsEnter {
+      to { opacity: 1; transform: none; }
+    }
+
+    .gs-hero-eyebrow {
+      display: inline-block;
+      padding: 0.35rem 0.85rem;
+      margin-bottom: 1rem;
+      font-size: 0.72rem; font-weight: 800;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: #067a54; background: #ecfdf5;
+      border: 1px solid #bbf7d0;
+      border-radius: 999px;
+      position: relative; overflow: hidden;
+    }
+    .gs-hero-eyebrow::after {
+      content: "";
+      position: absolute;
+      top: 0; bottom: 0; width: 40%; left: -60%;
+      background: linear-gradient(100deg, transparent, rgba(16,185,129,0.35), transparent);
+      animation: gsSweep 3.6s ease-in-out infinite;
+    }
+    @keyframes gsSweep {
+      0%   { left: -60%; }
+      55%,100% { left: 130%; }
+    }
+
+    .gs-hero h1 {
+      font-family: var(--font-head);
+      font-size: clamp(2rem, 4.2vw, 3.1rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      color: #0B1224;
+      margin: 0 0 1rem 0;
+    }
+    .gs-hero h1 span {
+      background: linear-gradient(100deg,
+        #067a54 0%, #10b981 35%, #f59e0b 50%, #10b981 65%, #067a54 100%);
+      background-size: 220% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: gsShimmer 6s linear infinite;
+    }
+    @keyframes gsShimmer {
+      from { background-position: 0% 50%; }
+      to   { background-position: 220% 50%; }
+    }
+
+    .gs-hero p {
+      font-size: 1.05rem;
+      color: #475569;
+      max-width: 560px;
+      margin: 0 auto 2rem;
+      line-height: 1.65;
+    }
+
+    .gs-hero-actions {
+      display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap;
+    }
+
+    /* ---------- ASK AI BUTTON (pulsing) ---------- */
+    .gs-ask-ai {
+      position: relative;
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      padding: 0.95rem 1.6rem;
+      background: linear-gradient(135deg, #067a54, #10b981);
+      color: #fff; font-weight: 800; font-size: 0.95rem;
+      border-radius: 14px; border: none;
+      cursor: pointer; font-family: inherit;
+      box-shadow: 0 10px 28px rgba(11,159,110,0.4);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      overflow: hidden;
+      animation: gsButtonPulse 3s ease-in-out infinite;
+    }
+    @keyframes gsButtonPulse {
+      0%, 100% { box-shadow: 0 10px 28px rgba(11,159,110,0.4), 0 0 0 0 rgba(16,185,129,0.5); }
+      50%      { box-shadow: 0 10px 28px rgba(11,159,110,0.4), 0 0 0 14px rgba(16,185,129,0); }
+    }
+    .gs-ask-ai::before {
+      content: "";
+      position: absolute;
+      top: 0; bottom: 0; width: 40%; left: -70%;
+      background: linear-gradient(100deg, transparent, rgba(255,255,255,0.4), transparent);
+      transform: skewX(-18deg);
+      animation: gsButtonSheen 3.2s ease-in-out infinite;
+    }
+    @keyframes gsButtonSheen {
+      0%   { left: -70%; }
+      40%, 100% { left: 130%; }
+    }
+    .gs-ask-ai:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 38px rgba(11,159,110,0.55), 0 0 0 0 rgba(16,185,129,0.5);
+      animation-play-state: paused;
+    }
+    .gs-ask-ai:hover::before { animation-play-state: paused; }
+
+    .gs-ask-ai .ai-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #a7f3d0;
+      animation: gsDotBlink 1.6s ease-in-out infinite;
+    }
+    @keyframes gsDotBlink {
+      0%, 100% { opacity: 1;   transform: scale(1); }
+      50%      { opacity: 0.6; transform: scale(0.7); }
+    }
+    .gs-ask-ai .ai-arrow {
+      display: inline-block;
+      transition: transform 0.25s ease;
+    }
+    .gs-ask-ai:hover .ai-arrow { transform: translateX(5px); }
+
+    /* ==========================================================
+       5-STEP FLOW
+       ========================================================== */
+    .gs-flow {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 4rem;
+      position: relative;
+    }
+    .gs-flow-heading {
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto 3rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .gs-flow-heading.gs-visible { opacity: 1; transform: none; }
+    .gs-flow-heading h2 {
+      font-family: var(--font-head);
+      font-size: clamp(1.5rem, 2.6vw, 2rem);
+      font-weight: 800;
+      color: #0B1224;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.5rem;
+    }
+    .gs-flow-heading p {
+      color: #64748b;
+      font-size: 0.95rem;
+      margin: 0;
+    }
+
+    .gs-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+      counter-reset: gsstep;
+      position: relative;
+    }
+
+    /* Connector line (desktop only) */
+    @media (min-width: 1024px) {
+      .gs-steps::before {
+        content: "";
+        position: absolute;
+        top: 3.5rem; left: 8%; right: 8%;
+        height: 2px;
+        z-index: 0;
+        background: repeating-linear-gradient(90deg,
+          var(--primary-green) 0 8px, transparent 8px 16px);
+        opacity: 0.4;
+        animation: gsMarch 1.4s linear infinite;
+      }
+      @keyframes gsMarch {
+        from { background-position: 0 0; }
+        to   { background-position: 16px 0; }
+      }
+    }
+
+    .gs-step {
+      position: relative;
+      padding: 1.75rem 1.5rem 1.5rem;
+      background: #fff;
+      border: 1px solid var(--slate-border);
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(11,18,36,0.04);
+      transition: all 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+      counter-increment: gsstep;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      transform: translateY(30px) scale(0.96);
+      z-index: 1;
+    }
+    .gs-step.gs-visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* Number badge */
+    .gs-step::before {
+      content: counter(gsstep, decimal-leading-zero);
+      position: absolute;
+      top: 1rem; right: 1.25rem;
+      font-family: var(--font-head);
+      font-size: 2.4rem;
+      font-weight: 800;
+      line-height: 1;
+      color: #e6ecf4;
+      transition: color 0.3s ease, transform 0.4s cubic-bezier(0.3, 1.6, 0.5, 1);
+    }
+    .gs-step:hover {
+      transform: translateY(-6px) !important;
+      border-color: var(--primary-green);
+      box-shadow: 0 20px 40px -14px rgba(16,185,129,0.32);
+    }
+    .gs-step:hover::before {
+      color: #d1fae5;
+      transform: scale(1.15) rotate(-6deg);
+    }
+
+    .gs-step-icon {
+      width: 54px; height: 54px;
+      display: grid; place-items: center;
+      font-size: 1.5rem;
+      background: linear-gradient(135deg, #10b981, #067a54);
+      color: #fff;
+      border-radius: 14px;
+      margin-bottom: 1rem;
+      box-shadow: 0 8px 18px -6px rgba(11,159,110,0.4);
+      transition: transform 0.4s cubic-bezier(0.3, 1.6, 0.5, 1);
+      position: relative;
+    }
+    .gs-step:hover .gs-step-icon {
+      transform: rotate(-8deg) scale(1.1);
+    }
+    /* Icon pop when visible */
+    .gs-step.gs-visible .gs-step-icon {
+      animation: gsIconPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    @keyframes gsIconPop {
+      0%   { transform: scale(0.4) rotate(-20deg); opacity: 0; }
+      100% { transform: scale(1) rotate(0); opacity: 1; }
+    }
+
+    .gs-step h3 {
+      font-family: var(--font-head);
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #0B1224;
+      margin: 0 0 0.4rem;
+    }
+    .gs-step p {
+      font-size: 0.85rem;
+      color: #475569;
+      line-height: 1.6;
+      margin: 0 0 1rem;
+    }
+    .gs-step-cta {
+      margin-top: auto;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #067a54;
+      display: inline-flex; align-items: center; gap: 0.25rem;
+    }
+    .gs-step-cta .arrow {
+      display: inline-block;
+      transition: transform 0.25s ease;
+    }
+    .gs-step:hover .gs-step-cta .arrow { transform: translateX(5px); }
+
+    /* ==========================================================
+       AI BANNER
+       ========================================================== */
+    .gs-ai-banner {
+      max-width: 900px;
+      margin: 1rem auto 4rem;
+      padding: 2rem 2rem;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      border-radius: 24px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      box-shadow: 0 20px 50px -20px rgba(15, 23, 42, 0.5);
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .gs-ai-banner.gs-visible { opacity: 1; transform: none; }
+
+    .gs-ai-banner::after {
+      content: "";
+      position: absolute;
+      width: 320px; height: 320px;
+      right: -120px; top: -100px;
+      background: radial-gradient(circle, rgba(16,185,129,0.4), transparent 70%);
+      border-radius: 50%;
+      animation: gsBannerOrb 8s ease-in-out infinite alternate;
+    }
+    @keyframes gsBannerOrb {
+      0%   { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(-30px, 20px) scale(1.15); }
+    }
+
+    .gs-ai-banner-body {
+      flex: 1;
+      min-width: 240px;
+      position: relative;
+      z-index: 1;
+    }
+    .gs-ai-banner h3 {
+      font-family: var(--font-head);
+      font-size: 1.35rem;
+      font-weight: 800;
+      margin: 0 0 0.4rem;
+      letter-spacing: -0.02em;
+    }
+    .gs-ai-banner p {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      margin: 0;
+      line-height: 1.6;
+      max-width: 480px;
+    }
+    .gs-ai-banner-btn {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.9rem 1.5rem;
+      font-weight: 800;
+      font-size: 0.9rem;
+      background: linear-gradient(135deg, #10b981, #047857);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      font-family: inherit;
+      box-shadow: 0 10px 24px rgba(16,185,129,0.4);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      white-space: nowrap;
+    }
+    .gs-ai-banner-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(16,185,129,0.55);
+    }
+    .gs-ai-banner-btn .ico {
+      display: inline-block;
+      animation: gsBounce 2.2s ease-in-out infinite;
+    }
+    @keyframes gsBounce {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-3px); }
+    }
+
+    /* ==========================================================
+       TROUBLESHOOTING
+       ========================================================== */
+    .gs-trouble {
+      max-width: 1100px;
+      margin: 0 auto 4rem;
+      padding: 0 1.5rem;
+    }
+    .gs-trouble-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+    .gs-trouble-card {
+      padding: 1.25rem 1.35rem;
+      background: #fff;
+      border: 1px solid var(--slate-border);
+      border-left: 4px solid var(--primary-green);
+      border-radius: 14px;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    .gs-trouble-card.gs-visible { opacity: 1; transform: none; }
+    .gs-trouble-card:hover {
+      transform: translateY(-4px) !important;
+      box-shadow: 0 14px 28px -12px rgba(16,185,129,0.28);
+      border-color: var(--primary-green);
+    }
+    .gs-trouble-card h4 {
+      font-size: 0.92rem;
+      margin: 0 0 0.35rem;
+      color: #0B1224;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .gs-trouble-card p {
+      font-size: 0.82rem;
+      color: #475569;
+      margin: 0;
+      line-height: 1.55;
+    }
+
+    /* ==========================================================
+       CONTACT
+       ========================================================== */
+    .gs-contact {
+      max-width: 900px;
+      margin: 0 auto 4rem;
+      padding: 2.5rem 2rem;
+      background: linear-gradient(135deg, #ecfdf5 0%, #ffffff 100%);
+      border: 1px solid #d1fae5;
+      border-radius: 24px;
+      text-align: center;
+      box-shadow: 0 10px 32px -12px rgba(16,185,129,0.25);
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .gs-contact.gs-visible { opacity: 1; transform: none; }
+    .gs-contact h2 {
+      font-family: var(--font-head);
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #0B1224;
+      margin: 0 0 0.5rem;
+    }
+    .gs-contact p {
+      color: #475569;
+      font-size: 0.92rem;
+      margin: 0 auto 1.5rem;
+      max-width: 460px;
+      line-height: 1.6;
+    }
+    .gs-contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.85rem;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .gs-contact-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 1.1rem 0.85rem;
+      background: #fff;
+      border: 1px solid #d1fae5;
+      border-radius: 14px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.25s ease;
+      opacity: 0;
+      transform: translateY(20px) scale(0.96);
+    }
+    .gs-contact-item.gs-visible { opacity: 1; transform: none; }
+    .gs-contact-item:hover {
+      border-color: var(--primary-green);
+      transform: translateY(-4px) !important;
+      box-shadow: 0 14px 28px -12px rgba(16,185,129,0.3);
+    }
+    .gs-contact-item .ico {
+      font-size: 1.5rem;
+      display: inline-block;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .gs-contact-item:hover .ico {
+      transform: scale(1.25) rotate(-8deg);
+    }
+    .gs-contact-item strong {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #0B1224;
+    }
+    .gs-contact-item span {
+      font-size: 0.72rem;
+      color: #64748b;
+    }
+
+    /* ==========================================================
+       RESPONSIVE
+       ========================================================== */
+    @media (max-width: 640px) {
+      .gs-hero { padding: 3.5rem 1.1rem 2rem; }
+      .gs-flow, .gs-trouble { padding-left: 1.1rem; padding-right: 1.1rem; }
+      .gs-ai-banner { padding: 1.75rem 1.5rem; }
+      .gs-ai-banner-btn { width: 100%; justify-content: center; }
+      .gs-contact { padding: 1.75rem 1.25rem; }
+      .gs-orb { display: none; }
+    }
+
+    /* ==========================================================
+       REDUCED MOTION
+       ========================================================== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+      }
+      .gs-hero-eyebrow,
+      .gs-hero h1,
+      .gs-hero p,
+      .gs-hero-actions,
+      .gs-flow-heading,
+      .gs-step,
+      .gs-ai-banner,
+      .gs-trouble-card,
+      .gs-contact,
+      .gs-contact-item {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<noscript>
+  <div style="background:#fef3c7;color:#92400e;padding:12px 16px;text-align:center;font-weight:600;font-size:14px;border-bottom:1px solid #fde68a;">
+    ⚠️ JavaScript is disabled. Some interactive features won't work.
+  </div>
+</noscript>
+
+<!-- Scroll progress bar -->
+<div class="gs-progress" id="gs-progress" aria-hidden="true"></div>
+
+<!-- ==================== HEADER ==================== -->
+<header class="site-header">
+  <div class="header-container">
+
+    <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6"  x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+    <a href="index.html" class="brand-logo" aria-label="FeedFoodForward home">
+      <div class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img">
+          <defs>
+            <linearGradient id="ffTile" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#067A54"/>
+              <stop offset="55%" stop-color="#0B9F6E"/>
+              <stop offset="100%" stop-color="#10B981"/>
+            </linearGradient>
+            <linearGradient id="ffHeart" x1="0" y1="0" x2="0.5" y2="1">
+              <stop offset="0%" stop-color="#FF5A7A"/>
+              <stop offset="100%" stop-color="#F03E64"/>
+            </linearGradient>
+            <linearGradient id="ffLeaf" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#A3E635"/>
+              <stop offset="100%" stop-color="#65A30D"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="44" height="44" rx="11" fill="url(#ffTile)"/>
+          <g transform="translate(28 6) rotate(20)">
+            <path d="M0 14 C0 6 5 1 12 0 C12 8 7 14 0 14 Z" fill="url(#ffLeaf)"/>
+          </g>
+          <g transform="translate(8 20)">
+            <path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4
+                     C7.4 0.4 9.2 1.8 10 3.4 C10.8 1.8 12.6 0.4 15 0.4
+                     C18.3 0.4 21 2.6 21 6 C21 10 18 14 10 20 Z"
+                  fill="url(#ffHeart)"/>
+          </g>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">FeedFood<span>Forward</span></span>
+        <span class="brand-subtitle">AI FOOD REDISTRIBUTION PLATFORM</span>
+      </div>
+    </a>
+
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation menu">☰</button>
+
+    <nav class="site-nav" id="site-nav" aria-label="Primary">
+      <a href="index.html" class="nav-link" data-nav="home">Home</a>
+      <a href="donor-dashboard.html" class="nav-link nav-donor-only" data-nav="dashboard" hidden>Dashboard</a>
+      <a href="my-donations.html" class="nav-link nav-donor-only" data-nav="donations" hidden>My Donations</a>
+      <a href="donate-food.html" class="nav-link" data-nav="donate">Donate Food</a>
+      <a href="ai-inspection.html" class="nav-link" data-nav="ai">AI Inspection</a>
+      <a href="find-ashrams.html" class="nav-link" data-nav="ashrams">Find Ashrams</a>
+            <a href="pickup-track.html" class="nav-link nav-donor-only" data-nav="pickup" hidden>Pickup</a>
+      <a href="driver-hub.html" class="nav-link nav-driver-only" data-nav="driver" hidden>Driver Hub</a>
+      <a href="ngo-dashboard.html" class="nav-link nav-ashram-only" data-nav="ngo" hidden>NGO Dashboard</a>
+    </nav>
+
+    <div class="header-utilities">
+      <div id="header-guest" class="header-auth-group">
+        <button type="button" class="btn btn-outline btn-sm" id="header-login-btn">Login</button>
+        <button type="button" class="btn btn-primary btn-sm" id="header-signup-btn">Sign Up</button>
+      </div>
+
+      <div id="header-user" class="header-user-group" hidden>
+        <button type="button" class="user-chip" id="user-chip" aria-haspopup="true" aria-expanded="false">
+          <span class="user-avatar" id="user-avatar">🏨</span>
+          <span class="user-name" id="user-name">Hotel Green Leaf</span>
+          <span class="user-caret" aria-hidden="true">▾</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ==================== HERO ==================== -->
+<section class="gs-hero">
+  <div class="gs-orb gs-orb-1" aria-hidden="true"></div>
+  <div class="gs-orb gs-orb-2" aria-hidden="true"></div>
+  <div class="gs-orb gs-orb-3" aria-hidden="true"></div>
+
+  <div class="gs-hero-inner">
+    <span class="gs-hero-eyebrow">⚡ Getting Started Guide</span>
+    <h1>Donate surplus food<br><span>in 5 simple steps.</span></h1>
+    <p>
+      A quick walkthrough for first-time donors. Or skip ahead and just ask our AI assistant
+      — it knows everything about this platform.
+    </p>
+
+    <div class="gs-hero-actions">
+      <button type="button" class="gs-ask-ai" id="gs-ask-ai-hero">
+        <span class="ai-dot"></span>
+        <span>Ask the AI Assistant</span>
+        <span class="ai-arrow" aria-hidden="true">→</span>
+      </button>
+      <a href="#steps" class="btn btn-outline" style="padding:0.95rem 1.6rem;font-weight:700;">
+        📖 Read the Guide
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 5-STEP FLOW ==================== -->
+<section class="gs-flow" id="steps">
+  <div class="gs-flow-heading" data-reveal>
+    <h2>The 5-step donation flow</h2>
+    <p>From surplus to someone's plate — in under 3 hours typically.</p>
+  </div>
+
+  <div class="gs-steps">
+
+    <a href="donate-food.html" class="gs-step" data-reveal style="transition-delay:0.05s;">
+      <div class="gs-step-icon">📷</div>
+      <h3>1. Upload a photo</h3>
+      <p>Snap a clear photo of your surplus food. JPG, PNG, or WEBP under 5 MB. Good lighting helps the AI work better.</p>
+      <span class="gs-step-cta">Open Donate Food <span class="arrow">→</span></span>
+    </a>
+
+    <a href="donate-food.html" class="gs-step" data-reveal style="transition-delay:0.15s;">
+      <div class="gs-step-icon">📝</div>
+      <h3>2. Add food details</h3>
+      <p>Enter food name, category, quantity, servings, prep time, storage, and pickup address. These matter for safety.</p>
+      <span class="gs-step-cta">Fill the form <span class="arrow">→</span></span>
+    </a>
+
+    <a href="ai-inspection.html" class="gs-step" data-reveal style="transition-delay:0.25s;">
+      <div class="gs-step-icon">🤖</div>
+      <h3>3. Run AI pre-screen</h3>
+      <p>The AI estimates food type, freshness score, and pickup urgency — a helpful guide, not a safety guarantee.</p>
+      <span class="gs-step-cta">See AI result <span class="arrow">→</span></span>
+    </a>
+
+    <a href="donate-food.html" class="gs-step" data-reveal style="transition-delay:0.35s;">
+      <div class="gs-step-icon">🏠</div>
+      <h3>4. Match a receiver</h3>
+      <p>We suggest the best ashram or NGO based on their current needs and distance from you. Pick the best fit.</p>
+      <span class="gs-step-cta">Choose receiver <span class="arrow">→</span></span>
+    </a>
+
+    <a href="rescue-track.html#track" class="gs-step" data-reveal style="transition-delay:0.45s;">
+      <div class="gs-step-icon">🔐</div>
+      <h3>5. Show Pickup QR</h3>
+      <p>Once created, you'll get a Pickup QR. Show it to the driver at collection. Track the delivery live on the map.</p>
+      <span class="gs-step-cta">Track delivery <span class="arrow">→</span></span>
+    </a>
+
+  </div>
+</section>
+
+<!-- ==================== ASK AI BANNER ==================== -->
+<section class="gs-ai-banner" data-reveal>
+  <div class="gs-ai-banner-body">
+    <h3>🤖 Have a quick question?</h3>
+    <p>
+      Our AI assistant answers instantly — about donating, AI inspection, tracking,
+      finding ashrams, leaderboards, and more. Tap the button to start a conversation.
+    </p>
+  </div>
+  <button type="button" class="gs-ai-banner-btn" id="gs-ask-ai-banner">
+    <span class="ico">💬</span>
+    <span>Chat with AI</span>
+  </button>
+</section>
+
+<!-- ==================== TROUBLESHOOTING ==================== -->
+<section class="gs-trouble">
+  <div class="gs-flow-heading" data-reveal>
+    <h2>Something not working?</h2>
+    <p>These cover 90% of the issues donors run into.</p>
+  </div>
+
+  <div class="gs-trouble-grid">
+
+    <div class="gs-trouble-card" data-reveal style="transition-delay:0.05s;">
+      <h4>📷 Image won't upload</h4>
+      <p>Use JPG, PNG, or WEBP under 5 MB. If it still fails, refresh the page or try a different browser.</p>
+    </div>
+
+    <div class="gs-trouble-card" data-reveal style="transition-delay:0.12s;">
+      <h4>🚫 "No food detected"</h4>
+      <p>The AI couldn't spot food in your photo. Try better lighting, centre the food, and avoid blurry shots.</p>
+    </div>
+
+    <div class="gs-trouble-card" data-reveal style="transition-delay:0.19s;">
+      <h4>🔐 QR code won't scan</h4>
+      <p>Brighten your screen, clean the driver's camera lens, and hold steady about 15 cm away.</p>
+    </div>
+
+    <div class="gs-trouble-card" data-reveal style="transition-delay:0.26s;">
+      <h4>📦 Can't see my donations</h4>
+      <p>Check the user chip top-right. If wrong account, log out and log back in. Refresh if needed.</p>
+    </div>
+
+    <div class="gs-trouble-card" data-reveal style="transition-delay:0.33s;">
+      <h4>🚚 No driver assigned yet</h4>
+      <p>Matching is automatic and usually takes 5–10 min. Verify your pickup address is correct.</p>
+    </div>
+
+    <div class="gs-trouble-card" data-reveal style="transition-delay:0.40s;">
+      <h4>🗺️ Map won't load</h4>
+      <p>Check your internet. Disable ad-blockers temporarily. Try reloading the page.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ==================== CONTACT ==================== -->
+<section class="gs-contact" id="contact" data-reveal>
+  <h2>Still stuck?</h2>
+  <p>Reach out — we reply within a day. Or try the AI first for instant answers.</p>
+
+  <div class="gs-contact-grid">
+    <a href="mailto:support@feedfoodforward.demo" class="gs-contact-item" data-reveal style="transition-delay:0.05s;">
+      <span class="ico">✉️</span>
+      <strong>Email Support</strong>
+      <span>support@feedfoodforward.demo</span>
+    </a>
+
+    <a href="tel:+919812345678" class="gs-contact-item" data-reveal style="transition-delay:0.12s;">
+      <span class="ico">📞</span>
+      <strong>Call Us</strong>
+      <span>+91 98123 45678</span>
+    </a>
+
+    <a href="feedback.html" class="gs-contact-item" data-reveal style="transition-delay:0.19s;">
+      <span class="ico">💬</span>
+      <strong>Send Feedback</strong>
+      <span>Report a bug or suggest a feature</span>
+    </a>
+
+    <a href="impact-csr.html" class="gs-contact-item" data-reveal style="transition-delay:0.26s;">
+      <span class="ico">📊</span>
+      <strong>Impact Reports</strong>
+      <span>View your rescue & CSR stats</span>
+    </a>
+  </div>
+</section>
+
+</main>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-brand">
+      <h3>FeedFoodForward</h3>
+      <p>"Rescue Food. Reduce Waste. Feed Communities."</p>
+    </div>
+    <div class="footer-copyright">© 2026 FeedFoodForward Platform.</div>
+  </div>
+</footer>
+
+<!-- Toast -->
+<div id="ff-toast" role="status" aria-live="polite"
+     style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);background:#0f172a;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:all .3s ease;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.25);"></div>
+
+<script src="app.js"></script>
+<script src="header-nav.js"></script>
+<script src="sidebar.js"></script>
+<script src="animations.js"></script>
+<script src="chatbot.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  /* ============================================================
+     SCROLL PROGRESS BAR
+     ============================================================ */
+  const progress = document.getElementById('gs-progress');
+  let ticking = false;
+
+  function updateProgress() {
+    if (!progress) return;
+    const h = document.documentElement;
+    const scrolled = h.scrollTop || document.body.scrollTop;
+    const height = (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
+    const pct = height > 0 ? scrolled / height : 0;
+    progress.style.transform = 'scaleX(' + pct + ')';
+  }
+
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      updateProgress();
+      ticking = false;
+    });
+  }, { passive: true });
+
+  updateProgress();
+
+  /* ============================================================
+     REVEAL-ON-SCROLL for [data-reveal] elements
+     ============================================================ */
+  const revealTargets = document.querySelectorAll('[data-reveal]');
+
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('gs-visible');
+        io.unobserve(entry.target);
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -6% 0px'
+    });
+    revealTargets.forEach(el => io.observe(el));
+  } else {
+    revealTargets.forEach(el => el.classList.add('gs-visible'));
+  }
+
+  /* ============================================================
+     "ASK AI" BUTTONS → open the chatbot widget
+     ============================================================ */
+  function openChatbot() {
+    const toggle = document.getElementById('ff-chat-toggle');
+    const panel  = document.getElementById('ff-chat-panel');
+    if (!toggle) {
+      if (window.ffToast) window.ffToast('Chat is loading… please try again');
+      return;
+    }
+    if (panel && !panel.hidden) {
+      panel.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      return;
+    }
+    toggle.click();
+  }
+
+  const heroBtn   = document.getElementById('gs-ask-ai-hero');
+  const bannerBtn = document.getElementById('gs-ask-ai-banner');
+  if (heroBtn)   heroBtn.addEventListener('click', openChatbot);
+  if (bannerBtn) bannerBtn.addEventListener('click', openChatbot);
+
+  /* ============================================================
+     SMOOTH SCROLL for in-page anchors
+     ============================================================ */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href');
+      if (id.length < 2) return;
+      const target = document.querySelector(id);
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  /* ============================================================
+     HERO PARALLAX on mouse move (desktop only)
+     ============================================================ */
+  const hero = document.querySelector('.gs-hero');
+  const orbs = document.querySelectorAll('.gs-orb');
+  if (hero && orbs.length &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
+      window.matchMedia('(hover: hover) and (min-width: 1024px)').matches) {
+
+    hero.addEventListener('mousemove', (e) => {
+      const rect = hero.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width  - 0.5;
+      const y = (e.clientY - rect.top)  / rect.height - 0.5;
+
+      orbs.forEach((orb, i) => {
+        const strength = (i + 1) * 10;
+        orb.style.transform = `translate(${x * strength}px, ${y * strength}px)`;
+      });
+    });
+
+    hero.addEventListener('mouseleave', () => {
+      orbs.forEach(orb => { orb.style.transform = ''; });
+    });
+  }
+
+  /* ============================================================
+     STEP CARDS — sequential stagger reveal (fallback for older IO)
+     ============================================================ */
+  /* The IntersectionObserver above handles all reveals including
+     .gs-step cards via [data-reveal], so nothing extra is needed. */
+
+  console.log('✨ Getting Started page initialised');
+});
+</script>
+
+</body>
+</html>

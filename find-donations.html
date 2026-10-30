@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find Donations | FeedFoodForward</title>
+<meta name="theme-color" content="#16a34a">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2316a34a'/%3E%3Cpath d='M50 80 C28 62 18 50 18 37 A17 17 0 0 1 50 28 A17 17 0 0 1 82 37 C82 50 72 62 50 80 Z' fill='%23ffffff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="guest-guard.js"></script>
+<style>
+/* ==========================================================
+   SCROLL PROGRESS BAR
+   ========================================================== */
+.fd-progress{
+  position:fixed;top:0;left:0;right:0;height:3px;z-index:9999;
+  transform-origin:0 50%;transform:scaleX(0);
+  background:linear-gradient(90deg,#10b981,#f59e0b,#8b5cf6,#10b981);
+  background-size:200% 100%;
+  animation:fdHue 6s linear infinite;
+  pointer-events:none;
+}
+@keyframes fdHue{to{background-position:200% 50%;}}
+
+/* ==========================================================
+   ANIMATED BACKGROUND
+   ========================================================== */
+.fd-bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:
+  radial-gradient(circle at 15% 40%, rgba(16,185,129,.05), transparent 45%),
+  radial-gradient(circle at 85% 30%, rgba(245,158,11,.05), transparent 45%),
+  radial-gradient(circle at 50% 90%, rgba(139,92,246,.04), transparent 50%);
+}
+.fd-blob{position:absolute;border-radius:50%;filter:blur(120px);opacity:.5;animation:fdBlob 26s ease-in-out infinite;}
+.fd-blob.b1{width:560px;height:560px;top:-180px;left:-180px;background:radial-gradient(circle,rgba(16,185,129,.4),transparent 70%);}
+.fd-blob.b2{width:500px;height:500px;top:35%;right:-160px;background:radial-gradient(circle,rgba(59,130,246,.28),transparent 70%);animation-delay:-10s;}
+.fd-blob.b3{width:440px;height:440px;bottom:-140px;left:35%;background:radial-gradient(circle,rgba(139,92,246,.24),transparent 70%);animation-delay:-20s;}
+@keyframes fdBlob{
+  0%,100%{transform:translate(0,0) scale(1) rotate(0deg);}
+  33%{transform:translate(50px,-40px) scale(1.1) rotate(60deg);}
+  66%{transform:translate(-40px,50px) scale(.95) rotate(180deg);}
+}
+
+.fd-mesh{
+  position:absolute;inset:-20%;
+  background:
+    radial-gradient(600px 600px at 20% 30%, rgba(16,185,129,.07), transparent 60%),
+    radial-gradient(600px 600px at 80% 70%, rgba(37,99,235,.06), transparent 60%);
+  animation:fdAurora 24s ease-in-out infinite alternate;
+}
+@keyframes fdAurora{
+  0%{transform:translate3d(0,0,0) rotate(0deg) scale(1);}
+  50%{transform:translate3d(2%,-2%,0) rotate(6deg) scale(1.05);}
+  100%{transform:translate3d(-2%,2%,0) rotate(-6deg) scale(1.08);}
+}
+
+.fd-grid-bg{
+  position:absolute;inset:0;
+  background-image:radial-gradient(rgba(11,18,36,.05) 1px,transparent 1px);
+  background-size:32px 32px;
+  mask-image:radial-gradient(ellipse at center,#000 20%,transparent 75%);
+  -webkit-mask-image:radial-gradient(ellipse at center,#000 20%,transparent 75%);
+  animation:fdGridPan 45s linear infinite;
+}
+@keyframes fdGridPan{from{background-position:0 0;}to{background-position:200px 200px;}}
+
+.fd-particle{
+  position:fixed;border-radius:50%;pointer-events:none;z-index:0;
+  animation:fdFloatUp linear infinite;
+}
+@keyframes fdFloatUp{
+  0%{transform:translateY(105vh) scale(.4) rotate(0deg);opacity:0;}
+  10%{opacity:.8;}
+  90%{opacity:.8;}
+  100%{transform:translateY(-20vh) scale(1.1) rotate(360deg);opacity:0;}
+}
+
+.fd-cursor-glow{
+  position:fixed;pointer-events:none;z-index:1;
+  width:380px;height:380px;border-radius:50%;
+  background:radial-gradient(circle,rgba(16,185,129,.14),transparent 70%);
+  transform:translate(-50%,-50%);
+  filter:blur(40px);
+  opacity:0;
+  transition:opacity .4s ease;
+}
+
+/* ==========================================================
+   PAGE WRAPPER
+   ========================================================== */
+.fd{background:transparent;min-height:100vh;padding:2.5rem 1.5rem 4rem;position:relative;z-index:1;}
+.fd-wrap{max-width:1280px;margin:0 auto;position:relative;z-index:1;}
+
+/* ==========================================================
+   HEADER TITLE
+   ========================================================== */
+.fd-header{margin-bottom:1.75rem;opacity:0;transform:translateY(20px);animation:fdHeadIn .8s cubic-bezier(.2,.7,.2,1) forwards .1s;}
+@keyframes fdHeadIn{to{opacity:1;transform:none;}}
+.fd-header h1{
+  font-family:var(--font-head);font-size:clamp(1.5rem,2.8vw,2rem);
+  font-weight:800;color:#0B1224;margin:0 0 0.35rem;letter-spacing:-0.02em;
+  background:linear-gradient(100deg,#0B1224 0%,#047857 40%,#0B1224 80%);
+  background-size:200% auto;
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:fdShine 7s linear infinite;
+}
+@keyframes fdShine{to{background-position:200% center;}}
+.fd-header p{font-size:0.92rem;color:#64748b;margin:0;}
+
+/* ==========================================================
+   SEARCH ROW
+   ========================================================== */
+.fd-search-row{
+  display:flex;gap:0.75rem;margin-bottom:1.5rem;flex-wrap:wrap;align-items:center;
+  opacity:0;transform:translateY(20px);
+  animation:fdHeadIn .8s cubic-bezier(.2,.7,.2,1) forwards .2s;
+}
+
+.fd-locate{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  padding:0.75rem 1.2rem;
+  background:var(--dark-green);color:#fff;
+  font-family:inherit;font-size:0.82rem;font-weight:700;
+  border-radius:12px;border:none;cursor:pointer;
+  transition:all .3s cubic-bezier(.2,.7,.2,1);
+  position:relative;overflow:hidden;
+  box-shadow:0 6px 14px -6px rgba(6,95,70,.5);
+  animation:fdLocatePulse 3s ease-in-out infinite;
+}
+@keyframes fdLocatePulse{
+  0%,100%{box-shadow:0 6px 14px -6px rgba(6,95,70,.5), 0 0 0 0 rgba(16,185,129,.4);}
+  50%{box-shadow:0 6px 14px -6px rgba(6,95,70,.5), 0 0 0 10px rgba(16,185,129,0);}
+}
+.fd-locate::before{
+  content:"";position:absolute;top:0;left:-70%;width:40%;height:100%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.4),transparent);
+  transform:skewX(-20deg);
+  animation:fdBtnSheen 3s ease-in-out infinite;
+}
+@keyframes fdBtnSheen{0%{left:-70%;}40%,100%{left:130%;}}
+.fd-locate:hover{background:#065f46;transform:translateY(-2px);box-shadow:0 10px 22px -8px rgba(6,95,70,.7);}
+.fd-locate:active{transform:translateY(0);}
+
+.fd-search-wrap{position:relative;flex:1;min-width:220px;}
+.fd-search-wrap input{
+  width:100%;padding:0.75rem 1rem 0.75rem 2.5rem;
+  font-family:inherit;font-size:0.88rem;
+  border:1px solid var(--slate-border);border-radius:12px;
+  background:#fff;color:#0B1224;
+  transition:all .3s cubic-bezier(.2,.7,.2,1);
+}
+.fd-search-wrap input:focus{
+  outline:none;
+  border-color:var(--primary-green);
+  box-shadow:0 0 0 4px rgba(16,185,129,.14), 0 8px 20px -8px rgba(16,185,129,.3);
+  transform:translateY(-1px);
+}
+.fd-search-wrap::before{
+  content:"🔍";position:absolute;left:0.9rem;top:50%;transform:translateY(-50%);
+  font-size:0.85rem;opacity:0.55;pointer-events:none;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+.fd-search-wrap:focus-within::before{transform:translateY(-50%) scale(1.15);}
+
+.fd-sort{
+  padding:0.75rem 1rem;
+  font-family:inherit;font-size:0.85rem;
+  border:1px solid var(--slate-border);border-radius:12px;
+  background:#fff;color:#475569;cursor:pointer;
+  transition:all .3s ease;
+}
+.fd-sort:hover{border-color:var(--primary-green);color:var(--dark-green);transform:translateY(-1px);}
+.fd-sort:focus{outline:none;border-color:var(--primary-green);box-shadow:0 0 0 4px rgba(16,185,129,.14);}
+
+/* ==========================================================
+   LAYOUT
+   ========================================================== */
+.fd-layout{
+  display:grid;grid-template-columns:260px 1fr;gap:1.5rem;
+  opacity:0;transform:translateY(20px);
+  animation:fdHeadIn .9s cubic-bezier(.2,.7,.2,1) forwards .3s;
+}
+@media(max-width:900px){.fd-layout{grid-template-columns:1fr;}}
+
+/* ==========================================================
+   FILTER SIDEBAR
+   ========================================================== */
+.fd-filters{
+  background:#fff;border:1px solid var(--slate-border);border-radius:18px;
+  padding:1.4rem;height:max-content;position:sticky;top:90px;
+  transition:all .4s cubic-bezier(.2,.7,.2,1);
+  box-shadow:0 4px 20px rgba(0,0,0,.02);
+  position:relative;overflow:hidden;
+}
+.fd-filters::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,#10b981,#f59e0b,#8b5cf6,#10b981);
+  background-size:200% 100%;
+  opacity:0;transition:opacity .4s ease;
+  animation:fdGradientMove 4s linear infinite;
+}
+@keyframes fdGradientMove{to{background-position:200% 0;}}
+.fd-filters:hover::before{opacity:1;}
+.fd-filters:hover{
+  border-color:rgba(16,185,129,.3);
+  box-shadow:0 18px 40px -20px rgba(16,185,129,.28);
+  transform:translateY(-2px);
+}
+
+.fd-filters h3{
+  font-family:var(--font-head);font-size:1rem;font-weight:800;
+  color:#0B1224;margin:0 0 1.25rem;
+  display:flex;align-items:center;gap:0.5rem;
+  position:relative;
+}
+.fd-filters h3::after{
+  content:"";position:absolute;bottom:-8px;left:0;
+  width:40px;height:2px;
+  background:linear-gradient(90deg,#10b981,transparent);
+  animation:fdTitleLine 2.4s ease-in-out infinite;
+}
+@keyframes fdTitleLine{
+  0%,100%{width:40px;opacity:.6;}
+  50%{width:80px;opacity:1;}
+}
+
+.fd-group{
+  margin-bottom:1.35rem;padding-bottom:1.25rem;
+  border-bottom:1px solid #f1f5f9;
+  opacity:0;transform:translateX(-14px);
+  animation:fdGroupIn .5s cubic-bezier(.2,.9,.3,1.2) forwards;
+}
+.fd-group:nth-child(2){animation-delay:.4s;}
+.fd-group:nth-child(3){animation-delay:.5s;}
+.fd-group:nth-child(4){animation-delay:.6s;}
+@keyframes fdGroupIn{to{opacity:1;transform:translateX(0);}}
+.fd-group:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none;}
+
+.fd-group h4{
+  font-size:0.72rem;font-weight:800;color:#475569;
+  text-transform:uppercase;letter-spacing:0.08em;margin:0 0 0.65rem;
+  transition:color .3s ease,letter-spacing .3s ease;
+}
+.fd-group:hover h4{color:var(--dark-green);letter-spacing:0.1em;}
+
+.fd-check{
+  display:flex;align-items:center;gap:0.55rem;
+  padding:0.4rem 0;font-size:0.83rem;color:#334155;
+  cursor:pointer;font-weight:500;
+  transition:all .25s ease;
+  border-radius:6px;
+  position:relative;
+}
+.fd-check:hover{color:var(--dark-green);transform:translateX(4px);padding-left:4px;}
+.fd-check input{
+  width:15px;height:15px;accent-color:var(--dark-green);
+  cursor:pointer;transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+.fd-check input:checked{transform:scale(1.2);}
+.fd-check:hover input{transform:scale(1.15);}
+.fd-check input:checked + span, .fd-check input:checked ~ span{color:var(--dark-green);font-weight:700;}
+
+/* ==========================================================
+   MAIN HEAD
+   ========================================================== */
+.fd-main-head{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:1rem;
+  position:relative;
+}
+.fd-main-head h3{
+  font-size:0.9rem;font-weight:700;color:#475569;margin:0;
+  display:flex;align-items:center;gap:0.5rem;
+  transition:color .3s ease;
+}
+.fd-main-head h3::before{
+  content:"";width:8px;height:8px;border-radius:50%;
+  background:var(--primary-green);
+  box-shadow:0 0 0 0 rgba(16,185,129,.5);
+  animation:fdCountPulse 2s ease-in-out infinite;
+}
+@keyframes fdCountPulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.5);}
+  50%{box-shadow:0 0 0 8px rgba(16,185,129,0);}
+}
+
+/* ==========================================================
+   CARDS GRID
+   ========================================================== */
+.fd-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.25rem;}
+
+/* Card base */
+.d-card{
+  background:#fff;border:1px solid var(--slate-border);border-radius:18px;
+  overflow:hidden;display:flex;flex-direction:column;
+  transition:transform .35s cubic-bezier(.2,.7,.2,1),
+             box-shadow .35s ease,
+             border-color .3s ease;
+  opacity:0;transform:translateY(30px) scale(.97);
+  transform-style:preserve-3d;
+  will-change:transform;
+  position:relative;
+}
+.d-card.d-card-in{opacity:1;transform:none;animation:dCardIn .7s cubic-bezier(.2,.9,.3,1.2) both;}
+@keyframes dCardIn{from{opacity:0;transform:translateY(30px) scale(.96);}to{opacity:1;transform:none;}}
+
+/* Gradient glow border on hover */
+.d-card::before{
+  content:"";position:absolute;inset:-2px;border-radius:20px;padding:2px;
+  background:linear-gradient(135deg,#10b981,#8b5cf6,#fbbf24,#10b981);
+  background-size:300% 300%;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+          mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  opacity:0;transition:opacity .4s ease;
+  animation:fdBorderShift 6s linear infinite;
+  pointer-events:none;
+  z-index:2;
+}
+.d-card:hover::before{opacity:1;}
+@keyframes fdBorderShift{0%{background-position:0% 50%;}100%{background-position:300% 50%;}}
+
+/* Light sweep on hover */
+.d-card::after{
+  content:"";position:absolute;top:-40%;left:-30%;width:60%;height:180%;
+  background:linear-gradient(90deg,transparent,rgba(16,185,129,.1),transparent);
+  transform:rotate(20deg);
+  transition:transform 1s ease;
+  pointer-events:none;
+  z-index:3;
+}
+.d-card:hover::after{transform:rotate(20deg) translateX(240%);}
+
+.d-card:hover{
+  transform:translateY(-8px) scale(1.015);
+  box-shadow:0 30px 60px -22px rgba(6,95,70,.35);
+  border-color:#bbf7d0;
+}
+
+/* ==========================================================
+   CARD MEDIA
+   ========================================================== */
+.d-card-media{position:relative;aspect-ratio:16/10;overflow:hidden;background:#e2e8f0;}
+
+/* Shimmer overlay while image loads */
+.d-card-media::before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,#e2e8f0 25%,#f1f5f9 50%,#e2e8f0 75%);
+  background-size:200% 100%;
+  animation:fdImgShimmer 1.4s linear infinite;
+  z-index:0;
+  opacity:.6;
+}
+@keyframes fdImgShimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+
+.d-card-media img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform 1.2s cubic-bezier(.2,.7,.2,1),
+             filter .5s ease;
+  position:relative;z-index:1;
+}
+.d-card:hover .d-card-media img{
+  transform:scale(1.1) rotate(-.5deg);
+  filter:saturate(1.1) brightness(1.03);
+}
+.d-card-media::after{
+  content:"";position:absolute;inset:0;z-index:2;
+  background:linear-gradient(180deg,transparent 55%,rgba(0,0,0,.35) 100%);
+  opacity:0;transition:opacity .4s ease;
+  pointer-events:none;
+}
+.d-card:hover .d-card-media::after{opacity:1;}
+
+/* Tag and FREE badge */
+.d-tag{
+  position:absolute;top:0.75rem;left:0.75rem;z-index:3;
+  background:rgba(255,255,255,.96);color:var(--dark-green);
+  font-size:0.65rem;font-weight:800;padding:0.35rem 0.7rem;border-radius:8px;
+  text-transform:uppercase;letter-spacing:0.05em;
+  transition:all .35s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
+}
+.d-card:hover .d-tag{transform:scale(1.08) rotate(-2deg);}
+.d-free{
+  position:absolute;top:0.75rem;right:0.75rem;z-index:3;
+  background:var(--dark-green);color:#fff;
+  font-size:0.62rem;font-weight:800;padding:0.3rem 0.65rem;border-radius:8px;
+  letter-spacing:0.06em;
+  animation:fdFreePulse 2.4s ease-in-out infinite;
+  transition:all .3s ease;
+}
+@keyframes fdFreePulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.5);}
+  50%{box-shadow:0 0 0 8px rgba(16,185,129,0);}
+}
+.d-card:hover .d-free{transform:scale(1.1);}
+
+/* ==========================================================
+   CARD BODY
+   ========================================================== */
+.d-card-body{
+  padding:1.1rem 1.2rem 1.25rem;
+  display:flex;flex-direction:column;flex:1;
+  position:relative;z-index:1;
+}
+.d-card-body h4{
+  font-family:var(--font-head);font-size:1.05rem;font-weight:800;
+  color:#0B1224;margin:0 0 0.6rem;letter-spacing:-0.01em;
+  transition:color .3s ease;
+}
+.d-card:hover .d-card-body h4{color:var(--dark-green);}
+
+.d-meta{
+  display:flex;justify-content:space-between;
+  font-size:0.75rem;color:#64748b;margin-bottom:0.7rem;font-weight:600;
+}
+.d-meta strong{color:#0B1224;font-weight:800;transition:color .3s ease;}
+.d-card:hover .d-meta strong{color:var(--dark-green);}
+
+.d-info{font-size:0.75rem;color:#64748b;line-height:1.85;margin-bottom:1.15rem;}
+.d-info div{
+  display:flex;align-items:center;gap:0.4rem;
+  transition:transform .3s ease;
+}
+.d-card:hover .d-info div{transform:translateX(3px);}
+.d-card:hover .d-info div:nth-child(2){transition-delay:.05s;}
+.d-card:hover .d-info div:nth-child(3){transition-delay:.1s;}
+
+/* ==========================================================
+   CLAIM BUTTON
+   ========================================================== */
+.d-claim{
+  margin-top:auto;
+  padding:0.85rem;
+  background:var(--dark-green);color:#fff;
+  font-weight:800;font-size:0.82rem;
+  border-radius:12px;border:none;cursor:pointer;
+  font-family:inherit;
+  display:flex;align-items:center;justify-content:center;gap:0.5rem;
+  transition:all .35s cubic-bezier(.2,.7,.2,1);
+  position:relative;overflow:hidden;
+  box-shadow:0 6px 14px -8px rgba(6,95,70,.5);
+}
+.d-claim::before{
+  content:"";position:absolute;top:0;left:-70%;width:40%;height:100%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.4),transparent);
+  transform:skewX(-20deg);
+}
+.d-claim:hover::before{animation:fdBtnSheen 1.2s ease;}
+.d-claim:hover{
+  background:#065f46;
+  transform:translateY(-2px);
+  box-shadow:0 10px 24px -8px rgba(6,95,70,.7);
+}
+.d-claim:active{transform:translateY(0);}
+.d-claim:disabled{
+  cursor:wait;
+  background:#475569;
+}
+.d-claim.claimed{
+  background:linear-gradient(135deg,#dcfce7,#bbf7d0);
+  color:#166534;cursor:default;
+  animation:fdClaimSuccess .7s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 4px 12px -4px rgba(16,185,129,.4);
+}
+@keyframes fdClaimSuccess{
+  0%{transform:scale(1);}
+  40%{transform:scale(1.08);background:#10b981;color:#fff;}
+  100%{transform:scale(1);}
+}
+.d-claim.claimed:hover{transform:none;box-shadow:0 4px 12px -4px rgba(16,185,129,.4);}
+
+/* Loading spinner when claiming */
+.d-claim[disabled]:not(.claimed)::after{
+  content:"";position:absolute;right:1rem;top:50%;transform:translateY(-50%);
+  width:14px;height:14px;
+  border:2px solid rgba(255,255,255,.35);
+  border-top-color:#fff;border-radius:50%;
+  animation:fdSpinner .8s linear infinite;
+}
+@keyframes fdSpinner{to{transform:translateY(-50%) rotate(360deg);}}
+
+/* ==========================================================
+   RIPPLE
+   ========================================================== */
+.fd-ripple{
+  position:absolute;border-radius:50%;
+  background:rgba(255,255,255,.45);
+  transform:scale(0);opacity:1;
+  pointer-events:none;
+  animation:fdRipple .7s ease-out forwards;
+}
+@keyframes fdRipple{to{transform:scale(3);opacity:0;}}
+
+/* ==========================================================
+   EMPTY STATE
+   ========================================================== */
+.fd-empty{
+  grid-column:1/-1;text-align:center;padding:4rem 2rem;
+  background:#fff;border:1px dashed #e2e8f0;border-radius:20px;
+  opacity:0;transform:translateY(20px) scale(.97);
+  animation:fdEmptyIn .7s cubic-bezier(.2,.9,.3,1.2) forwards;
+}
+@keyframes fdEmptyIn{to{opacity:1;transform:none;}}
+.fd-empty .ico{
+  font-size:3.5rem;margin-bottom:0.75rem;
+  display:inline-block;
+  animation:fdEmptyBounce 3s ease-in-out infinite;
+}
+@keyframes fdEmptyBounce{
+  0%,100%{transform:translateY(0) rotate(0deg);}
+  50%{transform:translateY(-8px) rotate(5deg);}
+}
+
+/* ==========================================================
+   LOADING STATE
+   ========================================================== */
+.fd-loading{
+  grid-column:1/-1;text-align:center;padding:3rem;
+  color:#94a3b8;font-size:0.9rem;
+  display:flex;flex-direction:column;align-items:center;gap:1rem;
+}
+.fd-loading::before{
+  content:"";width:32px;height:32px;
+  border:3px solid #e2e8f0;border-top-color:var(--primary-green);
+  border-radius:50%;
+  animation:fdSpinner2 .8s linear infinite;
+}
+@keyframes fdSpinner2{to{transform:rotate(360deg);}}
+
+/* ==========================================================
+   PAGE ENTRANCE FADE
+   ========================================================== */
+body.fd-page-enter{opacity:0;transition:opacity .5s ease;}
+body.fd-page-enter.fd-page-ready{opacity:1;}
+
+/* ==========================================================
+   REDUCED MOTION
+   ========================================================== */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+  }
+  .d-card,.fd-header,.fd-search-row,.fd-layout,.fd-group,.fd-empty{
+    opacity:1 !important;
+    transform:none !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- SCROLL PROGRESS BAR -->
+<div class="fd-progress" id="fd-progress" aria-hidden="true"></div>
+
+<!-- ANIMATED BACKGROUND -->
+<div class="fd-bg" aria-hidden="true">
+  <div class="fd-mesh"></div>
+  <div class="fd-grid-bg"></div>
+  <div class="fd-blob b1"></div>
+  <div class="fd-blob b2"></div>
+  <div class="fd-blob b3"></div>
+</div>
+
+<header class="site-header">
+  <div class="header-container">
+    <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <a href="index.html" class="brand-logo" aria-label="FeedFoodForward home">
+      <div class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="ffTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#067A54"/><stop offset="55%" stop-color="#0B9F6E"/><stop offset="100%" stop-color="#10B981"/></linearGradient><linearGradient id="ffHeart" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#FF5A7A"/><stop offset="100%" stop-color="#F03E64"/></linearGradient></defs><rect x="2" y="2" width="44" height="44" rx="11" fill="url(#ffTile)"/><g transform="translate(8 20)"><path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4 C7.4 0.4 9.2 1.8 10 3.4 C10.8 1.8 12.6 0.4 15 0.4 C18.3 0.4 21 2.6 21 6 C21 10 18 14 10 20 Z" fill="url(#ffHeart)"/></g></svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">FeedFood<span>Forward</span></span>
+        <span class="brand-subtitle">AI FOOD REDISTRIBUTION PLATFORM</span>
+      </div>
+    </a>
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation menu">☰</button>
+    <nav class="site-nav" id="site-nav" aria-label="Primary"></nav>
+    <div class="header-utilities">
+      <div id="header-guest" class="header-auth-group">
+        <button type="button" class="btn btn-outline btn-sm" id="header-login-btn">Login</button>
+        <button type="button" class="btn btn-primary btn-sm" id="header-signup-btn">Sign Up</button>
+      </div>
+      <div id="header-user" class="header-user-group" hidden>
+        <button type="button" class="user-chip" id="user-chip" aria-haspopup="true" aria-expanded="false">
+          <span class="user-avatar" id="user-avatar">👵</span>
+          <span class="user-name" id="user-name">Ashram</span>
+          <span class="user-caret" aria-hidden="true">▾</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="fd">
+<div class="fd-wrap">
+
+  <div class="fd-header">
+    <h1>Food Donations</h1>
+    <p>Browse available surplus food from verified donors near you.</p>
+  </div>
+
+  <div class="fd-search-row">
+    <button type="button" class="fd-locate" id="fd-locate">📍 Set Location</button>
+    <div class="fd-search-wrap"><input type="text" id="fd-search" placeholder="Search for food, restaurants, or categories..."></div>
+    <select class="fd-sort">
+      <option>Newest first</option>
+      <option>Nearest first</option>
+      <option>Urgent first</option>
+    </select>
+  </div>
+
+  <div class="fd-layout">
+
+    <aside class="fd-filters">
+      <h3>🔽 Filters</h3>
+
+      <div class="fd-group">
+        <h4>Food Categories</h4>
+        <label class="fd-check"><input type="checkbox" data-cat="Prepared Meals"><span> Prepared Meals</span></label>
+        <label class="fd-check"><input type="checkbox" data-cat="Fresh Produce"><span> Fresh Produce</span></label>
+        <label class="fd-check"><input type="checkbox" data-cat="Bakery"><span> Bakery Items</span></label>
+        <label class="fd-check"><input type="checkbox" data-cat="Dairy"><span> Dairy Products</span></label>
+        <label class="fd-check"><input type="checkbox" data-cat="Beverages"><span> Beverages</span></label>
+        <label class="fd-check"><input type="checkbox" data-cat="Packaged"><span> Packaged Foods</span></label>
+        <label class="fd-check"><input type="checkbox" data-cat="Frozen"><span> Frozen Items</span></label>
+      </div>
+
+      <div class="fd-group">
+        <h4>Dietary Requirements</h4>
+        <label class="fd-check"><input type="checkbox"><span> Vegetarian</span></label>
+        <label class="fd-check"><input type="checkbox"><span> Vegan</span></label>
+        <label class="fd-check"><input type="checkbox"><span> Gluten-Free</span></label>
+        <label class="fd-check"><input type="checkbox"><span> Dairy-Free</span></label>
+        <label class="fd-check"><input type="checkbox"><span> Nut-Free</span></label>
+        <label class="fd-check"><input type="checkbox"><span> Halal</span></label>
+      </div>
+
+      <div class="fd-group">
+        <h4>Delivery Options</h4>
+        <label class="fd-check"><input type="checkbox"><span> Delivery available only</span></label>
+      </div>
+    </aside>
+
+    <div class="fd-main">
+      <div class="fd-main-head">
+        <h3 id="fd-count">Showing 0 donations</h3>
+      </div>
+      <div class="fd-cards" id="fd-cards">
+        <p class="fd-loading">Loading donations…</p>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-brand"><h3>FeedFoodForward</h3><p>"Rescue Food. Reduce Waste. Feed Communities."</p></div>
+    <div class="footer-copyright">© 2026 FeedFoodForward Platform.</div>
+  </div>
+</footer>
+
+<div id="ff-toast" role="status" aria-live="polite" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);background:#0f172a;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:all .3s ease;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.25);"></div>
+
+<script src="app.js"></script>
+<script src="header-nav.js"></script>
+<script src="sidebar.js"></script>
+<script src="animations.js"></script>
+<script src="chatbot.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  'use strict';
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ==========================================================
+     1. PAGE ENTRANCE FADE
+     ========================================================== */
+  if (!reducedMotion) {
+    document.body.classList.add('fd-page-enter');
+    requestAnimationFrame(() => document.body.classList.add('fd-page-ready'));
+  }
+
+  /* ==========================================================
+     2. SCROLL PROGRESS BAR
+     ========================================================== */
+  const progress = document.getElementById('fd-progress');
+  let tick = false;
+  function updateProgress() {
+    if (!progress) return;
+    const h = document.documentElement;
+    const scrolled = h.scrollTop || document.body.scrollTop;
+    const height = (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
+    progress.style.transform = 'scaleX(' + (height > 0 ? scrolled / height : 0) + ')';
+  }
+  window.addEventListener('scroll', () => {
+    if (tick) return;
+    tick = true;
+    requestAnimationFrame(() => { updateProgress(); tick = false; });
+  }, { passive: true });
+  updateProgress();
+
+  /* ==========================================================
+     3. FLOATING PARTICLES (20)
+     ========================================================== */
+  if (!reducedMotion) {
+    const palette = [
+      'radial-gradient(circle,rgba(16,185,129,.5),rgba(16,185,129,0) 70%)',
+      'radial-gradient(circle,rgba(139,92,246,.4),rgba(139,92,246,0) 70%)',
+      'radial-gradient(circle,rgba(245,158,11,.4),rgba(245,158,11,0) 70%)',
+      'radial-gradient(circle,rgba(59,130,246,.4),rgba(59,130,246,0) 70%)'
+    ];
+    for (let i = 0; i < 20; i++) {
+      const p = document.createElement('div');
+      p.className = 'fd-particle';
+      p.setAttribute('aria-hidden', 'true');
+      p.style.cssText =
+        'left:' + (Math.random() * 100) + 'vw;' +
+        'width:' + (4 + Math.random() * 7) + 'px;' +
+        'height:' + (4 + Math.random() * 7) + 'px;' +
+        'background:' + palette[i % palette.length] + ';' +
+        'animation-duration:' + (14 + Math.random() * 16) + 's;' +
+        'animation-delay:-' + (Math.random() * 26) + 's;';
+      document.body.appendChild(p);
+    }
+  }
+
+  /* ==========================================================
+     4. CURSOR GLOW (desktop only)
+     ========================================================== */
+  if (!reducedMotion && window.matchMedia('(hover: hover) and (min-width: 1024px)').matches) {
+    const glow = document.createElement('div');
+    glow.className = 'fd-cursor-glow';
+    document.body.appendChild(glow);
+    let mouseX = 0, mouseY = 0, glowX = 0, glowY = 0;
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX; mouseY = e.clientY;
+      glow.style.opacity = '1';
+    });
+    document.addEventListener('mouseleave', () => { glow.style.opacity = '0'; });
+    (function animateGlow() {
+      glowX += (mouseX - glowX) * 0.14;
+      glowY += (mouseY - glowY) * 0.14;
+      glow.style.left = glowX + 'px';
+      glow.style.top = glowY + 'px';
+      requestAnimationFrame(animateGlow);
+    })();
+  }
+
+  /* ==========================================================
+     5. HEADER SCROLL SHADOW
+     ========================================================== */
+  const header = document.querySelector('.site-header');
+  if (header) {
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 12);
+    }, { passive: true });
+  }
+
+  /* ==========================================================
+     6. RIPPLE ON BUTTONS
+     ========================================================== */
+  function attachRipple(el) {
+    if (!el || el.dataset._ripple) return;
+    el.dataset._ripple = '1';
+    el.addEventListener('click', function (e) {
+      if (reducedMotion) return;
+      const rect = this.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const r = document.createElement('span');
+      r.className = 'fd-ripple';
+      r.style.width = r.style.height = size + 'px';
+      r.style.left = (e.clientX - rect.left - size / 2) + 'px';
+      r.style.top  = (e.clientY - rect.top  - size / 2) + 'px';
+      this.appendChild(r);
+      setTimeout(() => r.remove(), 750);
+    });
+  }
+
+  /* ==========================================================
+     7. 3D TILT ON HOVER (cards)
+     ========================================================== */
+  function attachTilt(card) {
+    if (!card || card.dataset._tilt || reducedMotion) return;
+    if (!window.matchMedia('(hover: hover) and (min-width: 1024px)').matches) return;
+    card.dataset._tilt = '1';
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+      const rotY = (x - 0.5) * 6;
+      const rotX = (0.5 - y) * 6;
+      card.style.transform =
+        'translateY(-8px) scale(1.015) ' +
+        'perspective(900px) ' +
+        'rotateX(' + rotX.toFixed(2) + 'deg) ' +
+        'rotateY(' + rotY.toFixed(2) + 'deg)';
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  }
+
+  /* ==========================================================
+     8. TOAST POP
+     ========================================================== */
+  const toast = document.getElementById('ff-toast');
+  if (toast) {
+    const obs = new MutationObserver(() => {
+      if (toast.textContent.trim()) {
+        toast.style.animation = 'none';
+        void toast.offsetWidth;
+        toast.style.animation = 'fdToastPop .5s cubic-bezier(.34,1.56,.64,1)';
+      }
+    });
+    obs.observe(toast, { childList: true, characterData: true, subtree: true });
+  }
+
+  /* ==========================================================
+     9. EXISTING: DONATIONS + CLAIM LOGIC
+     ========================================================== */
+  const cards       = document.getElementById('fd-cards');
+  const count       = document.getElementById('fd-count');
+  const searchInput = document.getElementById('fd-search');
+  const locateBtn   = document.getElementById('fd-locate');
+
+  attachRipple(locateBtn);
+
+  const user = (window.ffAuth && window.ffAuth.getUser) ? window.ffAuth.getUser() : null;
+  if (!user || user.role !== 'ashram') {
+    cards.innerHTML = '<p style="grid-column:1/-1;text-align:center;padding:3rem;color:#94a3b8;">🔒 Please log in as an Ashram to claim donations.</p>';
+    return;
+  }
+
+  let all = [];
+  function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+  async function load() {
+    try {
+      const r = await fetch('/api/donations/available');
+      const data = await r.json();
+      all = data.donations || [];
+      render();
+    } catch (e) { all = []; render(); }
+  }
+
+  function render() {
+    const q = (searchInput.value || '').toLowerCase().trim();
+    const filtered = all.filter(d =>
+      !q || (d.foodName||'').toLowerCase().includes(q) || (d.donorName||'').toLowerCase().includes(q)
+    );
+
+    // Animate count update
+    count.textContent = 'Showing ' + filtered.length + ' available donation' + (filtered.length !== 1 ? 's' : '');
+    count.style.animation = 'none';
+    void count.offsetWidth;
+    count.style.animation = 'fdCountPop .5s cubic-bezier(.34,1.56,.64,1)';
+
+    if (!filtered.length) {
+      cards.innerHTML = `
+        <div class="fd-empty">
+          <div class="ico">📭</div>
+          <h3 style="font-size:1.15rem;font-weight:800;color:#0B1224;margin-bottom:0.5rem;">No donations available right now</h3>
+          <p style="color:#64748b;font-size:0.9rem;max-width:400px;margin:0 auto;">Fresh surplus food will appear here the moment a donor lists it.</p>
+        </div>`;
+      return;
+    }
+
+    cards.innerHTML = filtered.map((d, idx) => {
+      const img = (d.imageUrl && String(d.imageUrl).replace(/^"+|"+$/g, '').trim())
+        ? String(d.imageUrl).replace(/^"+|"+$/g, '')
+        : 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=600&auto=format&fit=crop&q=70';
+      const cat = d.foodCategory || 'Prepared Meals';
+      const dateStr = new Date(d.createdAt || Date.now()).toLocaleDateString('en-GB');
+      return `
+        <div class="d-card" data-card-idx="${idx}" style="animation-delay:${Math.min(idx * 70, 700)}ms;">
+          <div class="d-card-media">
+            <img src="${esc(img)}" alt="${esc(d.foodName)}" loading="lazy">
+            <span class="d-tag">${esc(cat)}</span>
+            <span class="d-free">FREE</span>
+          </div>
+          <div class="d-card-body">
+            <h4>${esc(d.foodName || 'Prepared Meal')}</h4>
+            <div class="d-meta">
+              <span><strong>${Number(d.servings)||Number(d.weightKg)||0} portions</strong></span>
+              <span>Posted ${dateStr}</span>
+            </div>
+            <div class="d-info">
+              <div>📍 ${esc(d.donorName || 'Donor')}</div>
+              <div>⚖️ ${Number(d.weightKg)||0} kg</div>
+              <div>🕐 Pickup — contact business</div>
+            </div>
+            <button type="button" class="d-claim" data-claim="${esc(d.donationId)}">♥ Claim Donation</button>
+          </div>
+        </div>`;
+    }).join('');
+
+    // Trigger staggered entrance animation
+    requestAnimationFrame(() => {
+      cards.querySelectorAll('.d-card').forEach((c, i) => {
+        setTimeout(() => c.classList.add('d-card-in'), i * 60);
+        attachTilt(c);
+      });
+    });
+
+    // Wire claim buttons
+    cards.querySelectorAll('[data-claim]').forEach(btn => {
+      attachRipple(btn);
+      btn.addEventListener('click', async () => {
+        const donationId = btn.dataset.claim;
+        btn.disabled = true;
+        btn.textContent = 'Claiming…';
+        try {
+          const r = await fetch('/api/claims', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ donationId, ashramName: user.name, ashramEmail: user.email || '' })
+          });
+          const data = await r.json();
+          if (!r.ok || !data.ok) throw new Error(data.error || 'Claim failed');
+          btn.classList.add('claimed');
+          btn.textContent = '✓ Claimed — awaiting donor approval';
+          if (window.ffToast) window.ffToast('✅ Claim sent to donor for approval');
+          setTimeout(load, 1500);
+        } catch (err) {
+          btn.disabled = false;
+          btn.textContent = '♥ Claim Donation';
+          if (window.ffToast) window.ffToast('⚠️ ' + err.message);
+          if (String(err.message).toLowerCase().includes('no longer available')) setTimeout(load, 800);
+        }
+      });
+    });
+  }
+
+  /* ==========================================================
+     10. SEARCH + LOCATE
+     ========================================================== */
+  let searchTimer = null;
+  searchInput.addEventListener('input', () => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(render, 120);
+  });
+
+  locateBtn.addEventListener('click', () => {
+    if (!navigator.geolocation) { if(window.ffToast) window.ffToast('⚠️ Geolocation not supported'); return; }
+    locateBtn.textContent = '⏳ Locating…';
+    navigator.geolocation.getCurrentPosition(
+      () => { locateBtn.textContent = '📍 Location set ✓'; if(window.ffToast) window.ffToast('📍 Location set'); },
+      () => { locateBtn.textContent = '📍 Set Location'; if(window.ffToast) window.ffToast('❌ Location denied'); }
+    );
+  });
+
+  /* ==========================================================
+     11. BOOT
+     ========================================================== */
+  load();
+  setInterval(load, 30000);
+
+  console.log('🎬 Find Donations — Enhanced animations loaded');
+});
+</script>
+
+<style>
+/* Toast and count pop keyframes (defined late for safety) */
+@keyframes fdToastPop{
+  0%   {transform:translateX(-50%) translateY(0) scale(.9);}
+  60%  {transform:translateX(-50%) translateY(0) scale(1.06);}
+  100% {transform:translateX(-50%) translateY(0) scale(1);}
+}
+@keyframes fdCountPop{
+  0%   {transform:scale(1);}
+  50%  {transform:scale(1.1);color:var(--dark-green);}
+  100% {transform:scale(1);}
+}
+</style>
+
+</body>
+</html>

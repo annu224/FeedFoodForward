@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms &amp; Conditions | FeedFoodForward</title>
+<meta name="description" content="The terms governing your use of FeedFoodForward — donor, receiver, and driver responsibilities, safety rules, and platform guidelines.">
+<meta name="theme-color" content="#16a34a">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2316a34a'/%3E%3Cpath d='M50 80 C28 62 18 50 18 37 A17 17 0 0 1 50 28 A17 17 0 0 1 82 37 C82 50 72 62 50 80 Z' fill='%23ffffff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+/* ============================================================
+   TERMS & CONDITIONS — animated editorial layout
+   ============================================================ */
+.tc {
+  --tc-ink: #0B1224;
+  --tc-muted: #64748b;
+  --tc-soft: #94a3b8;
+  --tc-line: #e8edf3;
+  --tc-bg: #f7f9fb;
+  --tc-green: #0B9F6E;
+  --tc-green-dark: #047857;
+  --tc-green-deep: #064e3b;
+  --tc-green-50: #ecfdf5;
+  --tc-amber: #f59e0b;
+  --tc-red: #dc2626;
+  background: var(--tc-bg);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ---------- Progress bar ---------- */
+.tc-progress {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 3px; z-index: 999;
+  transform-origin: 0 50%; transform: scaleX(0);
+  background: linear-gradient(90deg, #10b981, #f59e0b, #8b5cf6, #10b981);
+  background-size: 200% 100%;
+  animation: tcHue 8s linear infinite;
+}
+@keyframes tcHue { to { background-position: 200% 50%; } }
+
+/* ---------- Background orbs ---------- */
+.tc-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.tc-orb { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .5; }
+.tc-orb-1 { width: 520px; height: 520px; top: -180px; left: -150px;
+  background: radial-gradient(circle, rgba(16,185,129,.45), transparent 70%);
+  animation: tcOrbFloat 22s ease-in-out infinite; }
+.tc-orb-2 { width: 460px; height: 460px; top: 25%; right: -180px;
+  background: radial-gradient(circle, rgba(245,158,11,.35), transparent 70%);
+  animation: tcOrbFloat 26s ease-in-out infinite -8s; }
+.tc-orb-3 { width: 420px; height: 420px; bottom: -160px; left: 40%;
+  background: radial-gradient(circle, rgba(139,92,246,.28), transparent 70%);
+  animation: tcOrbFloat 24s ease-in-out infinite -14s; }
+@keyframes tcOrbFloat {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  33%      { transform: translate(40px,-30px) scale(1.08); }
+  66%      { transform: translate(-30px,40px) scale(.95); }
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.tc-hero {
+  position: relative; z-index: 1;
+  padding: 4rem 1.5rem 3rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+.tc-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  padding: .5rem 1rem;
+  background: rgba(255,255,255,.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(16,185,129,.25);
+  border-radius: 999px;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--tc-green-dark);
+  margin-bottom: 1.5rem;
+  box-shadow: 0 8px 24px -10px rgba(11,159,110,.28);
+  opacity: 0;
+  animation: tcFadeUp .8s ease forwards .05s;
+}
+.tc-badge-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--tc-green); position: relative;
+}
+.tc-badge-dot::after {
+  content: "";
+  position: absolute; inset: -4px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(16,185,129,.5);
+  animation: tcPing 1.8s ease-out infinite;
+}
+@keyframes tcPing { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(2); opacity: 0; } }
+
+.tc-hero h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -.035em;
+  color: var(--tc-ink);
+  margin: 0 0 1.25rem;
+  opacity: 0;
+  animation: tcFadeUp .9s ease forwards .15s;
+}
+.tc-hero h1 em {
+  font-style: normal;
+  background: linear-gradient(100deg, #067a54 0%, #10b981 40%, #f59e0b 60%, #10b981 80%, #067a54 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: tcShimmer 8s linear infinite;
+}
+@keyframes tcShimmer { from { background-position: 0% 50%; } to { background-position: 250% 50%; } }
+
+.tc-hero p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #475569;
+  max-width: 660px;
+  margin: 0 auto 1.75rem;
+  opacity: 0;
+  animation: tcFadeUp .9s ease forwards .3s;
+}
+.tc-hero-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: .75rem 1.35rem;
+  background: #fff;
+  border: 1px solid var(--tc-line);
+  border-radius: 14px;
+  box-shadow: 0 8px 24px -12px rgba(11,18,36,.1);
+  font-size: .82rem;
+  color: var(--tc-muted);
+  opacity: 0;
+  animation: tcFadeUp .9s ease forwards .45s;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.tc-hero-meta strong { color: var(--tc-ink); font-weight: 800; }
+.tc-hero-meta .divider { width: 1px; height: 16px; background: var(--tc-line); }
+
+@keyframes tcFadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ============================================================
+   QUICK SUMMARY STRIP
+   ============================================================ */
+.tc-summary {
+  position: relative; z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem 3rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+@media (max-width: 900px) { .tc-summary { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .tc-summary { grid-template-columns: 1fr; } }
+
+.tc-summary-card {
+  background: #fff;
+  border: 1px solid var(--tc-line);
+  border-radius: 18px;
+  padding: 1.35rem 1.25rem;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all .55s cubic-bezier(.2,.7,.2,1);
+  position: relative;
+  overflow: hidden;
+}
+.tc-summary-card.tc-in { opacity: 1; transform: none; }
+.tc-summary-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--tc-green), var(--tc-amber));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .5s ease;
+}
+.tc-summary-card.tc-in::before { transform: scaleX(1); }
+.tc-summary-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--tc-green);
+  box-shadow: 0 24px 48px -22px rgba(16,185,129,.32);
+}
+.tc-summary-ico {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--tc-green-50), rgba(16,185,129,.14));
+  color: var(--tc-green-dark);
+  display: grid; place-items: center;
+  font-size: 1.25rem;
+  margin: 0 auto .85rem;
+}
+.tc-summary-card strong {
+  display: block;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--tc-ink);
+  letter-spacing: -.02em;
+  line-height: 1;
+  margin-bottom: .35rem;
+}
+.tc-summary-card span {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--tc-muted);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+/* ============================================================
+   LAYOUT — sticky TOC + content
+   ============================================================ */
+.tc-layout {
+  position: relative; z-index: 1;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .tc-layout { grid-template-columns: 1fr; gap: 2rem; }
+}
+
+/* ---------- TOC ---------- */
+.tc-toc {
+  position: sticky;
+  top: 100px;
+  background: #fff;
+  border: 1px solid var(--tc-line);
+  border-radius: 20px;
+  padding: 1.5rem 1.25rem;
+  box-shadow: 0 12px 32px -18px rgba(11,18,36,.15);
+  opacity: 0;
+  transform: translateX(-20px);
+  animation: tcFadeUp .8s ease forwards .5s;
+}
+.tc-toc h4 {
+  font-family: 'Outfit', sans-serif;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--tc-soft);
+  margin: 0 0 1rem;
+}
+.tc-toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+}
+.tc-toc-link {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  padding: .6rem .75rem;
+  font-size: .82rem;
+  font-weight: 600;
+  color: #475569;
+  text-decoration: none;
+  border-radius: 10px;
+  transition: all .2s ease;
+  position: relative;
+}
+.tc-toc-link::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 50%; transform: translateY(-50%) scaleY(0);
+  width: 3px; height: 60%;
+  background: var(--tc-green);
+  border-radius: 3px;
+  transition: transform .25s ease;
+}
+.tc-toc-link:hover {
+  background: var(--tc-green-50);
+  color: var(--tc-green-dark);
+  padding-left: 1rem;
+}
+.tc-toc-link.active {
+  background: var(--tc-green-50);
+  color: var(--tc-green-dark);
+  font-weight: 800;
+}
+.tc-toc-link.active::before { transform: translateY(-50%) scaleY(1); }
+.tc-toc-num {
+  font-family: 'Outfit', sans-serif;
+  font-size: .68rem;
+  font-weight: 800;
+  color: var(--tc-soft);
+  width: 20px;
+  flex-shrink: 0;
+}
+.tc-toc-link.active .tc-toc-num { color: var(--tc-green); }
+@media (max-width: 900px) { .tc-toc { position: static; display: none; } }
+
+/* ============================================================
+   CONTENT
+   ============================================================ */
+.tc-content { display: flex; flex-direction: column; gap: 1.25rem; }
+
+.tc-section {
+  background: #fff;
+  border: 1px solid var(--tc-line);
+  border-radius: 22px;
+  padding: 2rem 2.25rem;
+  position: relative;
+  overflow: hidden;
+  transition: all .35s cubic-bezier(.2,.7,.2,1);
+  opacity: 0;
+  transform: translateY(30px);
+  scroll-margin-top: 100px;
+}
+.tc-section.tc-in { opacity: 1; transform: none; }
+.tc-section:hover {
+  border-color: rgba(16,185,129,.3);
+  box-shadow: 0 20px 45px -22px rgba(16,185,129,.25);
+}
+.tc-section::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--tc-green), var(--tc-amber));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .6s cubic-bezier(.2,.7,.2,1);
+}
+.tc-section.tc-in::before { transform: scaleX(1); }
+
+.tc-section-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.15rem;
+  margin-bottom: 1.25rem;
+}
+.tc-section-ico {
+  width: 52px; height: 52px;
+  border-radius: 15px;
+  background: linear-gradient(135deg, var(--tc-green-50), rgba(16,185,129,.12));
+  color: var(--tc-green-dark);
+  display: grid;
+  place-items: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  transition: transform .4s cubic-bezier(.34,1.56,.64,1);
+}
+.tc-section:hover .tc-section-ico {
+  transform: rotate(-8deg) scale(1.08);
+}
+.tc-section-title h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(1.15rem, 2vw, 1.4rem);
+  font-weight: 800;
+  letter-spacing: -.02em;
+  color: var(--tc-ink);
+  margin: 0 0 .25rem;
+  line-height: 1.2;
+}
+.tc-section-title .num {
+  display: inline-block;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--tc-green);
+  margin-bottom: .25rem;
+}
+
+.tc-section-body {
+  font-size: .96rem;
+  line-height: 1.8;
+  color: #334155;
+  margin: 0;
+}
+.tc-section-body p { margin: 0 0 1rem; }
+.tc-section-body p:last-child { margin-bottom: 0; }
+
+.tc-section-body strong { color: var(--tc-ink); font-weight: 700; }
+
+.tc-section-body a {
+  color: var(--tc-green-dark);
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(4,120,87,.35);
+  transition: border-color .2s ease;
+}
+.tc-section-body a:hover { border-color: var(--tc-green-dark); }
+
+/* ---------- List ---------- */
+.tc-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
+}
+.tc-list li {
+  display: flex;
+  gap: .85rem;
+  align-items: flex-start;
+  padding: .85rem 1rem;
+  background: var(--tc-bg);
+  border-radius: 12px;
+  border-left: 3px solid var(--tc-green);
+  font-size: .9rem;
+  line-height: 1.65;
+  color: #334155;
+  transition: all .25s ease;
+}
+.tc-list li:hover {
+  background: var(--tc-green-50);
+  transform: translateX(4px);
+}
+.tc-list li .bullet {
+  font-size: 1rem;
+  flex-shrink: 0;
+  line-height: 1.5;
+}
+.tc-list li strong { color: var(--tc-ink); font-weight: 800; }
+.tc-list.danger li { border-left-color: var(--tc-red); }
+.tc-list.danger li:hover { background: #fef2f2; }
+
+/* ---------- Highlight boxes ---------- */
+.tc-highlight {
+  margin-top: 1.25rem;
+  padding: 1.15rem 1.35rem;
+  border-radius: 14px;
+  display: flex;
+  gap: .9rem;
+  align-items: flex-start;
+}
+.tc-highlight.info {
+  background: linear-gradient(135deg, var(--tc-green-50), rgba(16,185,129,.08));
+  border: 1px solid #bbf7d0;
+}
+.tc-highlight.warn {
+  background: linear-gradient(135deg, #fffbeb, #fff7ed);
+  border: 1px solid #fde68a;
+}
+.tc-highlight .ico {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: grid; place-items: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+.tc-highlight.info .ico {
+  background: var(--tc-green);
+  color: #fff;
+}
+.tc-highlight.warn .ico {
+  background: linear-gradient(135deg, var(--tc-amber), #d97706);
+  color: #fff;
+}
+.tc-highlight p {
+  font-size: .88rem;
+  line-height: 1.65;
+  margin: 0;
+  font-weight: 500;
+}
+.tc-highlight.info p { color: var(--tc-green-deep); }
+.tc-highlight.warn p { color: #78350f; }
+.tc-highlight strong { font-weight: 800; }
+
+/* ============================================================
+   CONTACT CTA
+   ============================================================ */
+.tc-cta-wrap {
+  position: relative; z-index: 1;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+}
+.tc-cta {
+  background: linear-gradient(135deg, #0B1224 0%, #1e293b 100%);
+  border-radius: 26px;
+  padding: 3rem 3rem;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all .9s ease;
+}
+.tc-cta.tc-in { opacity: 1; transform: none; }
+.tc-cta::before {
+  content: "";
+  position: absolute;
+  top: -140px; right: -90px;
+  width: 420px; height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(16,185,129,.4), transparent 65%);
+  animation: tcOrbFloat 14s ease-in-out infinite;
+}
+.tc-cta::after {
+  content: "";
+  position: absolute;
+  bottom: -140px; left: -90px;
+  width: 360px; height: 360px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245,158,11,.3), transparent 65%);
+  animation: tcOrbFloat 16s ease-in-out infinite reverse;
+}
+.tc-cta-inner { position: relative; z-index: 1; max-width: 620px; margin: 0 auto; }
+.tc-cta h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -.025em;
+  line-height: 1.1;
+  margin: 0 0 .9rem;
+}
+.tc-cta h2 em {
+  font-style: normal;
+  background: linear-gradient(120deg, #6ee7b7, #34d399, #fbbf24);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.tc-cta p {
+  font-size: 1rem;
+  color: rgba(255,255,255,.75);
+  line-height: 1.65;
+  margin: 0 0 2rem;
+}
+.tc-cta-actions {
+  display: flex;
+  gap: .75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.tc-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  padding: 1rem 1.7rem;
+  font-family: inherit;
+  font-size: .88rem;
+  font-weight: 800;
+  text-decoration: none;
+  border-radius: 14px;
+  transition: all .25s ease;
+  border: 1.5px solid transparent;
+}
+.tc-cta-btn.primary {
+  background: #fff;
+  color: var(--tc-green-deep);
+  box-shadow: 0 12px 30px rgba(255,255,255,.15);
+}
+.tc-cta-btn.primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 42px rgba(255,255,255,.25);
+}
+.tc-cta-btn.outline {
+  background: transparent;
+  color: #fff;
+  border-color: rgba(255,255,255,.35);
+}
+.tc-cta-btn.outline:hover {
+  background: rgba(255,255,255,.1);
+  border-color: #fff;
+  transform: translateY(-3px);
+}
+
+/* ---------- Back to top ---------- */
+.tc-top {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  background: var(--tc-green-dark);
+  color: #fff;
+  border: none;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 14px 30px -10px rgba(11,159,110,.5);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all .3s cubic-bezier(.2,.7,.2,1);
+  z-index: 500;
+  font-size: 1.1rem;
+}
+.tc-top.tc-visible { opacity: 1; visibility: visible; transform: none; }
+.tc-top:hover { transform: translateY(-3px); box-shadow: 0 20px 40px -10px rgba(11,159,110,.7); }
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .tc-progress, .tc-orb, .tc-badge-dot::after,
+  .tc-hero h1 em, .tc-cta::before, .tc-cta::after {
+    animation: none !important;
+  }
+  .tc-section, .tc-cta, .tc-hero > *, .tc-toc, .tc-summary-card {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="tc-progress" id="tc-progress" aria-hidden="true"></div>
+
+<div class="tc-bg" aria-hidden="true">
+  <div class="tc-orb tc-orb-1"></div>
+  <div class="tc-orb tc-orb-2"></div>
+  <div class="tc-orb tc-orb-3"></div>
+</div>
+
+<header class="site-header">
+  <div class="header-container">
+    <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <a href="index.html" class="brand-logo" aria-label="FeedFoodForward home">
+      <div class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="ffTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#067A54"/><stop offset="55%" stop-color="#0B9F6E"/><stop offset="100%" stop-color="#10B981"/></linearGradient>
+            <linearGradient id="ffHeart" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#FF5A7A"/><stop offset="100%" stop-color="#F03E64"/></linearGradient>
+            <linearGradient id="ffLeaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#A3E635"/><stop offset="100%" stop-color="#65A30D"/></linearGradient>
+          </defs>
+          <rect x="2" y="2" width="44" height="44" rx="11" fill="url(#ffTile)"/>
+          <g transform="translate(28 6) rotate(20)"><path d="M0 14 C0 6 5 1 12 0 C12 8 7 14 0 14 Z" fill="url(#ffLeaf)"/></g>
+          <g transform="translate(8 20)"><path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4 C7.4 0.4 9.2 1.8 10 3.4 C10.8 1.8 12.6 0.4 15 0.4 C18.3 0.4 21 2.6 21 6 C21 10 18 14 10 20 Z" fill="url(#ffHeart)"/></g>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">FeedFood<span>Forward</span></span>
+        <span class="brand-subtitle">AI FOOD REDISTRIBUTION PLATFORM</span>
+      </div>
+    </a>
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation menu">☰</button>
+    <nav class="site-nav" id="site-nav" aria-label="Primary"></nav>
+    <div class="header-utilities">
+      <div id="header-guest" class="header-auth-group">
+        <button type="button" class="btn btn-outline btn-sm" id="header-login-btn">Login</button>
+        <button type="button" class="btn btn-primary btn-sm" id="header-signup-btn">Sign Up</button>
+      </div>
+      <div id="header-user" class="header-user-group" hidden>
+        <button type="button" class="user-chip" id="user-chip" aria-haspopup="true" aria-expanded="false">
+          <span class="user-avatar" id="user-avatar">👤</span>
+          <span class="user-name" id="user-name">User</span>
+          <span class="user-caret" aria-hidden="true">▾</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="tc">
+
+<!-- ==================== HERO ==================== -->
+<section class="tc-hero">
+  <span class="tc-badge">
+    <span class="tc-badge-dot"></span>
+    Legal · The Rules of the Road
+  </span>
+  <h1>Our terms, <em>in plain English.</em></h1>
+  <p>No legal jargon, no fine print traps. Here's exactly what's expected of donors, receivers, and drivers — and what you can expect from us.</p>
+  <div class="tc-hero-meta">
+    <span><strong>Last updated</strong> · 12 October 2026</span>
+    <span class="divider"></span>
+    <span><strong>Read time</strong> · 5 min</span>
+    <span class="divider"></span>
+    <span><strong>Version</strong> · 2.1</span>
+  </div>
+</section>
+
+<!-- ==================== QUICK SUMMARY ==================== -->
+<section class="tc-summary">
+  <div class="tc-summary-card" data-reveal>
+    <div class="tc-summary-ico">🎁</div>
+    <strong>Free</strong>
+    <span>Always &amp; forever</span>
+  </div>
+  <div class="tc-summary-card" data-reveal>
+    <div class="tc-summary-ico">🛡️</div>
+    <strong>Safety</strong>
+    <span>Every pickup inspected</span>
+  </div>
+  <div class="tc-summary-card" data-reveal>
+    <div class="tc-summary-ico">🔐</div>
+    <strong>Privacy</strong>
+    <span>Never sold, ever</span>
+  </div>
+  <div class="tc-summary-card" data-reveal>
+    <div class="tc-summary-ico">🤝</div>
+    <strong>Fair Use</strong>
+    <span>Respect the network</span>
+  </div>
+</section>
+
+<!-- ==================== LAYOUT ==================== -->
+<div class="tc-layout">
+
+  <!-- TOC -->
+  <aside class="tc-toc">
+    <h4>On this page</h4>
+    <ul class="tc-toc-list">
+      <li><a href="#t1" class="tc-toc-link"><span class="tc-toc-num">01</span> Acceptance of Terms</a></li>
+      <li><a href="#t2" class="tc-toc-link"><span class="tc-toc-num">02</span> Who Can Use the Platform</a></li>
+      <li><a href="#t3" class="tc-toc-link"><span class="tc-toc-num">03</span> Donor Responsibilities</a></li>
+      <li><a href="#t4" class="tc-toc-link"><span class="tc-toc-num">04</span> Receiver Responsibilities</a></li>
+      <li><a href="#t5" class="tc-toc-link"><span class="tc-toc-num">05</span> Driver Responsibilities</a></li>
+      <li><a href="#t6" class="tc-toc-link"><span class="tc-toc-num">06</span> AI Pre-Screening Disclaimer</a></li>
+      <li><a href="#t7" class="tc-toc-link"><span class="tc-toc-num">07</span> Fair Use Policy</a></li>
+      <li><a href="#t8" class="tc-toc-link"><span class="tc-toc-num">08</span> Payments &amp; Fees</a></li>
+      <li><a href="#t9" class="tc-toc-link"><span class="tc-toc-num">09</span> Changes to Terms</a></li>
+      <li><a href="#t10" class="tc-toc-link"><span class="tc-toc-num">10</span> Contact &amp; Support</a></li>
+    </ul>
+  </aside>
+
+  <!-- Content -->
+  <div class="tc-content">
+
+    <!-- 01 -->
+    <section class="tc-section" id="t1" data-reveal>
+      <div class="tc-section-head">
+        <div class="tc-section-ico">📜</div>
+        <div class="tc-section-title">
+          <span class="num">01</span>
+          <h2>Acceptance of Terms</h2>
+        </div>
+      </div>
+      <div class="tc-section-body">
+        <p>By creating an account on FeedFoodForward, you agree to these terms in full. If you don't agree with any part of it, please don't use the platform.</p>
+        <p>These terms apply equally to <strong>donors</strong> (hotels, restaurants, cafés, bakeries, event kitchens), <strong>receivers</strong> (ashrams, NGOs, shelters, old-age homes), and <strong>drivers</strong> (delivery partners).</p>
+        <div class="tc-highlight info">
+          <div class="ico">✓</div>
+          <p><strong>Simple version:</strong> Use the platform honestly. Don't abuse it. Treat the people on the other end with dignity.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 -->
+    <section class="tc-section" id="t2" data-reveal>
+      <div class="tc-section-head">
+        <div class="tc-section-ico">👤</div>
+        <div class="tc-section-title">
+          <span class="num">02</span>
+          <h2>Who Can Use the Platform</h2>
+        </div>
+      </div>
+      <div class="tc-section-body">
+        <p>You can register on FeedFoodForward if you:</p>
+        <ul class="tc-list">
+          <li><span class="bullet">✅</span><span>Are <strong>18 years or older</strong></span></li>
+          <li><span class="bullet">✅</span><span>Represent a <strong>legitimate food business</strong>, verified ashram/NGO, or have a <strong>valid driving licence</strong> for delivery partners</span></li>
+          <li><span class="bullet">✅</span><span>Provide <strong>accurate and truthful information</strong> in your signup (name, address, phone, etc.)</span></li>
+          <li><span class="bullet">✅</span><span>Agree to keep your account credentials <strong>secure and private</strong></span></li>
+        </ul>
+        <p style="margin-top: 1rem;"><strong>Admin accounts</strong> cannot be self-registered — they're created only by the platform owner.</p>
+      </div>
+    </section>
+
+    <!-- 03 -->
+    <section class="tc-section" id="t3" data-reveal>
+      <div class="tc-section-head">
+        <div class="tc-section-ico">🍱</div>
+        <div class="tc-section-title">
+          <span class="num">03</span>
+          <h2>Donor Responsibilities</h2>
+        </div>
+      </div>
+      <div class="tc-section-body">
+        <p>By donating food on FeedFoodForward, you agree that:</p>
+        <ul class="tc-list">
+          <li><span class="bullet">✅</span><span>All donated food is <strong>safe, freshly-prepared, and properly stored</strong></span></li>
+          <li><span class="bullet">✅</span><span>Food has <strong>not been left out</strong> for more than 2 hours</span></li>
+          <li><span class="bullet">✅</span><span>Quantity, prep time, storage, and pickup address are <strong>accurate</strong></span></li>
+          <li><span class="bullet">✅</span><span>You will <strong>cooperate with the driver</strong> during physical inspection at pickup</span></li>
+          <li><span class="bullet">✅</span><span>You will <strong>never donate</strong> spoiled, contaminated, or unsafe food</span></li>
+        </ul>
+        <div class="tc-highlight warn">
+          <div class="ico">⚠️</div>
+          <p><strong>Donors are legally and morally responsible</strong> for the food they donate. If the driver rejects food for safety reasons, the delivery is cancelled immediately and logged.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 -->
+    <section class="tc-section" id="t4" data-reveal>
+      <div class="tc-section-head">
+        <div class="tc-section-ico">🏛️</div>
+        <div class="tc-section-title">
+          <span class="num">04</span>
+          <h2>Receiver Responsibilities</h2>
+        </div>
+      </div>
+      <div class="tc-section-body">
+        <p>By registering as an Ashram, NGO, or shelter, you agree to:</p>
+        <ul class="tc-list">
+          <li><span class="bullet">✅</span><span><strong>Show the Delivery QR</strong> to the driver when food arrives</span></li>
+          <li><span class="bullet">✅</span><span><strong>Confirm receipt honestly</strong> — no false claims</span></li>
+          <li><span class="bullet">✅</span><span>Use donated food <strong>only for its intended community purpose</strong></span></li>
+          <li><span class="bullet">✅</span><span>Never <strong>resell or redirect</strong> food for profit</span></li>
+          <li><span class="bullet">✅</span><span>Report any <strong>food-safety issues</strong> through the platform immediately</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 05 -->
+    <section class="tc-section" id="t5" data-reveal>
+      <div class="tc-section-head">
+        <div class="tc-section-ico">🚚</div>
+        <div class="tc-section-title">
+          <span class="num">05</span>
+          <h2>Driver Responsibilities</h2>
+        </div>
+      </div>
+      <div class="tc-section-body">
+        <p>As a delivery partner, you agree to:</p>
+        <ul class="tc-list">
+          <li><span class="bullet">✅</span><span><strong>Physically inspect every donation</strong> — smell, appearance, packaging, temperature, prep time</span></li>
+          <li><span class="bullet">✅</span><span><strong>Scan the Pickup QR</strong> at collection and the <strong>Delivery QR</strong> at handover</span></li>
+          <li><span class="bullet">✅</span><span><strong>Reject any food</strong> that fails safety standards — no exceptions</span></li>
+          <li><span class="bullet">✅</span><span>Maintain a <strong>clean, safe vehicle</strong> appropriate for food transport</span></li>
+          <li><span class="bullet">✅</span><span>Handle food with <strong>dignity and care</strong> from pickup to delivery</span></li>
+        </ul>
+        <div class="tc-highlight info">
+          <div class="ico">🛡️</div>
+          <p>Drivers are the <strong>final safety checkpoint</strong> in the chain. Every rejection is protected — no penalty for refusing unsafe food.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 -->
+    <section class="tc-section" id="t6" data-reveal>
+      <div class="tc-section-head">
+        <div class="tc-section-ico">🤖</div>
+        <div class="tc-section-title">
+          <span class="num">06</span>
+          <h2>AI Pre-Screening Disclaimer</h2>
+        </div>
+      </div>
+      <div class="tc-section-body">
+        <p>The AI visual inspection (powered by Google Gemini) is a <strong>helpful pre-screening tool only</strong>. It is <strong>not a food safety guarantee</strong>, and it does not replace human verification.</p>
+        <ul class="tc-list">
+          <li><span class="bullet">🤖</span><span>AI estimates freshness, category, and urgency based on a photo</span></li>
+          <li><span class="bullet">🚫</span><span>AI can be wrong — it cannot detect all contaminants or odours</span></li>
+          <li><span class="bullet">🧑</span><span>The <strong>driver's physical inspection</strong> at pickup is the final decision</span></li>
+        </ul>
+        <div class="tc-highlight warn">
+          <div class="ico">⚠️</div>
+          <p>FeedFoodForward is <strong>not liable</strong> for any food-safety outcomes arising from decisions based solely on the AI assessment. Never donate food you wouldn't eat yourself.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 -->
+    <section class="tc-section" id="t7" data-reveal>
+      <div class="tc-section-head">
+        <div class="tc-section-ico">⚖️</div>
+        <div class="tc-section-title">
+          <span class="num">07</span>
+          <h2>Fair Use Policy</h2>
+        </div>
+      </div>
+      <div class="tc-section-body">
+        <p>You agree <strong>not to</strong>:</p>
+        <ul class="tc-list danger">
+          <li><span class="bullet">✕</span><span>Scrape, copy, or misuse platform data</span></li>
+          <li><span class="bullet">✕</span><span>Attempt unauthorised access to other accounts</span></li>
+          <li><span class="bullet">✕</span><span>Submit false donations, requests, or issue reports</span></li>
+          <li><span class="bullet">✕</span><span>Harass, threaten, or discriminate against other users</span></li>
+          <li><span class="bullet">✕</span><span>Use the platform for any illegal or commercial-resale purpose</span></li>
+        </ul>
+        <p style="margin-top: 1rem;">FeedFoodForward reserves the right to <strong>suspend or terminate</strong> any account that violates these rules — with or without notice, depending on severity.</p>
+      </div>
+    </section>
+
+    <!-- 08 -->
+    <section class="tc-section" id="t8" data-reveal>
+      <div class="tc-section-head">
+        <div class="tc-section-ico">💚</div>
+        <div class="tc-section-title">
+          <span class="num">08</span>
+          <h2>Payments &amp; Fees</h2>
+        </div>
+      </div>
+      <div class="tc-section-body">
+        <p>FeedFoodForward is <strong>completely free</strong> for all users — donors, receivers, and drivers. There are:</p>
+        <ul class="tc-list">
+          <li><span class="bullet">✅</span><span><strong>No commissions</strong> on donations</span></li>
+          <li><span class="bullet">✅</span><span><strong>No subscriptions</strong> or registration fees</span></li>
+          <li><span class="bullet">✅</span><span><strong>No hidden charges</strong> — ever</span></li>
+        </ul>
+        <p style="margin-top: 1rem;">If this ever changes for premium features (like advanced analytics), we'll notify existing users <strong>30 days in advance</strong>, and the core rescue flow will remain free forever.</p>
+      </div>
+    </section>
+
+    <!-- 09 -->
+    <section class="tc-section" id="t9" data-reveal>
+      <div class="tc-section-head">
+        <div class="tc-section-ico">🔄</div>
+        <div class="tc-section-title">
+          <span class="num">09</span>
+          <h2>Changes to Terms</h2>
+        </div>
+      </div>
+      <div class="tc-section-body">
+        <p>We may update these terms as the platform evolves — new features, new legal requirements, or clearer language.</p>
+        <ul class="tc-list">
+          <li><span class="bullet">📅</span><span>We'll update the "Last updated" date at the top of this page</span></li>
+          <li><span class="bullet">🔔</span><span>For significant changes, we'll notify you via email or in-app</span></li>
+          <li><span class="bullet">✅</span><span>Continued use of the platform = acceptance of the revised terms</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="tc-section" id="t10" data-reveal>
+      <div class="tc-section-head">
+        <div class="tc-section-ico">✉️</div>
+        <div class="tc-section-title">
+          <span class="num">10</span>
+          <h2>Contact &amp; Support</h2>
+        </div>
+      </div>
+      <div class="tc-section-body">
+        <p>Have a question about these terms? We're here to help.</p>
+        <ul class="tc-list">
+          <li><span class="bullet">📧</span><span>Email us at <a href="mailto:support@feedfoodforward.demo">support@feedfoodforward.demo</a></span></li>
+          <li><span class="bullet">💬</span><span>Or use our <a href="contact.html">contact form</a></span></li>
+          <li><span class="bullet">🔒</span><span>Read our <a href="privacy-policy.html">Privacy Policy</a> for data handling</span></li>
+        </ul>
+        <div class="tc-highlight info">
+          <div class="ico">💡</div>
+          <p><strong>Try the FAQ first:</strong> our <a href="faq.html" style="color:inherit;text-decoration:underline;">Help Center</a> answers most questions about donations, deliveries, and account management in under 30 seconds.</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+</div>
+
+<!-- ==================== CTA ==================== -->
+<div class="tc-cta-wrap">
+  <div class="tc-cta" data-reveal>
+    <div class="tc-cta-inner">
+      <h2>Ready to rescue <em>food?</em></h2>
+      <p>You've read the rules. Now help us get fresh food from kitchens to the people who need it most.</p>
+      <div class="tc-cta-actions">
+        <a href="donate-food.html" class="tc-cta-btn primary">Donate Food →</a>
+        <a href="privacy-policy.html" class="tc-cta-btn outline">Read Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Back to top -->
+<button type="button" class="tc-top" id="tc-top" aria-label="Back to top">↑</button>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-brand"><h3>FeedFoodForward</h3><p>"Rescue Food. Reduce Waste. Feed Communities."</p></div>
+    <div class="footer-copyright">© 2026 FeedFoodForward Platform.</div>
+  </div>
+</footer>
+
+<div id="ff-toast" role="status" aria-live="polite" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);background:#0f172a;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:all .3s ease;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.25);"></div>
+
+<script src="app.js"></script>
+<script src="header-nav.js"></script>
+<script src="sidebar.js"></script>
+<script src="animations.js"></script>
+<script src="chatbot.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  'use strict';
+
+  /* ---------- Progress bar ---------- */
+  const progress = document.getElementById('tc-progress');
+  let tick = false;
+  function updateProgress() {
+    if (!progress) return;
+    const h = document.documentElement;
+    const scrolled = h.scrollTop || document.body.scrollTop;
+    const height = (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
+    progress.style.transform = 'scaleX(' + (height > 0 ? scrolled / height : 0) + ')';
+  }
+  window.addEventListener('scroll', () => {
+    if (tick) return;
+    tick = true;
+    requestAnimationFrame(() => { updateProgress(); tick = false; });
+  }, { passive: true });
+  updateProgress();
+
+  /* ---------- Scroll reveal ---------- */
+  const reveals = document.querySelectorAll('[data-reveal], .tc-section, .tc-cta, .tc-summary-card');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('tc-in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
+    reveals.forEach(el => io.observe(el));
+  } else {
+    reveals.forEach(el => el.classList.add('tc-in'));
+  }
+
+  /* ---------- TOC active state ---------- */
+  const sections = document.querySelectorAll('.tc-section');
+  const tocLinks = document.querySelectorAll('.tc-toc-link');
+  if ('IntersectionObserver' in window && sections.length && tocLinks.length) {
+    const sectionIO = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const id = e.target.id;
+          tocLinks.forEach(l => {
+            l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+          });
+        }
+      });
+    }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
+    sections.forEach(s => sectionIO.observe(s));
+  }
+
+  /* ---------- Smooth scroll for TOC links ---------- */
+  tocLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (!target) return;
+      const top = target.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    });
+  });
+
+  /* ---------- Back to top ---------- */
+  const topBtn = document.getElementById('tc-top');
+  if (topBtn) {
+    window.addEventListener('scroll', () => {
+      topBtn.classList.toggle('tc-visible', window.scrollY > 500);
+    }, { passive: true });
+    topBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+});
+</script>
+
+</body>
+</html>

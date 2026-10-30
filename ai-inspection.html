@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Inspection | FeedFoodForward</title>
+  <meta name="theme-color" content="#16a34a">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-container">
+
+    <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6"  x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+    <a href="index.html" class="brand-logo" aria-label="FeedFoodForward home">
+      <div class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img">
+          <defs>
+            <linearGradient id="ffTile" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#067A54"/>
+              <stop offset="55%" stop-color="#0B9F6E"/>
+              <stop offset="100%" stop-color="#10B981"/>
+            </linearGradient>
+            <linearGradient id="ffHeart" x1="0" y1="0" x2="0.5" y2="1">
+              <stop offset="0%" stop-color="#FF5A7A"/>
+              <stop offset="100%" stop-color="#F03E64"/>
+            </linearGradient>
+            <linearGradient id="ffLeaf" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#A3E635"/>
+              <stop offset="100%" stop-color="#65A30D"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="44" height="44" rx="11" fill="url(#ffTile)"/>
+          <rect x="2" y="2" width="44" height="20" rx="11" fill="#ffffff" opacity="0.08"/>
+          <g transform="translate(28 6) rotate(20)">
+            <path d="M0 14 C0 6 5 1 12 0 C12 8 7 14 0 14 Z" fill="url(#ffLeaf)"/>
+            <path d="M1 13 C4 10 8 6 11.5 1" stroke="#3E8A4E" stroke-width="0.9"
+                  stroke-linecap="round" fill="none" opacity="0.65"/>
+          </g>
+          <g transform="translate(8 20)">
+            <path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4
+                     C7.4 0.4 9.2 1.8 10 3.4 C10.8 1.8 12.6 0.4 15 0.4
+                     C18.3 0.4 21 2.6 21 6 C21 10 18 14 10 20 Z"
+                  fill="url(#ffHeart)"/>
+            <path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4
+                     C7.4 0.4 9.2 1.8 10 3.4"
+                  fill="#ffffff" opacity="0.22"/>
+          </g>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">FeedFood<span>Forward</span></span>
+        <span class="brand-subtitle">AI FOOD REDISTRIBUTION PLATFORM</span>
+      </div>
+    </a>
+
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation menu">☰</button>
+
+    <nav class="site-nav" id="site-nav" aria-label="Primary">
+      <a href="index.html" class="nav-link" data-nav="home">Home</a>
+      <a href="donor-dashboard.html" class="nav-link nav-donor-only" data-nav="dashboard" hidden>Dashboard</a>
+      <a href="my-donations.html" class="nav-link nav-donor-only" data-nav="donations" hidden>My Donations</a>
+      <a href="donate-food.html" class="nav-link" data-nav="donate">Donate Food</a>
+      <a href="ai-inspection.html" class="nav-link" data-nav="ai">AI Inspection</a>
+      <a href="find-ashrams.html" class="nav-link" data-nav="ashrams">Find Ashrams</a>
+            <a href="pickup-track.html" class="nav-link nav-donor-only" data-nav="pickup" hidden>Pickup</a>
+      <a href="driver-hub.html" class="nav-link nav-driver-only" data-nav="driver" hidden>Driver Hub</a>
+      <a href="ngo-dashboard.html" class="nav-link nav-ashram-only" data-nav="ngo" hidden>NGO Dashboard</a>
+    </nav>
+
+    <div class="header-utilities">
+      <div id="header-guest" class="header-auth-group">
+        <button type="button" class="btn btn-outline btn-sm" id="header-login-btn">Login</button>
+        <button type="button" class="btn btn-primary btn-sm" id="header-signup-btn">Sign Up</button>
+      </div>
+
+      <div id="header-user" class="header-user-group" hidden>
+        <button type="button" class="user-chip" id="user-chip" aria-haspopup="true" aria-expanded="false">
+          <span class="user-avatar" id="user-avatar">🏨</span>
+          <span class="user-name" id="user-name">Hotel Green Leaf</span>
+          <span class="user-caret" aria-hidden="true">▾</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="ai-section" style="padding-top:2rem; max-width: 1200px; margin: 0 auto;">
+
+  <div class="ai-header" style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 1.5rem;">
+        <div>
+      <h2 style="font-family:'Outfit'; font-size:2rem; color:#0f172a; margin-bottom:0.5rem;">AI Food Quality Pre-Screening</h2>
+      <p style="color:#64748b; font-size:1rem;">Preliminary visual check — not a safety guarantee. A driver physically verifies food before delivery.</p>
+    </div>
+    <div class="ai-status-badge" style="background:#dcfce7; color:#16a34a; padding:0.5rem 1rem; border-radius:50px; font-weight:600; font-size:0.85rem; display:flex; align-items:center; gap:0.5rem;">
+      <span style="display:inline-block; width:8px; height:8px; background:#16a34a; border-radius:50%; animation: pulse-status 2s infinite;"></span>
+      AI ENGINE ACTIVE
+    </div>
+  </div>
+
+   <div class="ai-pipeline" style="display:flex; align-items:center; gap:0.5rem; margin-bottom:2rem; font-size:0.85rem; color:#64748b; font-weight:500;">
+    <span>Upload</span> <span>→</span>
+    <span>Detect</span> <span>→</span>
+    <span>Pre-Screen</span> <span>→</span>
+    <span style="color:#16a34a;">Suggest</span>
+  </div>
+
+  <!-- NO IMAGE FOUND -->
+  <div id="ai-empty-state" style="display:none; padding:3rem 2rem; background:#fff; border-radius:20px; border:1px solid #e2e8f0; text-align:center; margin-bottom:2rem;">
+    <div style="font-size:3.5rem; margin-bottom:0.75rem;">📷</div>
+    <h3 style="font-size:1.4rem; font-weight:800; color:#0f172a; margin-bottom:0.5rem;">No food image found</h3>
+    <p style="color:#64748b; font-size:0.95rem; margin-bottom:1.5rem; max-width:420px; margin-left:auto; margin-right:auto;">
+      Please upload a food image on the Donate Food page first. The AI will then analyze it here automatically.
+    </p>
+    <a href="donate-food.html" class="btn btn-primary" style="padding:0.75rem 1.5rem; background:#16a34a; color:#fff; border-radius:12px; font-weight:700; text-decoration:none; display:inline-block;">
+      ← Go to Donate Food
+    </a>
+  </div>
+
+  <!-- LOADING -->
+  <div id="ai-loading-state" class="ai-grid" style="display:none;">
+    <div class="image-panel" style="display:flex;align-items:center;justify-content:center; min-height:400px;">
+      <div class="ai-spinner" aria-hidden="true"></div>
+    </div>
+    <div class="analysis-panel" style="display:flex;align-items:center;justify-content:center;text-align:center;">
+      <div>
+        <p style="font-weight:700; font-size:1.2rem; margin-bottom:0.5rem;">🤖 Analyzing image…</p>
+        <p style="font-size:0.9rem;color:#64748b;">Running detection, freshness check, and quantity estimation.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- NO FOOD -->
+  <div id="ai-no-food-view" class="ai-grid" style="display:none; grid-template-columns:1fr 1fr; gap:2rem; margin-bottom:2rem;">
+    <div class="image-panel" style="background:#fff; border-radius:16px; padding:1rem; box-shadow:0 4px 20px rgba(0,0,0,0.05);">
+      <div style="position:relative; border-radius:12px; overflow:hidden; aspect-ratio:4/3; background:#fef2f2; display:flex; align-items:center; justify-content:center;">
+        <img id="ai-no-food-image" src="" alt="Uploaded image" style="width:100%; height:100%; object-fit:cover; opacity:0.45; filter:grayscale(0.6);">
+        <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:5rem;">🚫</div>
+      </div>
+    </div>
+    <div class="analysis-panel" style="display:flex; flex-direction:column; justify-content:center; gap:1rem;">
+      <div class="analysis-card" style="background:#fef2f2; border:2px solid #fecaca; border-radius:16px; padding:2rem; text-align:center;">
+        <h3 style="font-size:1.5rem; font-weight:800; color:#991b1b; margin-bottom:0.75rem;">No Food Detected</h3>
+        <p style="color:#7f1d1d; font-size:0.95rem; margin-bottom:1.25rem;">
+          The uploaded image does not appear to contain food. Please upload a clear image of the food you want to donate.
+        </p>
+        <div style="display:inline-flex; align-items:center; gap:0.5rem; background:#fff; padding:0.5rem 1rem; border-radius:8px; border:1px solid #fecaca; font-size:0.85rem; font-weight:600; color:#991b1b;">
+          <span>Detection confidence:</span>
+          <strong data-nf="confidence">—</strong>
+        </div>
+        <div style="margin-top:1.5rem;">
+          <a href="donate-food.html" class="btn btn-primary" style="padding:0.6rem 1.25rem; background:#16a34a; color:#fff; border-radius:10px; font-weight:700; text-decoration:none; display:inline-block;">
+            ← Upload a Different Image
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULT VIEW -->
+  <div class="ai-grid" id="ai-result-view" style="display:none; grid-template-columns: 1fr 1fr; gap:2rem; margin-bottom:2rem;">
+    <div class="image-panel" style="position:relative; background:#fff; border-radius:16px; padding:1rem; box-shadow:0 4px 20px rgba(0,0,0,0.05);">
+      <div style="position:relative; border-radius:12px; overflow:hidden; aspect-ratio:4/3; background:#f1f5f9;">
+        <img id="ai-inspection-image" src="" alt="Inspected food" style="width:100%; height:100%; object-fit:cover; display:block;">
+        <div class="bounding-box" style="position:absolute; top:20%; left:10%; width:30%; height:30%; border:2px solid #16a34a; background:rgba(22,163,74,0.15); border-radius:4px;">
+          <span class="bounding-box-label" data-ai="item1-label" style="position:absolute; top:-12px; left:-2px; background:#16a34a; color:#fff; font-size:10px; font-weight:700; padding:2px 6px; border-radius:4px;">—</span>
+        </div>
+        <div class="bounding-box" style="position:absolute; top:45%; left:45%; width:40%; height:35%; border:2px solid #16a34a; background:rgba(22,163,74,0.15); border-radius:4px;">
+          <span class="bounding-box-label" data-ai="item2-label" style="position:absolute; top:-12px; left:-2px; background:#16a34a; color:#fff; font-size:10px; font-weight:700; padding:2px 6px; border-radius:4px;">—</span>
+        </div>
+        <div class="bounding-box" style="position:absolute; top:70%; left:20%; width:25%; height:20%; border:2px solid #16a34a; background:rgba(22,163,74,0.15); border-radius:4px;">
+          <span class="bounding-box-label" data-ai="item3-label" style="position:absolute; top:-12px; left:-2px; background:#16a34a; color:#fff; font-size:10px; font-weight:700; padding:2px 6px; border-radius:4px;">—</span>
+        </div>
+      </div>
+      <div style="margin-top:1rem; text-align:center;">
+        <a href="donate-food.html" style="font-size:0.8rem; color:#16a34a; font-weight:600; text-decoration:none;">← Upload a different image on Donate Food page</a>
+      </div>
+    </div>
+
+    <div class="analysis-panel" style="display:flex; flex-direction:column; gap:1rem;">
+      <div class="analysis-card" style="background:#fff; border-radius:16px; padding:1.25rem; box-shadow:0 4px 20px rgba(0,0,0,0.05); border-left:4px solid #16a34a;">
+        <h3 style="font-size:0.85rem; font-weight:700; color:#64748b; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.75rem;">🤖 AI Analysis</h3>
+        <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;">
+          <span style="color:#475569; font-size:0.9rem;">Food Detected</span>
+          <strong style="color:#0f172a; font-size:1rem;" data-ai="foodName">—</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;">
+          <span style="color:#475569; font-size:0.9rem;">Detection Confidence</span>
+          <strong style="color:#16a34a; font-size:1rem;" data-ai="confidence">—</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between;">
+          <span style="color:#475569; font-size:0.9rem;">Category</span>
+          <span style="font-size:0.85rem; font-weight:600; color:#0f172a;" data-ai="category">—</span>
+        </div>
+      </div>
+      <div class="analysis-card" style="background:#fff; border-radius:16px; padding:1.25rem; box-shadow:0 4px 20px rgba(0,0,0,0.05);">
+        <h3 style="font-size:0.85rem; font-weight:700; color:#64748b; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.75rem;">🌿 Freshness Analysis</h3>
+        <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1rem;">
+          <span style="font-size:2rem; font-weight:800; color:#16a34a;" data-ai="freshness">—</span>
+          <div style="flex:1;">
+            <div class="freshness-bar-track" style="background:#e2e8f0; height:8px; border-radius:4px; overflow:hidden;">
+              <div class="freshness-bar-fill" style="background:#16a34a; width:0%; height:100%; border-radius:4px; transition:width 0.5s ease;"></div>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#94a3b8; margin-top:0.25rem;">
+              <span>0</span><span>100</span>
+            </div>
+          </div>
+        </div>
+        <table style="width:100%; font-size:0.85rem; border-collapse:collapse;">
+          <tr style="border-bottom:1px solid #f1f5f9;">
+            <td style="padding:0.4rem 0; color:#475569;">Condition</td>
+            <td style="text-align:right; color:#16a34a; font-weight:600;" data-ai="condition">—</td>
+          </tr>
+          <tr>
+            <td style="padding:0.4rem 0; color:#475569;">Visible Spoilage</td>
+            <td style="text-align:right; color:#16a34a; font-weight:600;" data-ai="spoilage">—</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOWER GRID -->
+  <div id="ai-lower-grid" style="display:none; grid-template-columns: repeat(3, 1fr); gap:1.5rem; margin-bottom:2rem;">
+    <div class="analysis-card" style="background:#fff; border-radius:16px; padding:1.25rem; box-shadow:0 4px 20px rgba(0,0,0,0.05);">
+      <h3 style="font-size:0.85rem; font-weight:700; color:#64748b; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.75rem;">📦 Estimated Quantity</h3>
+      <p style="font-size:1.8rem; font-weight:800; color:#0f172a; margin-bottom:0.25rem;" data-ai="quantity">—</p>
+      <p style="font-size:0.75rem; color:#94a3b8; margin-bottom:1rem;">Provided by donor</p>
+      <hr style="border:0; border-top:1px solid #f1f5f9; margin:0.75rem 0;">
+      <p style="font-size:1.8rem; font-weight:800; color:#0f172a; margin-bottom:0.25rem;" data-ai="servings">—</p>
+      <p style="font-size:0.75rem; color:#94a3b8;">Estimated Servings</p>
+    </div>
+    <div class="analysis-card" style="background:#f0fdf4; border-radius:16px; padding:1.25rem; box-shadow:0 4px 20px rgba(0,0,0,0.05); border:1px solid #bbf7d0;">
+      <h3 style="font-size:0.85rem; font-weight:700; color:#166534; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.75rem;">❤️ Donation Suitability</h3>
+      <p style="font-size:1.4rem; font-weight:800; color:#16a34a; margin-bottom:0.5rem;" data-ai="suitability">—</p>
+      <p style="font-size:0.85rem; color:#166534; margin-bottom:0.75rem;" data-ai="suitabilityText">—</p>
+      <div style="background:#fef3c7; color:#92400e; padding:0.5rem; border-radius:8px; font-size:0.75rem; font-weight:600;">
+        ⚠️ Human verification required before distribution.
+      </div>
+    </div>
+    <div class="analysis-card" style="background:#fff; border-radius:16px; padding:1.25rem; box-shadow:0 4px 20px rgba(0,0,0,0.05); border-left:4px solid #ef4444;">
+      <h3 style="font-size:0.85rem; font-weight:700; color:#64748b; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.75rem;">⚡ Smart Pickup</h3>
+      <p style="font-size:1.1rem; font-weight:800; color:#ef4444; margin-bottom:0.5rem;" data-ai="recommendation">—</p>
+      <p style="font-size:0.85rem; color:#475569; margin-bottom:0.25rem;">Recommended pickup within <strong>2–3 hours</strong></p>
+      <p style="font-size:0.75rem; color:#94a3b8;">Reason: Freshness may decrease with extended holding time.</p>
+    </div>
+  </div>
+
+  <!-- SUMMARY GRID -->
+  <div id="ai-summary-grid" style="display:none; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-bottom:2rem;">
+    <div class="analysis-card" style="background:#fff; border-radius:16px; padding:1.25rem; box-shadow:0 4px 20px rgba(0,0,0,0.05);">
+      <h3 style="font-size:0.85rem; font-weight:700; color:#64748b; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.75rem;">🤖 AI Confidence</h3>
+      <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem; font-size:0.9rem;"><span>Food Detection</span><strong data-ai="confidenceDetection">—</strong></div>
+      <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem; font-size:0.9rem;"><span>Freshness Analysis</span><strong data-ai="confidenceFreshness">—</strong></div>
+      <div style="display:flex; justify-content:space-between; font-size:0.9rem;"><span>Quantity Estimate</span><strong data-ai="confidenceQuantity">—</strong></div>
+    </div>
+    <div class="analysis-card" style="background:#fff; border-radius:16px; padding:1.25rem; box-shadow:0 4px 20px rgba(0,0,0,0.05);">
+      <h3 style="font-size:0.85rem; font-weight:700; color:#64748b; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.75rem;">🔍 Detected Items</h3>
+      <div data-ai="items-list">
+        <p style="font-size:0.85rem; color:#94a3b8;">Waiting for AI result…</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROCESSING TIMELINE -->
+  <div class="analysis-card" style="background:#fff; border-radius:16px; padding:1.25rem; box-shadow:0 4px 20px rgba(0,0,0,0.05); margin-bottom:2rem;">
+    <h3 style="font-size:0.85rem; font-weight:700; color:#64748b; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:1rem;">⏱️ AI Processing Pipeline</h3>
+    <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.8rem; color:#475569; font-weight:500; flex-wrap:wrap; gap:0.5rem;">
+      <div style="display:flex; flex-direction:column; align-items:center; gap:0.5rem;">
+        <span style="background:#dcfce7; color:#16a34a; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700;">✓</span>
+        <span>Image Uploaded</span>
+      </div>
+      <span style="color:#cbd5e1;">→</span>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:0.5rem;">
+        <span style="background:#dcfce7; color:#16a34a; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700;">✓</span>
+        <span>Food Detected</span>
+      </div>
+      <span style="color:#cbd5e1;">→</span>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:0.5rem;">
+        <span style="background:#dcfce7; color:#16a34a; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700;">✓</span>
+        <span>Freshness Checked</span>
+      </div>
+      <span style="color:#cbd5e1;">→</span>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:0.5rem;">
+        <span style="background:#dcfce7; color:#16a34a; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700;">✓</span>
+        <span>Quantity Estimated</span>
+      </div>
+      <span style="color:#cbd5e1;">→</span>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:0.5rem;">
+        <span style="background:#dcfce7; color:#16a34a; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700;">✓</span>
+        <span>Donation Decision</span>
+      </div>
+      <span style="color:#cbd5e1;">→</span>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:0.5rem;">
+        <span style="background:#dcfce7; color:#16a34a; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700;">✓</span>
+        <span>Pickup Priority</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTION BAR -->
+  <div id="ai-action-bar" style="display:none; justify-content:space-between; align-items:center; margin-bottom:3rem; flex-wrap:wrap; gap:1rem;">
+    <div style="background:#fef3c7; color:#92400e; padding:0.75rem 1rem; border-radius:10px; font-size:0.8rem; max-width:500px;">
+      ⚠️ <strong>Safety Notice:</strong> AI assessment does not replace human food-safety inspection.
+    </div>
+    <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+      <a href="donate-food.html" class="btn btn-outline btn-sm" style="padding:0.75rem 1.5rem; border:1px solid #cbd5e1; border-radius:10px; font-weight:600; background:#fff; text-decoration:none; color:#0f172a;">← Back to Donate Food</a>
+<a href="donate-food.html?step=4" class="btn btn-primary btn-sm"
+   style="padding:0.75rem 1.5rem; background:#16a34a; color:#fff; border:none; border-radius:10px; font-weight:600; text-decoration:none;"
+   onclick="sessionStorage.setItem('ff_aiComplete', 'true'); sessionStorage.setItem('ff_gotoStep', '4');">
+   Continue to Donate →
+</a>
+    </div>
+  </div>
+
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-brand">
+      <h3>FeedFoodForward</h3>
+      <p>"Rescue Food. Reduce Waste. Feed Communities."</p>
+    </div>
+    <div class="footer-copyright">© 2026 FeedFoodForward Platform.</div>
+  </div>
+</footer>
+
+
+
+<!-- Toast -->
+<div id="ff-toast" role="status" aria-live="polite"
+     style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);background:#0f172a;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:all .3s ease;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.25);"></div>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="app.js"></script>
+<script src="header-nav.js"></script>
+<script src="sidebar.js"></script>
+<script src="animations.js"></script>
+<script src="chatbot.js"></script>
+</body>
+</html>

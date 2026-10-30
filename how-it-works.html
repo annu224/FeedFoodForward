@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How It Works | FeedFoodForward</title>
+<meta name="theme-color" content="#16a34a">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2316a34a'/%3E%3Cpath d='M50 80 C28 62 18 50 18 37 A17 17 0 0 1 50 28 A17 17 0 0 1 82 37 C82 50 72 62 50 80 Z' fill='%23ffffff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+/* ══════════════════════════════════════════════════════════
+   BASE
+   ══════════════════════════════════════════════════════════ */
+.hiw-page{
+  position:relative;
+  overflow-x:hidden;
+  background:
+    radial-gradient(1200px 700px at 10% -10%, rgba(16,185,129,.14), transparent 60%),
+    radial-gradient(900px 600px at 100% 10%, rgba(139,92,246,.10), transparent 60%),
+    radial-gradient(700px 500px at 50% 110%, rgba(245,158,11,.08), transparent 60%),
+    linear-gradient(180deg,#f3fbf8 0%,#ffffff 100%);
+}
+
+/* Floating particles */
+.hiw-particle{
+  position:fixed;
+  width:6px;height:6px;border-radius:50%;
+  pointer-events:none;z-index:0;
+  background: radial-gradient(circle, rgba(16,185,129,.55), rgba(16,185,129,0) 70%);
+  animation: hiwFloat linear infinite;
+}
+@keyframes hiwFloat{
+  0%{transform:translateY(105vh) scale(.4) rotate(0deg);opacity:0;}
+  10%{opacity:.85;}
+  90%{opacity:.85;}
+  100%{transform:translateY(-20vh) scale(1.1) rotate(360deg);opacity:0;}
+}
+
+/* Aurora blobs */
+.hiw-blob{
+  position:fixed;
+  width:520px;height:520px;border-radius:50%;
+  filter: blur(80px);
+  opacity:.35;
+  pointer-events:none;
+  z-index:0;
+}
+.hiw-blob.b1{ background: radial-gradient(circle, #34d399, transparent 65%); top:-160px; left:-160px; animation: hiwBlobA 22s ease-in-out infinite alternate; }
+.hiw-blob.b2{ background: radial-gradient(circle, #a78bfa, transparent 65%); top:20%; right:-200px; animation: hiwBlobB 26s ease-in-out infinite alternate; }
+.hiw-blob.b3{ background: radial-gradient(circle, #fbbf24, transparent 65%); bottom:-180px; left:30%; animation: hiwBlobA 30s ease-in-out infinite alternate-reverse; }
+@keyframes hiwBlobA{ 0%{transform:translate(0,0) scale(1);} 100%{transform:translate(60px,40px) scale(1.15);} }
+@keyframes hiwBlobB{ 0%{transform:translate(0,0) scale(1);} 100%{transform:translate(-70px,60px) scale(1.2);} }
+
+/* ══════════════════════════════════════════════════════════
+   HERO
+   ══════════════════════════════════════════════════════════ */
+.hiw-hero{
+  position:relative;
+  padding:5rem 1.5rem 4rem;
+  text-align:center;
+  overflow:hidden;
+  isolation:isolate;
+}
+.hiw-hero::before{
+  content:"";
+  position:absolute;
+  inset:-10% -10% auto -10%;
+  height:120%;
+  background:
+    radial-gradient(600px 340px at 20% 20%, rgba(16,185,129,.16), transparent 60%),
+    radial-gradient(600px 340px at 80% 30%, rgba(139,92,246,.14), transparent 60%);
+  animation: hiwHeroDrift 18s ease-in-out infinite alternate;
+  z-index:-1;
+  filter: blur(20px);
+}
+@keyframes hiwHeroDrift{
+  0%{transform:translate3d(-2%,0,0) scale(1);}
+  100%{transform:translate3d(2%,2%,0) scale(1.08);}
+}
+
+/* Animated conic ring behind hero title */
+.hiw-hero-ring{
+  position:absolute;
+  top:50%;left:50%;
+  width:640px;height:640px;
+  margin:-320px 0 0 -320px;
+  border-radius:50%;
+  background: conic-gradient(from 0deg,
+    rgba(16,185,129,0) 0deg,
+    rgba(16,185,129,.22) 80deg,
+    rgba(139,92,246,0) 160deg,
+    rgba(139,92,246,.18) 240deg,
+    rgba(16,185,129,0) 360deg);
+  filter: blur(40px);
+  animation: hiwRingSpin 26s linear infinite;
+  z-index:-1;
+  pointer-events:none;
+}
+@keyframes hiwRingSpin{ to{ transform: rotate(360deg);} }
+
+.hiw-eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:.5rem;
+  padding:.5rem 1.1rem;
+  border-radius:999px;
+  background: rgba(255,255,255,.85);
+  backdrop-filter: blur(12px);
+  border:1px solid #bbf7d0;
+  color:#047857;
+  font-size:.72rem;
+  font-weight:800;
+  letter-spacing:.14em;
+  box-shadow: 0 12px 28px -14px rgba(6,95,70,.45);
+  position:relative;
+  overflow:hidden;
+  animation: hiwRise .8s cubic-bezier(.2,.9,.3,1.3) both;
+}
+.hiw-eyebrow::after{
+  content:"";
+  position:absolute;
+  top:0;left:-100%;width:100%;height:100%;
+  background: linear-gradient(90deg, transparent, rgba(16,185,129,.28), transparent);
+  animation: hiwSweep 3.6s ease-in-out infinite;
+}
+@keyframes hiwSweep{ 0%{left:-100%;} 60%,100%{left:100%;} }
+
+.hiw-title{
+  font-family:var(--font-head);
+  font-size:clamp(2rem,4.4vw,3.4rem);
+  font-weight:800;
+  letter-spacing:-0.025em;
+  color:#0B1224;
+  margin:0.9rem 0 1.1rem;
+  line-height:1.08;
+  animation: hiwRise .9s .08s cubic-bezier(.2,.9,.3,1.3) both;
+}
+.hiw-title .grad{
+  background: linear-gradient(90deg, #047857 0%, #10b981 25%, #8b5cf6 50%, #10b981 75%, #047857 100%);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: hiwShine 7s linear infinite;
+}
+@keyframes hiwShine{ to { background-position: 300% center; } }
+
+.hiw-sub{
+  max-width:620px;
+  margin:0 auto 2.2rem;
+  color:#475569;
+  font-size:1.05rem;
+  line-height:1.7;
+  animation: hiwRise 1s .16s cubic-bezier(.2,.9,.3,1.3) both;
+}
+
+.hiw-hero-stats{
+  display:flex;
+  justify-content:center;
+  gap:2.4rem;
+  flex-wrap:wrap;
+  margin-top:2rem;
+  animation: hiwRise 1s .28s cubic-bezier(.2,.9,.3,1.3) both;
+}
+.hiw-stat{
+  display:flex;flex-direction:column;align-items:center;
+  gap:.15rem;
+}
+.hiw-stat b{
+  font-family:var(--font-head);
+  font-size:1.6rem;
+  font-weight:800;
+  background: linear-gradient(135deg, #047857, #10b981);
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.hiw-stat span{
+  font-size:.72rem;font-weight:700;letter-spacing:.12em;color:#64748b;text-transform:uppercase;
+}
+
+@keyframes hiwRise{
+  from{opacity:0;transform:translateY(24px) scale(.98);}
+  to{opacity:1;transform:translateY(0) scale(1);}
+}
+
+/* Scroll indicator */
+.hiw-scroll{
+  display:inline-flex;flex-direction:column;align-items:center;gap:.35rem;
+  margin-top:2rem;color:#10b981;font-size:.7rem;font-weight:800;letter-spacing:.14em;
+  animation: hiwRise 1s .4s cubic-bezier(.2,.9,.3,1.3) both;
+}
+.hiw-scroll .arrow{
+  width:22px;height:22px;border-right:2px solid #10b981;border-bottom:2px solid #10b981;
+  transform: rotate(45deg);
+  animation: hiwArrowBob 1.6s ease-in-out infinite;
+}
+@keyframes hiwArrowBob{
+  0%,100%{transform: rotate(45deg) translate(0,0);opacity:.6;}
+  50%    {transform: rotate(45deg) translate(3px,3px);opacity:1;}
+}
+
+/* ══════════════════════════════════════════════════════════
+   STEPS GRID
+   ══════════════════════════════════════════════════════════ */
+.hiw-steps{
+  position:relative;
+  padding:3rem 1.5rem 4rem;
+  max-width:1100px;
+  margin:0 auto;
+  z-index:1;
+}
+
+/* Animated connector line down the grid (decorative) */
+.hiw-steps::before{
+  content:"";
+  position:absolute;
+  left:50%;top:0;
+  transform: translateX(-50%);
+  width:2px;
+  height:100%;
+  background: linear-gradient(180deg, transparent, rgba(16,185,129,.25), transparent);
+  pointer-events:none;
+  z-index:0;
+}
+@media (max-width:760px){ .hiw-steps::before{ display:none; } }
+
+.hiw-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;
+  position:relative;
+  z-index:1;
+}
+
+/* STEP CARD */
+.hiw-card{
+  position:relative;
+  padding:2rem 1.75rem;
+  border-radius:20px;
+  background: linear-gradient(160deg, #ffffff 0%, #f7fdfa 100%);
+  border:1px solid #e8edf3;
+  box-shadow: 0 14px 40px -22px rgba(11,18,36,.28);
+  overflow:hidden;
+  transform-style:preserve-3d;
+  transition: transform .5s cubic-bezier(.2,.9,.3,1.2), box-shadow .5s ease, border-color .5s ease;
+  opacity:0;
+  animation: hiwCardIn .9s cubic-bezier(.2,.9,.3,1.25) forwards;
+  animation-delay: var(--d, 0s);
+}
+@keyframes hiwCardIn{
+  from{opacity:0;transform:translateY(30px) scale(.96);}
+  to  {opacity:1;transform:translateY(0) scale(1);}
+}
+
+/* Glow border on hover */
+.hiw-card::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  border-radius:22px;
+  padding:2px;
+  background: linear-gradient(135deg, #10b981, #8b5cf6, #fbbf24, #10b981);
+  background-size:300% 300%;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity:0;
+  transition:opacity .4s ease;
+  animation: hiwBorderShift 6s linear infinite;
+  pointer-events:none;
+}
+.hiw-card:hover::before{ opacity:1; }
+@keyframes hiwBorderShift{
+  0%{background-position:0% 50%;}
+  100%{background-position:300% 50%;}
+}
+
+/* Aurora glow sweep inside card */
+.hiw-card::after{
+  content:"";
+  position:absolute;
+  top:-40%;left:-30%;
+  width:60%;height:180%;
+  background: linear-gradient(90deg, transparent, rgba(16,185,129,.10), transparent);
+  transform: rotate(20deg);
+  transition: transform 1s ease;
+  pointer-events:none;
+}
+.hiw-card:hover::after{ transform: rotate(20deg) translateX(240%); }
+
+.hiw-card:hover{
+  transform: translateY(-8px) scale(1.015);
+  box-shadow: 0 30px 70px -22px rgba(6,95,70,.35);
+  border-color:#bbf7d0;
+}
+
+/* Icon block */
+.hiw-icon{
+  position:relative;
+  width:60px;height:60px;
+  border-radius:16px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.7rem;color:#fff;
+  background: linear-gradient(135deg, #10b981, #067a54);
+  margin-bottom:1rem;
+  box-shadow: 0 12px 30px -12px rgba(6,95,70,.65);
+  transition: transform .5s cubic-bezier(.2,.9,.3,1.6), box-shadow .4s ease;
+  z-index:1;
+}
+.hiw-card:hover .hiw-icon{
+  transform: translateY(-4px) rotate(-8deg) scale(1.08);
+  box-shadow: 0 22px 40px -12px rgba(6,95,70,.8);
+}
+/* Icon pulse ring */
+.hiw-icon::after{
+  content:"";
+  position:absolute;inset:0;border-radius:inherit;
+  box-shadow:0 0 0 0 rgba(16,185,129,.55);
+  animation: hiwIconRing 2.6s ease-out infinite;
+}
+@keyframes hiwIconRing{
+  0%  {box-shadow:0 0 0 0 rgba(16,185,129,.55);}
+  70% {box-shadow:0 0 0 14px rgba(16,185,129,0);}
+  100%{box-shadow:0 0 0 0 rgba(16,185,129,0);}
+}
+
+.hiw-step-label{
+  font-size:.7rem;font-weight:800;color:#10b981;letter-spacing:.16em;
+  position:relative;z-index:1;
+  display:inline-block;
+  padding:.2rem .1rem;
+}
+.hiw-step-label::after{
+  content:"";
+  position:absolute;
+  left:0;bottom:-2px;
+  width:0;height:2px;
+  background: linear-gradient(90deg, #10b981, transparent);
+  transition:width .5s ease;
+}
+.hiw-card:hover .hiw-step-label::after{ width:100%; }
+
+.hiw-card h3{
+  font-family:var(--font-head);
+  font-size:1.2rem;font-weight:800;color:#0B1224;
+  margin:0.35rem 0 0.55rem;
+  position:relative;z-index:1;
+}
+.hiw-card p{
+  color:#475569;font-size:.9rem;line-height:1.65;
+  position:relative;z-index:1;
+  margin:0;
+}
+
+/* Step number watermark */
+.hiw-num{
+  position:absolute;
+  top:1rem;right:1.2rem;
+  font-family:var(--font-head);
+  font-size:3.6rem;font-weight:800;
+  color:rgba(16,185,129,.07);
+  line-height:1;
+  pointer-events:none;
+  transition: color .4s ease, transform .6s cubic-bezier(.2,.9,.3,1.6);
+  user-select:none;
+}
+.hiw-card:hover .hiw-num{
+  color:rgba(16,185,129,.18);
+  transform: translateY(-4px) scale(1.06);
+}
+
+/* Dark impact card */
+.hiw-card.impact{
+  background:
+    radial-gradient(600px 200px at 20% 0%, rgba(16,185,129,.18), transparent 60%),
+    linear-gradient(160deg, #0f172a 0%, #1e293b 100%);
+  border-color:#0f172a;
+  color:#fff;
+}
+.hiw-card.impact h3{ color:#fff; }
+.hiw-card.impact p{ color:#cbd5e1; }
+.hiw-card.impact .hiw-num{ color: rgba(255,255,255,.06); }
+.hiw-card.impact:hover .hiw-num{ color: rgba(255,255,255,.14); }
+.hiw-card.impact .hiw-icon{
+  background: linear-gradient(135deg, rgba(16,185,129,.28), rgba(16,185,129,.12));
+  border:1px solid rgba(52,211,153,.5);
+  box-shadow: 0 12px 30px -12px rgba(16,185,129,.65);
+}
+.hiw-card.impact .hiw-icon::after{
+  box-shadow:0 0 0 0 rgba(52,211,153,.65);
+}
+.hiw-card.impact .hiw-step-label{ color:#34d399; }
+
+/* Heartbeat for impact emoji */
+.hiw-card.impact .hiw-icon span{
+  display:inline-block;
+  animation: hiwHeart 1.6s ease-in-out infinite;
+}
+@keyframes hiwHeart{
+  0%,100%{transform:scale(1);}
+  25%   {transform:scale(1.18);}
+  50%   {transform:scale(1);}
+  75%   {transform:scale(1.12);}
+}
+
+/* ══════════════════════════════════════════════════════════
+   CTA ROW
+   ══════════════════════════════════════════════════════════ */
+.hiw-cta{
+  text-align:center;
+  margin-top:3.4rem;
+  position:relative;
+  z-index:1;
+  animation: hiwRise 1s .6s cubic-bezier(.2,.9,.3,1.3) both;
+}
+.hiw-cta .btn{
+  position:relative;
+  overflow:hidden;
+  transition: transform .35s cubic-bezier(.2,.9,.3,1.3), box-shadow .35s ease;
+}
+.hiw-cta .btn-primary{
+  box-shadow: 0 18px 40px -18px rgba(6,95,70,.75);
+}
+.hiw-cta .btn-primary::before{
+  content:"";
+  position:absolute;
+  top:0;left:-100%;width:100%;height:100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent);
+  transition: left .7s ease;
+}
+.hiw-cta .btn-primary:hover::before{ left:100%; }
+.hiw-cta .btn:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 26px 50px -18px rgba(6,95,70,.8);
+}
+
+/* Soft pulse arrow on primary CTA */
+.hiw-cta .btn-primary .arr{
+  display:inline-block;
+  margin-left:.35rem;
+  animation: hiwArrowSlide 1.4s ease-in-out infinite;
+}
+@keyframes hiwArrowSlide{
+  0%,100%{ transform:translateX(0); opacity:.8;}
+  50%    { transform:translateX(4px); opacity:1;}
+}
+
+/* ══════════════════════════════════════════════════════════
+   SCROLL REVEAL (IntersectionObserver-driven)
+   ══════════════════════════════════════════════════════════ */
+.hiw-reveal{
+  opacity:0;
+  transform: translateY(24px);
+  transition: opacity .9s cubic-bezier(.2,.9,.3,1.2), transform .9s cubic-bezier(.2,.9,.3,1.2);
+}
+.hiw-reveal.in{
+  opacity:1;
+  transform: translateY(0);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;}
+}
+</style>
+</head>
+<body class="hiw-page">
+
+<!-- decorative blobs -->
+<div class="hiw-blob b1" aria-hidden="true"></div>
+<div class="hiw-blob b2" aria-hidden="true"></div>
+<div class="hiw-blob b3" aria-hidden="true"></div>
+
+<header class="site-header">
+  <div class="header-container">
+    <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <a href="index.html" class="brand-logo" aria-label="FeedFoodForward home">
+      <div class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="ffTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#067A54"/><stop offset="55%" stop-color="#0B9F6E"/><stop offset="100%" stop-color="#10B981"/></linearGradient><linearGradient id="ffHeart" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#FF5A7A"/><stop offset="100%" stop-color="#F03E64"/></linearGradient><linearGradient id="ffLeaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#A3E635"/><stop offset="100%" stop-color="#65A30D"/></linearGradient></defs>
+          <rect x="2" y="2" width="44" height="44" rx="11" fill="url(#ffTile)"/>
+          <g transform="translate(28 6) rotate(20)"><path d="M0 14 C0 6 5 1 12 0 C12 8 7 14 0 14 Z" fill="url(#ffLeaf)"/></g>
+          <g transform="translate(8 20)"><path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4 C7.4 0.4 9.2 1.8 10 3.4 C10.8 1.8 12.6 0.4 15 0.4 C18.3 0.4 21 2.6 21 6 C21 10 18 14 10 20 Z" fill="url(#ffHeart)"/></g>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">FeedFood<span>Forward</span></span>
+        <span class="brand-subtitle">AI FOOD REDISTRIBUTION PLATFORM</span>
+      </div>
+    </a>
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation menu">☰</button>
+    <nav class="site-nav" id="site-nav" aria-label="Primary">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="donor-dashboard.html" class="nav-link nav-donor-only" hidden>Dashboard</a>
+      <a href="my-donations.html" class="nav-link nav-donor-only" hidden>My Donations</a>
+      <a href="donate-food.html" class="nav-link">Donate Food</a>
+      <a href="ai-inspection.html" class="nav-link">AI Inspection</a>
+      <a href="find-ashrams.html" class="nav-link">Find Ashrams</a>
+      <a href="driver-hub.html" class="nav-link nav-driver-only" hidden>Driver Hub</a>
+      <a href="ngo-dashboard.html" class="nav-link nav-ashram-only" hidden>NGO Dashboard</a>
+    </nav>
+    <div class="header-utilities">
+      <div id="header-guest" class="header-auth-group">
+        <button type="button" class="btn btn-outline btn-sm" id="header-login-btn">Login</button>
+        <button type="button" class="btn btn-primary btn-sm" id="header-signup-btn">Sign Up</button>
+      </div>
+      <div id="header-user" class="header-user-group" hidden>
+        <button type="button" class="user-chip" id="user-chip" aria-haspopup="true" aria-expanded="false">
+          <span class="user-avatar" id="user-avatar">👤</span>
+          <span class="user-name" id="user-name">User</span>
+          <span class="user-caret" aria-hidden="true">▾</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ══════════════ HERO ══════════════ -->
+<section class="hiw-hero">
+  <div class="hiw-hero-ring" aria-hidden="true"></div>
+  <span class="hiw-eyebrow">⚡ HOW IT WORKS</span>
+  <h1 class="hiw-title">
+    From <span class="grad">surplus to smiles</span><br>
+    in 5 simple steps
+  </h1>
+  <p class="hiw-sub">
+    FeedFoodForward connects food donors with verified Ashrams, NGOs, and trained drivers —
+    all powered by AI inspection and real-time GPS tracking.
+  </p>
+
+  <div class="hiw-hero-stats">
+    <div class="hiw-stat"><b data-count="12480">0</b><span>Meals rescued</span></div>
+    <div class="hiw-stat"><b data-count="320">0</b><span>Partner ashrams</span></div>
+    <div class="hiw-stat"><b data-count="98">0</b><span>On-time %</span></div>
+  </div>
+
+  <div class="hiw-scroll" aria-hidden="true">
+    <span>SCROLL</span>
+    <span class="arrow"></span>
+  </div>
+</section>
+
+<!-- ══════════════ STEPS ══════════════ -->
+<section class="hiw-steps">
+  <div class="hiw-grid">
+
+    <div class="hiw-card" style="--d:.05s">
+      <span class="hiw-num">01</span>
+      <div class="hiw-icon" aria-hidden="true">📷</div>
+      <span class="hiw-step-label">STEP 01</span>
+      <h3>Upload a photo</h3>
+      <p>Snap a clear picture of your surplus food. JPG, PNG, or WEBP up to 5 MB.</p>
+    </div>
+
+    <div class="hiw-card" style="--d:.15s">
+      <span class="hiw-num">02</span>
+      <div class="hiw-icon" aria-hidden="true">📝</div>
+      <span class="hiw-step-label">STEP 02</span>
+      <h3>Add food details</h3>
+      <p>Enter quantity, servings, prep time, storage, and pickup address.</p>
+    </div>
+
+    <div class="hiw-card" style="--d:.25s">
+      <span class="hiw-num">03</span>
+      <div class="hiw-icon" aria-hidden="true">🤖</div>
+      <span class="hiw-step-label">STEP 03</span>
+      <h3>AI pre-screening</h3>
+      <p>Gemini estimates freshness, category, and pickup urgency — a guide, not a guarantee.</p>
+    </div>
+
+    <div class="hiw-card" style="--d:.35s">
+      <span class="hiw-num">04</span>
+      <div class="hiw-icon" aria-hidden="true">🏠</div>
+      <span class="hiw-step-label">STEP 04</span>
+      <h3>Match a receiver</h3>
+      <p>We suggest the best Ashram or NGO based on distance and their current needs.</p>
+    </div>
+
+    <div class="hiw-card" style="--d:.45s">
+      <span class="hiw-num">05</span>
+      <div class="hiw-icon" aria-hidden="true">🔐</div>
+      <span class="hiw-step-label">STEP 05</span>
+      <h3>QR-verified pickup</h3>
+      <p>Show your Pickup QR to the driver. Track the delivery live on the map.</p>
+    </div>
+
+    <div class="hiw-card impact" style="--d:.55s">
+      <span class="hiw-num">❤</span>
+      <div class="hiw-icon" aria-hidden="true"><span>❤️</span></div>
+      <span class="hiw-step-label">IMPACT</span>
+      <h3>Meals reach people</h3>
+      <p>Fresh food lands at the right Ashram — verified by QR and time-stamped.</p>
+    </div>
+
+  </div>
+
+  <div class="hiw-cta">
+    <a href="donate-food.html" class="btn btn-primary" style="padding:1rem 2rem;font-weight:700;">
+      Start Your First Donation <span class="arr">→</span>
+    </a>
+    <a href="food-safety.html" class="btn btn-outline" style="padding:1rem 2rem;font-weight:700;margin-left:0.5rem;">
+      Food Safety Guidelines
+    </a>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-brand"><h3>FeedFoodForward</h3><p>"Rescue Food. Reduce Waste. Feed Communities."</p></div>
+    <div class="footer-copyright">© 2026 FeedFoodForward Platform.</div>
+  </div>
+</footer>
+
+<div id="ff-toast" role="status" aria-live="polite" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);background:#0f172a;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:all .3s ease;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.25);"></div>
+
+<script src="app.js"></script>
+<script src="header-nav.js"></script>
+<script src="sidebar.js"></script>
+<script src="animations.js"></script>
+<script src="chatbot.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  'use strict';
+
+  /* ══════════════════════════════════════════════════════════
+     1. FLOATING PARTICLES
+     ══════════════════════════════════════════════════════════ */
+  (function spawnParticles(){
+    const palette = [
+      'radial-gradient(circle, rgba(16,185,129,.55), rgba(16,185,129,0) 70%)',
+      'radial-gradient(circle, rgba(139,92,246,.45), rgba(139,92,246,0) 70%)',
+      'radial-gradient(circle, rgba(245,158,11,.45), rgba(245,158,11,0) 70%)'
+    ];
+    for (let i = 0; i < 18; i++) {
+      const p = document.createElement('div');
+      p.className = 'hiw-particle';
+      p.style.left = (Math.random() * 100) + 'vw';
+      p.style.background = palette[i % 3];
+      p.style.animationDuration = (14 + Math.random() * 16) + 's';
+      p.style.animationDelay = (-Math.random() * 24) + 's';
+      const size = 4 + Math.random() * 6;
+      p.style.width = size + 'px';
+      p.style.height = size + 'px';
+      document.body.appendChild(p);
+    }
+  })();
+
+  /* ══════════════════════════════════════════════════════════
+     2. SCROLL REVEAL
+     ══════════════════════════════════════════════════════════ */
+  const revealEls = document.querySelectorAll('.hiw-card, .hiw-cta');
+  revealEls.forEach(el => el.classList.add('hiw-reveal'));
+
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('in'), i * 70);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+    revealEls.forEach(el => io.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('in'));
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     3. ANIMATED STAT COUNTERS
+     ══════════════════════════════════════════════════════════ */
+  const statEls = document.querySelectorAll('.hiw-stat b[data-count]');
+  function animateCount(el){
+    const target = parseInt(el.dataset.count, 10);
+    if (!target) return;
+    const dur = 1800;
+    const start = performance.now();
+    function frame(now){
+      const t = Math.min(1, (now - start) / dur);
+      const eased = 1 - Math.pow(1 - t, 3);
+      const val = Math.floor(eased * target);
+      el.textContent = val.toLocaleString('en-IN');
+      if (t < 1) requestAnimationFrame(frame);
+      else el.textContent = target.toLocaleString('en-IN');
+    }
+    requestAnimationFrame(frame);
+  }
+  if ('IntersectionObserver' in window) {
+    const co = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { animateCount(e.target); co.unobserve(e.target); }
+      });
+    }, { threshold: 0.4 });
+    statEls.forEach(el => co.observe(el));
+  } else {
+    statEls.forEach(animateCount);
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     4. CARD 3D TILT ON HOVER
+     ══════════════════════════════════════════════════════════ */
+  document.querySelectorAll('.hiw-card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top)  / rect.height;
+      const rotY = (x - 0.5) * 8;   // ±4deg
+      const rotX = (0.5 - y) * 8;
+      card.style.transform =
+        'translateY(-8px) scale(1.015) ' +
+        'perspective(900px) ' +
+        'rotateX(' + rotX.toFixed(2) + 'deg) ' +
+        'rotateY(' + rotY.toFixed(2) + 'deg)';
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+
+  /* ══════════════════════════════════════════════════════════
+     5. HERO PARALLAX ON MOUSE
+     ══════════════════════════════════════════════════════════ */
+  const hero = document.querySelector('.hiw-hero');
+  const ring = document.querySelector('.hiw-hero-ring');
+  if (hero && ring && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    hero.addEventListener('mousemove', (e) => {
+      const rect = hero.getBoundingClientRect();
+      const dx = (e.clientX - rect.left - rect.width  / 2) / rect.width;
+      const dy = (e.clientY - rect.top  - rect.height / 2) / rect.height;
+      ring.style.transform = 'translate(' + (dx * 20).toFixed(2) + 'px,' + (dy * 20).toFixed(2) + 'px)';
+    });
+    hero.addEventListener('mouseleave', () => { ring.style.transform = ''; });
+  }
+
+});
+</script>
+</body>
+</html>

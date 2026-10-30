@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Requests | FeedFoodForward</title>
+<meta name="theme-color" content="#16a34a">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2316a34a'/%3E%3Cpath d='M50 80 C28 62 18 50 18 37 A17 17 0 0 1 50 28 A17 17 0 0 1 82 37 C82 50 72 62 50 80 Z' fill='%23ffffff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="guest-guard.js"></script>
+<style>
+/* ==========================================================
+   SCROLL PROGRESS BAR
+   ========================================================== */
+.mr-progress{
+  position:fixed;top:0;left:0;right:0;height:3px;z-index:9999;
+  transform-origin:0 50%;transform:scaleX(0);
+  background:linear-gradient(90deg,#10b981,#f59e0b,#8b5cf6,#10b981);
+  background-size:200% 100%;
+  animation:mrHue 6s linear infinite;
+  pointer-events:none;
+}
+@keyframes mrHue{to{background-position:200% 50%;}}
+
+/* ==========================================================
+   ANIMATED BACKGROUND
+   ========================================================== */
+.mr-bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:
+  radial-gradient(circle at 15% 40%, rgba(16,185,129,.05), transparent 45%),
+  radial-gradient(circle at 85% 30%, rgba(245,158,11,.05), transparent 45%),
+  radial-gradient(circle at 50% 90%, rgba(139,92,246,.04), transparent 50%);
+}
+.mr-blob{position:absolute;border-radius:50%;filter:blur(120px);opacity:.5;animation:mrBlob 26s ease-in-out infinite;}
+.mr-blob.b1{width:560px;height:560px;top:-180px;left:-180px;background:radial-gradient(circle,rgba(16,185,129,.4),transparent 70%);}
+.mr-blob.b2{width:500px;height:500px;top:35%;right:-160px;background:radial-gradient(circle,rgba(59,130,246,.28),transparent 70%);animation-delay:-10s;}
+.mr-blob.b3{width:440px;height:440px;bottom:-140px;left:35%;background:radial-gradient(circle,rgba(139,92,246,.24),transparent 70%);animation-delay:-20s;}
+@keyframes mrBlob{
+  0%,100%{transform:translate(0,0) scale(1) rotate(0deg);}
+  33%{transform:translate(50px,-40px) scale(1.1) rotate(60deg);}
+  66%{transform:translate(-40px,50px) scale(.95) rotate(180deg);}
+}
+
+.mr-mesh{
+  position:absolute;inset:-20%;
+  background:
+    radial-gradient(600px 600px at 20% 30%, rgba(16,185,129,.07), transparent 60%),
+    radial-gradient(600px 600px at 80% 70%, rgba(37,99,235,.06), transparent 60%);
+  animation:mrAurora 24s ease-in-out infinite alternate;
+}
+@keyframes mrAurora{
+  0%{transform:translate3d(0,0,0) rotate(0deg) scale(1);}
+  50%{transform:translate3d(2%,-2%,0) rotate(6deg) scale(1.05);}
+  100%{transform:translate3d(-2%,2%,0) rotate(-6deg) scale(1.08);}
+}
+
+.mr-grid-bg{
+  position:absolute;inset:0;
+  background-image:radial-gradient(rgba(11,18,36,.05) 1px,transparent 1px);
+  background-size:32px 32px;
+  mask-image:radial-gradient(ellipse at center,#000 20%,transparent 75%);
+  -webkit-mask-image:radial-gradient(ellipse at center,#000 20%,transparent 75%);
+  animation:mrGridPan 45s linear infinite;
+}
+@keyframes mrGridPan{from{background-position:0 0;}to{background-position:200px 200px;}}
+
+.mr-particle{
+  position:fixed;border-radius:50%;pointer-events:none;z-index:0;
+  animation:mrFloatUp linear infinite;
+}
+@keyframes mrFloatUp{
+  0%{transform:translateY(105vh) scale(.4) rotate(0deg);opacity:0;}
+  10%{opacity:.8;}
+  90%{opacity:.8;}
+  100%{transform:translateY(-20vh) scale(1.1) rotate(360deg);opacity:0;}
+}
+
+.mr-cursor-glow{
+  position:fixed;pointer-events:none;z-index:1;
+  width:380px;height:380px;border-radius:50%;
+  background:radial-gradient(circle,rgba(16,185,129,.14),transparent 70%);
+  transform:translate(-50%,-50%);
+  filter:blur(40px);
+  opacity:0;
+  transition:opacity .4s ease;
+}
+
+/* ==========================================================
+   PAGE WRAPPER
+   ========================================================== */
+.mr{background:transparent;min-height:100vh;padding:2.5rem 1.5rem 4rem;position:relative;z-index:1;}
+.mr-wrap{max-width:1200px;margin:0 auto;position:relative;z-index:1;}
+
+/* ==========================================================
+   IMPACT CARD
+   ========================================================== */
+.mr-impact{
+  background:linear-gradient(135deg,#ecfdf5 0%,#f0fdf4 100%);
+  border:1px solid #bbf7d0;border-radius:20px;
+  padding:1.75rem 2rem;margin-bottom:1.75rem;
+  position:relative;overflow:hidden;
+  opacity:0;transform:translateY(24px);
+  animation:mrCardIn .8s cubic-bezier(.2,.7,.2,1) forwards .1s;
+  box-shadow:0 4px 20px rgba(0,0,0,.02);
+}
+@keyframes mrCardIn{to{opacity:1;transform:none;}}
+.mr-impact::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,#10b981,#f59e0b,#8b5cf6,#10b981);
+  background-size:200% 100%;
+  animation:mrGradientMove 5s linear infinite;
+}
+@keyframes mrGradientMove{to{background-position:200% 0;}}
+.mr-impact::after{
+  content:"";position:absolute;top:-60%;left:-30%;width:60%;height:220%;
+  background:linear-gradient(100deg,transparent,rgba(16,185,129,.08),transparent);
+  transform:rotate(20deg);
+  animation:mrCardSweep 8s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes mrCardSweep{
+  0%{transform:rotate(20deg) translateX(-200%);}
+  60%,100%{transform:rotate(20deg) translateX(400%);}
+}
+
+.mr-impact-head{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:1rem;flex-wrap:wrap;margin-bottom:1.35rem;
+  position:relative;z-index:1;
+}
+.mr-impact-head h2{
+  font-family:var(--font-head);font-size:1.15rem;font-weight:800;
+  color:var(--deep-green);margin:0;
+  position:relative;
+}
+.mr-impact-head h2::after{
+  content:"";position:absolute;bottom:-6px;left:0;
+  width:40px;height:2px;
+  background:linear-gradient(90deg,var(--dark-green),transparent);
+  animation:mrTitleLine 2.4s ease-in-out infinite;
+}
+@keyframes mrTitleLine{
+  0%,100%{width:40px;opacity:.6;}
+  50%{width:80px;opacity:1;}
+}
+
+.mr-impact-head .btn{
+  position:relative;z-index:1;overflow:hidden;
+  transition:all .3s cubic-bezier(.2,.7,.2,1);
+}
+.mr-impact-head .btn::after{
+  content:"";position:absolute;top:0;left:-70%;width:40%;height:100%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.4),transparent);
+  transform:skewX(-20deg);
+}
+.mr-impact-head .btn:hover::after{animation:mrBtnSheen 1.2s ease;}
+@keyframes mrBtnSheen{to{left:130%;}}
+.mr-impact-head .btn:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(16,185,129,.35);}
+
+.mr-impact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;position:relative;z-index:1;}
+@media(max-width:720px){.mr-impact-grid{grid-template-columns:1fr;}}
+
+/* ==========================================================
+   STAT CARDS
+   ========================================================== */
+.mr-stat{
+  background:#fff;border:1px solid #bbf7d0;border-radius:14px;
+  padding:1.35rem 1.4rem;
+  position:relative;overflow:hidden;
+  opacity:0;transform:translateY(20px) scale(.96);
+  transition:transform .3s cubic-bezier(.2,.7,.2,1),
+             box-shadow .3s ease,
+             border-color .3s ease;
+  transform-style:preserve-3d;
+}
+.mr-stat.mr-in{opacity:1;transform:none;animation:mrStatIn .7s cubic-bezier(.2,.9,.3,1.2) both;}
+@keyframes mrStatIn{from{opacity:0;transform:translateY(20px) scale(.96);}to{opacity:1;transform:none;}}
+.mr-impact-grid .mr-stat:nth-child(1).mr-in{animation-delay:.2s;}
+.mr-impact-grid .mr-stat:nth-child(2).mr-in{animation-delay:.3s;}
+.mr-impact-grid .mr-stat:nth-child(3).mr-in{animation-delay:.4s;}
+
+.mr-stat::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,#10b981,#f59e0b,#10b981);
+  background-size:200% 100%;
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .6s cubic-bezier(.2,.7,.2,1);
+}
+.mr-stat.mr-in::before{transform:scaleX(1);animation:mrGradientMove 3s linear infinite;}
+
+.mr-stat::after{
+  content:"";position:absolute;top:-60px;right:-60px;width:160px;height:160px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(16,185,129,.15),transparent 70%);
+  opacity:0;transition:opacity .5s ease;
+}
+.mr-stat:hover::after{opacity:1;}
+.mr-stat:hover{
+  transform:translateY(-6px) scale(1.02);
+  border-color:var(--primary-green);
+  box-shadow:0 20px 40px -14px rgba(16,185,129,.35);
+}
+.mr-stat strong{
+  display:block;font-family:var(--font-head);font-size:2.2rem;
+  font-weight:800;color:#0B1224;line-height:1;letter-spacing:-0.02em;
+  margin-bottom:0.5rem;position:relative;z-index:1;
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1);
+}
+.mr-stat:hover strong{transform:scale(1.06);}
+.mr-stat span{
+  font-size:0.82rem;font-weight:600;color:#475569;
+  position:relative;z-index:1;
+  transition:color .3s ease;
+}
+.mr-stat:hover span{color:var(--dark-green);}
+
+/* ==========================================================
+   SECTION TITLE
+   ========================================================== */
+.mr-sec-title{
+  font-family:var(--font-head);font-size:1.15rem;font-weight:800;
+  color:#0B1224;margin:0 0 1rem;letter-spacing:-0.01em;
+  display:flex;justify-content:space-between;align-items:center;
+  opacity:0;transform:translateY(20px);
+  animation:mrCardIn .8s cubic-bezier(.2,.7,.2,1) forwards .3s;
+}
+.mr-sec-title a{
+  font-size:0.82rem;font-weight:700;color:var(--primary-green);
+  text-decoration:none;
+  transition:letter-spacing .3s ease,transform .3s ease;
+  position:relative;
+}
+.mr-sec-title a::after{
+  content:"";position:absolute;bottom:-2px;left:0;
+  width:0;height:2px;background:var(--primary-green);
+  transition:width .3s ease;
+}
+.mr-sec-title a:hover{letter-spacing:.02em;transform:translateX(3px);}
+.mr-sec-title a:hover::after{width:100%;}
+
+/* ==========================================================
+   TABLE
+   ========================================================== */
+.mr-table-wrap{
+  background:#fff;border:1px solid var(--slate-border);
+  border-radius:18px;overflow:hidden;margin-bottom:1.75rem;
+  position:relative;
+  opacity:0;transform:translateY(24px);
+  animation:mrCardIn .8s cubic-bezier(.2,.7,.2,1) forwards .4s;
+  box-shadow:0 4px 20px rgba(0,0,0,.02);
+  transition:box-shadow .3s ease,border-color .3s ease;
+}
+.mr-table-wrap::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,#10b981,#f59e0b,#8b5cf6,#10b981);
+  background-size:200% 100%;
+  opacity:0;transition:opacity .4s ease;
+  animation:mrGradientMove 4s linear infinite;
+  z-index:1;
+}
+.mr-table-wrap:hover::before{opacity:1;}
+.mr-table-wrap:hover{
+  border-color:rgba(16,185,129,.3);
+  box-shadow:0 18px 40px -20px rgba(16,185,129,.25);
+}
+
+.mr-table{width:100%;border-collapse:collapse;font-size:0.85rem;}
+.mr-table thead th{
+  background:var(--slate-bg);padding:0.95rem 1.2rem;text-align:left;
+  font-size:0.68rem;font-weight:800;color:#64748b;
+  text-transform:uppercase;letter-spacing:0.06em;
+  border-bottom:1px solid var(--slate-border);
+  position:relative;
+  transition:color .3s ease;
+}
+.mr-table thead th:hover{color:var(--dark-green);}
+.mr-table tbody td{
+  padding:1.05rem 1.2rem;
+  border-bottom:1px solid #f1f5f9;color:#334155;
+  vertical-align:middle;
+  transition:color .25s ease,background .25s ease;
+}
+.mr-table tbody tr:last-child td{border-bottom:none;}
+.mr-table tbody tr{
+  transition:background .3s ease,
+             transform .3s cubic-bezier(.2,.7,.2,1),
+             box-shadow .3s ease;
+  position:relative;
+  opacity:0;transform:translateX(-14px);
+  animation:mrRowIn .55s cubic-bezier(.2,.9,.3,1.2) forwards;
+}
+.mr-table tbody tr:nth-child(1){animation-delay:.5s;}
+.mr-table tbody tr:nth-child(2){animation-delay:.58s;}
+.mr-table tbody tr:nth-child(3){animation-delay:.66s;}
+.mr-table tbody tr:nth-child(4){animation-delay:.74s;}
+.mr-table tbody tr:nth-child(5){animation-delay:.82s;}
+.mr-table tbody tr:nth-child(6){animation-delay:.9s;}
+@keyframes mrRowIn{to{opacity:1;transform:translateX(0);}}
+.mr-table tbody tr::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,#10b981,#f59e0b);
+  transform:scaleY(0);transform-origin:top;
+  transition:transform .4s cubic-bezier(.2,.7,.2,1);
+}
+.mr-table tbody tr:hover::before{transform:scaleY(1);}
+.mr-table tbody tr:hover{
+  background:#f0fdf4;
+  transform:translateX(4px);
+  box-shadow:0 8px 20px -10px rgba(16,185,129,.2);
+}
+.mr-table tbody tr:hover td{color:#0B1224;}
+
+.mr-food strong{
+  display:block;font-weight:700;color:#0B1224;margin-bottom:0.15rem;
+  transition:color .25s ease;
+}
+.mr-table tbody tr:hover .mr-food strong{color:var(--dark-green);}
+.mr-food small{font-size:0.72rem;color:#94a3b8;}
+
+/* ==========================================================
+   PILLS
+   ========================================================== */
+.mr-pill{
+  display:inline-block;padding:0.3rem 0.7rem;
+  font-size:0.7rem;font-weight:800;border-radius:8px;
+  text-transform:uppercase;letter-spacing:0.03em;
+  position:relative;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+.mr-pill:hover{transform:scale(1.08) rotate(-2deg);}
+.mr-pill.green{background:#dcfce7;color:#166534;}
+.mr-pill.amber{
+  background:#fef3c7;color:#92400e;
+  animation:mrAmberPulse 2.4s ease-in-out infinite;
+}
+@keyframes mrAmberPulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,.5);}
+  50%{box-shadow:0 0 0 6px rgba(245,158,11,0);}
+}
+.mr-pill.blue{
+  background:#dbeafe;color:#1e40af;
+  animation:mrBluePulse 2.4s ease-in-out infinite;
+}
+@keyframes mrBluePulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(37,99,235,.5);}
+  50%{box-shadow:0 0 0 6px rgba(37,99,235,0);}
+}
+.mr-pill.red{background:#fee2e2;color:#991b1b;}
+
+/* ==========================================================
+   NOTE
+   ========================================================== */
+.mr-note{
+  background:var(--light-green);border:1px solid #bbf7d0;
+  border-radius:14px;padding:1.1rem 1.35rem;
+  display:flex;gap:0.9rem;align-items:flex-start;
+  position:relative;overflow:hidden;
+  opacity:0;transform:translateY(24px);
+  animation:mrCardIn .8s cubic-bezier(.2,.7,.2,1) forwards .5s;
+  transition:transform .3s cubic-bezier(.2,.7,.2,1),
+             box-shadow .3s ease,
+             border-color .3s ease;
+}
+.mr-note::after{
+  content:"";position:absolute;top:-50%;left:-30%;width:60%;height:200%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.5),transparent);
+  transform:rotate(20deg);
+  animation:mrNoteSweep 8s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes mrNoteSweep{
+  0%{transform:rotate(20deg) translateX(-200%);}
+  60%,100%{transform:rotate(20deg) translateX(500%);}
+}
+.mr-note:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 26px -12px rgba(16,185,129,.3);
+  border-color:var(--primary-green);
+}
+.mr-note .ico{
+  width:38px;height:38px;border-radius:10px;
+  background:var(--dark-green);color:#fff;
+  display:grid;place-items:center;font-size:1rem;flex-shrink:0;
+  transition:transform .5s cubic-bezier(.34,1.56,.64,1);
+  position:relative;z-index:1;
+}
+.mr-note:hover .ico{transform:rotate(-10deg) scale(1.1);}
+.mr-note strong{
+  display:block;font-size:0.85rem;font-weight:800;
+  color:var(--deep-green);margin-bottom:0.15rem;
+  position:relative;z-index:1;
+}
+.mr-note p{
+  font-size:0.78rem;color:var(--dark-green);
+  margin:0;line-height:1.55;position:relative;z-index:1;
+}
+
+/* ==========================================================
+   EMPTY STATE
+   ========================================================== */
+.mr-empty{
+  text-align:center;padding:3rem 1.5rem;
+  color:#94a3b8;font-size:0.9rem;
+  opacity:0;transform:translateY(20px);
+  animation:mrCardIn .7s cubic-bezier(.2,.9,.3,1.2) forwards;
+}
+.mr-empty::before{
+  content:"📭";display:block;font-size:3rem;margin-bottom:.75rem;
+  animation:mrEmptyBounce 3s ease-in-out infinite;
+}
+@keyframes mrEmptyBounce{
+  0%,100%{transform:translateY(0) rotate(0deg);}
+  50%{transform:translateY(-8px) rotate(5deg);}
+}
+.mr-empty a{
+  color:var(--primary-green);font-weight:700;text-decoration:none;
+  transition:letter-spacing .3s ease;
+}
+.mr-empty a:hover{letter-spacing:.02em;text-decoration:underline;}
+
+/* ==========================================================
+   LIVE TRACKER
+   ========================================================== */
+#mr-tracker{
+  animation:mrTrackerIn .7s cubic-bezier(.2,.9,.3,1.2);
+}
+@keyframes mrTrackerIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
+#mr-tracker > div:first-of-type{
+  position:relative;overflow:hidden;
+  transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;
+}
+#mr-tracker > div:first-of-type::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,#10b981,#f59e0b,#8b5cf6,#10b981);
+  background-size:200% 100%;
+  animation:mrGradientMove 4s linear infinite;
+}
+#mr-tracker > div:first-of-type:hover{
+  transform:translateY(-3px);
+  box-shadow:0 18px 40px -20px rgba(16,185,129,.28);
+  border-color:rgba(16,185,129,.3);
+}
+#mr-track-map{
+  position:relative;overflow:hidden;
+  transition:box-shadow .3s ease,border-color .3s ease;
+  animation:mrMapFade 1s ease .3s both;
+}
+@keyframes mrMapFade{from{opacity:0;}to{opacity:1;}}
+#mr-track-map::before{
+  content:"";position:absolute;inset:0;pointer-events:none;z-index:1;
+  background:linear-gradient(180deg,rgba(16,185,129,.05),transparent 30%);
+}
+#mr-track-map:hover{
+  border-color:var(--primary-green);
+  box-shadow:0 12px 30px -14px rgba(16,185,129,.3);
+}
+
+/* ==========================================================
+   PAGE ENTRANCE FADE
+   ========================================================== */
+body.mr-page-enter{opacity:0;transition:opacity .5s ease;}
+body.mr-page-enter.mr-page-ready{opacity:1;}
+
+/* ==========================================================
+   TOAST + COUNT POP KEYFRAMES
+   ========================================================== */
+@keyframes mrToastPop{
+  0%   {transform:translateX(-50%) translateY(0) scale(.9);}
+  60%  {transform:translateX(-50%) translateY(0) scale(1.06);}
+  100% {transform:translateX(-50%) translateY(0) scale(1);}
+}
+@keyframes mrStatPop{
+  0%   {transform:scale(1);}
+  50%  {transform:scale(1.12);color:var(--dark-green);}
+  100% {transform:scale(1);}
+}
+
+/* ==========================================================
+   REDUCED MOTION
+   ========================================================== */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+  }
+  .mr-impact,.mr-stat,.mr-table-wrap,.mr-table tbody tr,
+  .mr-note,.mr-sec-title,.mr-empty{
+    opacity:1 !important;
+    transform:none !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- SCROLL PROGRESS BAR -->
+<div class="mr-progress" id="mr-progress" aria-hidden="true"></div>
+
+<!-- ANIMATED BACKGROUND -->
+<div class="mr-bg" aria-hidden="true">
+  <div class="mr-mesh"></div>
+  <div class="mr-grid-bg"></div>
+  <div class="mr-blob b1"></div>
+  <div class="mr-blob b2"></div>
+  <div class="mr-blob b3"></div>
+</div>
+
+<header class="site-header">
+  <div class="header-container">
+    <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <a href="index.html" class="brand-logo" aria-label="FeedFoodForward home">
+      <div class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="ffTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#067A54"/><stop offset="55%" stop-color="#0B9F6E"/><stop offset="100%" stop-color="#10B981"/></linearGradient><linearGradient id="ffHeart" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#FF5A7A"/><stop offset="100%" stop-color="#F03E64"/></linearGradient></defs><rect x="2" y="2" width="44" height="44" rx="11" fill="url(#ffTile)"/><g transform="translate(8 20)"><path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4 C7.4 0.4 9.2 1.8 10 3.4 C10.8 1.8 12.6 0.4 15 0.4 C18.3 0.4 21 2.6 21 6 C21 10 18 14 10 20 Z" fill="url(#ffHeart)"/></g></svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">FeedFood<span>Forward</span></span>
+        <span class="brand-subtitle">AI FOOD REDISTRIBUTION PLATFORM</span>
+      </div>
+    </a>
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation menu">☰</button>
+    <nav class="site-nav" id="site-nav" aria-label="Primary"></nav>
+    <div class="header-utilities">
+      <div id="header-guest" class="header-auth-group">
+        <button type="button" class="btn btn-outline btn-sm" id="header-login-btn">Login</button>
+        <button type="button" class="btn btn-primary btn-sm" id="header-signup-btn">Sign Up</button>
+      </div>
+      <div id="header-user" class="header-user-group" hidden>
+        <button type="button" class="user-chip" id="user-chip" aria-haspopup="true" aria-expanded="false">
+          <span class="user-avatar" id="user-avatar">👵</span>
+          <span class="user-name" id="user-name">Ashram</span>
+          <span class="user-caret" aria-hidden="true">▾</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="mr">
+<div class="mr-wrap">
+
+  <div class="mr-impact">
+    <div class="mr-impact-head">
+      <h2>Your Impact</h2>
+      <a href="find-donations.html" class="btn btn-primary" data-ripple>+ Claim Donation</a>
+    </div>
+    <div class="mr-impact-grid">
+      <div class="mr-stat" data-tilt>
+        <strong id="stat-total">0</strong>
+        <span>Total Requests</span>
+      </div>
+      <div class="mr-stat" data-tilt>
+        <strong id="stat-kg">0 kg</strong>
+        <span>Food Received</span>
+      </div>
+      <div class="mr-stat" data-tilt>
+        <strong id="stat-meals">0</strong>
+        <span>Meals Served</span>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="mr-sec-title">Recent Requests <a href="find-donations.html">View All →</a></h3>
+
+  <div class="mr-table-wrap">
+    <table class="mr-table">
+      <thead>
+        <tr>
+          <th>Food Item</th>
+          <th>Donor</th>
+          <th>Category</th>
+          <th>Quantity</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="mr-tbody">
+        <tr><td colspan="5" class="mr-empty">Loading your requests…</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mr-note">
+    <div class="ico">🏛️</div>
+    <div>
+      <strong>All donations qualify for community impact tracking</strong>
+      <p>Keep claiming donations to maximize your organization's impact report.</p>
+    </div>
+  </div>
+
+  <!-- ============ LIVE DELIVERY TRACKER ============ -->
+  <div id="mr-tracker" style="display:none;margin-top:1.75rem;">
+    <h3 class="mr-sec-title">🚚 Live Delivery</h3>
+
+    <div style="background:#fff;border:1px solid var(--slate-border);border-radius:18px;padding:1.25rem 1.5rem;margin-bottom:1rem;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:monospace;font-size:0.72rem;color:#94a3b8;" id="mr-track-id">—</div>
+          <div style="font-family:'Outfit',sans-serif;font-size:1.1rem;font-weight:800;color:#0B1224;margin-top:2px;" id="mr-track-food">—</div>
+          <div style="font-size:0.78rem;color:#64748b;margin-top:4px;">
+            From <strong id="mr-track-donor">—</strong> · <span id="mr-track-qty">—</span>
+          </div>
+        </div>
+        <span class="mr-pill blue" id="mr-track-status" style="font-size:0.72rem;">—</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem;margin-top:1.25rem;">
+        <div style="background:#f8fafc;border-radius:12px;padding:0.85rem;text-align:center;">
+          <div style="font-size:0.68rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;">Driver</div>
+          <div style="font-family:'Outfit',sans-serif;font-size:0.9rem;font-weight:800;color:#0B1224;margin-top:4px;" id="mr-track-driver">—</div>
+        </div>
+        <div style="background:#f8fafc;border-radius:12px;padding:0.85rem;text-align:center;">
+          <div style="font-size:0.68rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;">Vehicle</div>
+          <div style="font-family:'Outfit',sans-serif;font-size:0.9rem;font-weight:800;color:#0B1224;margin-top:4px;" id="mr-track-vehicle">—</div>
+        </div>
+        <div style="background:#f8fafc;border-radius:12px;padding:0.85rem;text-align:center;">
+          <div style="font-size:0.68rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;">ETA</div>
+          <div style="font-family:'Outfit',sans-serif;font-size:0.9rem;font-weight:800;color:#0B1224;margin-top:4px;" id="mr-track-eta">—</div>
+        </div>
+        <div style="background:#f8fafc;border-radius:12px;padding:0.85rem;text-align:center;">
+          <div style="font-size:0.68rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;">Distance</div>
+          <div style="font-family:'Outfit',sans-serif;font-size:0.9rem;font-weight:800;color:#0B1224;margin-top:4px;" id="mr-track-dist">—</div>
+        </div>
+      </div>
+
+      <div id="mr-track-call-row" style="display:none;margin-top:1rem;gap:0.5rem;flex-wrap:wrap;">
+        <a id="mr-track-call" class="btn btn-outline btn-sm" href="#" style="font-weight:700;">📞 Call Driver</a>
+        <a id="mr-track-maps" class="btn btn-primary btn-sm" target="_blank" rel="noopener" style="font-weight:700;" href="#">🧭 Open in Maps</a>
+      </div>
+    </div>
+
+    <div id="mr-track-map" style="height:340px;border-radius:18px;overflow:hidden;border:1px solid var(--slate-border);background:#e2e8f0;"></div>
+    <p style="font-size:0.72rem;color:#94a3b8;margin-top:0.6rem;" id="mr-track-updated"></p>
+  </div>
+
+</div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-brand"><h3>FeedFoodForward</h3><p>"Rescue Food. Reduce Waste. Feed Communities."</p></div>
+    <div class="footer-copyright">© 2026 FeedFoodForward Platform.</div>
+  </div>
+</footer>
+
+<div id="ff-toast" role="status" aria-live="polite" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);background:#0f172a;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:all .3s ease;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.25);"></div>
+
+<script src="app.js"></script>
+<script src="header-nav.js"></script>
+<script src="sidebar.js"></script>
+<script src="animations.js"></script>
+<script src="chatbot.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  'use strict';
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ==========================================================
+     1. PAGE ENTRANCE FADE
+     ========================================================== */
+  if (!reducedMotion) {
+    document.body.classList.add('mr-page-enter');
+    requestAnimationFrame(() => document.body.classList.add('mr-page-ready'));
+  }
+
+  /* ==========================================================
+     2. SCROLL PROGRESS BAR
+     ========================================================== */
+  const progress = document.getElementById('mr-progress');
+  let tick = false;
+  function updateProgress() {
+    if (!progress) return;
+    const h = document.documentElement;
+    const scrolled = h.scrollTop || document.body.scrollTop;
+    const height = (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
+    progress.style.transform = 'scaleX(' + (height > 0 ? scrolled / height : 0) + ')';
+  }
+  window.addEventListener('scroll', () => {
+    if (tick) return;
+    tick = true;
+    requestAnimationFrame(() => { updateProgress(); tick = false; });
+  }, { passive: true });
+  updateProgress();
+
+  /* ==========================================================
+     3. FLOATING PARTICLES (20)
+     ========================================================== */
+  if (!reducedMotion) {
+    const palette = [
+      'radial-gradient(circle,rgba(16,185,129,.5),rgba(16,185,129,0) 70%)',
+      'radial-gradient(circle,rgba(139,92,246,.4),rgba(139,92,246,0) 70%)',
+      'radial-gradient(circle,rgba(245,158,11,.4),rgba(245,158,11,0) 70%)',
+      'radial-gradient(circle,rgba(59,130,246,.4),rgba(59,130,246,0) 70%)'
+    ];
+    for (let i = 0; i < 20; i++) {
+      const p = document.createElement('div');
+      p.className = 'mr-particle';
+      p.setAttribute('aria-hidden', 'true');
+      p.style.cssText =
+        'left:' + (Math.random() * 100) + 'vw;' +
+        'width:' + (4 + Math.random() * 7) + 'px;' +
+        'height:' + (4 + Math.random() * 7) + 'px;' +
+        'background:' + palette[i % palette.length] + ';' +
+        'animation-duration:' + (14 + Math.random() * 16) + 's;' +
+        'animation-delay:-' + (Math.random() * 26) + 's;';
+      document.body.appendChild(p);
+    }
+  }
+
+  /* ==========================================================
+     4. CURSOR GLOW (desktop only)
+     ========================================================== */
+  if (!reducedMotion && window.matchMedia('(hover: hover) and (min-width: 1024px)').matches) {
+    const glow = document.createElement('div');
+    glow.className = 'mr-cursor-glow';
+    document.body.appendChild(glow);
+    let mouseX = 0, mouseY = 0, glowX = 0, glowY = 0;
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX; mouseY = e.clientY;
+      glow.style.opacity = '1';
+    });
+    document.addEventListener('mouseleave', () => { glow.style.opacity = '0'; });
+    (function animateGlow() {
+      glowX += (mouseX - glowX) * 0.14;
+      glowY += (mouseY - glowY) * 0.14;
+      glow.style.left = glowX + 'px';
+      glow.style.top = glowY + 'px';
+      requestAnimationFrame(animateGlow);
+    })();
+  }
+
+  /* ==========================================================
+     5. HEADER SCROLL SHADOW
+     ========================================================== */
+  const header = document.querySelector('.site-header');
+  if (header) {
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 12);
+    }, { passive: true });
+  }
+
+  /* ==========================================================
+     6. RIPPLE ON BUTTONS
+     ========================================================== */
+  function attachRipple(el) {
+    if (!el || el.dataset._ripple || reducedMotion) return;
+    el.dataset._ripple = '1';
+    el.style.position = 'relative';
+    el.style.overflow = 'hidden';
+    el.addEventListener('click', function (e) {
+      const rect = this.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const r = document.createElement('span');
+      const isPrimary = this.classList.contains('btn-primary') || this.classList.contains('mr-pill');
+      r.style.cssText =
+        'position:absolute;border-radius:50%;pointer-events:none;' +
+        'width:' + size + 'px;height:' + size + 'px;' +
+        'left:' + (e.clientX - rect.left - size/2) + 'px;' +
+        'top:' + (e.clientY - rect.top - size/2) + 'px;' +
+        'background:' + (isPrimary ? 'rgba(255,255,255,.45)' : 'rgba(16,185,129,.28)') + ';' +
+        'transform:scale(0);opacity:1;' +
+        'transition:transform .7s ease,opacity .7s ease;';
+      this.appendChild(r);
+      requestAnimationFrame(() => {
+        r.style.transform = 'scale(3)';
+        r.style.opacity = '0';
+      });
+      setTimeout(() => r.remove(), 800);
+    });
+  }
+  document.querySelectorAll('[data-ripple], .btn, .mr-pill').forEach(attachRipple);
+
+  /* ==========================================================
+     7. 3D TILT ON STATS
+     ========================================================== */
+  if (!reducedMotion && window.matchMedia('(hover: hover) and (min-width: 1024px)').matches) {
+    document.querySelectorAll('[data-tilt]').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width;
+        const y = (e.clientY - rect.top) / rect.height;
+        const rotY = (x - 0.5) * 6;
+        const rotX = (0.5 - y) * 6;
+        card.style.transform =
+          'translateY(-6px) scale(1.02) ' +
+          'perspective(900px) ' +
+          'rotateX(' + rotX.toFixed(2) + 'deg) ' +
+          'rotateY(' + rotY.toFixed(2) + 'deg)';
+      });
+      card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+    });
+  }
+
+  /* ==========================================================
+     8. REVEAL STAT CARDS ON SCROLL
+     ========================================================== */
+  const statCards = document.querySelectorAll('.mr-stat');
+  if ('IntersectionObserver' in window && !reducedMotion) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('mr-in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    statCards.forEach(el => io.observe(el));
+  } else {
+    statCards.forEach(el => el.classList.add('mr-in'));
+  }
+
+  /* ==========================================================
+     9. TOAST POP
+     ========================================================== */
+  const toast = document.getElementById('ff-toast');
+  if (toast) {
+    const obs = new MutationObserver(() => {
+      if (toast.textContent.trim()) {
+        toast.style.animation = 'none';
+        void toast.offsetWidth;
+        toast.style.animation = 'mrToastPop .5s cubic-bezier(.34,1.56,.64,1)';
+      }
+    });
+    obs.observe(toast, { childList: true, characterData: true, subtree: true });
+  }
+
+  /* ==========================================================
+     10. STAT NUMBER POP + COUNTER
+     ========================================================== */
+  function animateStat(el, targetText) {
+    if (!el) return;
+    el.textContent = targetText;
+    if (reducedMotion) return;
+    el.style.animation = 'none';
+    void el.offsetWidth;
+    el.style.animation = 'mrStatPop .5s cubic-bezier(.34,1.56,.64,1)';
+  }
+
+  /* ==========================================================
+     11. EXISTING: LOAD MY REQUESTS
+     ========================================================== */
+  const tbody = document.getElementById('mr-tbody');
+  const user  = (window.ffAuth && window.ffAuth.getUser) ? window.ffAuth.getUser() : null;
+  if (!user) {
+    tbody.innerHTML = '<tr><td colspan="5" class="mr-empty">🔒 Please log in to view your requests.</td></tr>';
+    return;
+  }
+
+  function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  function pillCls(s){s=(s||'').toLowerCase();if(s.includes('pending'))return'amber';if(s.includes('transit')||s.includes('progress')||s.includes('approved')||s.includes('claimed'))return'blue';if(s.includes('delivered')||s.includes('completed'))return'green';if(s.includes('rejected')||s.includes('cancelled'))return'red';return'amber';}
+
+  async function loadMyRequests() {
+    try {
+      const [claimRes, donRes] = await Promise.all([
+        fetch('/api/claims?ashram=' + encodeURIComponent(user.name)).then(r => r.json()).catch(() => ({ claims: [] })),
+        fetch('/api/donations').then(r => r.json()).catch(() => ({ donations: [] }))
+      ]);
+
+      const claims = claimRes.claims || [];
+      const donations = donRes.donations || [];
+
+      const donMap = {};
+      donations.forEach(d => { donMap[d.donationId] = d; });
+
+      const rows = claims.map(c => {
+        const d = donMap[c.donationId] || {};
+        let displayStatus = c.status === 'pending'  ? 'Awaiting approval'
+                          : c.status === 'rejected' ? 'Rejected'
+                          : (d.status || 'Approved');
+        return {
+          donationId: c.donationId,
+          foodName:   d.foodName   || 'Prepared Meal',
+          category:   d.foodCategory || 'Prepared Meals',
+          weightKg:   Number(d.weightKg) || 0,
+          servings:   Number(d.servings) || 0,
+          donorName:  d.donorName  || c.donorName || 'Donor',
+          status:     displayStatus,
+          createdAt:  c.createdAt  || d.createdAt
+        };
+      });
+
+      rows.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+
+      if (!rows.length) {
+        tbody.innerHTML = '<tr><td colspan="5" class="mr-empty">No requests yet. <a href="find-donations.html">Find donations</a> to get started.</td></tr>';
+        animateStat(document.getElementById('stat-total'), '0');
+        animateStat(document.getElementById('stat-kg'), '0 kg');
+        animateStat(document.getElementById('stat-meals'), '0');
+        return;
+      }
+
+      let totalKg = 0, totalMeals = 0;
+      tbody.innerHTML = rows.map(r => {
+        totalKg    += r.weightKg;
+        totalMeals += r.servings;
+        const cls = pillCls(r.status);
+        return `
+          <tr>
+            <td class="mr-food"><strong>${esc(r.foodName)}</strong><small>${new Date(r.createdAt || Date.now()).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</small></td>
+            <td>${esc(r.donorName)}</td>
+            <td><span class="mr-pill green">${esc(r.category)}</span></td>
+            <td>${r.weightKg} kg</td>
+            <td><span class="mr-pill ${cls}">${esc(r.status)}</span></td>
+          </tr>`;
+      }).join('');
+
+      /* Attach ripple to the newly created pills */
+      tbody.querySelectorAll('.mr-pill').forEach(attachRipple);
+
+      animateStat(document.getElementById('stat-total'), String(rows.length));
+      animateStat(document.getElementById('stat-kg'), totalKg + ' kg');
+      animateStat(document.getElementById('stat-meals'), String(totalMeals));
+
+    } catch (err) {
+      console.error('my-requests load failed:', err);
+      tbody.innerHTML = '<tr><td colspan="5" class="mr-empty">⚠️ Could not load your requests.</td></tr>';
+    }
+  }
+
+  loadMyRequests();
+  setInterval(loadMyRequests, 30000);
+
+  console.log('🎬 My Requests — Enhanced animations loaded');
+});
+</script>
+
+</body>
+</html>

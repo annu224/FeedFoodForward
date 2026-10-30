@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Donations | FeedFoodForward</title>
+  <meta name="description" content="View all your food donations — search, filter, and track every rescue you've made.">
+  <meta name="theme-color" content="#16a34a">
+
+  <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2316a34a'/%3E%3Cpath d='M50 80 C28 62 18 50 18 37 A17 17 0 0 1 50 28 A17 17 0 0 1 82 37 C82 50 72 62 50 80 Z' fill='%23ffffff'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="guest-guard.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+<noscript>
+  <div style="background:#fef3c7;color:#92400e;padding:12px 16px;text-align:center;font-weight:600;font-size:14px;border-bottom:1px solid #fde68a;">
+    ⚠️ JavaScript is disabled. The donations list won't load without JS.
+  </div>
+</noscript>
+
+<!-- ==================== HEADER ==================== -->
+<header class="site-header">
+  <div class="header-container">
+
+    <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6"  x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+    <a href="index.html" class="brand-logo" aria-label="FeedFoodForward home">
+      <div class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img">
+          <defs>
+            <linearGradient id="ffTile" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#067A54"/>
+              <stop offset="55%" stop-color="#0B9F6E"/>
+              <stop offset="100%" stop-color="#10B981"/>
+            </linearGradient>
+            <linearGradient id="ffHeart" x1="0" y1="0" x2="0.5" y2="1">
+              <stop offset="0%" stop-color="#FF5A7A"/>
+              <stop offset="100%" stop-color="#F03E64"/>
+            </linearGradient>
+            <linearGradient id="ffLeaf" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#A3E635"/>
+              <stop offset="100%" stop-color="#65A30D"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="44" height="44" rx="11" fill="url(#ffTile)"/>
+          <g transform="translate(28 6) rotate(20)">
+            <path d="M0 14 C0 6 5 1 12 0 C12 8 7 14 0 14 Z" fill="url(#ffLeaf)"/>
+          </g>
+          <g transform="translate(8 20)">
+            <path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4
+                     C7.4 0.4 9.2 1.8 10 3.4 C10.8 1.8 12.6 0.4 15 0.4
+                     C18.3 0.4 21 2.6 21 6 C21 10 18 14 10 20 Z"
+                  fill="url(#ffHeart)"/>
+          </g>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">FeedFood<span>Forward</span></span>
+        <span class="brand-subtitle">AI FOOD REDISTRIBUTION PLATFORM</span>
+      </div>
+    </a>
+
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation menu">☰</button>
+
+    <nav class="site-nav" id="site-nav" aria-label="Primary">
+      <a href="index.html" class="nav-link" data-nav="home">Home</a>
+      <a href="donor-dashboard.html" class="nav-link nav-donor-only" data-nav="dashboard" hidden>Dashboard</a>
+      <a href="my-donations.html" class="nav-link nav-donor-only" data-nav="donations" hidden>My Donations</a>
+      <a href="donate-food.html" class="nav-link" data-nav="donate">Donate Food</a>
+      <a href="ai-inspection.html" class="nav-link" data-nav="ai">AI Inspection</a>
+      <a href="find-ashrams.html" class="nav-link" data-nav="ashrams">Find Ashrams</a>
+            <a href="pickup-track.html" class="nav-link nav-donor-only" data-nav="pickup" hidden>Pickup</a>
+      <a href="driver-hub.html" class="nav-link nav-driver-only" data-nav="driver" hidden>Driver Hub</a>
+      <a href="ngo-dashboard.html" class="nav-link nav-ashram-only" data-nav="ngo" hidden>NGO Dashboard</a>
+    </nav>
+
+    <div class="header-utilities">
+      <div id="header-guest" class="header-auth-group">
+        <button type="button" class="btn btn-outline btn-sm" id="header-login-btn">Login</button>
+        <button type="button" class="btn btn-primary btn-sm" id="header-signup-btn">Sign Up</button>
+      </div>
+
+      <div id="header-user" class="header-user-group" hidden>
+        <button type="button" class="user-chip" id="user-chip" aria-haspopup="true" aria-expanded="false">
+          <span class="user-avatar" id="user-avatar">🏨</span>
+          <span class="user-name" id="user-name">Hotel Green Leaf</span>
+          <span class="user-caret" aria-hidden="true">▾</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ==================== MAIN ==================== -->
+<main>
+<section class="my-donations-section" style="padding:2.5rem 1.5rem 4rem 1.5rem;background:var(--bg);min-height:60vh;">
+  <div style="max-width:1200px;margin:0 auto;">
+
+    <!-- ============ PAGE TITLE ============ -->
+    <div class="my-donations-header">
+      <div>
+        <h1>📦 My Donations</h1>
+        <p>Browse, search, and track every food rescue you've made.</p>
+      </div>
+      <a href="donate-food.html" class="btn btn-primary" style="padding:0.85rem 1.5rem;font-weight:700;">
+        + New Donation
+      </a>
+    </div>
+
+    <!-- ============ SEARCH + FILTER BAR ============ -->
+    <div class="my-donations-controls">
+      <div class="my-donations-search">
+        <span class="my-donations-search-ico">🔍</span>
+        <input
+          type="text"
+          id="donation-search"
+          placeholder="Search by food name…"
+          aria-label="Search donations by food name"
+        >
+      </div>
+
+      <div class="my-donations-filters" role="group" aria-label="Filter donations">
+        <button type="button" class="my-don-filter active" data-filter="all">All</button>
+        <button type="button" class="my-don-filter" data-filter="pending">Pending</button>
+        <button type="button" class="my-don-filter" data-filter="in-progress">In Progress</button>
+        <button type="button" class="my-don-filter" data-filter="completed">Completed</button>
+        <button type="button" class="my-don-filter" data-filter="rejected">Rejected</button>
+      </div>
+    </div>
+
+    <!-- ============ STATS STRIP ============ -->
+    <div class="my-donations-stats" id="my-donations-stats">
+      <span>Showing <strong id="my-don-visible-count">0</strong> of <strong id="my-don-total-count">0</strong> donations</span>
+    </div>
+
+    <!-- ============ PENDING CLAIMS ============ -->
+    <div id="donor-claims-panel" style="display:none;margin-bottom:1.5rem;">
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:1.25rem 1.5rem;">
+        <h3 style="font-family:'Outfit',sans-serif;font-size:1.05rem;font-weight:800;color:#0B1224;margin:0 0 1rem;">
+          🔔 Pending Claim Requests
+        </h3>
+        <div id="donor-claims-list" style="display:flex;flex-direction:column;gap:0.75rem;"></div>
+      </div>
+    </div>
+
+    <!-- ============ DONATIONS LIST ============ -->
+    <div id="my-donations-list" class="my-donations-list">
+      <p class="my-donations-loading">⏳ Loading your donations…</p>
+    </div>
+
+    <!-- ============ EMPTY STATE ============ -->
+    <div id="my-donations-empty" class="my-donations-empty" style="display:none;">
+      <div class="my-donations-empty-ico">📭</div>
+      <h3>No donations found</h3>
+      <p id="my-donations-empty-text">You haven't made any donations yet.</p>
+      <a href="donate-food.html" class="btn btn-primary" style="padding:0.85rem 1.5rem;font-weight:700;">
+        Donate Food Now →
+      </a>
+    </div>
+
+  </div>
+</section>
+</main>
+
+<!-- ==================== DETAIL MODAL ==================== -->
+<div class="modal-overlay" id="donation-detail-modal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="donation-detail-title">
+    <div class="modal-header">
+      <h3 id="donation-detail-title">Donation Details</h3>
+      <button type="button" class="modal-close" data-modal-close aria-label="Close">×</button>
+    </div>
+    <div class="modal-body" id="donation-detail-body">
+      <!-- Injected by JS -->
+    </div>
+    <div class="modal-footer" id="donation-detail-footer">
+      <!-- Injected by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-brand">
+      <h3>FeedFoodForward</h3>
+      <p>"Rescue Food. Reduce Waste. Feed Communities."</p>
+    </div>
+    <div class="footer-copyright">© 2026 FeedFoodForward Platform.</div>
+  </div>
+</footer>
+
+<!-- Toast -->
+<div id="ff-toast" role="status" aria-live="polite"
+     style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);background:#0f172a;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:all .3s ease;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.25);"></div>
+
+<script src="app.js"></script>
+<script src="header-nav.js"></script>
+<script src="sidebar.js"></script>
+<script src="animations.js"></script>
+
+<!-- ============ MY DONATIONS LOGIC ============ -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  /* ---------- 1. GET LOGGED-IN USER ---------- */
+  const user = (window.ffAuth && window.ffAuth.getUser) ? window.ffAuth.getUser() : null;
+
+  /* ---------- 2. GUARD: NOT LOGGED IN ---------- */
+  if (!user) {
+    const listEl  = document.getElementById('my-donations-list');
+    const emptyEl = document.getElementById('my-donations-empty');
+    const emptyTxt = document.getElementById('my-donations-empty-text');
+    const statsEl = document.getElementById('my-donations-stats');
+    if (listEl) listEl.innerHTML = '';
+    if (statsEl) statsEl.style.display = 'none';
+    if (emptyEl) emptyEl.style.display = 'block';
+    if (emptyTxt) {
+      emptyTxt.innerHTML = '🔒 Please <a href="index.html?login=1" style="color:var(--dark-green);font-weight:700;text-decoration:underline;">log in</a> to see your donations.';
+    }
+    if (window.ffToast) window.ffToast('⚠️ Please log in to view your donations');
+    return;
+  }
+
+  /* ---------- 3. STATE ---------- */
+  let ALL_DONATIONS   = [];
+  let FILTERED        = [];
+  let activeFilter    = 'all';
+  let searchQuery     = '';
+
+  /* ---------- 4. HELPERS ---------- */
+  function esc(s) {
+    return String(s || '').replace(/[&<>"']/g, c => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[c]));
+  }
+
+  function formatDate(iso) {
+    if (!iso) return '—';
+    try {
+      const d = new Date(iso);
+      const now = new Date();
+      const diffMs = now - d;
+      const diffMin = Math.floor(diffMs / 60000);
+      if (diffMin < 1) return 'just now';
+      if (diffMin < 60) return diffMin + ' min ago';
+      const diffHr = Math.floor(diffMin / 60);
+      if (diffHr < 24) return diffHr + ' hr ago';
+      const diffDay = Math.floor(diffHr / 24);
+      if (diffDay < 7) return diffDay + ' day' + (diffDay > 1 ? 's' : '') + ' ago';
+      return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+    } catch (e) { return '—'; }
+  }
+
+  function formatDateFull(iso) {
+    if (!iso) return '—';
+    try {
+      const d = new Date(iso);
+      return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) +
+             ' · ' +
+             d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+    } catch (e) { return '—'; }
+  }
+
+  /* ---------- 5. STATUS HELPERS ---------- */
+  function getStatusGroup(status) {
+    const s = (status || '').toLowerCase();
+    if (s.includes('completed') || s.includes('delivered')) return 'completed';
+    if (s.includes('rejected') || s.includes('cancelled'))  return 'rejected';
+    if (s.includes('transit') || s.includes('progress') || s.includes('picked')) return 'in-progress';
+    return 'pending';
+  }
+
+  function statusBadge(status) {
+    const group = getStatusGroup(status);
+    const map = {
+      'completed':   { label: 'Completed',   cls: 'my-don-badge-success' },
+      'in-progress': { label: 'In Progress', cls: 'my-don-badge-active'  },
+      'pending':     { label: 'Pickup Pending', cls: 'my-don-badge-warn' },
+      'rejected':    { label: 'Rejected',    cls: 'my-don-badge-danger'  }
+    };
+    return map[group] || map.pending;
+  }
+
+  function statusDescription(d) {
+    const group = getStatusGroup(d.status);
+    const ashram = d.ashramName || 'the assigned ashram';
+    switch (group) {
+      case 'completed':   return 'Delivered to ' + esc(ashram) + '.';
+      case 'in-progress': return 'Driver is on the way to ' + esc(ashram) + '.';
+      case 'pending':     return 'Waiting for the driver to collect the food.';
+      case 'rejected':    return 'Food was not accepted at pickup.';
+      default:            return '';
+    }
+  }
+
+  /* ---------- 6. FETCH DONATIONS ---------- */
+  async function loadDonations() {
+    const listEl = document.getElementById('my-donations-list');
+    try {
+      const r = await fetch('/api/donations?donor=' + encodeURIComponent(user.name));
+      const data = await r.json();
+
+      let donations = (data.donations || []).filter(d =>
+        (d.donorName || '').toLowerCase().trim() === (user.name || '').toLowerCase().trim()
+      );
+
+      /* Fallback: sessionStorage donation */
+      if (donations.length === 0) {
+        try {
+          const raw = sessionStorage.getItem('ff_activeDonation');
+          if (raw) {
+            const sd = JSON.parse(raw);
+            if (sd && sd.donorName &&
+                sd.donorName.toLowerCase().trim() === (user.name || '').toLowerCase().trim()) {
+              donations = [sd];
+            }
+          }
+        } catch (e) {}
+      }
+
+      /* Ensure every donation has a createdAt for sorting */
+      donations = donations.map(d => Object.assign({}, d, {
+        createdAt: d.createdAt || new Date().toISOString()
+      }));
+
+      ALL_DONATIONS = donations;
+      applyFilters();
+    } catch (err) {
+      console.error('Load donations failed:', err);
+      if (listEl) {
+        listEl.innerHTML = '<p class="my-donations-loading" style="color:#dc2626;">⚠️ Could not load donations. Please refresh.</p>';
+      }
+    }
+  }
+
+  /* ---------- 7. APPLY FILTERS + SEARCH ---------- */
+  function applyFilters() {
+    const q = searchQuery.toLowerCase().trim();
+    FILTERED = ALL_DONATIONS.filter(d => {
+      /* Filter by status group */
+      if (activeFilter !== 'all' && getStatusGroup(d.status) !== activeFilter) return false;
+      /* Filter by search */
+      if (q) {
+        const hay = (d.foodName || '') + ' ' + (d.foodCategory || '');
+        if (!hay.toLowerCase().includes(q)) return false;
+      }
+      return true;
+    });
+
+    /* Sort newest first */
+    FILTERED.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+    render();
+  }
+
+  /* ---------- 8. RENDER LIST ---------- */
+  function render() {
+    const listEl    = document.getElementById('my-donations-list');
+    const emptyEl   = document.getElementById('my-donations-empty');
+    const emptyTxt  = document.getElementById('my-donations-empty-text');
+    const visCount  = document.getElementById('my-don-visible-count');
+    const totCount  = document.getElementById('my-don-total-count');
+
+    if (visCount) visCount.textContent = FILTERED.length;
+    if (totCount) totCount.textContent = ALL_DONATIONS.length;
+
+    if (FILTERED.length === 0) {
+      listEl.innerHTML = '';
+      emptyEl.style.display = 'block';
+
+      if (ALL_DONATIONS.length === 0) {
+        emptyTxt.textContent = "You haven't made any donations yet.";
+      } else if (searchQuery) {
+        emptyTxt.textContent = `No donations match "${searchQuery}".`;
+      } else {
+        emptyTxt.textContent = `No donations in the "${activeFilter}" category.`;
+      }
+      return;
+    }
+
+    emptyEl.style.display = 'none';
+
+    listEl.innerHTML = FILTERED.map((d, i) => {
+      const badge = statusBadge(d.status);
+      const foodName = d.foodName || 'Prepared Meal';
+      const weight = Number(d.weightKg) || 0;
+      const servings = Number(d.servings) || 0;
+      const imageUrl = d.imageUrl || '';
+      const donationId = d.donationId || 'FF-DON-XXXXX';
+
+      /* Use image if available, else a gradient placeholder */
+      const thumbHtml = imageUrl
+        ? `<img src="${esc(imageUrl)}" alt="${esc(foodName)}" class="my-don-thumb-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+           <div class="my-don-thumb-fallback" style="display:none;">🍱</div>`
+        : `<div class="my-don-thumb-fallback" style="display:flex;">🍱</div>`;
+
+      return `
+        <div class="my-don-card" data-id="${esc(donationId)}" data-index="${i}">
+          <div class="my-don-thumb">
+            ${thumbHtml}
+          </div>
+
+          <div class="my-don-body">
+            <div class="my-don-head">
+              <h3 class="my-don-food">${esc(foodName)}</h3>
+              <span class="my-don-badge ${badge.cls}">${badge.label}</span>
+            </div>
+
+            <div class="my-don-meta">
+              <span>⚖️ ${weight} kg</span>
+              ${servings ? `<span>🍽️ ${servings} servings</span>` : ''}
+              <span>📅 ${formatDate(d.createdAt)}</span>
+            </div>
+
+            <p class="my-don-desc">${statusDescription(d)}</p>
+
+            <div class="my-don-route">
+              <span class="my-don-route-label">🏛️ ${esc(d.ashramName || 'Unassigned')}</span>
+              ${d.driverName && d.driverName !== 'Unassigned'
+                ? `<span class="my-don-route-driver">🚚 ${esc(d.driverName)}</span>`
+                : ''}
+            </div>
+
+            <div class="my-don-ref">#${esc(donationId)}</div>
+          </div>
+
+          <div class="my-don-actions">
+            <button type="button" class="my-don-btn my-don-btn-primary" data-action="details" data-index="${i}">
+              View Details
+            </button>
+            ${getStatusGroup(d.status) === 'completed'
+              ? `<button type="button" class="my-don-btn my-don-btn-outline" data-action="receipt" data-index="${i}">
+                   📄 Receipt
+                 </button>`
+              : getStatusGroup(d.status) === 'in-progress'
+                ? `<a href="rescue-track.html#track" class="my-don-btn my-don-btn-outline">🚚 Track</a>`
+                : ''}
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    /* Wire up the action buttons */
+    listEl.querySelectorAll('[data-action]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const idx = Number(btn.dataset.index);
+        const action = btn.dataset.action;
+        const donation = FILTERED[idx];
+        if (!donation) return;
+        if (action === 'details') openDetailModal(donation);
+        else if (action === 'receipt') downloadReceipt(donation);
+      });
+    });
+  }
+
+  /* ---------- 9. DETAIL MODAL ---------- */
+  function openDetailModal(d) {
+    const modal   = document.getElementById('donation-detail-modal');
+    const bodyEl  = document.getElementById('donation-detail-body');
+    const footEl  = document.getElementById('donation-detail-footer');
+    if (!modal || !bodyEl || !footEl) return;
+
+    const badge = statusBadge(d.status);
+    const imageUrl = d.imageUrl || '';
+    const donationId = d.donationId || 'FF-DON-XXXXX';
+
+    bodyEl.innerHTML = `
+      ${imageUrl ? `<img src="${esc(imageUrl)}" alt="${esc(d.foodName)}" style="width:100%;max-height:240px;object-fit:cover;border-radius:12px;margin-bottom:1rem;">` : ''}
+
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.75rem;flex-wrap:wrap;margin-bottom:1rem;">
+        <div>
+          <h4 style="font-size:1.15rem;font-weight:800;color:#0f172a;margin:0 0 0.25rem 0;">
+            ${esc(d.foodName || 'Prepared Meal')}
+          </h4>
+          <div style="font-size:0.72rem;color:#64748b;font-family:monospace;">#${esc(donationId)}</div>
+        </div>
+        <span class="my-don-badge ${badge.cls}">${badge.label}</span>
+      </div>
+
+      <div class="my-don-modal-rows">
+        <div class="my-don-modal-row">
+          <span>🍽️ Food</span>
+          <strong>${esc(d.foodName || 'Prepared Meal')}</strong>
+        </div>
+        <div class="my-don-modal-row">
+          <span>📂 Category</span>
+          <strong>${esc(d.foodCategory || 'Prepared Meals')}</strong>
+        </div>
+        <div class="my-don-modal-row">
+          <span>⚖️ Weight</span>
+          <strong>${Number(d.weightKg) || 0} kg</strong>
+        </div>
+        <div class="my-don-modal-row">
+          <span>🍽️ Servings</span>
+          <strong>${Number(d.servings) || 0}</strong>
+        </div>
+        <div class="my-don-modal-row">
+          <span>🏨 Donor</span>
+          <strong>${esc(d.donorName || '—')}</strong>
+        </div>
+        <div class="my-don-modal-row">
+          <span>🏛️ Assigned Ashram</span>
+          <strong>${esc(d.ashramName || 'Unassigned')}</strong>
+        </div>
+        <div class="my-don-modal-row">
+          <span>🚚 Driver</span>
+          <strong>${esc(d.driverName || 'Unassigned')}</strong>
+        </div>
+        <div class="my-don-modal-row">
+          <span>📅 Created</span>
+          <strong>${formatDateFull(d.createdAt)}</strong>
+        </div>
+        <div class="my-don-modal-row">
+          <span>⚡ Urgency</span>
+          <strong>${esc(d.urgency || 'MEDIUM')}</strong>
+        </div>
+      </div>
+
+      <p style="font-size:0.82rem;color:#475569;margin:1rem 0 0 0;line-height:1.55;">
+        ${statusDescription(d)}
+      </p>
+    `;
+
+    /* Footer actions */
+    const group = getStatusGroup(d.status);
+    let footerHtml = `<button type="button" class="btn btn-outline" data-modal-close>Close</button>`;
+
+    if (group === 'completed') {
+      footerHtml += `<button type="button" class="btn btn-primary" id="modal-receipt-btn">📄 Download Receipt</button>`;
+    } else if (group === 'in-progress') {
+      footerHtml += `<a href="rescue-track.html#track" class="btn btn-primary">🚚 Track Delivery</a>`;
+    }
+
+    footEl.innerHTML = footerHtml;
+
+    /* Wire modal actions */
+    footEl.querySelectorAll('[data-modal-close]').forEach(b => {
+      b.addEventListener('click', () => closeModal(modal));
+    });
+    const recBtn = document.getElementById('modal-receipt-btn');
+    if (recBtn) recBtn.addEventListener('click', () => downloadReceipt(d));
+
+    /* Open */
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(modal) {
+    if (!modal) return;
+    modal.hidden = true;
+    document.body.style.overflow = '';
+  }
+
+  /* Wire modal close buttons + overlay click */
+  const detailModal = document.getElementById('donation-detail-modal');
+  if (detailModal) {
+    detailModal.querySelectorAll('[data-modal-close]').forEach(btn => {
+      btn.addEventListener('click', () => closeModal(detailModal));
+    });
+    detailModal.addEventListener('click', (e) => {
+      if (e.target === detailModal) closeModal(detailModal);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !detailModal.hidden) closeModal(detailModal);
+    });
+  }
+
+  /* ---------- 10. RECEIPT DOWNLOAD ---------- */
+  async function downloadReceipt(d) {
+    if (typeof html2pdf === 'undefined') {
+      if (window.ffToast) window.ffToast('⚠️ PDF library still loading. Try again.');
+      return;
+    }
+
+    if (window.ffToast) window.ffToast('📄 Generating receipt…');
+
+    const donationId = d.donationId || 'FF-DON-XXXXX';
+    const now = new Date();
+    const receiptNo = 'FF-REC-2026-' + String(Math.floor(100 + Math.random() * 900)).padStart(3, '0');
+    const dateStr = now.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+    const timeStr = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+
+    const qrData = encodeURIComponent('https://feedfoodforward.demo/donation/' + donationId);
+    const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=140x140&qzone=1&data=' + qrData;
+
+    const html = `
+      <div style="
+        width: 700px; padding: 30px 32px; background: #ffffff;
+        font-family: 'Inter', Arial, sans-serif; color: #0f172a;
+        box-sizing: border-box;
+      ">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;
+                    padding-bottom: 20px; border-bottom: 2px solid #0B9F6E;">
+          <div style="display:flex; align-items:center; gap:14px;">
+            <div style="width:56px;height:56px;border-radius:14px;
+                        background:linear-gradient(135deg,#067A54,#10B981);
+                        display:flex;align-items:center;justify-content:center;
+                        font-size:28px;color:#fff;">❤</div>
+            <div>
+              <div style="font-size:22px;font-weight:800;color:#0f172a;line-height:1.1;">
+                FeedFood<span style="color:#0B9F6E;">Forward</span>
+              </div>
+              <div style="font-size:10px;font-weight:700;letter-spacing:0.18em;
+                          color:#0B9F6E;margin-top:4px;">
+                AI FOOD REDISTRIBUTION PLATFORM
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:26px;display:flex;justify-content:space-between;align-items:flex-start;">
+          <div style="display:flex;gap:14px;align-items:center;">
+            <div style="width:46px;height:46px;border-radius:50%;background:#ecfdf5;
+                        display:flex;align-items:center;justify-content:center;font-size:22px;">📄</div>
+            <div>
+              <div style="font-size:26px;font-weight:800;color:#0f172a;line-height:1.1;">
+                Donation Receipt
+              </div>
+              <div style="font-size:12px;color:#64748b;margin-top:4px;">
+                Thank you for making a difference!
+              </div>
+            </div>
+          </div>
+          <div style="text-align:right;font-size:11px;color:#0f172a;">
+            <div><strong>Receipt No.</strong> : ${receiptNo}</div>
+            <div style="margin-top:4px;"><strong>Date &amp; Time</strong> : ${dateStr}, ${timeStr}</div>
+          </div>
+        </div>
+
+        <div style="margin-top:24px;background:#f6fbf8;border-radius:12px;padding:18px 22px;">
+          <div style="display:inline-block;background:#0B9F6E;color:#fff;font-size:11px;
+                      font-weight:800;letter-spacing:0.08em;padding:6px 14px;border-radius:6px;
+                      margin-bottom:14px;">
+            DONATION DETAILS
+          </div>
+          <table style="width:100%;font-size:12px;border-collapse:collapse;">
+            <tr>
+              <td style="padding:7px 0;color:#475569;">🆔 Donation ID</td>
+              <td style="padding:7px 0;color:#94a3b8;">:</td>
+              <td style="padding:7px 0;font-weight:700;color:#0f172a;">${esc(donationId)}</td>
+            </tr>
+            <tr>
+              <td style="padding:7px 0;color:#475569;">🍽️ Food</td>
+              <td style="padding:7px 0;color:#94a3b8;">:</td>
+              <td style="padding:7px 0;font-weight:700;color:#0f172a;">
+                ${Number(d.weightKg) || 0} KG ${esc(d.foodName || 'Prepared Meal')}
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:7px 0;color:#475569;">🥣 Servings</td>
+              <td style="padding:7px 0;color:#94a3b8;">:</td>
+              <td style="padding:7px 0;font-weight:700;color:#0f172a;">${Number(d.servings) || 0}</td>
+            </tr>
+            <tr>
+              <td style="padding:7px 0;color:#475569;">📅 Date</td>
+              <td style="padding:7px 0;color:#94a3b8;">:</td>
+              <td style="padding:7px 0;font-weight:700;color:#0f172a;">${formatDateFull(d.createdAt)}</td>
+            </tr>
+            <tr>
+              <td style="padding:7px 0;color:#475569;">🏨 Donor</td>
+              <td style="padding:7px 0;color:#94a3b8;">:</td>
+              <td style="padding:7px 0;font-weight:700;color:#0f172a;">${esc(d.donorName || '—')}</td>
+            </tr>
+            <tr>
+              <td style="padding:7px 0;color:#475569;">🏛️ Destination</td>
+              <td style="padding:7px 0;color:#94a3b8;">:</td>
+              <td style="padding:7px 0;font-weight:700;color:#0f172a;">${esc(d.ashramName || '—')}</td>
+            </tr>
+            <tr>
+              <td style="padding:7px 0;color:#475569;">🚚 Driver</td>
+              <td style="padding:7px 0;color:#94a3b8;">:</td>
+              <td style="padding:7px 0;font-weight:700;color:#0f172a;">${esc(d.driverName || '—')}</td>
+            </tr>
+          </table>
+        </div>
+
+        <div style="margin-top:18px;background:#f6fbf8;border-radius:12px;padding:18px 22px;
+                    display:flex;gap:16px;align-items:flex-start;">
+          <div style="font-size:26px;">🌿</div>
+          <div>
+            <div style="font-size:14px;font-weight:800;color:#0B9F6E;margin-bottom:4px;">
+              Your donation has been delivered!
+            </div>
+            <div style="font-size:12px;color:#475569;line-height:1.55;">
+              This food has been successfully delivered to the assigned ashram/NGO.
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:26px;display:flex;justify-content:space-between;align-items:flex-start;gap:20px;">
+          <div style="flex:1;">
+            <div style="font-size:30px;font-weight:800;color:#0f172a;line-height:1;">Thank You!</div>
+            <div style="font-size:11px;color:#64748b;margin-top:8px;line-height:1.55;max-width:220px;">
+              Together, we can reduce food waste and build a hunger-free tomorrow.
+            </div>
+          </div>
+          <div style="display:flex;gap:16px;text-align:center;font-size:9px;
+                      color:#475569;font-weight:700;">
+            <div>
+              <div style="font-size:20px;">🌱</div>
+              <div style="margin-top:4px;">Less<br>Food Waste</div>
+            </div>
+            <div>
+              <div style="font-size:20px;">👨‍👩‍👧</div>
+              <div style="margin-top:4px;">More<br>Happy People</div>
+            </div>
+            <div>
+              <div style="font-size:20px;">🌍</div>
+              <div style="margin-top:4px;">Stronger<br>Communities</div>
+            </div>
+            <div>
+              <div style="font-size:20px;">💚</div>
+              <div style="margin-top:4px;">A Greener<br>Future</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:30px;padding-top:18px;border-top:1px solid #e2e8f0;
+                    display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div style="font-size:18px;font-weight:800;color:#0f172a;">
+              FeedFood<span style="color:#0B9F6E;">Forward</span>
+            </div>
+            <div style="font-size:9px;font-weight:700;letter-spacing:0.18em;
+                        color:#0B9F6E;margin-top:2px;">
+              AI FOOD REDISTRIBUTION PLATFORM
+            </div>
+          </div>
+          <div style="text-align:center;font-size:9px;color:#475569;">
+            <img src="${qrUrl}" alt="QR" style="width:80px;height:80px;display:block;margin:0 auto 4px;">
+            <div style="font-weight:700;color:#0B9F6E;line-height:1.4;">
+              Scan to visit<br>our platform
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:20px;background:#0B7C56;color:#fff;border-radius:10px;
+                    padding:12px 18px;text-align:center;font-size:10px;font-weight:700;
+                    letter-spacing:0.22em;">
+          🍃 &nbsp; RESCUE FOOD &nbsp; • &nbsp; REDUCE WASTE &nbsp; • &nbsp; FEED COMMUNITIES &nbsp; 🍃
+        </div>
+      </div>
+    `;
+
+    const wrapper = document.createElement('div');
+    wrapper.style.position = 'fixed';
+    wrapper.style.left = '-9999px';
+    wrapper.style.top = '0';
+    wrapper.innerHTML = html;
+    document.body.appendChild(wrapper);
+
+    const opt = {
+      margin:      [10, 10, 10, 10],
+      filename:    donationId + '-receipt.pdf',
+      image:       { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', scrollY: 0 },
+      jsPDF:       { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(wrapper.firstElementChild).save()
+      .then(() => {
+        document.body.removeChild(wrapper);
+        if (window.ffToast) window.ffToast('✅ Receipt downloaded');
+      })
+      .catch((err) => {
+        console.error('Receipt PDF error:', err);
+        document.body.removeChild(wrapper);
+        if (window.ffToast) window.ffToast('⚠️ Could not generate receipt');
+      });
+  }
+
+  /* ---------- 11. WIRE SEARCH + FILTERS ---------- */
+  const searchEl = document.getElementById('donation-search');
+  if (searchEl) {
+    searchEl.addEventListener('input', () => {
+      searchQuery = searchEl.value;
+      applyFilters();
+    });
+  }
+
+  document.querySelectorAll('.my-don-filter').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.my-don-filter').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilter = btn.dataset.filter;
+      applyFilters();
+    });
+  });
+
+  /* ---------- 12. PENDING CLAIMS ---------- */
+  async function loadDonorClaims() {
+    const panel = document.getElementById('donor-claims-panel');
+    const list  = document.getElementById('donor-claims-list');
+    if (!panel || !list || !user) return;
+    try {
+      const r = await fetch('/api/claims?donor=' + encodeURIComponent(user.name) + '&status=pending');
+      const data = await r.json();
+      const claims = (data.claims || []);
+      if (!claims.length) { panel.style.display = 'none'; return; }
+      panel.style.display = 'block';
+      list.innerHTML = claims.map(c => `
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:0.85rem 1rem;background:#f8fafc;border:1px solid #eef2f7;border-radius:12px;flex-wrap:wrap;">
+          <div>
+            <div style="font-weight:700;color:#0B1224;font-size:0.92rem;">${esc(c.ashramName)} wants <span style="font-family:monospace;font-size:0.78rem;color:#64748b;">${esc(c.donationId)}</span></div>
+            <div style="font-size:0.76rem;color:#64748b;margin-top:2px;">Claimed ${new Date(c.createdAt).toLocaleString('en-IN')}</div>
+          </div>
+          <div style="display:flex;gap:0.5rem;">
+            <button type="button" class="btn btn-sm btn-primary" data-claim-approve="${esc(c.claimId)}">✅ Approve</button>
+            <button type="button" class="btn btn-sm btn-outline" data-claim-reject="${esc(c.claimId)}">❌ Reject</button>
+          </div>
+        </div>`).join('');
+      list.querySelectorAll('[data-claim-approve]').forEach(b => b.addEventListener('click', () => decideClaim(b.dataset.claimApprove, 'approve', b)));
+      list.querySelectorAll('[data-claim-reject]').forEach(b => b.addEventListener('click', () => decideClaim(b.dataset.claimReject, 'reject', b)));
+    } catch (e) { console.warn('Claims load failed:', e); }
+  }
+
+  async function decideClaim(claimId, action, btn) {
+    btn.disabled = true;
+    const orig = btn.textContent;
+    btn.textContent = '⏳';
+    try {
+      const r = await fetch('/api/claims/' + encodeURIComponent(claimId) + '/' + action, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }
+      });
+      const data = await r.json();
+      if (!r.ok || !data.ok) throw new Error(data.error || 'Failed');
+      if (window.ffToast) window.ffToast(action === 'approve' ? '✅ Claim approved — driver assigned' : '❌ Claim rejected');
+      loadDonorClaims();
+      loadDonations();
+    } catch (err) {
+      btn.disabled = false;
+      btn.textContent = orig;
+      if (window.ffToast) window.ffToast('⚠️ ' + err.message);
+    }
+  }
+
+  /* ---------- 13. BOOT ---------- */
+  loadDonations();
+  loadDonorClaims();
+  setInterval(loadDonations, 30000);
+  setInterval(loadDonorClaims, 30000);
+
+});
+</script>
+<script src="chatbot.js"></script>
+
+</body>
+</html>

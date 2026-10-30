@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delivery History | FeedFoodForward</title>
+<meta name="theme-color" content="#16a34a">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2316a34a'/%3E%3Cpath d='M50 80 C28 62 18 50 18 37 A17 17 0 0 1 50 28 A17 17 0 0 1 82 37 C82 50 72 62 50 80 Z' fill='%23ffffff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="guest-guard.js"></script>
+<style>
+.dh {
+  --dh-ink:#0B1224; --dh-muted:#64748b;
+  --dh-line:#e8edf3; --dh-bg:#f6f9fc;
+  --dh-green:#0B9F6E; --dh-green-dark:#047857; --dh-green-deep:#064e3b;
+  --dh-green-50:#ecfdf5;
+  --dh-amber:#f59e0b; --dh-blue:#3b82f6; --dh-violet:#8b5cf6;
+  --dh-red:#dc2626;
+  background: var(--dh-bg);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  padding-bottom: 3rem;
+}
+.dh-bg { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+.dh-orb { position:absolute; border-radius:50%; filter:blur(90px); opacity:.5; }
+.dh-orb-1 { width:520px;height:520px;top:-180px;left:-150px;
+  background:radial-gradient(circle,rgba(16,185,129,.45),transparent 70%);
+  animation: dhFloat 22s ease-in-out infinite; }
+.dh-orb-2 { width:460px;height:460px;top:25%;right:-180px;
+  background:radial-gradient(circle,rgba(245,158,11,.32),transparent 70%);
+  animation: dhFloat 26s ease-in-out infinite -8s; }
+.dh-orb-3 { width:420px;height:420px;bottom:-160px;left:40%;
+  background:radial-gradient(circle,rgba(139,92,246,.25),transparent 70%);
+  animation: dhFloat 24s ease-in-out infinite -14s; }
+@keyframes dhFloat {
+  0%,100% { transform: translate(0,0) scale(1); }
+  33%     { transform: translate(40px,-30px) scale(1.08); }
+  66%     { transform: translate(-30px,40px) scale(.95); }
+}
+.dh-progress {
+  position:fixed; top:0; left:0; right:0; height:3px; z-index:999;
+  transform-origin:0 50%; transform:scaleX(0);
+  background: linear-gradient(90deg,#10b981,#f59e0b,#8b5cf6,#10b981);
+  background-size:200% 100%;
+  animation: dhHue 8s linear infinite;
+}
+@keyframes dhHue { to { background-position:200% 50%; } }
+
+/* ========== TOP ========== */
+.dh-top {
+  position:relative; z-index:1;
+  max-width:1280px; margin:0 auto;
+  padding: 2.5rem 1.5rem 1.5rem;
+  display:flex; justify-content:space-between; align-items:flex-end;
+  gap:1.5rem; flex-wrap:wrap;
+  opacity:0; animation: dhFadeUp .7s cubic-bezier(.2,.7,.2,1) forwards .1s;
+}
+.dh-top-left h1 {
+  font-family:'Outfit',sans-serif; font-weight:800;
+  font-size: clamp(1.7rem, 3.6vw, 2.4rem);
+  line-height:1.1; letter-spacing:-.03em;
+  color: var(--dh-ink); margin:0 0 .35rem;
+}
+.dh-top-left h1 em {
+  font-style:normal;
+  background: linear-gradient(100deg,#067a54 0%,#10b981 45%,#f59e0b 65%,#10b981 85%,#067a54 100%);
+  background-size:250% 100%;
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  animation: dhShimmer 8s linear infinite;
+}
+@keyframes dhShimmer { from{background-position:0% 50%} to{background-position:250% 50%} }
+.dh-top-left p { font-size:.95rem; color: var(--dh-muted); margin:0; max-width:560px; }
+
+.dh-kpis {
+  display:flex; gap:.75rem; flex-wrap:wrap;
+}
+.dh-kpi {
+  display:inline-flex; align-items:center; gap:.65rem;
+  padding:.8rem 1.15rem;
+  background:#fff; border:1px solid var(--dh-line);
+  border-radius:14px;
+  box-shadow: 0 8px 20px -12px rgba(11,18,36,.15);
+}
+.dh-kpi .ico {
+  width:38px; height:38px; border-radius:10px;
+  background: linear-gradient(135deg, var(--dh-green-50), rgba(16,185,129,.15));
+  color: var(--dh-green-dark);
+  display:grid; place-items:center; font-size:1.05rem;
+}
+.dh-kpi strong {
+  display:block; font-family:'Outfit',sans-serif;
+  font-size:1.2rem; font-weight:800; color:var(--dh-ink); line-height:1.1;
+}
+.dh-kpi span {
+  font-size:.68rem; font-weight:700; color: var(--dh-muted);
+  text-transform:uppercase; letter-spacing:.05em;
+}
+@keyframes dhFadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
+
+/* ========== CONTROLS ========== */
+.dh-controls {
+  position:relative; z-index:1;
+  max-width:1280px; margin:0 auto;
+  padding: 0 1.5rem 1.25rem;
+  display:flex; gap:.75rem; flex-wrap:wrap; align-items:center;
+  opacity:0; animation: dhFadeUp .7s cubic-bezier(.2,.7,.2,1) forwards .2s;
+}
+.dh-search {
+  position:relative; flex:1; min-width:220px;
+}
+.dh-search-ico {
+  position:absolute; left:14px; top:50%; transform: translateY(-50%);
+  font-size:.95rem; opacity:.55; pointer-events:none;
+}
+.dh-search input {
+  width:100%; padding:.75rem 1rem .75rem 2.5rem;
+  font-family:inherit; font-size:.9rem;
+  border:1px solid var(--dh-line); border-radius:12px;
+  background:#fff; color: var(--dh-ink);
+  transition: all .2s ease;
+}
+.dh-search input:focus {
+  outline:none; border-color: var(--dh-green);
+  box-shadow: 0 0 0 4px rgba(11,159,110,.14);
+}
+
+.dh-filters {
+  display:flex; gap:.35rem; flex-wrap:wrap; padding:.3rem;
+  background:#fff; border:1px solid var(--dh-line); border-radius:12px;
+}
+.dh-filter {
+  padding:.55rem 1rem; font-family:inherit;
+  font-size:.78rem; font-weight:700;
+  color: #475569; background:transparent;
+  border:none; border-radius:8px; cursor:pointer;
+  transition: all .2s ease;
+  white-space:nowrap;
+}
+.dh-filter:hover { color: var(--dh-green-dark); background: var(--dh-green-50); }
+.dh-filter.active {
+  background: var(--dh-green-dark); color:#fff;
+  box-shadow: 0 4px 12px -4px rgba(4,120,87,.4);
+}
+.dh-filter .count {
+  display:inline-block; padding:0 5px; margin-left:4px;
+  font-size:.66rem; font-weight:800;
+  background: rgba(0,0,0,.08); border-radius:999px;
+}
+.dh-filter.active .count { background: rgba(255,255,255,.24); color:#fff; }
+
+/* ========== TABLE ========== */
+.dh-table-wrap {
+  position:relative; z-index:1;
+  max-width:1280px; margin:0 auto;
+  padding: 0 1.5rem;
+}
+.dh-table {
+  width:100%;
+  background:#fff; border:1px solid var(--dh-line);
+  border-radius:18px; overflow:hidden;
+  opacity:0; transform: translateY(24px);
+  transition: all .65s cubic-bezier(.2,.7,.2,1);
+}
+.dh-table.dh-in { opacity:1; transform:none; }
+table.dh-list {
+  width:100%; border-collapse:collapse; font-size:.86rem;
+}
+table.dh-list thead th {
+  background:#f8fafc;
+  padding:.95rem 1.15rem; text-align:left;
+  font-size:.66rem; font-weight:800; color:#64748b;
+  text-transform:uppercase; letter-spacing:.06em;
+  border-bottom:1px solid var(--dh-line);
+  white-space:nowrap;
+}
+table.dh-list tbody td {
+  padding:1.05rem 1.15rem;
+  border-bottom:1px solid #f1f5f9;
+  color:#334155; vertical-align:middle;
+}
+table.dh-list tbody tr:last-child td { border-bottom:none; }
+table.dh-list tbody tr { transition: background .2s ease; cursor:pointer; }
+table.dh-list tbody tr:hover { background:#f8fafc; }
+
+.dh-cell-food {
+  display:flex; align-items:center; gap:.85rem;
+}
+.dh-cell-food-ico {
+  width:42px; height:42px; flex-shrink:0;
+  border-radius:12px;
+  background: linear-gradient(135deg, var(--dh-green-50), rgba(16,185,129,.14));
+  display:grid; place-items:center; font-size:1.15rem;
+}
+.dh-cell-food-body { min-width:0; }
+.dh-cell-food-name {
+  font-family:'Outfit',sans-serif;
+  font-weight:800; color: var(--dh-ink);
+  margin:0 0 .1rem; font-size:.92rem;
+}
+.dh-cell-food-id {
+  font-family:monospace; font-size:.72rem; color:#94a3b8;
+}
+.dh-cell-route { font-size:.84rem; color: var(--dh-ink); font-weight:600; }
+.dh-cell-route small {
+  display:block; color: var(--dh-muted); font-size:.74rem; font-weight:500;
+  margin-top:2px;
+}
+.dh-cell-date {
+  font-size:.85rem; color:#334155; font-weight:600;
+}
+.dh-cell-date small {
+  display:block; font-size:.72rem; color:#94a3b8; font-weight:500;
+  margin-top:2px;
+}
+.dh-pill {
+  display:inline-flex; align-items:center; gap:.3rem;
+  padding:.35rem .7rem;
+  font-size:.68rem; font-weight:800;
+  border-radius:999px; letter-spacing:.03em;
+  text-transform:uppercase; white-space:nowrap;
+}
+.dh-pill.green  { background:#d1fae5; color:#065f46; }
+.dh-pill.amber  { background:#fef3c7; color:#92400e; }
+.dh-pill.blue   { background:#dbeafe; color:#1e40af; }
+.dh-pill.red    { background:#fee2e2; color:#991b1b; }
+.dh-pill.gray   { background:#e2e8f0; color:#475569; }
+.dh-pill.violet { background:#ede9fe; color:#5b21b6; }
+.dh-pill .dot {
+  width:6px; height:6px; border-radius:50%;
+  background: currentColor;
+}
+
+.dh-cell-actions {
+  text-align:right; white-space:nowrap;
+}
+.dh-icon-btn {
+  display:inline-flex; align-items:center; justify-content:center;
+  width:34px; height:34px;
+  border-radius:9px;
+  background:#fff; border:1px solid var(--dh-line);
+  color: var(--dh-green-dark); font-size:.95rem;
+  cursor:pointer; transition: all .2s ease;
+  text-decoration:none;
+}
+.dh-icon-btn:hover {
+  background: var(--dh-green-50); border-color: var(--dh-green);
+  transform: translateY(-1px);
+}
+
+/* ========== EMPTY ========== */
+.dh-empty {
+  text-align:center; padding:4rem 2rem;
+  background:#fff; border:1px dashed var(--dh-line);
+  border-radius:20px; color: var(--dh-muted);
+}
+.dh-empty .ico {
+  font-size:3.5rem; margin-bottom:.75rem;
+  display:block; opacity:.7;
+}
+.dh-empty strong {
+  display:block; font-family:'Outfit',sans-serif;
+  font-size:1.15rem; font-weight:800; color: var(--dh-ink);
+  margin-bottom:.35rem;
+}
+.dh-empty p { margin:0 auto .9rem; max-width:420px; font-size:.9rem; line-height:1.6; }
+.dh-empty a {
+  display:inline-flex; align-items:center; gap:.4rem;
+  padding:.75rem 1.4rem; border-radius:11px;
+  font-size:.85rem; font-weight:800;
+  background: linear-gradient(135deg, var(--dh-green-dark), var(--dh-green));
+  color:#fff; text-decoration:none;
+}
+
+/* ========== DETAIL MODAL ========== */
+.dh-modal {
+  position:fixed; inset:0; z-index:9999;
+  background: rgba(11,18,36,.55); backdrop-filter: blur(6px);
+  display:none; align-items:center; justify-content:center;
+  padding:1rem;
+}
+.dh-modal.active { display:flex; animation: dhFadeUp .28s ease; }
+.dh-modal-card {
+  background:#fff; border-radius:22px;
+  max-width:560px; width:100%;
+  max-height:92vh; overflow-y:auto;
+  padding:1.75rem 1.85rem;
+  position:relative;
+}
+.dh-modal-close {
+  position:absolute; top:1rem; right:1rem;
+  width:36px; height:36px; border-radius:50%;
+  background:#f8fafc; border:1px solid var(--dh-line);
+  color:#64748b; font-size:1rem; font-weight:800;
+  cursor:pointer; display:grid; place-items:center;
+  transition: all .2s ease;
+}
+.dh-modal-close:hover { background:#e2e8f0; color: var(--dh-ink); }
+.dh-modal-card h3 {
+  font-family:'Outfit',sans-serif; font-size:1.25rem; font-weight:800;
+  color: var(--dh-ink); margin:0 0 .35rem;
+  padding-right:2rem;
+}
+.dh-modal-card > p { font-size:.82rem; color: var(--dh-muted); margin:0 0 1.25rem; }
+.dh-detail-grid {
+  display:grid; grid-template-columns: repeat(2,1fr);
+  gap:.6rem; margin-bottom:1.25rem;
+}
+@media(max-width:520px){ .dh-detail-grid { grid-template-columns:1fr; } }
+.dh-detail {
+  background:#f8fafc; border-radius:10px; padding:.75rem .95rem;
+}
+.dh-detail-label {
+  font-size:.62rem; font-weight:800; color:#94a3b8;
+  text-transform:uppercase; letter-spacing:.05em; margin-bottom:3px;
+}
+.dh-detail-value {
+  font-size:.88rem; font-weight:700; color: var(--dh-ink);
+  word-break:break-word;
+}
+
+/* ========== PAGINATION ========== */
+.dh-pagination {
+  display:flex; justify-content:center; align-items:center;
+  gap:.4rem; margin-top:1.5rem; flex-wrap:wrap;
+}
+.dh-page-btn {
+  min-width:38px; height:38px; padding:0 .8rem;
+  font-family:inherit; font-size:.82rem; font-weight:800;
+  background:#fff; color:#475569;
+  border:1px solid var(--dh-line); border-radius:10px;
+  cursor:pointer; transition: all .2s ease;
+}
+.dh-page-btn:hover:not(:disabled) {
+  border-color: var(--dh-green); color: var(--dh-green-dark);
+}
+.dh-page-btn.active {
+  background: var(--dh-green-dark); color:#fff;
+  border-color: var(--dh-green-dark);
+}
+.dh-page-btn:disabled { opacity:.45; cursor:not-allowed; }
+
+@media (prefers-reduced-motion: reduce) {
+  .dh-orb, .dh-progress, .dh-top h1 em { animation: none !important; }
+  .dh-top, .dh-controls, .dh-table { opacity:1 !important; transform:none !important; transition:none !important; }
+}
+@media (max-width:720px) {
+  table.dh-list thead { display:none; }
+  table.dh-list tbody td { display:block; padding:.6rem 1rem; border:none; }
+  table.dh-list tbody tr {
+    display:block;
+    border:1px solid var(--dh-line);
+    border-radius:14px; padding:.65rem 0;
+    margin-bottom:.6rem;
+  }
+  .dh-cell-actions { text-align:left; padding-top:.4rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="dh-progress" id="dh-progress" aria-hidden="true"></div>
+
+<div class="dh-bg" aria-hidden="true">
+  <div class="dh-orb dh-orb-1"></div>
+  <div class="dh-orb dh-orb-2"></div>
+  <div class="dh-orb dh-orb-3"></div>
+</div>
+
+<header class="site-header">
+  <div class="header-container">
+    <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <a href="driver-home.html" class="brand-logo" aria-label="FeedFoodForward driver home">
+      <div class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="ffTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#067A54"/><stop offset="55%" stop-color="#0B9F6E"/><stop offset="100%" stop-color="#10B981"/></linearGradient>
+            <linearGradient id="ffHeart" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#FF5A7A"/><stop offset="100%" stop-color="#F03E64"/></linearGradient>
+          </defs>
+          <rect x="2" y="2" width="44" height="44" rx="11" fill="url(#ffTile)"/>
+          <g transform="translate(8 20)"><path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4 C7.4 0.4 9.2 1.8 10 3.4 C10.8 1.8 12.6 0.4 15 0.4 C18.3 0.4 21 2.6 21 6 C21 10 18 14 10 20 Z" fill="url(#ffHeart)"/></g>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">FeedFood<span>Forward</span></span>
+        <span class="brand-subtitle">AI FOOD REDISTRIBUTION PLATFORM</span>
+      </div>
+    </a>
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation menu">☰</button>
+    <nav class="site-nav" id="site-nav" aria-label="Primary"></nav>
+    <div class="header-utilities">
+      <div id="header-guest" class="header-auth-group">
+        <button type="button" class="btn btn-outline btn-sm" id="header-login-btn">Login</button>
+        <button type="button" class="btn btn-primary btn-sm" id="header-signup-btn">Sign Up</button>
+      </div>
+      <div id="header-user" class="header-user-group" hidden>
+        <button type="button" class="user-chip" id="user-chip" aria-haspopup="true" aria-expanded="false">
+          <span class="user-avatar" id="user-avatar">🚚</span>
+          <span class="user-name" id="user-name">Driver</span>
+          <span class="user-caret" aria-hidden="true">▾</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="dh">
+
+  <!-- ========== TOP ========== -->
+  <section class="dh-top">
+    <div class="dh-top-left">
+      <h1>Delivery <em>history.</em></h1>
+      <p>Every completed, rejected, and cancelled job — searchable and filterable.</p>
+    </div>
+    <div class="dh-kpis">
+      <div class="dh-kpi">
+        <div class="ico">✅</div>
+        <div>
+          <strong id="dh-kpi-completed">0</strong>
+          <span>Completed</span>
+        </div>
+      </div>
+      <div class="dh-kpi">
+        <div class="ico">⚖️</div>
+        <div>
+          <strong id="dh-kpi-kg">0 kg</strong>
+          <span>Delivered</span>
+        </div>
+      </div>
+      <div class="dh-kpi">
+        <div class="ico">📜</div>
+        <div>
+          <strong id="dh-kpi-total">0</strong>
+          <span>Total Jobs</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CONTROLS ========== -->
+  <div class="dh-controls">
+    <div class="dh-search">
+      <span class="dh-search-ico">🔍</span>
+      <input type="text" id="dh-search" placeholder="Search by food, donor, ashram or donation ID…" autocomplete="off">
+    </div>
+    <div class="dh-filters" role="tablist" aria-label="Filter by status">
+      <button type="button" class="dh-filter active" data-filter="all">All <span class="count" id="dh-cnt-all">0</span></button>
+      <button type="button" class="dh-filter" data-filter="completed">✅ Completed <span class="count" id="dh-cnt-completed">0</span></button>
+      <button type="button" class="dh-filter" data-filter="rejected">❌ Rejected <span class="count" id="dh-cnt-rejected">0</span></button>
+      <button type="button" class="dh-filter" data-filter="cancelled">🚫 Cancelled <span class="count" id="dh-cnt-cancelled">0</span></button>
+    </div>
+  </div>
+
+  <!-- ========== TABLE ========== -->
+  <div class="dh-table-wrap">
+    <div class="dh-table" id="dh-table">
+      <table class="dh-list" id="dh-list">
+        <thead>
+          <tr>
+            <th>Food Item</th>
+            <th>Route</th>
+            <th>Weight</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th style="text-align:right;">Details</th>
+          </tr>
+        </thead>
+        <tbody id="dh-tbody">
+          <tr><td colspan="6" style="text-align:center;padding:2rem;color:#94a3b8;">⏳ Loading history…</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div id="dh-pagination" class="dh-pagination"></div>
+  </div>
+
+</main>
+
+<!-- ========== DETAIL MODAL ========== -->
+<div class="dh-modal" id="dh-modal">
+  <div class="dh-modal-card" role="dialog" aria-modal="true">
+    <button type="button" class="dh-modal-close" id="dh-modal-close" aria-label="Close">✕</button>
+    <h3 id="dh-modal-title">Delivery details</h3>
+    <p id="dh-modal-sub">—</p>
+    <div class="dh-detail-grid" id="dh-modal-grid"></div>
+    <a id="dh-modal-receipt" class="dh-empty" style="display:none;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:12px;padding:1rem;color:#065f46;font-size:.85rem;font-weight:700;text-align:center;text-decoration:none;" href="#">
+      📄 Download receipt
+    </a>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-brand"><h3>FeedFoodForward</h3><p>"Rescue Food. Reduce Waste. Feed Communities."</p></div>
+    <div class="footer-copyright">© 2026 FeedFoodForward Platform.</div>
+  </div>
+</footer>
+
+<div id="ff-toast" role="status" aria-live="polite" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);background:#0f172a;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:all .3s ease;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.25);"></div>
+
+<script src="app.js"></script>
+<script src="header-nav.js"></script>
+<script src="sidebar.js"></script>
+<script src="animations.js"></script>
+<script src="chatbot.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  'use strict';
+
+  const user  = (window.ffAuth && window.ffAuth.getUser) ? window.ffAuth.getUser() : null;
+  const toast = m => window.ffToast && window.ffToast(m);
+  if (!user) return;
+
+  const personalName = document.getElementById('user-name');
+  if (personalName) personalName.textContent = user.name || 'Driver';
+
+  /* ---------- Progress bar ---------- */
+  const progress = document.getElementById('dh-progress');
+  let tick = false;
+  function updateProgress() {
+    if (!progress) return;
+    const h = document.documentElement;
+    const sc = h.scrollTop || document.body.scrollTop;
+    const ht = (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
+    progress.style.transform = 'scaleX(' + (ht > 0 ? sc / ht : 0) + ')';
+  }
+  window.addEventListener('scroll', () => {
+    if (tick) return; tick = true;
+    requestAnimationFrame(() => { updateProgress(); tick = false; });
+  }, { passive: true });
+  updateProgress();
+
+  /* ---------- Reveal ---------- */
+  const reveals = document.querySelectorAll('.dh-table');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('dh-in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.05 });
+    reveals.forEach(el => io.observe(el));
+  } else {
+    reveals.forEach(el => el.classList.add('dh-in'));
+  }
+
+  /* ---------- Helpers ---------- */
+  function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  function fmtDate(iso) {
+    if (!iso) return '—';
+    try {
+      const d = new Date(iso);
+      return d.toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+    } catch (e) { return '—'; }
+  }
+  function fmtTime(iso) {
+    if (!iso) return '';
+    try {
+      return new Date(iso).toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' });
+    } catch (e) { return ''; }
+  }
+  function classify(d) {
+    const s = (d.status || '').toLowerCase();
+    if (s.includes('deliver') || s.includes('complet')) return 'completed';
+    if (s.includes('reject'))                          return 'rejected';
+    if (s.includes('cancel'))                          return 'cancelled';
+    return 'other';
+  }
+
+  /* ---------- State ---------- */
+  let ALL = [];
+  let FILTERED = [];
+  let activeFilter = 'all';
+  let searchQuery = '';
+  let currentPage = 1;
+  const PER_PAGE = 10;
+
+  /* ---------- Load ---------- */
+  async function load() {
+    try {
+      const myId = user.email || user.name;
+      let all = [];
+
+      /* ── PRIMARY SOURCE: local history store ── */
+      try {
+        const raw = localStorage.getItem('ff_deliveryHistory');
+        if (raw) {
+          const arr = JSON.parse(raw) || [];
+          all = arr.filter(h =>
+            !h.driverId ||
+            h.driverId === myId ||
+            h.driverName === (user.name || '')
+          );
+        }
+      } catch (e) { all = []; }
+
+      /* ── FALLBACK: try the API ── */
+      if (!all.length) {
+        try {
+          const r = await fetch('/api/donations?driver=' + encodeURIComponent(myId));
+          const data = await r.json();
+          const remote = (data && data.donations) || [];
+          all = remote
+            .filter(d => {
+              const dId   = d.driverId   || '';
+              const dName = d.driverName || '';
+              return dId === myId || dName === (user.name || '');
+            })
+            .filter(d => {
+              const s = (d.status || '').toLowerCase();
+              return s.includes('deliver') || s.includes('reject') || s.includes('cancel');
+            });
+        } catch (e) { /* offline — silent */ }
+      }
+
+      /* Sort newest first */
+      all.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+
+      ALL = all;
+      updateCounts();
+      applyFilters();
+    } catch (err) {
+      console.warn('load failed:', err);
+      document.getElementById('dh-tbody').innerHTML =
+        '<tr><td colspan="6" style="text-align:center;padding:2rem;color:#dc2626;">⚠️ Could not load history.</td></tr>';
+    }
+  }
+
+  /* ---------- Counts ---------- */
+  function updateCounts() {
+    const c = { all: ALL.length, completed: 0, rejected: 0, cancelled: 0 };
+    ALL.forEach(d => {
+      const k = classify(d);
+      if (c[k] !== undefined) c[k]++;
+    });
+    document.getElementById('dh-cnt-all').textContent       = c.all;
+    document.getElementById('dh-cnt-completed').textContent = c.completed;
+    document.getElementById('dh-cnt-rejected').textContent  = c.rejected;
+    document.getElementById('dh-cnt-cancelled').textContent = c.cancelled;
+
+    /* KPIs */
+    document.getElementById('dh-kpi-completed').textContent = c.completed;
+    document.getElementById('dh-kpi-total').textContent     = c.all;
+    const totalKg = ALL
+      .filter(d => classify(d) === 'completed')
+      .reduce((sum, d) => sum + (Number(d.weightKg) || 0), 0);
+    document.getElementById('dh-kpi-kg').textContent = Math.round(totalKg) + ' kg';
+  }
+
+  /* ---------- Filters ---------- */
+  function applyFilters() {
+    const q = searchQuery.toLowerCase().trim();
+    FILTERED = ALL.filter(d => {
+      if (activeFilter !== 'all' && classify(d) !== activeFilter) return false;
+      if (q) {
+        const hay = [
+          d.foodName, d.donorName, d.ashramName, d.donationId, d.foodCategory
+        ].filter(Boolean).join(' ').toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+      return true;
+    });
+    currentPage = 1;
+    render();
+  }
+
+  /* ---------- Render ---------- */
+  function render() {
+    const tbody = document.getElementById('dh-tbody');
+    const pagEl = document.getElementById('dh-pagination');
+
+    if (!FILTERED.length) {
+      tbody.innerHTML = `
+        <tr><td colspan="6">
+          <div class="dh-empty">
+            <span class="ico">📭</span>
+            <strong>No matching deliveries</strong>
+            <p>${ALL.length ? 'Try changing the filter or search term.' : 'Your completed missions will appear here once you deliver your first job.'}</p>
+              ${ALL.length ? '' : '<a href="driver-home.html">← Back to Dashboard</a>'}
+          </div>
+        </td></tr>`;
+      pagEl.innerHTML = '';
+      return;
+    }
+
+    const start = (currentPage - 1) * PER_PAGE;
+    const pageItems = FILTERED.slice(start, start + PER_PAGE);
+
+    tbody.innerHTML = pageItems.map(d => {
+      const kind = classify(d);
+      const cls = kind === 'completed' ? 'green'
+                : kind === 'rejected'  ? 'red'
+                : kind === 'cancelled' ? 'gray'
+                : 'amber';
+      const label = kind === 'completed' ? 'Delivered'
+                  : kind === 'rejected'  ? 'Rejected'
+                  : kind === 'cancelled' ? 'Cancelled'
+                  : (d.status || 'Unknown');
+      return `
+        <tr data-id="${esc(d.donationId)}">
+          <td>
+            <div class="dh-cell-food">
+              <div class="dh-cell-food-ico">📦</div>
+              <div class="dh-cell-food-body">
+                <div class="dh-cell-food-name">${esc(d.foodName || 'Prepared Meal')}</div>
+                <div class="dh-cell-food-id">${esc(d.donationId || '')}</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="dh-cell-route">
+              ${esc(d.donorName || 'Donor')}
+              <small>→ ${esc(d.ashramName || 'Ashram')}</small>
+            </div>
+          </td>
+          <td>${Number(d.weightKg) || 0} kg</td>
+          <td>
+            <div class="dh-cell-date">
+              ${fmtDate(d.createdAt)}
+              <small>${fmtTime(d.createdAt)}</small>
+            </div>
+          </td>
+          <td><span class="dh-pill ${cls}"><span class="dot"></span>${esc(label)}</span></td>
+          <td class="dh-cell-actions">
+            <button type="button" class="dh-icon-btn" data-view="${esc(d.donationId)}" title="View details">👁️</button>
+          </td>
+        </tr>`;
+    }).join('');
+
+    /* Wire view buttons */
+    tbody.querySelectorAll('[data-view]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openDetails(btn.dataset.view);
+      });
+    });
+    /* Row click also opens details */
+    tbody.querySelectorAll('tr[data-id]').forEach(tr => {
+      tr.addEventListener('click', () => openDetails(tr.dataset.id));
+    });
+
+    renderPagination();
+  }
+
+  /* ---------- Pagination ---------- */
+  function renderPagination() {
+    const pagEl = document.getElementById('dh-pagination');
+    const totalPages = Math.ceil(FILTERED.length / PER_PAGE);
+    if (totalPages <= 1) { pagEl.innerHTML = ''; return; }
+
+    let html = `<button type="button" class="dh-page-btn" data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''}>← Prev</button>`;
+    for (let i = 1; i <= totalPages; i++) {
+      if (totalPages > 7) {
+        if (i !== 1 && i !== totalPages && Math.abs(i - currentPage) > 1) {
+          if (i === 2 || i === totalPages - 1) html += `<span style="color:#94a3b8;padding:0 .3rem;">…</span>`;
+          continue;
+        }
+      }
+      html += `<button type="button" class="dh-page-btn ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
+    }
+    html += `<button type="button" class="dh-page-btn" data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''}>Next →</button>`;
+    pagEl.innerHTML = html;
+
+    pagEl.querySelectorAll('[data-page]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const p = parseInt(btn.dataset.page, 10);
+        if (p >= 1 && p <= totalPages && p !== currentPage) {
+          currentPage = p;
+          render();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      });
+    });
+  }
+
+  /* ---------- Details modal ---------- */
+  function openDetails(donationId) {
+    const d = ALL.find(x => x.donationId === donationId);
+    if (!d) return;
+
+    const kind = classify(d);
+    const cls = kind === 'completed' ? 'green'
+              : kind === 'rejected'  ? 'red'
+              : kind === 'cancelled' ? 'gray'
+              : 'amber';
+    const label = kind === 'completed' ? 'Delivered'
+                : kind === 'rejected'  ? 'Rejected'
+                : kind === 'cancelled' ? 'Cancelled'
+                : (d.status || 'Unknown');
+
+    document.getElementById('dh-modal-title').textContent = d.foodName || 'Prepared Meal';
+    document.getElementById('dh-modal-sub').innerHTML =
+      `${esc(d.donationId || '')} · <span class="dh-pill ${cls}" style="display:inline-flex;margin-left:.35rem;"><span class="dot"></span>${esc(label)}</span>`;
+
+    const details = [
+      ['🍽️ Food',         d.foodName || 'Prepared Meal'],
+      ['📂 Category',     d.foodCategory || 'Prepared Meals'],
+      ['⚖️ Weight',       (Number(d.weightKg) || 0) + ' kg'],
+      ['🥣 Servings',     (Number(d.servings) || 0)],
+      ['🏨 Donor',        d.donorName || '—'],
+      ['🏛️ Ashram',       d.ashramName || '—'],
+      ['📅 Created',      fmtDate(d.createdAt) + ' ' + fmtTime(d.createdAt)],
+      ['🕐 Pickup Time',  d.pickupVerifiedAt   ? (fmtDate(d.pickupVerifiedAt) + ' ' + fmtTime(d.pickupVerifiedAt))     : '—'],
+      ['🏁 Delivered At', d.deliveryVerifiedAt ? (fmtDate(d.deliveryVerifiedAt) + ' ' + fmtTime(d.deliveryVerifiedAt)) : '—']
+    ];
+    if (d.rejectReason) details.push(['⚠️ Reason', d.rejectReason]);
+
+    document.getElementById('dh-modal-grid').innerHTML = details.map(([k, v]) => `
+      <div class="dh-detail">
+        <div class="dh-detail-label">${esc(k)}</div>
+        <div class="dh-detail-value">${esc(v)}</div>
+      </div>
+    `).join('');
+
+    const receipt = document.getElementById('dh-modal-receipt');
+    if (kind === 'completed') {
+      receipt.style.display = 'block';
+      receipt.onclick = (e) => {
+        e.preventDefault();
+        try {
+          sessionStorage.setItem('ff_activeDonation', JSON.stringify(d));
+        } catch (err) {}
+        if (typeof window.ffDownloadReceipt === 'function') window.ffDownloadReceipt();
+      };
+    } else {
+      receipt.style.display = 'none';
+    }
+
+    const modal = document.getElementById('dh-modal');
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDetails() {
+    document.getElementById('dh-modal').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('dh-modal-close').addEventListener('click', closeDetails);
+  document.getElementById('dh-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'dh-modal') closeDetails();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeDetails();
+  });
+
+  /* ---------- Wire filters + search ---------- */
+  document.querySelectorAll('.dh-filter').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.dh-filter').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilter = btn.dataset.filter;
+      applyFilters();
+    });
+  });
+
+  let searchTimer = null;
+  document.getElementById('dh-search').addEventListener('input', (e) => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => {
+      searchQuery = e.target.value || '';
+      applyFilters();
+    }, 180);
+  });
+
+  /* ---------- Boot ---------- */
+  load();
+  /* Refresh every 5s so completed missions appear quickly */
+  setInterval(load, 5000);
+
+  /* Refresh instantly when another tab writes to history */
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'ff_deliveryHistory' || e.key === 'ff_livePickup') load();
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy | FeedFoodForward</title>
+<meta name="description" content="How FeedFoodForward collects, uses, and protects your data.">
+<meta name="theme-color" content="#16a34a">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2316a34a'/%3E%3Cpath d='M50 80 C28 62 18 50 18 37 A17 17 0 0 1 50 28 A17 17 0 0 1 82 37 C82 50 72 62 50 80 Z' fill='%23ffffff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+/* ============================================================
+   PRIVACY POLICY — animated editorial layout
+   ============================================================ */
+.pp {
+  --ink: #0B1224;
+  --muted: #64748b;
+  --soft: #94a3b8;
+  --line: #e8edf3;
+  --bg: #f7f9fb;
+  --green: #0B9F6E;
+  --green-dark: #047857;
+  --green-deep: #064e3b;
+  --green-50: #ecfdf5;
+  --amber: #f59e0b;
+  background: var(--bg);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ---------- Progress bar ---------- */
+.pp-progress {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 3px; z-index: 999;
+  transform-origin: 0 50%; transform: scaleX(0);
+  background: linear-gradient(90deg, #10b981, #f59e0b, #8b5cf6, #10b981);
+  background-size: 200% 100%;
+  animation: ppHue 8s linear infinite;
+}
+@keyframes ppHue { to { background-position: 200% 50%; } }
+
+/* ---------- Background orbs ---------- */
+.pp-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.pp-orb { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .5; }
+.pp-orb-1 { width: 520px; height: 520px; top: -180px; left: -150px;
+  background: radial-gradient(circle, rgba(16,185,129,.45), transparent 70%);
+  animation: ppOrbFloat 22s ease-in-out infinite; }
+.pp-orb-2 { width: 460px; height: 460px; top: 30%; right: -180px;
+  background: radial-gradient(circle, rgba(245,158,11,.35), transparent 70%);
+  animation: ppOrbFloat 26s ease-in-out infinite -8s; }
+.pp-orb-3 { width: 420px; height: 420px; bottom: -160px; left: 40%;
+  background: radial-gradient(circle, rgba(139,92,246,.32), transparent 70%);
+  animation: ppOrbFloat 24s ease-in-out infinite -14s; }
+@keyframes ppOrbFloat {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  33%      { transform: translate(40px,-30px) scale(1.08); }
+  66%      { transform: translate(-30px,40px) scale(.95); }
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.pp-hero {
+  position: relative; z-index: 1;
+  padding: 4rem 1.5rem 3.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+.pp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  padding: .5rem 1rem;
+  background: rgba(255,255,255,.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(16,185,129,.25);
+  border-radius: 999px;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--green-dark);
+  margin-bottom: 1.5rem;
+  box-shadow: 0 8px 24px -10px rgba(11,159,110,.28);
+  opacity: 0;
+  animation: ppFadeUp .8s ease forwards .05s;
+}
+.pp-badge-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--green); position: relative;
+}
+.pp-badge-dot::after {
+  content: "";
+  position: absolute; inset: -4px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(16,185,129,.5);
+  animation: ppPing 1.8s ease-out infinite;
+}
+@keyframes ppPing { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(2); opacity: 0; } }
+
+.pp-hero h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -.035em;
+  color: var(--ink);
+  margin: 0 0 1.25rem;
+  opacity: 0;
+  animation: ppFadeUp .9s ease forwards .15s;
+}
+.pp-hero h1 em {
+  font-style: normal;
+  background: linear-gradient(100deg, #067a54 0%, #10b981 40%, #f59e0b 60%, #10b981 80%, #067a54 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: ppShimmer 8s linear infinite;
+}
+@keyframes ppShimmer { from { background-position: 0% 50%; } to { background-position: 250% 50%; } }
+
+.pp-hero p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #475569;
+  max-width: 640px;
+  margin: 0 auto 1.75rem;
+  opacity: 0;
+  animation: ppFadeUp .9s ease forwards .3s;
+}
+.pp-hero-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: .75rem 1.35rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 8px 24px -12px rgba(11,18,36,.1);
+  font-size: .82rem;
+  color: var(--muted);
+  opacity: 0;
+  animation: ppFadeUp .9s ease forwards .45s;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.pp-hero-meta strong { color: var(--ink); font-weight: 800; }
+.pp-hero-meta .divider { width: 1px; height: 16px; background: var(--line); }
+
+@keyframes ppFadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ============================================================
+   MAIN LAYOUT — sticky sidebar + content
+   ============================================================ */
+.pp-layout {
+  position: relative; z-index: 1;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .pp-layout { grid-template-columns: 1fr; gap: 2rem; }
+}
+
+/* ---------- Sidebar TOC ---------- */
+.pp-toc {
+  position: sticky;
+  top: 100px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 1.5rem 1.25rem;
+  box-shadow: 0 12px 32px -18px rgba(11,18,36,.15);
+  opacity: 0;
+  transform: translateX(-20px);
+  animation: ppFadeUp .8s ease forwards .5s;
+}
+.pp-toc h4 {
+  font-family: 'Outfit', sans-serif;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--soft);
+  margin: 0 0 1rem;
+}
+.pp-toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+}
+.pp-toc-link {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  padding: .6rem .75rem;
+  font-size: .82rem;
+  font-weight: 600;
+  color: #475569;
+  text-decoration: none;
+  border-radius: 10px;
+  transition: all .2s ease;
+  position: relative;
+}
+.pp-toc-link::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 50%; transform: translateY(-50%) scaleY(0);
+  width: 3px; height: 60%;
+  background: var(--green);
+  border-radius: 3px;
+  transition: transform .25s ease;
+}
+.pp-toc-link:hover {
+  background: var(--green-50);
+  color: var(--green-dark);
+  padding-left: 1rem;
+}
+.pp-toc-link.active {
+  background: var(--green-50);
+  color: var(--green-dark);
+  font-weight: 800;
+}
+.pp-toc-link.active::before { transform: translateY(-50%) scaleY(1); }
+.pp-toc-num {
+  font-family: 'Outfit', sans-serif;
+  font-size: .68rem;
+  font-weight: 800;
+  color: var(--soft);
+  width: 18px;
+  flex-shrink: 0;
+}
+.pp-toc-link.active .pp-toc-num { color: var(--green); }
+@media (max-width: 900px) {
+  .pp-toc { position: static; display: none; }
+}
+
+/* ============================================================
+   CONTENT
+   ============================================================ */
+.pp-content { display: flex; flex-direction: column; gap: 1.25rem; }
+
+.pp-section {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 2rem 2.25rem;
+  position: relative;
+  overflow: hidden;
+  transition: all .35s cubic-bezier(.2,.7,.2,1);
+  opacity: 0;
+  transform: translateY(30px);
+  scroll-margin-top: 100px;
+}
+.pp-section.pp-in { opacity: 1; transform: none; }
+.pp-section:hover {
+  border-color: rgba(16,185,129,.3);
+  box-shadow: 0 20px 45px -22px rgba(16,185,129,.25);
+}
+.pp-section::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--green), var(--amber));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .6s cubic-bezier(.2,.7,.2,1);
+}
+.pp-section.pp-in::before { transform: scaleX(1); }
+
+.pp-section-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.15rem;
+  margin-bottom: 1.25rem;
+}
+.pp-section-ico {
+  width: 52px; height: 52px;
+  border-radius: 15px;
+  background: linear-gradient(135deg, var(--green-50), rgba(16,185,129,.12));
+  color: var(--green-dark);
+  display: grid;
+  place-items: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  transition: transform .4s cubic-bezier(.34,1.56,.64,1);
+}
+.pp-section:hover .pp-section-ico {
+  transform: rotate(-8deg) scale(1.08);
+}
+.pp-section-title h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(1.15rem, 2vw, 1.4rem);
+  font-weight: 800;
+  letter-spacing: -.02em;
+  color: var(--ink);
+  margin: 0 0 .25rem;
+  line-height: 1.2;
+}
+.pp-section-title .num {
+  display: inline-block;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: .25rem;
+}
+
+.pp-section-body {
+  font-size: .96rem;
+  line-height: 1.8;
+  color: #334155;
+  margin: 0;
+}
+.pp-section-body p { margin: 0 0 1rem; }
+.pp-section-body p:last-child { margin-bottom: 0; }
+
+.pp-section-body strong { color: var(--ink); font-weight: 700; }
+
+.pp-section-body a {
+  color: var(--green-dark);
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(4,120,87,.35);
+  transition: border-color .2s ease;
+}
+.pp-section-body a:hover { border-color: var(--green-dark); }
+
+/* ---------- Feature list (icon bullets) ---------- */
+.pp-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: .65rem;
+}
+.pp-list li {
+  display: flex;
+  gap: .85rem;
+  align-items: flex-start;
+  padding: .85rem 1rem;
+  background: var(--bg);
+  border-radius: 12px;
+  border-left: 3px solid var(--green);
+  font-size: .9rem;
+  line-height: 1.65;
+  color: #334155;
+  transition: all .25s ease;
+}
+.pp-list li:hover {
+  background: var(--green-50);
+  transform: translateX(4px);
+}
+.pp-list li .bullet {
+  font-size: 1rem;
+  flex-shrink: 0;
+  line-height: 1.5;
+}
+.pp-list li strong { color: var(--ink); font-weight: 800; }
+
+/* ---------- Highlight box ---------- */
+.pp-highlight {
+  margin-top: 1.25rem;
+  padding: 1.15rem 1.35rem;
+  background: linear-gradient(135deg, var(--green-50), rgba(245,158,11,.06));
+  border: 1px solid #bbf7d0;
+  border-radius: 14px;
+  display: flex;
+  gap: .9rem;
+  align-items: flex-start;
+}
+.pp-highlight .ico {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: var(--green);
+  color: #fff;
+  display: grid; place-items: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+.pp-highlight p {
+  font-size: .88rem;
+  line-height: 1.65;
+  color: var(--green-deep);
+  margin: 0;
+  font-weight: 500;
+}
+.pp-highlight strong { color: var(--green-deep); font-weight: 800; }
+
+/* ============================================================
+   CTA BAND
+   ============================================================ */
+.pp-cta-wrap {
+  position: relative; z-index: 1;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+}
+.pp-cta {
+  background: linear-gradient(135deg, #0B1224 0%, #1e293b 100%);
+  border-radius: 26px;
+  padding: 3rem 3rem;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all .9s ease;
+}
+.pp-cta.pp-in { opacity: 1; transform: none; }
+.pp-cta::before {
+  content: "";
+  position: absolute;
+  top: -140px; right: -90px;
+  width: 420px; height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(16,185,129,.4), transparent 65%);
+  animation: ppOrbFloat 14s ease-in-out infinite;
+}
+.pp-cta::after {
+  content: "";
+  position: absolute;
+  bottom: -140px; left: -90px;
+  width: 360px; height: 360px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245,158,11,.3), transparent 65%);
+  animation: ppOrbFloat 16s ease-in-out infinite reverse;
+}
+.pp-cta-inner { position: relative; z-index: 1; max-width: 620px; margin: 0 auto; }
+.pp-cta h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -.025em;
+  line-height: 1.1;
+  margin: 0 0 .9rem;
+}
+.pp-cta h2 em {
+  font-style: normal;
+  background: linear-gradient(120deg, #6ee7b7, #34d399, #fbbf24);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.pp-cta p {
+  font-size: 1rem;
+  color: rgba(255,255,255,.75);
+  line-height: 1.65;
+  margin: 0 0 2rem;
+}
+.pp-cta-actions {
+  display: flex;
+  gap: .75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.pp-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  padding: 1rem 1.7rem;
+  font-family: inherit;
+  font-size: .88rem;
+  font-weight: 800;
+  text-decoration: none;
+  border-radius: 14px;
+  transition: all .25s ease;
+  border: 1.5px solid transparent;
+}
+.pp-cta-btn.primary {
+  background: #fff;
+  color: var(--green-deep);
+  box-shadow: 0 12px 30px rgba(255,255,255,.15);
+}
+.pp-cta-btn.primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 42px rgba(255,255,255,.25);
+}
+.pp-cta-btn.outline {
+  background: transparent;
+  color: #fff;
+  border-color: rgba(255,255,255,.35);
+}
+.pp-cta-btn.outline:hover {
+  background: rgba(255,255,255,.1);
+  border-color: #fff;
+  transform: translateY(-3px);
+}
+
+/* ============================================================
+   Back to top
+   ============================================================ */
+.pp-top {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  background: var(--green-dark);
+  color: #fff;
+  border: none;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 14px 30px -10px rgba(11,159,110,.5);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all .3s cubic-bezier(.2,.7,.2,1);
+  z-index: 500;
+  font-size: 1.1rem;
+}
+.pp-top.pp-visible { opacity: 1; visibility: visible; transform: none; }
+.pp-top:hover { transform: translateY(-3px); box-shadow: 0 20px 40px -10px rgba(11,159,110,.7); }
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .pp-progress, .pp-orb, .pp-badge-dot::after,
+  .pp-hero h1 em, .pp-cta::before, .pp-cta::after {
+    animation: none !important;
+  }
+  .pp-section, .pp-cta, .pp-hero > *, .pp-toc {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="pp-progress" id="pp-progress" aria-hidden="true"></div>
+
+<!-- Background orbs -->
+<div class="pp-bg" aria-hidden="true">
+  <div class="pp-orb pp-orb-1"></div>
+  <div class="pp-orb pp-orb-2"></div>
+  <div class="pp-orb pp-orb-3"></div>
+</div>
+
+<header class="site-header">
+  <div class="header-container">
+    <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <a href="index.html" class="brand-logo" aria-label="FeedFoodForward home">
+      <div class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="ffTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#067A54"/><stop offset="55%" stop-color="#0B9F6E"/><stop offset="100%" stop-color="#10B981"/></linearGradient>
+            <linearGradient id="ffHeart" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#FF5A7A"/><stop offset="100%" stop-color="#F03E64"/></linearGradient>
+            <linearGradient id="ffLeaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#A3E635"/><stop offset="100%" stop-color="#65A30D"/></linearGradient>
+          </defs>
+          <rect x="2" y="2" width="44" height="44" rx="11" fill="url(#ffTile)"/>
+          <g transform="translate(28 6) rotate(20)"><path d="M0 14 C0 6 5 1 12 0 C12 8 7 14 0 14 Z" fill="url(#ffLeaf)"/></g>
+          <g transform="translate(8 20)"><path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4 C7.4 0.4 9.2 1.8 10 3.4 C10.8 1.8 12.6 0.4 15 0.4 C18.3 0.4 21 2.6 21 6 C21 10 18 14 10 20 Z" fill="url(#ffHeart)"/></g>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">FeedFood<span>Forward</span></span>
+        <span class="brand-subtitle">AI FOOD REDISTRIBUTION PLATFORM</span>
+      </div>
+    </a>
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation menu">☰</button>
+    <nav class="site-nav" id="site-nav" aria-label="Primary"></nav>
+    <div class="header-utilities">
+      <div id="header-guest" class="header-auth-group">
+        <button type="button" class="btn btn-outline btn-sm" id="header-login-btn">Login</button>
+        <button type="button" class="btn btn-primary btn-sm" id="header-signup-btn">Sign Up</button>
+      </div>
+      <div id="header-user" class="header-user-group" hidden>
+        <button type="button" class="user-chip" id="user-chip" aria-haspopup="true" aria-expanded="false">
+          <span class="user-avatar" id="user-avatar">👤</span>
+          <span class="user-name" id="user-name">User</span>
+          <span class="user-caret" aria-hidden="true">▾</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="pp">
+
+<!-- ==================== HERO ==================== -->
+<section class="pp-hero">
+  <span class="pp-badge">
+    <span class="pp-badge-dot"></span>
+    Your Privacy Matters
+  </span>
+  <h1>Your data, <em>your rules.</em></h1>
+  <p>We believe in full transparency. Here's exactly what we collect, why we collect it, and how you control it every step of the way.</p>
+  <div class="pp-hero-meta">
+    <span><strong>Last updated</strong> · 12 October 2026</span>
+    <span class="divider"></span>
+    <span><strong>Read time</strong> · 4 min</span>
+    <span class="divider"></span>
+    <span><strong>Version</strong> · 2.1</span>
+  </div>
+</section>
+
+<!-- ==================== LAYOUT ==================== -->
+<div class="pp-layout">
+
+  <!-- Sidebar TOC -->
+  <aside class="pp-toc">
+    <h4>On this page</h4>
+    <ul class="pp-toc-list">
+      <li><a href="#s1" class="pp-toc-link"><span class="pp-toc-num">01</span> Information We Collect</a></li>
+      <li><a href="#s2" class="pp-toc-link"><span class="pp-toc-num">02</span> How We Use Your Info</a></li>
+      <li><a href="#s3" class="pp-toc-link"><span class="pp-toc-num">03</span> Location &amp; Tracking</a></li>
+      <li><a href="#s4" class="pp-toc-link"><span class="pp-toc-num">04</span> Third-Party Services</a></li>
+      <li><a href="#s5" class="pp-toc-link"><span class="pp-toc-num">05</span> Your Rights</a></li>
+      <li><a href="#s6" class="pp-toc-link"><span class="pp-toc-num">06</span> Data Retention</a></li>
+      <li><a href="#s7" class="pp-toc-link"><span class="pp-toc-num">07</span> Contact Us</a></li>
+    </ul>
+  </aside>
+
+  <!-- Content -->
+  <div class="pp-content">
+
+    <!-- 01 -->
+    <section class="pp-section" id="s1" data-reveal>
+      <div class="pp-section-head">
+        <div class="pp-section-ico">📋</div>
+        <div class="pp-section-title">
+          <span class="num">01</span>
+          <h2>Information We Collect</h2>
+        </div>
+      </div>
+      <div class="pp-section-body">
+        <p>When you register or use FeedFoodForward, we may collect the following:</p>
+        <ul class="pp-list">
+          <li><span class="bullet">👤</span><span><strong>Account details</strong> — name, email address, phone number, and role (donor, ashram, or driver)</span></li>
+          <li><span class="bullet">🏢</span><span><strong>Organization info</strong> — hotel/restaurant name, ashram name, address, and food requirements</span></li>
+          <li><span class="bullet">📍</span><span><strong>Location data</strong> — pickup and delivery addresses, plus live GPS during active deliveries</span></li>
+          <li><span class="bullet">📷</span><span><strong>Food photos</strong> — analysed by Google Gemini solely for AI pre-screening purposes</span></li>
+        </ul>
+        <div class="pp-highlight">
+          <div class="ico">✓</div>
+          <p><strong>We never sell your personal data.</strong> Any information you share stays within FeedFoodForward's platform.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 -->
+    <section class="pp-section" id="s2" data-reveal>
+      <div class="pp-section-head">
+        <div class="pp-section-ico">🎯</div>
+        <div class="pp-section-title">
+          <span class="num">02</span>
+          <h2>How We Use Your Information</h2>
+        </div>
+      </div>
+      <div class="pp-section-body">
+        <p>Every piece of data we collect has a specific, honest purpose:</p>
+        <ul class="pp-list">
+          <li><span class="bullet">🎯</span><span><strong>Matching</strong> — connecting donations with the nearest verified receivers</span></li>
+          <li><span class="bullet">📡</span><span><strong>Live tracking</strong> — letting you follow your delivery on the map in real-time</span></li>
+          <li><span class="bullet">🔐</span><span><strong>Verification</strong> — QR-code confirmation at pickup and handover</span></li>
+          <li><span class="bullet">🔔</span><span><strong>Notifications</strong> — pickup reminders, delivery alerts, platform updates</span></li>
+          <li><span class="bullet">📊</span><span><strong>Impact reports</strong> — CSR statistics and environmental metrics</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 03 -->
+    <section class="pp-section" id="s3" data-reveal>
+      <div class="pp-section-head">
+        <div class="pp-section-ico">📍</div>
+        <div class="pp-section-title">
+          <span class="num">03</span>
+          <h2>Location &amp; Live Tracking</h2>
+        </div>
+      </div>
+      <div class="pp-section-body">
+        <p>Drivers share live GPS location <strong>only while on an active delivery mission</strong>. Donors and receivers can see this location to track their delivery progress on the map.</p>
+        <ul class="pp-list">
+          <li><span class="bullet">⏱️</span><span>Location sharing stops automatically when the mission ends</span></li>
+          <li><span class="bullet">⚙️</span><span>You can disable location sharing at any time from <strong>Settings → Privacy</strong></span></li>
+          <li><span class="bullet">🔒</span><span>Location data is encrypted and never shared with third parties</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 04 -->
+    <section class="pp-section" id="s4" data-reveal>
+      <div class="pp-section-head">
+        <div class="pp-section-ico">🔗</div>
+        <div class="pp-section-title">
+          <span class="num">04</span>
+          <h2>Third-Party Services</h2>
+        </div>
+      </div>
+      <div class="pp-section-body">
+        <p>We work with the following trusted services. Each handles your data under its own privacy policy:</p>
+        <ul class="pp-list">
+          <li><span class="bullet">🤖</span><span><strong>Google Gemini</strong> — AI image analysis for food inspection</span></li>
+          <li><span class="bullet">🗺️</span><span><strong>OpenStreetMap &amp; Nominatim</strong> — maps and geocoding</span></li>
+          <li><span class="bullet">🛣️</span><span><strong>OSRM</strong> — road-accurate route calculation</span></li>
+          <li><span class="bullet">🗄️</span><span><strong>MongoDB Atlas</strong> — encrypted cloud data storage</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 05 -->
+    <section class="pp-section" id="s5" data-reveal>
+      <div class="pp-section-head">
+        <div class="pp-section-ico">🛡️</div>
+        <div class="pp-section-title">
+          <span class="num">05</span>
+          <h2>Your Rights</h2>
+        </div>
+      </div>
+      <div class="pp-section-body">
+        <p>You have full control over your data. From your <a href="settings.html">Settings page</a> you can:</p>
+        <ul class="pp-list">
+          <li><span class="bullet">📥</span><span><strong>Download your data</strong> — get a full copy as a JSON file</span></li>
+          <li><span class="bullet">👁️</span><span><strong>Control visibility</strong> — decide if your profile appears publicly or on the leaderboard</span></li>
+          <li><span class="bullet">📡</span><span><strong>Toggle location sharing</strong> — enable or disable GPS anytime</span></li>
+          <li><span class="bullet">🗑️</span><span><strong>Delete your account</strong> — permanently remove all your data</span></li>
+        </ul>
+        <div class="pp-highlight">
+          <div class="ico">💡</div>
+          <p><strong>Tip:</strong> You can exercise any of these rights instantly — no waiting for approval, no customer service tickets.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 -->
+    <section class="pp-section" id="s6" data-reveal>
+      <div class="pp-section-head">
+        <div class="pp-section-ico">⏳</div>
+        <div class="pp-section-title">
+          <span class="num">06</span>
+          <h2>Data Retention</h2>
+        </div>
+      </div>
+      <div class="pp-section-body">
+        <p>We keep your data only as long as necessary:</p>
+        <ul class="pp-list">
+          <li><span class="bullet">✅</span><span><strong>Active accounts</strong> — retained for as long as your account is open</span></li>
+          <li><span class="bullet">📊</span><span><strong>Donation records</strong> — retained for 24 months for CSR reporting purposes</span></li>
+          <li><span class="bullet">🗑️</span><span><strong>Deleted accounts</strong> — purged permanently within 30 days</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 07 -->
+    <section class="pp-section" id="s7" data-reveal>
+      <div class="pp-section-head">
+        <div class="pp-section-ico">✉️</div>
+        <div class="pp-section-title">
+          <span class="num">07</span>
+          <h2>Contact Us</h2>
+        </div>
+      </div>
+      <div class="pp-section-body">
+        <p>Have a privacy-related question? We're here to help.</p>
+        <ul class="pp-list">
+          <li><span class="bullet">📧</span><span>Email us at <a href="mailto:support@feedfoodforward.demo">support@feedfoodforward.demo</a></span></li>
+          <li><span class="bullet">💬</span><span>Or use our <a href="contact.html">contact form</a></span></li>
+          <li><span class="bullet">🔔</span><span>Report a concern through <a href="feedback.html">Feedback</a></span></li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
+
+</div>
+
+<!-- ==================== CTA ==================== -->
+<div class="pp-cta-wrap">
+  <div class="pp-cta" data-reveal>
+    <div class="pp-cta-inner">
+      <h2>Questions about <em>your privacy?</em></h2>
+      <p>Reach out anytime. We usually reply within a day — and always with a real human on the other end.</p>
+      <div class="pp-cta-actions">
+        <a href="contact.html" class="pp-cta-btn primary">Contact Us →</a>
+        <a href="terms.html" class="pp-cta-btn outline">Read Terms &amp; Conditions</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Back to top -->
+<button type="button" class="pp-top" id="pp-top" aria-label="Back to top">↑</button>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-brand"><h3>FeedFoodForward</h3><p>"Rescue Food. Reduce Waste. Feed Communities."</p></div>
+    <div class="footer-copyright">© 2026 FeedFoodForward Platform.</div>
+  </div>
+</footer>
+
+<div id="ff-toast" role="status" aria-live="polite" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);background:#0f172a;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:all .3s ease;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.25);"></div>
+
+<script src="app.js"></script>
+<script src="header-nav.js"></script>
+<script src="sidebar.js"></script>
+<script src="animations.js"></script>
+<script src="chatbot.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  'use strict';
+
+  /* ---------- Progress bar ---------- */
+  const progress = document.getElementById('pp-progress');
+  let tick = false;
+  function updateProgress() {
+    if (!progress) return;
+    const h = document.documentElement;
+    const scrolled = h.scrollTop || document.body.scrollTop;
+    const height = (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
+    progress.style.transform = 'scaleX(' + (height > 0 ? scrolled / height : 0) + ')';
+  }
+  window.addEventListener('scroll', () => {
+    if (tick) return;
+    tick = true;
+    requestAnimationFrame(() => { updateProgress(); tick = false; });
+  }, { passive: true });
+  updateProgress();
+
+  /* ---------- Scroll reveal ---------- */
+  const reveals = document.querySelectorAll('[data-reveal], .pp-section, .pp-cta');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('pp-in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
+    reveals.forEach(el => io.observe(el));
+  } else {
+    reveals.forEach(el => el.classList.add('pp-in'));
+  }
+
+  /* ---------- TOC active state ---------- */
+  const sections = document.querySelectorAll('.pp-section');
+  const tocLinks = document.querySelectorAll('.pp-toc-link');
+  if ('IntersectionObserver' in window && sections.length && tocLinks.length) {
+    const sectionIO = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const id = e.target.id;
+          tocLinks.forEach(l => {
+            l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+          });
+        }
+      });
+    }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
+    sections.forEach(s => sectionIO.observe(s));
+  }
+
+  /* ---------- Smooth scroll for TOC links ---------- */
+  tocLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (!target) return;
+      const top = target.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    });
+  });
+
+  /* ---------- Back to top ---------- */
+  const topBtn = document.getElementById('pp-top');
+  if (topBtn) {
+    window.addEventListener('scroll', () => {
+      topBtn.classList.toggle('pp-visible', window.scrollY > 500);
+    }, { passive: true });
+    topBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+});
+</script>
+
+</body>
+</html>

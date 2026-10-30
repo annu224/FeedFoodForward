@@ -1,0 +1,1831 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Driver Home | FeedFoodForward</title>
+<meta name="theme-color" content="#16a34a">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2316a34a'/%3E%3Cpath d='M50 80 C28 62 18 50 18 37 A17 17 0 0 1 50 28 A17 17 0 0 1 82 37 C82 50 72 62 50 80 Z' fill='%23ffffff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="guest-guard.js"></script>
+<style>
+/* ============================================================
+   DRIVER HOME — Mission Control Edition
+   + 60+ ANIMATION LAYERS
+   ============================================================ */
+.dh {
+  --dh-ink:#0B1224;
+  --dh-muted:#64748b;
+  --dh-soft:#94a3b8;
+  --dh-line:#e8edf3;
+  --dh-bg:#f6f9fc;
+  --dh-green:#0B9F6E;
+  --dh-green-dark:#047857;
+  --dh-green-deep:#064e3b;
+  --dh-green-50:#ecfdf5;
+  --dh-amber:#f59e0b;
+  --dh-blue:#3b82f6;
+  --dh-violet:#8b5cf6;
+  --dh-pink:#ec4899;
+  background:var(--dh-bg);
+  min-height:100vh;
+  position:relative;
+  overflow-x:clip;
+  padding-bottom:3rem;
+}
+
+/* ⚡ ADDED: cursor glow */
+.dh-cursor-glow{
+  position:fixed;pointer-events:none;z-index:1;
+  width:420px;height:420px;border-radius:50%;
+  background:radial-gradient(circle,rgba(16,185,129,.16),transparent 70%);
+  transform:translate(-50%,-50%);
+  filter:blur(50px);
+  opacity:0;
+  transition:opacity .4s ease;
+}
+
+/* ⚡ ADDED: page entrance fade */
+body.dh-page-enter{opacity:0;transition:opacity .55s ease;}
+body.dh-page-enter.dh-page-ready{opacity:1;}
+
+/* ⚡ ADDED: floating particles */
+.dh-particle{
+  position:fixed;border-radius:50%;pointer-events:none;z-index:0;
+  animation: dhFloatUp linear infinite;
+}
+@keyframes dhFloatUp{
+  0%{transform:translateY(105vh) scale(.4) rotate(0deg);opacity:0;}
+  10%{opacity:.8;}
+  90%{opacity:.8;}
+  100%{transform:translateY(-20vh) scale(1.1) rotate(360deg);opacity:0;}
+}
+
+/* ⚡ ADDED: aurora mesh overlay */
+.dh-bg-mesh{
+  position:absolute;inset:-20%;
+  background:
+    radial-gradient(600px 600px at 20% 30%, rgba(16,185,129,.07), transparent 60%),
+    radial-gradient(600px 600px at 80% 70%, rgba(37,99,235,.06), transparent 60%);
+  animation: dhAurora 24s ease-in-out infinite alternate;
+}
+@keyframes dhAurora{
+  0%{transform:translate3d(0,0,0) rotate(0deg) scale(1);}
+  50%{transform:translate3d(2%,-2%,0) rotate(6deg) scale(1.05);}
+  100%{transform:translate3d(-2%,2%,0) rotate(-6deg) scale(1.08);}
+}
+
+/* ⚡ ADDED: animated dot grid pan */
+.dh-grid {
+  animation: dhGridPan 60s linear infinite;
+}
+@keyframes dhGridPan{
+  from{background-position:0 0;}
+  to{background-position:200px 200px;}
+}
+
+.dh-bg { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+.dh-orb { position:absolute; border-radius:50%; filter:blur(90px); opacity:.55; }
+.dh-orb-1 { width:520px; height:520px; top:-180px; left:-150px;
+  background: radial-gradient(circle, rgba(16,185,129,.45), transparent 70%);
+  animation: dhFloat 22s ease-in-out infinite; }
+.dh-orb-2 { width:460px; height:460px; top:25%; right:-180px;
+  background: radial-gradient(circle, rgba(245,158,11,.32), transparent 70%);
+  animation: dhFloat 26s ease-in-out infinite -8s; }
+.dh-orb-3 { width:420px; height:420px; bottom:-160px; left:40%;
+  background: radial-gradient(circle, rgba(139,92,246,.25), transparent 70%);
+  animation: dhFloat 24s ease-in-out infinite -14s; }
+@keyframes dhFloat {
+  0%,100% { transform: translate(0,0) scale(1) rotate(0deg); }
+  33%     { transform: translate(40px,-30px) scale(1.08) rotate(60deg); }
+  66%     { transform: translate(-30px,40px) scale(.95) rotate(180deg); }
+}
+.dh-grid {
+  position:absolute; inset:0;
+  background-image: radial-gradient(rgba(11,18,36,.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse at center, #000 20%, transparent 72%);
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 20%, transparent 72%);
+}
+
+.dh-progress {
+  position:fixed; top:0; left:0; right:0; height:3px;
+  z-index:999; transform-origin:0 50%; transform:scaleX(0);
+  background: linear-gradient(90deg, #10b981, #f59e0b, #8b5cf6, #10b981);
+  background-size:200% 100%;
+  animation: dhHue 8s linear infinite;
+}
+@keyframes dhHue { to { background-position: 200% 50%; } }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.dh-hero {
+  position:relative; z-index:1;
+  max-width:1280px; margin:0 auto;
+  padding: 3rem 1.5rem 2rem;
+  display:grid; grid-template-columns: 1.3fr 1fr;
+  gap:3rem; align-items:center;
+}
+@media(max-width:960px){ .dh-hero { grid-template-columns:1fr; gap:2rem; } }
+
+.dh-hero-text { opacity:0; animation: dhFadeUp .8s cubic-bezier(.2,.7,.2,1) forwards .1s; }
+.dh-badge {
+  display:inline-flex; align-items:center; gap:.55rem;
+  padding:.5rem 1rem; margin-bottom:1.25rem;
+  background:rgba(255,255,255,.85); backdrop-filter: blur(10px);
+  border:1px solid rgba(16,185,129,.25);
+  border-radius:999px;
+  font-size:.72rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase;
+  color: var(--dh-green-dark);
+  box-shadow: 0 8px 24px -10px rgba(11,159,110,.28);
+  position:relative; overflow:hidden;
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s ease;
+}
+.dh-badge:hover{
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 32px -10px rgba(11,159,110,.5);
+}
+.dh-badge::after {
+  content:""; position:absolute; top:0; bottom:0; width:40%; left:-70%;
+  background: linear-gradient(100deg, transparent, rgba(16,185,129,.28), transparent);
+  animation: dhSheen 3.6s ease-in-out infinite;
+}
+@keyframes dhSheen { 0%{left:-70%} 55%,100%{left:130%} }
+.dh-badge-dot { width:8px; height:8px; background: var(--dh-green); border-radius:50%; position:relative; }
+.dh-badge-dot::after {
+  content:""; position:absolute; inset:-4px; border-radius:50%;
+  border:1.5px solid rgba(16,185,129,.5);
+  animation: dhPing 1.8s ease-out infinite;
+}
+@keyframes dhPing { 0%{transform:scale(1);opacity:1} 100%{transform:scale(2);opacity:0} }
+
+.dh-hero h1 {
+  font-family:'Outfit',sans-serif; font-weight:800;
+  font-size: clamp(2rem, 4.6vw, 3.4rem);
+  line-height: 1.04; letter-spacing: -.035em;
+  color: var(--dh-ink);
+  margin: 0 0 1rem;
+}
+.dh-hero h1 em {
+  font-style:normal;
+  background: linear-gradient(100deg, #067a54 0%, #10b981 40%, #f59e0b 60%, #10b981 80%, #067a54 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  animation: dhShimmer 8s linear infinite;
+}
+@keyframes dhShimmer { from{background-position:0% 50%} to{background-position:250% 50%} }
+.dh-hero p {
+  font-size:1.05rem; line-height:1.7; color:#475569;
+  max-width:520px; margin:0 0 1.75rem;
+}
+
+.dh-hero-actions { display:flex; gap:.75rem; flex-wrap:wrap; align-items:center; }
+
+.dh-status {
+  display:inline-flex; align-items:center; gap:.6rem;
+  padding:.85rem 1.35rem;
+  background:#fff; border:1px solid var(--dh-line);
+  border-radius:999px;
+  font-family:inherit; font-size:.9rem; font-weight:800;
+  color: var(--dh-green-deep);
+  cursor:pointer; transition: all .3s cubic-bezier(.2,.7,.2,1);
+  box-shadow: 0 8px 20px -10px rgba(11,159,110,.35);
+  position:relative; overflow:hidden;
+}
+.dh-status::before{
+  content:""; position:absolute; top:0; left:-70%; width:40%; height:100%;
+  background: linear-gradient(100deg, transparent, rgba(16,185,129,.15), transparent);
+  transform: skewX(-20deg);
+  animation: dhBtnSheen 4s ease-in-out infinite;
+}
+@keyframes dhBtnSheen { 0%{left:-70%} 40%,100%{left:130%} }
+.dh-status:hover { transform: translateY(-3px); border-color: var(--dh-green); box-shadow: 0 14px 30px -10px rgba(11,159,110,.5); }
+.dh-status:active { transform: translateY(-1px) scale(.98); }
+.dh-status .dot {
+  width:10px; height:10px; border-radius:50%;
+  background: var(--dh-green);
+  box-shadow: 0 0 0 0 rgba(16,185,129,.6);
+  animation: dhPulse 1.8s infinite;
+}
+.dh-status.off { color:#92400e; }
+.dh-status.off .dot { background: var(--dh-amber); box-shadow: 0 0 0 0 rgba(245,158,11,.6); animation-name: dhPulseAmber; }
+@keyframes dhPulse { 0%{box-shadow:0 0 0 0 rgba(16,185,129,.6)} 70%{box-shadow:0 0 0 12px rgba(16,185,129,0)} 100%{box-shadow:0 0 0 0 rgba(16,185,129,0)} }
+@keyframes dhPulseAmber { 0%{box-shadow:0 0 0 0 rgba(245,158,11,.6)} 70%{box-shadow:0 0 0 12px rgba(245,158,11,0)} 100%{box-shadow:0 0 0 0 rgba(245,158,11,0)} }
+
+/* ---------- Live ticker ---------- */
+.dh-ticker {
+  display:flex; align-items:center; gap:.55rem;
+  padding:.7rem 1.15rem;
+  background:linear-gradient(135deg, #ecfdf5, #fff);
+  border:1px solid #bbf7d0;
+  border-radius:999px;
+  font-size:.8rem; font-weight:700;
+  color: var(--dh-green-deep);
+  box-shadow: 0 8px 18px -10px rgba(11,159,110,.3);
+  position:relative; overflow:hidden;
+  max-width:280px;
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+.dh-ticker:hover { transform: translateY(-2px); }
+.dh-ticker::after {
+  content:""; position:absolute; top:0; bottom:0; width:40%; left:-70%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.8), transparent);
+  animation: dhSheen 4s ease-in-out infinite;
+}
+.dh-ticker .live-dot {
+  width:8px; height:8px; border-radius:50%; background:#ef4444;
+  box-shadow: 0 0 0 0 rgba(239,68,68,.6);
+  animation: dhPulseRed 1.6s infinite;
+  flex-shrink:0;
+  position:relative;
+}
+.dh-ticker .live-dot::after{
+  content:""; position:absolute; inset:-3px; border-radius:50%;
+  border:1px solid rgba(239,68,68,.6);
+  animation: dhDotRipple 2s ease-out infinite;
+}
+@keyframes dhDotRipple {
+  0%{transform:scale(1);opacity:.8;}
+  100%{transform:scale(2.8);opacity:0;}
+}
+@keyframes dhPulseRed { 0%{box-shadow:0 0 0 0 rgba(239,68,68,.6)} 70%{box-shadow:0 0 0 10px rgba(239,68,68,0)} 100%{box-shadow:0 0 0 0 rgba(239,68,68,0)} }
+
+/* ---------- Hero visual ---------- */
+.dh-visual {
+  position:relative; height:400px;
+  opacity:0; animation: dhFadeUp 1s cubic-bezier(.2,.7,.2,1) forwards .25s;
+}
+@media(max-width:640px){ .dh-visual { height:320px; } }
+
+.dh-visual-card {
+  position:absolute;
+  background:#fff;
+  border-radius:22px;
+  box-shadow: 0 30px 60px -25px rgba(11,18,36,.35);
+  border:1px solid var(--dh-line);
+  overflow:hidden;
+  transition: box-shadow .35s ease, border-color .3s ease;
+}
+.dh-visual-card:hover{
+  box-shadow: 0 40px 80px -25px rgba(11,18,36,.42);
+  border-color: rgba(16,185,129,.3);
+}
+.dh-visual-main {
+  top:0; left:0; width:75%; height:100%; z-index:1;
+  padding:1.35rem 1.4rem;
+  animation: dhBob 6s ease-in-out infinite;
+  display:flex; flex-direction:column;
+  position:relative;
+}
+.dh-visual-main::before{
+  content:""; position:absolute; top:0; left:0; right:0; height:3px;
+  background: linear-gradient(90deg, #10b981, #f59e0b, #8b5cf6, #10b981);
+  background-size:200% 100%;
+  animation: dhHue 4s linear infinite;
+}
+.dh-visual-main .head {
+  display:flex; justify-content:space-between; align-items:center;
+  margin-bottom:1rem;
+}
+.dh-visual-main .head strong {
+  font-family:'Outfit',sans-serif; font-size:.95rem; font-weight:800;
+  color: var(--dh-ink);
+  display:flex; align-items:center; gap:.45rem;
+}
+.dh-visual-main .head span {
+  font-size:.62rem; font-weight:800; padding:.25rem .6rem;
+  border-radius:999px; background:#fef3c7; color:#92400e;
+  text-transform:uppercase; letter-spacing:.05em;
+  animation: dhBadgeBlink 2s ease-in-out infinite;
+}
+@keyframes dhBadgeBlink {
+  0%,100%{opacity:1;}
+  50%{opacity:.7;}
+}
+.dh-visual-main .mini-map {
+  flex:1; border-radius:14px; background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+  position:relative; overflow:hidden;
+  margin-bottom:1rem;
+}
+.dh-visual-main .mini-map::before {
+  content:""; position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(16,185,129,.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16,185,129,.15) 1px, transparent 1px);
+  background-size: 32px 32px;
+  animation: dhGridPan 40s linear infinite;
+}
+.dh-visual-main .mini-path {
+  position:absolute; top:50%; left:10%; right:10%;
+  height:3px; background: repeating-linear-gradient(90deg, #10b981 0 6px, transparent 6px 12px);
+  transform: translateY(-50%);
+  animation: dhMarch 1.6s linear infinite;
+}
+@keyframes dhMarch { to { background-position: 12px 0; } }
+.dh-visual-main .mini-dot {
+  position:absolute; top:50%; left:50%; transform: translate(-50%,-50%);
+  width:34px; height:34px; border-radius:50%;
+  background:#10b981; color:#fff; display:grid; place-items:center;
+  font-size:1rem; border:3px solid #fff;
+  box-shadow: 0 8px 18px -6px rgba(11,159,110,.6);
+  z-index:2;
+  animation: dhMiniDotBob 3s ease-in-out infinite;
+}
+@keyframes dhMiniDotBob {
+  0%,100%{transform:translate(-50%,-50%) scale(1);}
+  50%{transform:translate(-50%,-58%) scale(1.08);}
+}
+.dh-visual-main .mini-dot::after {
+  content:""; position:absolute; inset:-6px; border-radius:50%;
+  border:2px solid rgba(16,185,129,.5);
+  animation: dhPing 2s ease-out infinite;
+}
+.dh-visual-main .stat-row {
+  display:flex; justify-content:space-between;
+  padding:.75rem 0; border-top:1px solid #f1f5f9;
+  transition: background .25s ease, transform .25s ease;
+  border-radius:6px;
+}
+.dh-visual-main .stat-row:hover{
+  background: rgba(16,185,129,.04);
+  transform: translateX(3px);
+}
+.dh-visual-main .stat-row:last-child { border-bottom:none; }
+.dh-visual-main .stat-row .l { font-size:.7rem; color:var(--dh-muted); font-weight:600; }
+.dh-visual-main .stat-row .r { font-size:.78rem; color:var(--dh-ink); font-weight:800; }
+
+.dh-visual-side {
+  position:absolute;
+  bottom:0; right:0; width:44%; height:70%; z-index:3;
+  padding:1rem 1.15rem;
+  border:5px solid #fff;
+  animation: dhBob 7s ease-in-out infinite reverse;
+}
+.dh-visual-side h4 {
+  font-family:'Outfit',sans-serif; font-size:.85rem; font-weight:800;
+  color: var(--dh-ink); margin:0 0 .55rem;
+  display:flex; align-items:center; gap:.4rem;
+}
+.dh-visual-side h4::before{
+  content:"";
+  width:6px; height:6px; border-radius:50%;
+  background: var(--dh-amber);
+  box-shadow: 0 0 0 3px rgba(245,158,11,.2);
+  animation: dhStarTwinkle 2s ease-in-out infinite;
+}
+@keyframes dhStarTwinkle {
+  0%,100%{transform:scale(1);opacity:1;}
+  50%{transform:scale(1.3);opacity:.7;}
+}
+.dh-visual-side .mini-stat {
+  display:flex; align-items:baseline; gap:.35rem;
+  margin-bottom:.5rem;
+}
+.dh-visual-side .mini-stat strong {
+  font-family:'Outfit',sans-serif; font-size:1.5rem; font-weight:800;
+  color: var(--dh-green-dark); line-height:1;
+  transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+}
+.dh-visual-side:hover .mini-stat strong{transform:scale(1.06);}
+.dh-visual-side .mini-stat span { font-size:.7rem; font-weight:700; color:var(--dh-muted); }
+.dh-visual-side .mini-bar {
+  height:6px; border-radius:999px; background:#f1f5f9; overflow:hidden;
+  margin-top:.35rem;
+  position:relative;
+}
+.dh-visual-side .mini-bar > i {
+  display:block; height:100%;
+  background: linear-gradient(90deg,#10b981,#f59e0b,#10b981);
+  background-size:200% 100%;
+  border-radius:999px; width:0;
+  transition: width 1.2s ease;
+  animation: dhBarShine 3s linear infinite;
+}
+@keyframes dhBarShine { to{background-position:200% 0;} }
+
+.dh-visual-badge {
+  position:absolute; top:1.25rem; right:-.75rem; z-index:4;
+  padding:.85rem 1.05rem;
+  background:rgba(255,255,255,.96); backdrop-filter: blur(10px);
+  border-radius:14px;
+  box-shadow: 0 16px 40px -18px rgba(11,159,110,.5);
+  display:flex; align-items:center; gap:.65rem;
+  opacity:0; animation: dhFadeUp .7s ease forwards 1s, dhBadgeFloat 4s ease-in-out infinite 1.7s;
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+.dh-visual-badge:hover{transform:scale(1.05) translateY(-3px);}
+@keyframes dhBadgeFloat {
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-6px);}
+}
+.dh-visual-badge .ico {
+  width:40px; height:40px; border-radius:11px;
+  background: linear-gradient(135deg, #10b981, #047857);
+  display:grid; place-items:center; color:#fff; font-size:1.15rem;
+  flex-shrink:0;
+  box-shadow: 0 8px 18px -8px rgba(11,159,110,.55);
+  animation: dhIconWiggle 4s ease-in-out infinite;
+}
+@keyframes dhIconWiggle {
+  0%,100%{transform:rotate(0deg);}
+  25%{transform:rotate(-8deg) scale(1.05);}
+  75%{transform:rotate(8deg) scale(1.05);}
+}
+.dh-visual-badge strong { display:block; font-family:'Outfit',sans-serif; font-size:.85rem; font-weight:800; color:var(--dh-ink); line-height:1.15; }
+.dh-visual-badge span { font-size:.66rem; font-weight:700; color: var(--dh-muted); text-transform:uppercase; letter-spacing:.05em; }
+
+@keyframes dhBob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+@keyframes dhFadeUp { from{opacity:0; transform:translateY(22px)} to{opacity:1; transform:none} }
+
+/* ============================================================
+   STAT CARDS — Enhanced + More Animations
+   ============================================================ */
+.dh-stats {
+  position:relative; z-index:1;
+  max-width:1280px; margin:0 auto; padding:0 1.5rem 2rem;
+  display:grid; grid-template-columns:repeat(4,1fr); gap:1.15rem;
+}
+@media(max-width:900px){ .dh-stats { grid-template-columns:repeat(2,1fr); } }
+@media(max-width:520px){ .dh-stats { grid-template-columns:1fr; } }
+
+.dh-stat {
+  background:#fff; border:1px solid var(--dh-line);
+  border-radius:18px; padding:1.35rem 1.4rem 1.25rem;
+  position:relative; overflow:hidden;
+  opacity:0; transform: translateY(30px);
+  transition: all .6s cubic-bezier(.2,.7,.2,1);
+  cursor:default;
+  transform-style: preserve-3d;
+}
+.dh-stat.dh-in { opacity:1; transform:none; }
+.dh-stat::before {
+  content:""; position:absolute; top:0; left:0; right:0; height:3px;
+  background: linear-gradient(90deg, var(--dh-green), var(--dh-amber), var(--dh-green));
+  background-size: 200% 100%;
+  transform: scaleX(0); transform-origin:left;
+  transition: transform .55s ease;
+}
+.dh-stat.dh-in::before { transform:scaleX(1); animation: dhHue 3s linear infinite; }
+.dh-stat::after {
+  content:""; position:absolute;
+  width:140px; height:140px; border-radius:50%;
+  top:-60px; right:-60px;
+  background: radial-gradient(circle, rgba(16,185,129,.14), transparent 70%);
+  opacity:0; transition: opacity .45s ease;
+}
+.dh-stat:hover::after { opacity:1; }
+.dh-stat:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: var(--dh-green);
+  box-shadow: 0 28px 55px -22px rgba(16,185,129,.38);
+}
+.dh-stat-top {
+  display:flex; justify-content:space-between; align-items:flex-start;
+  margin-bottom:.9rem;
+  position:relative; z-index:1;
+}
+.dh-stat-ico {
+  width:44px; height:44px; border-radius:12px;
+  background: linear-gradient(135deg, var(--dh-green-50), rgba(16,185,129,.14));
+  color: var(--dh-green-dark);
+  display:grid; place-items:center; font-size:1.25rem;
+  transition: transform .5s cubic-bezier(.34,1.56,.64,1), box-shadow .3s ease;
+}
+.dh-stat:hover .dh-stat-ico {
+  transform: rotate(-12deg) scale(1.15);
+  box-shadow: 0 10px 22px -6px rgba(11,159,110,.5);
+}
+.dh-stat-tag {
+  font-size:.62rem; font-weight:800; padding:.25rem .6rem;
+  border-radius:999px;
+  background:#ecfdf5; color:#047857;
+  text-transform:uppercase; letter-spacing:.04em;
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+.dh-stat:hover .dh-stat-tag{transform:scale(1.06) rotate(-2deg);}
+.dh-stat-tag.amber { background:#fef3c7; color:#92400e; animation: dhTagPulseAmber 2.4s ease-in-out infinite; }
+.dh-stat-tag.blue  { background:#dbeafe; color:#1e40af; animation: dhTagPulseBlue 2.4s ease-in-out infinite; }
+.dh-stat-tag.violet{ background:#ede9fe; color:#5b21b6; animation: dhTagPulseViolet 2.4s ease-in-out infinite; }
+@keyframes dhTagPulseAmber {
+  0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,.5);}
+  50%{box-shadow:0 0 0 6px rgba(245,158,11,0);}
+}
+@keyframes dhTagPulseBlue {
+  0%,100%{box-shadow:0 0 0 0 rgba(59,130,246,.5);}
+  50%{box-shadow:0 0 0 6px rgba(59,130,246,0);}
+}
+@keyframes dhTagPulseViolet {
+  0%,100%{box-shadow:0 0 0 0 rgba(139,92,246,.5);}
+  50%{box-shadow:0 0 0 6px rgba(139,92,246,0);}
+}
+
+.dh-stat strong {
+  display:block; font-family:'Outfit',sans-serif;
+  font-size:2.1rem; font-weight:800; color:var(--dh-ink);
+  letter-spacing:-.03em; line-height:1; margin-bottom:.35rem;
+  position:relative; z-index:1;
+  transition: transform .35s cubic-bezier(.34,1.56,.64,1), color .3s ease;
+}
+.dh-stat:hover strong { transform: scale(1.08); color: var(--dh-green-dark); }
+.dh-stat span {
+  font-size:.78rem; font-weight:700; color: var(--dh-muted);
+  position:relative; z-index:1;
+}
+.dh-stat small {
+  display:block; font-size:.68rem; font-weight:700;
+  color: var(--dh-green-dark); margin-top:.55rem;
+  position:relative; z-index:1;
+  transition: transform .3s ease;
+}
+.dh-stat:hover small{transform:translateX(3px);}
+.dh-stat-bar {
+  height:5px; border-radius:999px; background:#f1f5f9; overflow:hidden;
+  margin-top:.85rem; position:relative; z-index:1;
+}
+.dh-stat-bar > i {
+  display:block; height:100%;
+  background: linear-gradient(90deg, #10b981, #047857, #10b981);
+  background-size: 200% 100%;
+  border-radius:999px; width:0;
+  transition: width 1.4s cubic-bezier(.2,.7,.2,1);
+  animation: dhBarShine 3s linear infinite;
+}
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+.dh-section {
+  position:relative; z-index:1;
+  max-width:1280px; margin:0 auto; padding: 1rem 1.5rem 2rem;
+}
+.dh-section-head {
+  display:flex; justify-content:space-between; align-items:flex-end;
+  margin-bottom:1.5rem; flex-wrap:wrap; gap:.75rem;
+  opacity:0; transform:translateY(20px);
+  transition: all .7s cubic-bezier(.2,.7,.2,1);
+}
+.dh-section-head.dh-in { opacity:1; transform:none; }
+.dh-section-head h2 {
+  font-family:'Outfit',sans-serif; font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  font-weight:800; letter-spacing:-.02em; color:var(--dh-ink); margin:0 0 .25rem;
+  position:relative;
+  display:inline-block;
+  transition: letter-spacing .3s ease;
+}
+.dh-section-head:hover h2 { letter-spacing: -.025em; }
+.dh-section-head h2::after{
+  content:"";
+  position:absolute; bottom:-4px; left:0;
+  width:36px; height:2px;
+  background:linear-gradient(90deg, var(--dh-green), transparent);
+  border-radius:2px;
+  animation: dhTitleLine 2.4s ease-in-out infinite;
+}
+@keyframes dhTitleLine {
+  0%,100%{width:36px;opacity:.6;}
+  50%{width:70px;opacity:1;}
+}
+.dh-section-head p { font-size:.9rem; color: var(--dh-muted); margin:0; }
+
+/* ============================================================
+   QUICK ACTIONS
+   ============================================================ */
+.dh-actions {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:1.15rem;
+}
+@media(max-width:900px){ .dh-actions { grid-template-columns:1fr; } }
+
+.dh-action {
+  display:flex; flex-direction:column; text-decoration:none; color:inherit;
+  background:#fff; border:1px solid var(--dh-line);
+  border-radius:20px; padding:1.85rem 1.65rem;
+  position:relative; overflow:hidden;
+  opacity:0; transform:translateY(30px);
+  transition: all .55s cubic-bezier(.2,.7,.2,1);
+  transform-style: preserve-3d;
+}
+.dh-action.dh-in { opacity:1; transform:none; }
+.dh-action::before {
+  content:""; position:absolute; top:-50px; right:-50px;
+  width:180px; height:180px; border-radius:50%;
+  background: radial-gradient(circle, rgba(16,185,129,.15), transparent 70%);
+  opacity:0; transition: opacity .45s ease;
+}
+.dh-action:hover::before { opacity:1; }
+/* ⚡ ADDED: light sweep on hover */
+.dh-action::after {
+  content:""; position:absolute; top:-40%; left:-30%; width:60%; height:180%;
+  background: linear-gradient(90deg,transparent,rgba(16,185,129,.12),transparent);
+  transform: rotate(20deg);
+  transition: transform 1s ease;
+  pointer-events:none;
+}
+.dh-action:hover::after { transform: rotate(20deg) translateX(240%); }
+.dh-action:hover {
+  transform: translateY(-10px) scale(1.01);
+  border-color: var(--dh-green);
+  box-shadow: 0 34px 60px -25px rgba(16,185,129,.48);
+}
+.dh-action-ico {
+  width:64px; height:64px; border-radius:18px;
+  background: linear-gradient(135deg, #10b981, #047857);
+  color:#fff; display:grid; place-items:center;
+  font-size:1.75rem; margin-bottom:1.25rem;
+  box-shadow: 0 16px 32px -12px rgba(11,159,110,.55);
+  transition: transform .6s cubic-bezier(.34,1.56,.64,1), box-shadow .35s ease;
+  position:relative; z-index:1;
+}
+.dh-action:hover .dh-action-ico {
+  transform: rotate(-10deg) scale(1.15);
+  box-shadow: 0 22px 44px -12px rgba(11,159,110,.75);
+}
+.dh-action h3 {
+  font-family:'Outfit',sans-serif; font-size:1.25rem; font-weight:800;
+  color:var(--dh-ink); margin:0 0 .55rem;
+  letter-spacing:-.015em; position:relative; z-index:1;
+  transition: color .3s ease;
+}
+.dh-action:hover h3{color:var(--dh-green-dark);}
+.dh-action p {
+  font-size:.88rem; color: var(--dh-muted); line-height:1.65;
+  margin:0 0 1.15rem; flex:1; position:relative; z-index:1;
+}
+.dh-action-cta {
+  font-size:.82rem; font-weight:800; color: var(--dh-green-dark);
+  display:inline-flex; align-items:center; gap:.4rem;
+  position:relative; z-index:1;
+  transition: letter-spacing .3s ease;
+}
+.dh-action:hover .dh-action-cta{letter-spacing:.02em;}
+.dh-action-cta .arrow { transition: transform .3s cubic-bezier(.34,1.56,.64,1); display:inline-block; }
+.dh-action:hover .dh-action-cta .arrow { transform: translateX(7px); }
+
+/* ============================================================
+   ACHIEVEMENTS STRIP
+   ============================================================ */
+.dh-achievements {
+  display:grid; grid-template-columns:repeat(4,1fr); gap:.85rem;
+  margin-bottom:2rem;
+}
+@media(max-width:900px){ .dh-achievements { grid-template-columns:repeat(2,1fr); } }
+@media(max-width:520px){ .dh-achievements { grid-template-columns:1fr; } }
+
+.dh-ach {
+  display:flex; align-items:center; gap:.85rem;
+  padding:1rem 1.15rem;
+  background:#fff; border:1px solid var(--dh-line);
+  border-radius:14px;
+  transition: all .4s cubic-bezier(.2,.7,.2,1);
+  position:relative; overflow:hidden;
+  opacity:0; transform:translateY(20px);
+}
+.dh-ach.dh-in { opacity:1; transform:none; }
+/* ⚡ ADDED: staggered reveal */
+.dh-achievements .dh-ach:nth-child(1).dh-in{animation-delay:.05s;}
+.dh-achievements .dh-ach:nth-child(2).dh-in{animation-delay:.15s;}
+.dh-achievements .dh-ach:nth-child(3).dh-in{animation-delay:.25s;}
+.dh-achievements .dh-ach:nth-child(4).dh-in{animation-delay:.35s;}
+.dh-ach::before{
+  content:"";
+  position:absolute; left:0; top:0; bottom:0; width:3px;
+  background: linear-gradient(180deg, var(--dh-green), var(--dh-amber));
+  transform: scaleY(0); transform-origin: top;
+  transition: transform .4s cubic-bezier(.2,.7,.2,1);
+}
+.dh-ach:hover::before{transform:scaleY(1);}
+.dh-ach:hover {
+  border-color: var(--dh-green);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -18px rgba(16,185,129,.35);
+}
+.dh-ach-ico {
+  width:44px; height:44px; border-radius:12px;
+  display:grid; place-items:center;
+  font-size:1.25rem; flex-shrink:0;
+  background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+  color:#047857;
+  transition: transform .55s cubic-bezier(.34,1.56,.64,1), box-shadow .3s ease;
+}
+.dh-ach:hover .dh-ach-ico {
+  transform: rotate(-12deg) scale(1.15);
+  box-shadow: 0 10px 22px -8px rgba(11,159,110,.4);
+}
+.dh-ach-ico.locked {
+  background: #f1f5f9; color:#94a3b8;
+  filter: grayscale(1);
+}
+.dh-ach-body { min-width:0; flex:1; }
+.dh-ach-body strong {
+  display:block; font-size:.85rem; font-weight:800;
+  color:var(--dh-ink); margin-bottom:2px;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  transition: color .25s ease;
+}
+.dh-ach:hover .dh-ach-body strong{color:var(--dh-green-dark);}
+.dh-ach-body span {
+  font-size:.7rem; font-weight:600; color:var(--dh-muted);
+  display:block;
+}
+.dh-ach-badge {
+  font-size:.6rem; font-weight:800; padding:.2rem .5rem;
+  border-radius:6px;
+  background:#ecfdf5; color:#047857;
+  text-transform:uppercase; letter-spacing:.04em;
+  flex-shrink:0;
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+.dh-ach:hover .dh-ach-badge{transform:scale(1.08);}
+.dh-ach-badge.locked {
+  background:#f1f5f9; color:#94a3b8;
+}
+
+/* ============================================================
+   LIVE MISSIONS
+   ============================================================ */
+.dh-missions {
+  display:flex; flex-direction:column; gap:.85rem;
+}
+.dh-mission {
+  display:grid;
+  grid-template-columns: 60px 1fr auto;
+  gap:1.15rem; align-items:center;
+  background:#fff; border:1px solid var(--dh-line);
+  border-radius:16px; padding:1.1rem 1.25rem;
+  transition: all .4s cubic-bezier(.2,.7,.2,1);
+  opacity:0; transform:translateY(24px);
+  position:relative; overflow:hidden;
+}
+.dh-mission::before {
+  content:""; position:absolute; left:0; top:0; bottom:0; width:4px;
+  background: linear-gradient(180deg, #10b981, #f59e0b);
+  transform: scaleY(0); transform-origin: top;
+  transition: transform .5s cubic-bezier(.2,.7,.2,1);
+}
+/* ⚡ ADDED: light sweep */
+.dh-mission::after {
+  content:""; position:absolute; top:-40%; left:-30%; width:60%; height:180%;
+  background: linear-gradient(90deg,transparent,rgba(16,185,129,.1),transparent);
+  transform: rotate(20deg);
+  transition: transform 1.1s ease;
+  pointer-events:none;
+}
+.dh-mission:hover::after { transform: rotate(20deg) translateX(260%); }
+.dh-mission.dh-in { opacity:1; transform:none; }
+.dh-mission.dh-in::before { transform: scaleY(1); }
+.dh-mission:hover {
+  transform: translateY(-4px);
+  border-color: var(--dh-green);
+  box-shadow: 0 20px 40px -18px rgba(16,185,129,.35);
+}
+.dh-mission-ico {
+  width:60px; height:60px; border-radius:16px;
+  background: linear-gradient(135deg, var(--dh-green-50), rgba(16,185,129,.14));
+  display:grid; place-items:center; font-size:1.5rem;
+  flex-shrink:0;
+  transition: transform .55s cubic-bezier(.34,1.56,.64,1), box-shadow .3s ease;
+}
+.dh-mission:hover .dh-mission-ico {
+  transform: rotate(-10deg) scale(1.1);
+  box-shadow: 0 12px 26px -8px rgba(11,159,110,.45);
+}
+.dh-mission-body { min-width:0; }
+.dh-mission-body strong {
+  display:block; font-family:'Outfit',sans-serif; font-size:1rem; font-weight:800;
+  color:var(--dh-ink); margin-bottom:.2rem;
+  letter-spacing:-.01em;
+  transition: color .3s ease;
+}
+.dh-mission:hover .dh-mission-body strong{color:var(--dh-green-dark);}
+.dh-mission-route {
+  font-size:.78rem; color:#475569; font-weight:600; margin-top:.35rem;
+}
+.dh-mission-route .from { color: var(--dh-green-dark); }
+.dh-mission-route .to   { color:#5b21b6; }
+.dh-mission-meta {
+  display:flex; gap:1rem; font-size:.78rem; color: var(--dh-muted);
+  flex-wrap:wrap; margin-top:.35rem;
+}
+.dh-mission-meta span { display:inline-flex; align-items:center; gap:.3rem; }
+.dh-mission-right { display:flex; flex-direction:column; align-items:flex-end; gap:.5rem; }
+
+.dh-pill {
+  display:inline-block; padding:.3rem .7rem;
+  font-size:.68rem; font-weight:800; letter-spacing:.03em;
+  border-radius:999px; text-transform:uppercase; white-space:nowrap;
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+.dh-pill:hover{transform:scale(1.08) rotate(-2deg);}
+.dh-pill.green  { background:#d1fae5; color:#065f46; }
+.dh-pill.amber  { background:#fef3c7; color:#92400e; animation: dhPillAmber 2.4s ease-in-out infinite; }
+.dh-pill.blue   { background:#dbeafe; color:#1e40af; animation: dhPillBlue 2.4s ease-in-out infinite; }
+.dh-pill.red    { background:#fee2e2; color:#991b1b; }
+@keyframes dhPillAmber {
+  0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,.5);}
+  50%{box-shadow:0 0 0 6px rgba(245,158,11,0);}
+}
+@keyframes dhPillBlue {
+  0%,100%{box-shadow:0 0 0 0 rgba(59,130,246,.5);}
+  50%{box-shadow:0 0 0 6px rgba(59,130,246,0);}
+}
+
+.dh-btn {
+  display:inline-flex; align-items:center; justify-content:center; gap:.4rem;
+  padding:.6rem 1.1rem;
+  font-family:inherit; font-size:.78rem; font-weight:800;
+  border-radius:10px; border:1.5px solid transparent;
+  text-decoration:none; cursor:pointer;
+  transition: all .3s cubic-bezier(.2,.7,.2,1);
+  white-space:nowrap;
+  position:relative; overflow:hidden;
+}
+.dh-btn::before{
+  content:""; position:absolute; top:0; left:-100%; width:100%; height:100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.4), transparent);
+  transition: left .6s ease;
+}
+.dh-btn:hover::before{left:100%;}
+.dh-btn-primary { background: var(--dh-green-dark); color:#fff; box-shadow: 0 6px 16px -6px rgba(4,120,87,.5); }
+.dh-btn-primary:hover {
+  background: var(--dh-green-deep);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 28px -8px rgba(4,120,87,.7);
+}
+.dh-btn-outline { background:#fff; color: var(--dh-green-dark); border-color:#a7f3d0; }
+.dh-btn-outline:hover { background: var(--dh-green-50); border-color: var(--dh-green); transform: translateY(-2px); }
+
+.dh-empty {
+  text-align:center; padding:3rem 1.5rem;
+  background:#fff; border:1px dashed var(--dh-line);
+  border-radius:18px;
+  color: var(--dh-muted); font-size:.92rem;
+  transition: transform .3s ease, border-color .3s ease;
+}
+.dh-empty:hover{
+  transform: translateY(-3px);
+  border-color: var(--dh-green);
+}
+.dh-empty .ico { font-size:3rem; margin-bottom:.75rem; display:block; opacity:.7; }
+.dh-empty .ico,
+.dh-empty strong { animation: dhEmptyBounce 3s ease-in-out infinite; }
+.dh-empty strong { display:block; font-family:'Outfit',sans-serif; font-size:1.1rem; font-weight:800; color:var(--dh-ink); margin-bottom:.35rem; animation-delay:.1s;}
+@keyframes dhEmptyBounce {
+  0%,100%{transform:translateY(0) rotate(0deg);}
+  50%{transform:translateY(-6px) rotate(3deg);}
+}
+
+/* ============================================================
+   RECENT DELIVERIES TABLE
+   ============================================================ */
+.dh-table-wrap {
+  background:#fff; border:1px solid var(--dh-line);
+  border-radius:18px; overflow:hidden;
+  opacity:0; transform:translateY(24px);
+  transition: all .7s cubic-bezier(.2,.7,.2,1);
+  position:relative;
+}
+.dh-table-wrap::before{
+  content:""; position:absolute; top:0; left:0; right:0; height:3px;
+  background: linear-gradient(90deg, #10b981, #f59e0b, #8b5cf6, #10b981);
+  background-size:200% 100%;
+  opacity:0; transition: opacity .4s ease;
+  animation: dhHue 4s linear infinite;
+}
+.dh-table-wrap:hover::before{opacity:1;}
+.dh-table-wrap.dh-in { opacity:1; transform:none; }
+.dh-table-wrap:hover {
+  border-color: rgba(16,185,129,.3);
+  box-shadow: 0 20px 50px -22px rgba(16,185,129,.25);
+}
+.dh-table { width:100%; border-collapse:collapse; font-size:.86rem; }
+.dh-table thead th {
+  background:#f8fafc;
+  padding:.9rem 1.15rem; text-align:left;
+  font-size:.68rem; font-weight:800; color:#64748b;
+  text-transform:uppercase; letter-spacing:.06em;
+  border-bottom:1px solid var(--dh-line);
+  transition: color .25s ease;
+}
+.dh-table thead th:hover{color:var(--dh-green-dark);}
+.dh-table tbody td {
+  padding:1rem 1.15rem; border-bottom:1px solid #f1f5f9;
+  color:#334155; vertical-align:middle;
+  transition: color .25s ease, background .25s ease;
+}
+.dh-table tbody tr:last-child td { border-bottom:none; }
+.dh-table tbody tr{
+  transition: background .3s ease, transform .3s cubic-bezier(.2,.7,.2,1);
+  position:relative;
+}
+.dh-table tbody tr:hover { background:#f0fdf4; transform: translateX(4px); }
+.dh-table tbody tr:hover td{color:var(--dh-ink);}
+.dh-table .food  { font-weight:800; color:var(--dh-ink); }
+.dh-table tbody tr:hover .food{color:var(--dh-green-dark);}
+.dh-table .route { font-size:.78rem; color:#64748b; margin-top:2px; }
+.dh-table .id    { font-family:monospace; font-size:.74rem; color:#94a3b8; }
+
+/* ============================================================
+   IMPACT STRIP
+   ============================================================ */
+.dh-impact {
+  position:relative; z-index:1;
+  max-width:1280px; margin:0 auto;
+  padding: 0 1.5rem;
+}
+.dh-impact-inner {
+  background: linear-gradient(135deg, #0B1224 0%, #1e293b 100%);
+  border-radius:24px; padding:2.5rem 2.5rem;
+  color:#fff; position:relative; overflow:hidden;
+  display:grid; grid-template-columns: 1.3fr 1fr;
+  gap:2rem; align-items:center;
+  opacity:0; transform:translateY(30px);
+  transition: all .85s cubic-bezier(.2,.7,.2,1);
+}
+.dh-impact-inner.dh-in { opacity:1; transform:none; }
+.dh-impact-inner:hover{
+  box-shadow: 0 40px 90px -30px rgba(6,78,59,.5);
+}
+@media(max-width:900px){ .dh-impact-inner { grid-template-columns:1fr; padding:2rem 1.75rem; } }
+.dh-impact-inner::before {
+  content:""; position:absolute; top:-140px; right:-90px;
+  width:400px; height:400px; border-radius:50%;
+  background: radial-gradient(circle, rgba(16,185,129,.42), transparent 65%);
+  animation: dhFloat 14s ease-in-out infinite;
+}
+.dh-impact-inner::after {
+  content:""; position:absolute; bottom:-140px; left:-90px;
+  width:340px; height:340px; border-radius:50%;
+  background: radial-gradient(circle, rgba(245,158,11,.3), transparent 65%);
+  animation: dhFloat 16s ease-in-out infinite reverse;
+}
+.dh-impact-text { position:relative; z-index:1; }
+.dh-impact-text h2 {
+  font-family:'Outfit',sans-serif; font-size: clamp(1.4rem, 2.8vw, 2rem);
+  font-weight:800; letter-spacing:-.02em; margin:0 0 .75rem;
+  line-height:1.15;
+}
+.dh-impact-text h2 em {
+  font-style:normal;
+  background: linear-gradient(120deg, #6ee7b7, #34d399, #fbbf24, #6ee7b7);
+  background-size: 250% 100%;
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  animation: dhShimmer 6s linear infinite;
+}
+.dh-impact-text p { font-size:.95rem; color:rgba(255,255,255,.75); line-height:1.65; margin:0; max-width:520px; }
+.dh-impact-metrics {
+  position:relative; z-index:1;
+  display:grid; grid-template-columns:repeat(2,1fr); gap:.9rem;
+}
+.dh-impact-metric {
+  background: rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:14px; padding:1.1rem 1rem;
+  transition: all .4s cubic-bezier(.2,.7,.2,1);
+  position:relative; overflow:hidden;
+  transform-style: preserve-3d;
+}
+.dh-impact-metric::before{
+  content:""; position:absolute;
+  inset:0;
+  background: radial-gradient(circle at 30% 30%, rgba(16,185,129,.15), transparent 60%);
+  opacity:0; transition: opacity .5s ease;
+  pointer-events:none;
+}
+.dh-impact-metric:hover::before{opacity:1;}
+.dh-impact-metric:hover {
+  background: rgba(255,255,255,.12);
+  transform: translateY(-5px) scale(1.03);
+  border-color: rgba(16,185,129,.4);
+  box-shadow: 0 16px 34px -14px rgba(16,185,129,.5);
+}
+.dh-impact-metric .ico {
+  font-size:1.15rem; margin-bottom:.4rem; opacity:.9;
+  display:inline-block;
+  transition: transform .5s cubic-bezier(.34,1.56,.64,1);
+}
+.dh-impact-metric:hover .ico{transform: scale(1.15) rotate(-10deg);}
+.dh-impact-metric strong {
+  display:block; font-family:'Outfit',sans-serif;
+  font-size:1.5rem; font-weight:800; color:#6ee7b7;
+  letter-spacing:-.02em; line-height:1.1;
+  transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+  position:relative; z-index:1;
+}
+.dh-impact-metric:hover strong{transform:scale(1.06);}
+.dh-impact-metric span {
+  font-size:.68rem; font-weight:700; color:rgba(255,255,255,.65);
+  text-transform:uppercase; letter-spacing:.05em;
+  position:relative; z-index:1;
+}
+
+/* ⚡ ADDED: Ripple effect */
+.dh-ripple{
+  position:absolute;border-radius:50%;
+  background:rgba(255,255,255,.45);
+  transform:scale(0);opacity:1;
+  pointer-events:none;
+  animation: dhRipple .7s ease-out forwards;
+}
+@keyframes dhRipple{to{transform:scale(3);opacity:0;}}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+  }
+  .dh-hero-text, .dh-visual, .dh-stat, .dh-action, .dh-mission, .dh-ach,
+  .dh-table-wrap, .dh-impact-inner, .dh-section-head, .dh-visual-badge {
+    opacity:1 !important; transform:none !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="dh-progress" id="dh-progress" aria-hidden="true"></div>
+
+<div class="dh-bg" aria-hidden="true">
+  <div class="dh-bg-mesh"></div>
+  <div class="dh-orb dh-orb-1"></div>
+  <div class="dh-orb dh-orb-2"></div>
+  <div class="dh-orb dh-orb-3"></div>
+  <div class="dh-grid"></div>
+</div>
+
+<header class="site-header">
+  <div class="header-container">
+    <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <a href="driver-home.html" class="brand-logo" aria-label="FeedFoodForward driver home">
+      <div class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="ffTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#067A54"/><stop offset="55%" stop-color="#0B9F6E"/><stop offset="100%" stop-color="#10B981"/></linearGradient>
+            <linearGradient id="ffHeart" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#FF5A7A"/><stop offset="100%" stop-color="#F03E64"/></linearGradient>
+          </defs>
+          <rect x="2" y="2" width="44" height="44" rx="11" fill="url(#ffTile)"/>
+          <g transform="translate(8 20)"><path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4 C7.4 0.4 9.2 1.8 10 3.4 C10.8 1.8 12.6 0.4 15 0.4 C18.3 0.4 21 2.6 21 6 C21 10 18 14 10 20 Z" fill="url(#ffHeart)"/></g>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">FeedFood<span>Forward</span></span>
+        <span class="brand-subtitle">AI FOOD REDISTRIBUTION PLATFORM</span>
+      </div>
+    </a>
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation menu">☰</button>
+    <nav class="site-nav" id="site-nav" aria-label="Primary"></nav>
+    <div class="header-utilities">
+      <div id="header-guest" class="header-auth-group">
+        <button type="button" class="btn btn-outline btn-sm" id="header-login-btn">Login</button>
+        <button type="button" class="btn btn-primary btn-sm" id="header-signup-btn">Sign Up</button>
+      </div>
+      <div id="header-user" class="header-user-group" hidden>
+        <button type="button" class="user-chip" id="user-chip" aria-haspopup="true" aria-expanded="false">
+          <span class="user-avatar" id="user-avatar">🚚</span>
+          <span class="user-name" id="user-name">Driver</span>
+          <span class="user-caret" aria-hidden="true">▾</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="dh">
+
+  <!-- ============ HERO ============ -->
+  <section class="dh-hero">
+    <div class="dh-hero-text">
+      <span class="dh-badge">
+        <span class="dh-badge-dot"></span>
+        Driver Console
+      </span>
+      <h1>
+        Welcome back,<br>
+        <em id="dh-name">Driver</em>.
+      </h1>
+      <p>Pick up surplus food, deliver it safely, and track every mission live — all from one dashboard.</p>
+
+      <div class="dh-hero-actions">
+        <button type="button" class="dh-status" id="dh-status">
+          <span class="dot"></span>
+          <span id="dh-status-label">Available — Ready for missions</span>
+        </button>
+
+        <span class="dh-ticker">
+          <span class="live-dot"></span>
+          <span id="dh-live-count">0 active missions</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="dh-visual">
+      <div class="dh-visual-card dh-visual-main">
+        <div class="head">
+          <strong>📍 Live Route Preview</strong>
+          <span>IN TRANSIT</span>
+        </div>
+        <div class="mini-map">
+          <div class="mini-path"></div>
+          <div class="mini-dot">🚚</div>
+        </div>
+        <div class="stat-row"><span class="l">📦 Next Pickup</span><span class="r" id="dh-preview-pickup">Awaiting…</span></div>
+        <div class="stat-row"><span class="l">🏛️ Destination</span><span class="r" id="dh-preview-dest">Awaiting…</span></div>
+      </div>
+
+      <div class="dh-visual-card dh-visual-side">
+        <h4>⭐ This Week</h4>
+        <div class="mini-stat"><strong id="dh-preview-kg">0</strong><span>kg delivered</span></div>
+        <div class="mini-bar"><i id="dh-preview-bar"></i></div>
+        <div class="mini-stat" style="margin-top:.75rem;">
+          <strong id="dh-preview-completed">0</strong><span>deliveries done</span>
+        </div>
+      </div>
+
+      <div class="dh-visual-badge">
+        <div class="ico">📦</div>
+        <div>
+          <strong>Fresh Pickups</strong>
+          <span>Ready now</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STATS ============ -->
+  <section class="dh-stats" id="dh-stats">
+    <div class="dh-stat" data-reveal data-tilt>
+      <div class="dh-stat-top">
+        <div class="dh-stat-ico">📦</div>
+        <span class="dh-stat-tag amber">Active</span>
+      </div>
+      <strong data-count="0" data-metric="assigned">0</strong>
+      <span>Assigned Missions</span>
+      <small id="dh-stat-assigned-note">Waiting for first mission</small>
+      <div class="dh-stat-bar"><i data-bar="assigned"></i></div>
+    </div>
+
+    <div class="dh-stat" data-reveal data-tilt>
+      <div class="dh-stat-top">
+        <div class="dh-stat-ico">✅</div>
+        <span class="dh-stat-tag">All time</span>
+      </div>
+      <strong data-count="0" data-metric="completed">0</strong>
+      <span>Completed Deliveries</span>
+      <small id="dh-stat-completed-note">Keep it up</small>
+      <div class="dh-stat-bar"><i data-bar="completed"></i></div>
+    </div>
+
+    <div class="dh-stat" data-reveal data-tilt>
+      <div class="dh-stat-top">
+        <div class="dh-stat-ico">⚖️</div>
+        <span class="dh-stat-tag blue">Total</span>
+      </div>
+      <strong data-count="0" data-metric="kg">0</strong>
+      <span>KG Delivered</span>
+      <small id="dh-stat-kg-note">Tracked via completed missions</small>
+      <div class="dh-stat-bar"><i data-bar="kg"></i></div>
+    </div>
+
+    <div class="dh-stat" data-reveal data-tilt>
+      <div class="dh-stat-top">
+        <div class="dh-stat-ico">⭐</div>
+        <span class="dh-stat-tag violet">Rating</span>
+      </div>
+      <strong data-count="4.9" data-metric="rating" data-decimal="1">0</strong>
+      <span>Driver Rating</span>
+      <small>Based on delivery feedback</small>
+      <div class="dh-stat-bar"><i data-bar="rating"></i></div>
+    </div>
+  </section>
+
+  <!-- ============ ACHIEVEMENTS ============ -->
+  <section class="dh-section" style="padding-top:.5rem;">
+    <div class="dh-section-head" data-reveal>
+      <div>
+        <h2>Achievements</h2>
+        <p>Unlock more as you deliver.</p>
+      </div>
+    </div>
+
+    <div class="dh-achievements" id="dh-achievements">
+      <div class="dh-ach" data-reveal data-ach="first">
+        <div class="dh-ach-ico locked">🎯</div>
+        <div class="dh-ach-body">
+          <strong>First Delivery</strong>
+          <span>Complete 1 mission</span>
+        </div>
+        <span class="dh-ach-badge locked" id="ach-first">Locked</span>
+      </div>
+
+      <div class="dh-ach" data-reveal data-ach="ten">
+        <div class="dh-ach-ico locked">🚀</div>
+        <div class="dh-ach-body">
+          <strong>Getting Started</strong>
+          <span>Complete 10 missions</span>
+        </div>
+        <span class="dh-ach-badge locked" id="ach-ten">Locked</span>
+      </div>
+
+      <div class="dh-ach" data-reveal data-ach="hundred">
+        <div class="dh-ach-ico locked">⚖️</div>
+        <div class="dh-ach-body">
+          <strong>Hundred Kilos</strong>
+          <span>Deliver 100 kg total</span>
+        </div>
+        <span class="dh-ach-badge locked" id="ach-hundred">Locked</span>
+      </div>
+
+      <div class="dh-ach" data-reveal data-ach="streak">
+        <div class="dh-ach-ico locked">🔥</div>
+        <div class="dh-ach-body">
+          <strong>Streak Master</strong>
+          <span>3 missions today</span>
+        </div>
+        <span class="dh-ach-badge locked" id="ach-streak">Locked</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ QUICK ACTIONS ============ -->
+  <section class="dh-section">
+    <div class="dh-section-head" data-reveal>
+      <div>
+        <h2>Quick actions</h2>
+        <p>What would you like to do right now?</p>
+      </div>
+    </div>
+
+    <div class="dh-actions">
+     <a href="driver-active.html" class="dh-action" data-reveal data-ripple></a>
+        <div class="dh-action-ico">🚚</div>
+       <h3>Start Demo Delivery</h3>
+        <p>Accept new missions, navigate to pickup, verify food, and scan QR codes for handover.</p>
+     <span class="dh-action-cta">Start Now <span class="arrow">→</span></span>
+      </a>
+
+      <a href="rescue-track.html" class="dh-action" data-reveal data-ripple>
+        <div class="dh-action-ico">🗺️</div>
+        <h3>Live Rescue Map</h3>
+        <p>See donors, other drivers, and active deliveries happening across the city in real time.</p>
+        <span class="dh-action-cta">Open Map <span class="arrow">→</span></span>
+      </a>
+
+      <a href="profile.html" class="dh-action" data-reveal data-ripple>
+        <div class="dh-action-ico">👤</div>
+        <h3>My Profile</h3>
+        <p>Update your vehicle, operating area, and contact details. View your delivery history.</p>
+        <span class="dh-action-cta">View Profile <span class="arrow">→</span></span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ LIVE MISSIONS ============ -->
+  <section class="dh-section">
+    <div class="dh-section-head" data-reveal>
+      <div>
+        <h2>Active missions</h2>
+        <p>Missions currently assigned to you.</p>
+      </div>
+      <a href="driver-hub.html" class="dh-btn dh-btn-outline">View all →</a>
+    </div>
+
+    <div class="dh-missions" id="dh-missions">
+      <div class="dh-empty">
+        <span class="ico">⏳</span>
+        <strong>Loading your missions…</strong>
+        <p style="margin:0;font-size:.85rem;">Checking the network.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RECENT DELIVERIES ============ -->
+  <section class="dh-section">
+    <div class="dh-section-head" data-reveal>
+      <div>
+        <h2>Recent deliveries</h2>
+        <p>Your last completed missions.</p>
+      </div>
+    </div>
+
+    <div class="dh-table-wrap" data-reveal>
+      <table class="dh-table">
+        <thead>
+          <tr>
+            <th>Food Item</th>
+            <th>Route</th>
+            <th>Weight</th>
+            <th>Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="dh-history">
+          <tr><td colspan="5" style="text-align:center;padding:1.5rem;color:#94a3b8;">Loading history…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ IMPACT ============ -->
+  <section class="dh-impact" style="padding-bottom:1rem;">
+    <div class="dh-impact-inner" data-reveal>
+      <div class="dh-impact-text">
+        <h2>Every delivery <em>feeds a community.</em></h2>
+        <p>Your missions are part of a network that rescues surplus food from kitchens and puts it on the plates of people who need it most.</p>
+      </div>
+      <div class="dh-impact-metrics">
+        <div class="dh-impact-metric">
+          <div class="ico">📦</div>
+          <strong id="dh-impact-kg">0 kg</strong>
+          <span>Food Delivered</span>
+        </div>
+        <div class="dh-impact-metric">
+          <div class="ico">🍽️</div>
+          <strong id="dh-impact-meals">0</strong>
+          <span>Meals Supported</span>
+        </div>
+        <div class="dh-impact-metric">
+          <div class="ico">🛣️</div>
+          <strong id="dh-impact-km">0 km</strong>
+          <span>Distance Covered</span>
+        </div>
+        <div class="dh-impact-metric">
+          <div class="ico">🌱</div>
+          <strong id="dh-impact-co2">0 kg</strong>
+          <span>CO₂ Prevented</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-brand"><h3>FeedFoodForward</h3><p>"Rescue Food. Reduce Waste. Feed Communities."</p></div>
+    <div class="footer-copyright">© 2026 FeedFoodForward Platform.</div>
+  </div>
+</footer>
+
+<div id="ff-toast" role="status" aria-live="polite" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);background:#0f172a;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:all .3s ease;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.25);"></div>
+
+<script src="app.js"></script>
+<script src="header-nav.js"></script>
+<script src="sidebar.js"></script>
+<script src="animations.js"></script>
+<script src="chatbot.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const user = (window.ffAuth && window.ffAuth.getUser) ? window.ffAuth.getUser() : null;
+  const toast = m => window.ffToast && window.ffToast(m);
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ⚡ ADDED: PAGE ENTRANCE FADE */
+  if (!reducedMotion) {
+    document.body.classList.add('dh-page-enter');
+    requestAnimationFrame(() => document.body.classList.add('dh-page-ready'));
+  }
+
+  /* ⚡ ADDED: FLOATING PARTICLES (20) */
+  if (!reducedMotion) {
+    const palette = [
+      'radial-gradient(circle,rgba(16,185,129,.5),rgba(16,185,129,0) 70%)',
+      'radial-gradient(circle,rgba(139,92,246,.4),rgba(139,92,246,0) 70%)',
+      'radial-gradient(circle,rgba(245,158,11,.4),rgba(245,158,11,0) 70%)',
+      'radial-gradient(circle,rgba(59,130,246,.4),rgba(59,130,246,0) 70%)'
+    ];
+    for (let i = 0; i < 20; i++) {
+      const p = document.createElement('div');
+      p.className = 'dh-particle';
+      p.setAttribute('aria-hidden', 'true');
+      p.style.cssText =
+        'left:' + (Math.random() * 100) + 'vw;' +
+        'width:' + (4 + Math.random() * 7) + 'px;' +
+        'height:' + (4 + Math.random() * 7) + 'px;' +
+        'background:' + palette[i % palette.length] + ';' +
+        'animation-duration:' + (14 + Math.random() * 16) + 's;' +
+        'animation-delay:-' + (Math.random() * 26) + 's;';
+      document.body.appendChild(p);
+    }
+  }
+
+  /* ⚡ ADDED: CURSOR GLOW */
+  if (!reducedMotion && window.matchMedia('(hover: hover) and (min-width: 1024px)').matches) {
+    const glow = document.createElement('div');
+    glow.className = 'dh-cursor-glow';
+    document.body.appendChild(glow);
+    let mouseX = 0, mouseY = 0, glowX = 0, glowY = 0;
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      glow.style.opacity = '1';
+    });
+    document.addEventListener('mouseleave', () => { glow.style.opacity = '0'; });
+    (function animateGlow() {
+      glowX += (mouseX - glowX) * 0.14;
+      glowY += (mouseY - glowY) * 0.14;
+      glow.style.left = glowX + 'px';
+      glow.style.top = glowY + 'px';
+      requestAnimationFrame(animateGlow);
+    })();
+  }
+
+  /* ⚡ ADDED: RIPPLE ON BUTTONS */
+  function attachRipple(el) {
+    if (!el || el.dataset._ripple || reducedMotion) return;
+    el.dataset._ripple = '1';
+    if (getComputedStyle(el).position === 'static') el.style.position = 'relative';
+    el.style.overflow = 'hidden';
+    el.addEventListener('click', function (e) {
+      const rect = this.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const r = document.createElement('span');
+      r.className = 'dh-ripple';
+      r.style.width = r.style.height = size + 'px';
+      r.style.left = (e.clientX - rect.left - size/2) + 'px';
+      r.style.top  = (e.clientY - rect.top  - size/2) + 'px';
+      r.style.background = this.classList.contains('dh-btn-primary') || this.classList.contains('dh-status')
+        ? 'rgba(255,255,255,.5)'
+        : 'rgba(16,185,129,.35)';
+      this.appendChild(r);
+      setTimeout(() => r.remove(), 750);
+    });
+  }
+  document.querySelectorAll('[data-ripple], .dh-btn, .dh-status, .dh-action, .dh-ticker').forEach(attachRipple);
+
+  /* ⚡ ADDED: 3D TILT ON CARDS */
+  if (!reducedMotion && window.matchMedia('(hover: hover) and (min-width: 1024px)').matches) {
+    document.querySelectorAll('[data-tilt]').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width;
+        const y = (e.clientY - rect.top) / rect.height;
+        const rotY = (x - 0.5) * 6;
+        const rotX = (0.5 - y) * 6;
+        card.style.transform =
+          'translateY(-8px) scale(1.02) ' +
+          'perspective(900px) ' +
+          'rotateX(' + rotX.toFixed(2) + 'deg) ' +
+          'rotateY(' + rotY.toFixed(2) + 'deg)';
+      });
+      card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+    });
+  }
+
+  /* ---------- Personalise hero name ---------- */
+  if (user && user.name) {
+    const n = document.getElementById('dh-name');
+    if (n) n.textContent = user.name;
+    const un = document.getElementById('user-name');
+    if (un) un.textContent = user.name;
+  }
+
+  /* ---------- Progress bar ---------- */
+  const progress = document.getElementById('dh-progress');
+  let tick = false;
+  function updateProgress() {
+    if (!progress) return;
+    const h = document.documentElement;
+    const sc = h.scrollTop || document.body.scrollTop;
+    const height = (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
+    progress.style.transform = 'scaleX(' + (height > 0 ? sc / height : 0) + ')';
+  }
+  window.addEventListener('scroll', () => {
+    if (tick) return;
+    tick = true;
+    requestAnimationFrame(() => { updateProgress(); tick = false; });
+  }, { passive: true });
+  updateProgress();
+
+  /* ---------- Status toggle ---------- */
+  const statusBtn = document.getElementById('dh-status');
+  const statusLabel = document.getElementById('dh-status-label');
+  let available = true;
+  if (statusBtn) {
+    statusBtn.addEventListener('click', () => {
+      available = !available;
+      statusBtn.classList.toggle('off', !available);
+      statusLabel.textContent = available ? 'Available — Ready for missions' : 'Off duty — Not accepting missions';
+      toast(available ? '🟢 You are now available' : '🟡 You are now off duty');
+
+      if (user) {
+        fetch('/api/drivers/availability', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId: user.email || user.name,
+            available: available
+          })
+        }).catch(() => {});
+      }
+    });
+  }
+
+  /* ---------- Reveal on scroll ---------- */
+  const reveals = document.querySelectorAll('[data-reveal], .dh-stat, .dh-action, .dh-mission, .dh-ach, .dh-section-head, .dh-table-wrap, .dh-impact-inner');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('dh-in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
+    reveals.forEach(el => io.observe(el));
+  } else {
+    reveals.forEach(el => el.classList.add('dh-in'));
+  }
+
+  /* ---------- Counter animation ---------- */
+  function animateCounter(el) {
+    if (el.dataset._counted) return;
+    el.dataset._counted = '1';
+    const target = parseFloat(el.dataset.count) || 0;
+    const decimals = parseInt(el.dataset.decimal || '0', 10);
+    const isFloat = decimals > 0;
+    const dur = 1400;
+    const start = performance.now();
+    (function step(now) {
+      const t = Math.min((now - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      const val = target * eased;
+      el.textContent = isFloat ? val.toFixed(decimals) : Math.round(val).toLocaleString('en-IN');
+      if (t < 1) requestAnimationFrame(step);
+    })(start);
+  }
+
+  /* ---------- Animate a progress bar element ---------- */
+  function animateBar(el, pct) {
+    if (!el) return;
+    setTimeout(() => { el.style.width = Math.min(100, Math.max(4, pct)) + '%'; }, 150);
+  }
+
+  /* ============================================================
+     ACHIEVEMENTS
+     ============================================================ */
+  function setAchievement(key, unlocked, label) {
+    const ach = document.querySelector('[data-ach="' + key + '"]');
+    if (!ach) return;
+    const ico = ach.querySelector('.dh-ach-ico');
+    const badge = ach.querySelector('.dh-ach-badge');
+    if (unlocked) {
+      if (ico) ico.classList.remove('locked');
+      if (badge) { badge.classList.remove('locked'); badge.textContent = 'Unlocked'; }
+    } else {
+      if (ico) ico.classList.add('locked');
+      if (badge) { badge.classList.add('locked'); badge.textContent = label || 'Locked'; }
+    }
+  }
+
+  function updateAchievements(stats) {
+    setAchievement('first',    stats.completed >= 1);
+    setAchievement('ten',      stats.completed >= 10);
+    setAchievement('hundred',  stats.totalKg >= 100);
+    setAchievement('streak',   stats.completedToday >= 3);
+  }
+
+  /* ============================================================
+     LOAD DRIVER MISSIONS  (auto-assigned by the system)
+     ============================================================ */
+  async function loadDriverData() {
+    if (!user) return;
+
+    try {
+      const drvId = user.email || user.name;
+      const res = await fetch('/api/donations?driver=' + encodeURIComponent(drvId));
+      const data = await res.json();
+      const all = (data && data.donations) || [];
+
+      const mine = all.filter(d => {
+        const dId = d.driverId || '';
+        const dName = d.driverName || '';
+        return dId === drvId || dName === (user.name || '');
+      });
+
+      const active = mine.filter(d => {
+        const s = (d.status || '').toLowerCase();
+        return !s.includes('delivered') && !s.includes('reject') && !s.includes('cancel');
+      });
+
+      const completed = mine.filter(d =>
+        (d.status || '').toLowerCase().includes('delivered')
+      );
+
+      /* Today's completed */
+      const completedToday = completed.filter(d => {
+        const iso = d.deliveryVerifiedAt || d.createdAt;
+        if (!iso) return false;
+        const dd = new Date(iso);
+        const now = new Date();
+        return dd.getFullYear() === now.getFullYear() &&
+               dd.getMonth() === now.getMonth() &&
+               dd.getDate() === now.getDate();
+      });
+
+      /* ---------- Stats ---------- */
+      const totalKg    = completed.reduce((sum, d) => sum + (Number(d.weightKg) || 0), 0);
+      const totalMeals = completed.reduce((sum, d) => sum + (Number(d.servings) || 0), 0);
+
+      const setStat = (metric, value, decimals) => {
+        const el = document.querySelector(`.dh-stat [data-metric="${metric}"]`);
+        if (!el) return;
+        el.dataset.count = value;
+        if (decimals) el.dataset.decimal = decimals;
+        animateCounter(el);
+      };
+      setStat('assigned',  active.length);
+      setStat('completed', completed.length);
+      setStat('kg',        Math.round(totalKg));
+
+      /* Stat bars — visually indicate progress vs simple targets */
+      animateBar(document.querySelector('[data-bar="assigned"]'),  Math.min(100, active.length * 20));
+      animateBar(document.querySelector('[data-bar="completed"]'), Math.min(100, completed.length * 5));
+      animateBar(document.querySelector('[data-bar="kg"]'),        Math.min(100, totalKg));
+      animateBar(document.querySelector('[data-bar="rating"]'),    96);
+
+      /* Notes */
+      const noteAssigned = document.getElementById('dh-stat-assigned-note');
+      if (noteAssigned) noteAssigned.textContent = active.length
+        ? 'In progress now'
+        : 'Waiting for a system assignment';
+      const noteCompleted = document.getElementById('dh-stat-completed-note');
+      if (noteCompleted) noteCompleted.textContent = completed.length
+        ? 'Great work!'
+        : 'No completed deliveries yet';
+      const noteKg = document.getElementById('dh-stat-kg-note');
+      if (noteKg) noteKg.textContent = totalKg > 0
+        ? totalKg.toFixed(1) + ' kg across missions'
+        : 'Tracked via completed missions';
+
+      /* Live float */
+      const liveCount = document.getElementById('dh-live-count');
+      if (liveCount) liveCount.textContent = active.length + ' active mission' + (active.length === 1 ? '' : 's');
+
+      /* Hero preview panel */
+      const previewPickup = document.getElementById('dh-preview-pickup');
+      const previewDest   = document.getElementById('dh-preview-dest');
+      if (active.length) {
+        const first = active[0];
+        if (previewPickup) previewPickup.textContent = first.donorName || 'Donor';
+        if (previewDest)   previewDest.textContent   = first.ashramName || 'Ashram';
+      } else {
+        if (previewPickup) previewPickup.textContent = 'No active pickup';
+        if (previewDest)   previewDest.textContent   = 'Awaiting assignment';
+      }
+
+      const previewKg = document.getElementById('dh-preview-kg');
+      if (previewKg) previewKg.textContent = Math.round(totalKg);
+      const previewCompleted = document.getElementById('dh-preview-completed');
+      if (previewCompleted) previewCompleted.textContent = completed.length;
+      const previewBar = document.getElementById('dh-preview-bar');
+      if (previewBar) previewBar.style.width = Math.min(100, totalKg) + '%';
+
+      /* ---------- Impact metrics ---------- */
+      const impactKg    = document.getElementById('dh-impact-kg');
+      const impactMeals = document.getElementById('dh-impact-meals');
+      const impactCo2   = document.getElementById('dh-impact-co2');
+      const impactKm    = document.getElementById('dh-impact-km');
+      if (impactKg)    impactKg.textContent    = Math.round(totalKg) + ' kg';
+      if (impactMeals) impactMeals.textContent = totalMeals;
+      if (impactCo2)   impactCo2.textContent   = (totalKg * 2.5).toFixed(0) + ' kg';
+      if (impactKm)    impactKm.textContent    = Math.round(totalKg * 0.35) + ' km';
+
+      /* ---------- Achievements ---------- */
+      updateAchievements({
+        completed: completed.length,
+        totalKg: totalKg,
+        completedToday: completedToday.length
+      });
+
+      /* ---------- Active missions list ---------- */
+      const missionsEl = document.getElementById('dh-missions');
+      if (missionsEl) {
+        if (!active.length) {
+          missionsEl.innerHTML = `
+            <div class="dh-empty">
+              <span class="ico">📭</span>
+              <strong>No missions assigned yet</strong>
+              <p style="margin:0;font-size:.85rem;">The system will assign you a delivery the moment a donor approves a donation near you. <a href="driver-active.html" style="color:#047857;font-weight:800;text-decoration:underline;">Start a demo delivery →</a></p>
+            </div>`;
+        } else {
+          missionsEl.innerHTML = active.map((d, i) => {
+            const status = (d.status || 'Approved');
+            const s = status.toLowerCase();
+            const pillCls = s.includes('transit') || s.includes('picked') ? 'blue'
+                          : s.includes('approved') || s.includes('accepted') ? 'amber'
+                          : 'amber';
+            return `
+              <div class="dh-mission" data-reveal style="transition-delay:${i * 50}ms;">
+                <div class="dh-mission-ico">📦</div>
+                <div class="dh-mission-body">
+                  <strong>${escapeHtml(d.foodName || 'Prepared Meal')}</strong>
+                  <div class="dh-mission-route">
+                    <span class="from">📍 ${escapeHtml(d.donorName || 'Donor')}</span>
+                    <span style="color:#94a3b8;"> → </span>
+                    <span class="to">🏛️ ${escapeHtml(d.ashramName || 'Ashram')}</span>
+                  </div>
+                  <div class="dh-mission-meta">
+                    <span>⚖️ ${Number(d.weightKg) || 0} kg</span>
+                    <span>🍽️ ${Number(d.servings) || 0} servings</span>
+                    <span>🆔 ${escapeHtml(d.donationId || '')}</span>
+                  </div>
+                </div>
+                <div class="dh-mission-right">
+                  <span class="dh-pill ${pillCls}">${escapeHtml(status)}</span>
+                  <a href="driver-active.html" class="dh-btn dh-btn-primary">View Delivery →</a>
+                </div>
+              </div>`;
+          }).join('');
+
+          try { sessionStorage.setItem('ff_activeDonation', JSON.stringify(active[0])); } catch (e) {}
+
+          const newCards = missionsEl.querySelectorAll('[data-reveal]');
+          if ('IntersectionObserver' in window) {
+            const io2 = new IntersectionObserver((entries) => {
+              entries.forEach(e => {
+                if (e.isIntersecting) { e.target.classList.add('dh-in'); io2.unobserve(e.target); }
+              });
+            }, { threshold: 0.1 });
+            newCards.forEach(el => io2.observe(el));
+          } else {
+            newCards.forEach(el => el.classList.add('dh-in'));
+          }
+          /* ⚡ ADDED: attach ripple to newly created buttons */
+          missionsEl.querySelectorAll('.dh-btn').forEach(attachRipple);
+        }
+      }
+
+      /* ---------- Recent deliveries table ---------- */
+      const historyEl = document.getElementById('dh-history');
+      if (historyEl) {
+        if (!completed.length) {
+          historyEl.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:1.5rem;color:#94a3b8;">No completed deliveries yet.</td></tr>';
+        } else {
+          const recent = completed
+            .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
+            .slice(0, 8);
+
+          historyEl.innerHTML = recent.map(d => `
+            <tr>
+              <td>
+                <div class="food">${escapeHtml(d.foodName || 'Prepared Meal')}</div>
+                <div class="id">${escapeHtml(d.donationId || '')}</div>
+              </td>
+              <td>
+                <div>${escapeHtml(d.donorName || 'Donor')}</div>
+                <div class="route">→ ${escapeHtml(d.ashramName || 'Ashram')}</div>
+              </td>
+              <td>${Number(d.weightKg) || 0} kg</td>
+              <td>${formatDate(d.deliveryVerifiedAt || d.createdAt)}</td>
+              <td><span class="dh-pill green">Delivered</span></td>
+            </tr>`).join('');
+        }
+      }
+
+    } catch (err) {
+      console.error('Driver data load failed:', err);
+      const missionsEl = document.getElementById('dh-missions');
+      if (missionsEl) {
+        missionsEl.innerHTML = `
+          <div class="dh-empty">
+            <span class="ico">⚠️</span>
+            <strong>Could not load missions</strong>
+            <p style="margin:0;font-size:.85rem;">Please refresh the page.</p>
+          </div>`;
+      }
+    }
+  }
+
+  /* ---------- Helpers ---------- */
+  function escapeHtml(s) {
+    return String(s || '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+  }
+  function formatDate(iso) {
+    if (!iso) return '—';
+    try {
+      return new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+    } catch (e) { return '—'; }
+  }
+
+  /* ---------- Boot ---------- */
+  loadDriverData();
+  setInterval(loadDriverData, 20000);
+
+  /* ⚡ ADDED: header scroll shadow */
+  const header = document.querySelector('.site-header');
+  if (header) {
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 12);
+    }, { passive: true });
+  }
+
+  console.log('🎬 Driver Home — Enhanced animations loaded');
+});
+</script>
+
+</body>
+</html>

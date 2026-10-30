@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find Ashrams | FeedFoodForward</title>
+  <meta name="theme-color" content="#16a34a">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── Header height / position fix ── */
+    header.site-header {
+      position: sticky !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      height: 64px !important;
+      min-height: 0 !important;
+      max-height: 64px !important;
+      background: #ffffff !important;
+      border-bottom: 1px solid rgba(15,23,42,.06) !important;
+      box-shadow: none !important;
+      z-index: 100 !important;
+      display: block !important;
+      overflow: visible !important;
+    }
+    header.site-header .header-container {
+      height: 64px !important;
+      min-height: 0 !important;
+      max-height: 64px !important;
+      padding: 0 1.5rem !important;
+      margin: 0 auto !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 1rem !important;
+      max-width: 1280px !important;
+    }
+    header.site-header .brand-logo,
+    header.site-header .site-nav,
+    header.site-header .header-utilities {
+      display: flex !important;
+      align-items: center !important;
+      height: 64px !important;
+    }
+    header.site-header .brand-text {
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      line-height: 1.1 !important;
+    }
+    header.site-header .site-nav {
+      flex: 1 !important;
+      justify-content: center !important;
+      gap: 0.25rem !important;
+    }
+    /* kill any fake padding above page */
+    body { padding-top: 0 !important; margin-top: 0 !important; }
+    main { padding-top: 0 !important; margin-top: 0 !important; }
+
+    @media (max-width: 860px) {
+      header.site-header,
+      header.site-header .header-container {
+        height: 60px !important;
+        max-height: 60px !important;
+      }
+      header.site-header .brand-logo,
+      header.site-header .header-utilities { height: 60px !important; }
+    }
+  </style>
+  <style>
+    /* ── Header position / height fix ── */
+    .site-header {
+      padding: 0 !important;
+      min-height: 64px !important;
+      height: 64px !important;
+      background: #fff !important;
+      box-shadow: 0 1px 0 rgba(15,23,42,.06) !important;
+    }
+    .site-header .header-container {
+      padding: 0 1.25rem !important;
+      margin: 0 auto !important;
+      height: 64px !important;
+      min-height: 64px !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 1rem !important;
+    }
+    .site-header .brand-logo,
+    .site-header .site-nav,
+    .site-header .header-utilities {
+      display: flex !important;
+      align-items: center !important;
+    }
+    .site-header .brand-text {
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      line-height: 1.15 !important;
+    }
+    .site-header .site-nav {
+      flex: 1;
+      justify-content: center;
+      gap: 0.25rem;
+    }
+    .site-header .header-utilities { gap: 0.5rem; }
+
+    /* Mobile: keep header compact too */
+    @media (max-width: 860px) {
+      .site-header,
+      .site-header .header-container {
+        height: 60px !important;
+        min-height: 60px !important;
+      }
+    }
+  </style>
+  <style>
+    /* ══════════════════════════════════════════════════════════
+       BASE + ANIMATED BACKGROUND
+       ══════════════════════════════════════════════════════════ */
+    body {
+      background:
+        radial-gradient(1200px 600px at 8% -10%, rgba(16,185,129,.10), transparent 60%),
+        radial-gradient(900px 500px at 100% 5%, rgba(139,92,246,.08), transparent 60%),
+        radial-gradient(800px 500px at 50% 110%, rgba(245,158,11,.07), transparent 60%),
+        #f6f9fc;
+      background-attachment: fixed;
+      position: relative;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed; inset: -40%;
+      background:
+        radial-gradient(600px 600px at 20% 30%, rgba(16,185,129,.06), transparent 60%),
+        radial-gradient(600px 600px at 80% 70%, rgba(37,99,235,.05), transparent 60%);
+      animation: ffAurora 24s ease-in-out infinite alternate;
+      pointer-events: none;
+      z-index: 0;
+    }
+    @keyframes ffAurora {
+      0%   { transform: translate3d(0,0,0) rotate(0deg) scale(1); }
+      50%  { transform: translate3d(2%,-2%,0) rotate(6deg) scale(1.05); }
+      100% { transform: translate3d(-2%,2%,0) rotate(-6deg) scale(1.1); }
+    }
+    main, header.site-header, footer.site-footer { position: relative; z-index: 1; }
+
+    /* Floating decorative orbs */
+    .ff-orb {
+      position: fixed;
+      width: 420px; height: 420px;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: .35;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .ff-orb.o1 { background: radial-gradient(circle, #34d399, transparent 65%); top: -140px; left: -160px; animation: ffOrbA 22s ease-in-out infinite alternate; }
+    .ff-orb.o2 { background: radial-gradient(circle, #a78bfa, transparent 65%); top: 20%; right: -180px; animation: ffOrbB 26s ease-in-out infinite alternate; }
+    .ff-orb.o3 { background: radial-gradient(circle, #fbbf24, transparent 65%); bottom: -180px; left: 30%; animation: ffOrbA 30s ease-in-out infinite alternate-reverse; }
+    @keyframes ffOrbA { 0%{transform:translate(0,0) scale(1);} 100%{transform:translate(60px,40px) scale(1.15);} }
+    @keyframes ffOrbB { 0%{transform:translate(0,0) scale(1);} 100%{transform:translate(-70px,60px) scale(1.2);} }
+
+    /* Floating particles */
+    @keyframes ffFloatUp{
+      0%   { transform: translateY(105vh) scale(.4) rotate(0deg); opacity: 0; }
+      10%  { opacity: .85; }
+      90%  { opacity: .85; }
+      100% { transform: translateY(-20vh) scale(1.1) rotate(360deg); opacity: 0; }
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       SECTION TITLE
+       ══════════════════════════════════════════════════════════ */
+    .section-title { position: relative; animation: ffRiseIn .9s cubic-bezier(.2,.9,.3,1.2) both; }
+    .section-title h2 {
+      background: linear-gradient(90deg, #0B1224 0%, #047857 40%, #0B1224 80%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: ffShine 7s linear infinite;
+      position: relative;
+      display: inline-block;
+    }
+    .section-title h2::after {
+      content: "";
+      position: absolute;
+      left: 0; bottom: -6px;
+      height: 3px; width: 60%;
+      background: linear-gradient(90deg, #10b981, transparent);
+      border-radius: 3px;
+      animation: ffUnderline 2.4s ease-in-out infinite;
+    }
+    @keyframes ffShine { to { background-position: 200% center; } }
+    @keyframes ffUnderline {
+      0%   { transform: scaleX(0); transform-origin: left; }
+      50%  { transform: scaleX(1); transform-origin: left; }
+      51%  { transform: scaleX(1); transform-origin: right; }
+      100% { transform: scaleX(0); transform-origin: right; }
+    }
+    @keyframes ffRiseIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       FILTER BAR
+       ══════════════════════════════════════════════════════════ */
+    #ashram-search, #type-filter { backdrop-filter: blur(8px); transition: all .3s ease; }
+    #ashram-search:focus, #type-filter:focus {
+      outline: none;
+      border-color: #10b981;
+      box-shadow: 0 0 0 4px rgba(16,185,129,.18);
+      transform: translateY(-1px);
+    }
+    #near-me-btn, #reset-btn { position: relative; overflow: hidden; transition: all .35s cubic-bezier(.2,.9,.3,1.3); }
+    #near-me-btn::before, #reset-btn::before {
+      content: ""; position: absolute; top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.4), transparent);
+      transition: left .7s ease;
+    }
+    #near-me-btn:hover::before, #reset-btn:hover::before { left: 100%; }
+    #near-me-btn:hover, #reset-btn:hover { transform: translateY(-2px); }
+
+    /* ══════════════════════════════════════════════════════════
+       ASHRAM GRID
+       ══════════════════════════════════════════════════════════ */
+    .ashram-grid-outer {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.5rem 4rem 1.5rem;
+    }
+
+    .ashram-tile {
+      background: #fff;
+      border-radius: 18px;
+      border: 1px solid var(--slate-border);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transform-style: preserve-3d;
+      opacity: 0;
+      transform: translateY(30px) scale(.96);
+      animation: ffTileIn .8s cubic-bezier(.2,.9,.3,1.2) forwards;
+      transition: transform .45s cubic-bezier(.2,.9,.3,1.2),
+                  box-shadow .45s ease,
+                  border-color .4s ease;
+      will-change: transform;
+    }
+    .ashram-tile:nth-child(1)  { animation-delay: .04s; }
+    .ashram-tile:nth-child(2)  { animation-delay: .10s; }
+    .ashram-tile:nth-child(3)  { animation-delay: .16s; }
+    .ashram-tile:nth-child(4)  { animation-delay: .22s; }
+    .ashram-tile:nth-child(5)  { animation-delay: .28s; }
+    .ashram-tile:nth-child(6)  { animation-delay: .34s; }
+    .ashram-tile:nth-child(7)  { animation-delay: .40s; }
+    .ashram-tile:nth-child(8)  { animation-delay: .46s; }
+    .ashram-tile:nth-child(n+9){ animation-delay: .52s; }
+    @keyframes ffTileIn {
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Glow gradient border on hover */
+    .ashram-tile::before {
+      content: "";
+      position: absolute; inset: -2px;
+      border-radius: 20px;
+      padding: 2px;
+      background: linear-gradient(135deg, #10b981, #8b5cf6, #fbbf24, #10b981);
+      background-size: 300% 300%;
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+              mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+              mask-composite: exclude;
+      opacity: 0;
+      transition: opacity .4s ease;
+      animation: ffBorderShift 6s linear infinite;
+      pointer-events: none;
+    }
+    .ashram-tile:hover::before { opacity: 1; }
+    @keyframes ffBorderShift {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 300% 50%; }
+    }
+
+    /* Light sweep on hover */
+    .ashram-tile::after {
+      content: "";
+      position: absolute;
+      top: -40%; left: -30%;
+      width: 60%; height: 180%;
+      background: linear-gradient(90deg, transparent, rgba(16,185,129,.10), transparent);
+      transform: rotate(20deg);
+      transition: transform 1s ease;
+      pointer-events: none;
+    }
+    .ashram-tile:hover::after { transform: rotate(20deg) translateX(240%); }
+
+    .ashram-tile:hover {
+      transform: translateY(-10px) scale(1.015);
+      box-shadow: 0 30px 70px -22px rgba(6,95,70,.35);
+      border-color: #bbf7d0;
+    }
+
+    .ashram-tile-img-wrap { position: relative; height: 180px; overflow: hidden; }
+    .ashram-tile-img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .8s cubic-bezier(.2,.9,.3,1.2), filter .5s ease;
+    }
+    .ashram-tile:hover .ashram-tile-img {
+      transform: scale(1.10) rotate(-.6deg);
+      filter: saturate(1.15) brightness(1.03);
+    }
+    .ashram-tile-img-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.55) 100%);
+    }
+    .ashram-tile-type-tag {
+      position: absolute; top: 0.65rem; left: 0.65rem;
+      background: rgba(255,255,255,0.95);
+      color: var(--dark-green);
+      font-size: 0.65rem; font-weight: 800;
+      padding: 0.25rem 0.6rem; border-radius: 6px;
+      text-transform: uppercase; letter-spacing: 0.03em;
+      max-width: 80%; overflow: hidden;
+      text-overflow: ellipsis; white-space: nowrap;
+      animation: ffTagPop .6s .3s cubic-bezier(.2,.9,.3,1.6) both;
+    }
+    @keyframes ffTagPop {
+      0%   { opacity: 0; transform: translateY(-8px) scale(.85); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .ashram-tile-verified {
+      position: absolute; top: 0.65rem; right: 0.65rem;
+      background: #16a34a; color: #fff;
+      font-size: 0.62rem; font-weight: 800;
+      padding: 0.25rem 0.55rem; border-radius: 6px;
+      animation: ffVerifiedPulse 2.4s ease-out infinite;
+    }
+    @keyframes ffVerifiedPulse {
+      0%   { box-shadow: 0 0 0 0 rgba(22,163,74,.55); }
+      70%  { box-shadow: 0 0 0 12px rgba(22,163,74,0); }
+      100% { box-shadow: 0 0 0 0 rgba(22,163,74,0); }
+    }
+
+    .ashram-tile-body {
+      padding: 1rem 1.1rem 1.15rem;
+      display: flex; flex-direction: column; gap: 0.5rem; flex: 1;
+    }
+    .ashram-tile h3 { font-size: 1rem; margin: 0; color: var(--navy-dark); line-height: 1.3; }
+    .ashram-tile-addr { font-size: 0.75rem; color: var(--text-muted); line-height: 1.5; margin: 0; }
+
+    .ashram-tile-meta {
+      display: flex; gap: 0.4rem; flex-wrap: wrap;
+      font-size: 0.7rem; margin-top: auto;
+    }
+    .ashram-tile-meta span, .ashram-tile-meta a {
+      background: #f1f5f9; color: var(--navy-dark);
+      padding: 0.2rem 0.55rem; border-radius: 6px;
+      text-decoration: none; font-weight: 600;
+      transition: transform .3s ease, background .3s ease;
+    }
+    .ashram-tile:hover .ashram-tile-meta span,
+    .ashram-tile:hover .ashram-tile-meta a { transform: translateY(-1px); }
+    .ashram-tile-meta a { background: var(--light-green); color: var(--dark-green); }
+    .ashram-tile-meta a:hover { background: var(--primary-green); color: #fff; }
+
+    .ashram-tile-food {
+      background: #fef3c7 !important;
+      color: #92400e !important;
+      font-weight: 800 !important;
+      position: relative; overflow: hidden;
+    }
+    .ashram-tile-food::after {
+      content: "";
+      position: absolute; top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.7), transparent);
+      animation: ffFoodShimmer 2.6s ease-in-out infinite;
+    }
+    @keyframes ffFoodShimmer { 0%{left:-100%;} 60%,100%{left:100%;} }
+
+    .ashram-tile-dist {
+      background: #dbeafe !important;
+      color: #1e40af !important;
+      font-weight: 800 !important;
+      animation: ffDistPulse 2.8s ease-in-out infinite;
+    }
+    @keyframes ffDistPulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(37,99,235,.4); }
+      50%     { box-shadow: 0 0 0 6px rgba(37,99,235,0); }
+    }
+
+    .ashram-tile-cta {
+      display: inline-block; text-align: center;
+      margin-top: 0.75rem; padding: 0.6rem;
+      background: linear-gradient(135deg, var(--dark-green), var(--primary-green));
+      color: #fff; font-weight: 700; font-size: 0.78rem;
+      border-radius: 10px; text-decoration: none;
+      position: relative; overflow: hidden;
+      transition: transform .35s cubic-bezier(.2,.9,.3,1.3), box-shadow .35s ease;
+      box-shadow: 0 10px 24px -12px rgba(6,95,70,.55);
+    }
+    .ashram-tile-cta::before {
+      content: ""; position: absolute; top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.4), transparent);
+      transition: left .7s ease;
+    }
+    .ashram-tile-cta:hover::before { left: 100%; }
+    .ashram-tile-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 36px -12px rgba(6,95,70,.75);
+    }
+
+    /* Skeleton loader */
+    .ff-skeleton {
+      background: linear-gradient(90deg, #eef2f7 0%, #f7fbfa 50%, #eef2f7 100%);
+      background-size: 200% 100%;
+      animation: ffSkeleton 1.4s linear infinite;
+      border-radius: 18px;
+      height: 340px;
+    }
+    @keyframes ffSkeleton {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    #ashram-empty-msg { animation: ffRiseIn .6s ease both; }
+
+    @media (max-width: 640px) {
+      .ashram-grid-outer { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .001ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-container">
+
+    <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6"  x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+    <a href="index.html" class="brand-logo" aria-label="FeedFoodForward home">
+      <div class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img">
+          <defs>
+            <linearGradient id="ffTile" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#067A54"/>
+              <stop offset="55%" stop-color="#0B9F6E"/>
+              <stop offset="100%" stop-color="#10B981"/>
+            </linearGradient>
+            <linearGradient id="ffHeart" x1="0" y1="0" x2="0.5" y2="1">
+              <stop offset="0%" stop-color="#FF5A7A"/>
+              <stop offset="100%" stop-color="#F03E64"/>
+            </linearGradient>
+            <linearGradient id="ffLeaf" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#A3E635"/>
+              <stop offset="100%" stop-color="#65A30D"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="44" height="44" rx="11" fill="url(#ffTile)"/>
+          <rect x="2" y="2" width="44" height="20" rx="11" fill="#ffffff" opacity="0.08"/>
+          <g transform="translate(28 6) rotate(20)">
+            <path d="M0 14 C0 6 5 1 12 0 C12 8 7 14 0 14 Z" fill="url(#ffLeaf)"/>
+            <path d="M1 13 C4 10 8 6 11.5 1" stroke="#3E8A4E" stroke-width="0.9"
+                  stroke-linecap="round" fill="none" opacity="0.65"/>
+          </g>
+          <g transform="translate(8 20)">
+            <path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4
+                     C7.4 0.4 9.2 1.8 10 3.4 C10.8 1.8 12.6 0.4 15 0.4
+                     C18.3 0.4 21 2.6 21 6 C21 10 18 14 10 20 Z"
+                  fill="url(#ffHeart)"/>
+            <path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4
+                     C7.4 0.4 9.2 1.8 10 3.4"
+                  fill="#ffffff" opacity="0.22"/>
+          </g>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">FeedFood<span>Forward</span></span>
+        <span class="brand-subtitle">AI FOOD REDISTRIBUTION PLATFORM</span>
+      </div>
+    </a>
+
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation menu">☰</button>
+
+    <nav class="site-nav" id="site-nav" aria-label="Primary">
+      <a href="index.html" class="nav-link" data-nav="home">Home</a>
+      <a href="donor-dashboard.html" class="nav-link nav-donor-only" data-nav="dashboard" hidden>Dashboard</a>
+      <a href="my-donations.html" class="nav-link nav-donor-only" data-nav="donations" hidden>My Donations</a>
+      <a href="donate-food.html" class="nav-link" data-nav="donate">Donate Food</a>
+      <a href="ai-inspection.html" class="nav-link" data-nav="ai">AI Inspection</a>
+      <a href="find-ashrams.html" class="nav-link" data-nav="ashrams">Find Ashrams</a>
+      <a href="pickup-track.html" class="nav-link nav-donor-only" data-nav="pickup" hidden>Pickup</a>
+      <a href="driver-hub.html" class="nav-link nav-driver-only" data-nav="driver" hidden>Driver Hub</a>
+      <a href="ngo-dashboard.html" class="nav-link nav-ashram-only" data-nav="ngo" hidden>NGO Dashboard</a>
+    </nav>
+
+    <div class="header-utilities">
+      <div id="header-guest" class="header-auth-group">
+        <button type="button" class="btn btn-outline btn-sm" id="header-login-btn">Login</button>
+        <button type="button" class="btn btn-primary btn-sm" id="header-signup-btn">Sign Up</button>
+      </div>
+
+      <div id="header-user" class="header-user-group" hidden>
+        <button type="button" class="user-chip" id="user-chip" aria-haspopup="true" aria-expanded="false">
+          <span class="user-avatar" id="user-avatar">🏨</span>
+          <span class="user-name" id="user-name">Hotel Green Leaf</span>
+          <span class="user-caret" aria-hidden="true">▾</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section style="padding-top:1.5rem;">
+
+  <div class="section-title">
+    <h2>Find Ashrams &amp; NGOs in Mumbai</h2>
+    <p id="ashram-count">Loading ashrams…</p>
+  </div>
+
+  <div style="max-width:1280px;margin:0 auto 1rem auto;padding:0 1.5rem;">
+    <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;">
+      <input type="text" id="ashram-search" placeholder="🔍 Search by name or area (e.g. Andheri, Bandra, Dadar)…" class="search-input" style="flex:1;min-width:220px;">
+      <select id="type-filter" class="role-dropdown" style="font-size:0.85rem;padding:0.6rem 0.9rem;max-width:220px;">
+        <option value="">All Types</option>
+        <option value="Orphanage">Orphanage</option>
+        <option value="Old Age Home">Old Age Home</option>
+        <option value="NGO">NGO</option>
+        <option value="Shelter">Shelter</option>
+        <option value="Ashram">Ashram</option>
+        <option value="School">School</option>
+      </select>
+      <button type="button" id="near-me-btn" class="btn btn-primary btn-sm" style="padding:0.65rem 1.2rem;">📍 Near Me</button>
+      <button type="button" id="reset-btn" class="btn btn-outline btn-sm" style="padding:0.65rem 1.2rem;">↺ Reset</button>
+    </div>
+  </div>
+
+  <p id="ashram-empty-msg" style="display:none;text-align:center;color:var(--text-muted);padding:3rem 1rem;"></p>
+
+  <div class="ashram-grid-outer" id="ashram-grid"></div>
+
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-brand">
+      <h3>FeedFoodForward</h3>
+      <p>"Rescue Food. Reduce Waste. Feed Communities."</p>
+    </div>
+    <div class="footer-copyright">© 2026 FeedFoodForward Platform.</div>
+  </div>
+</footer>
+
+<div id="ff-toast" role="status" aria-live="polite"
+     style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);background:#0f172a;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:all .3s ease;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.25);"></div>
+
+<script src="app.js"></script>
+<script src="header-nav.js"></script>
+<script>
+const MENUS = {
+  donor: [
+    { label: "Profile",        icon: "👤", link: "profile.html" },
+    { label: "My Donations",   icon: "🎁", link: "donate-food.html" },
+    { label: "My Impact",      icon: "🌱", link: "impact-csr.html" },
+    { label: "Leaderboard",    icon: "🏆", link: "leaderboard.html" },
+    { label: "Impact & CSR",   icon: "🌍", link: "impact-csr.html" }
+  ],
+  driver: [
+    { label: "Profile",        icon: "👤", link: "profile.html" },
+    { label: "Driver Hub",     icon: "🚚", link: "driver-hub.html" },
+    { label: "My Deliveries",  icon: "📦", link: "driver-hub.html" },
+    { label: "My Impact",      icon: "🌱", link: "impact-csr.html" },
+    { label: "Leaderboard",    icon: "🏆", link: "leaderboard.html" },
+    { label: "Impact & CSR",   icon: "🌍", link: "impact-csr.html" }
+  ],
+  ashram: [
+    { label: "Profile",        icon: "👤", link: "profile.html" },
+    { label: "Find Food",      icon: "🍲", link: "find-ashrams.html" },
+    { label: "My Requests",    icon: "📝", link: "find-ashrams.html" },
+    { label: "My Impact",      icon: "🌱", link: "impact-csr.html" },
+    { label: "Leaderboard",    icon: "🏆", link: "leaderboard.html" },
+    { label: "Impact & CSR",   icon: "🌍", link: "impact-csr.html" }
+  ],
+  admin: [
+    { label: "Profile",          icon: "👤", link: "profile.html" },
+    { label: "Admin Portal",     icon: "🛡️", link: "admin-portal.html" },
+    { label: "Manage Donations", icon: "🎁", link: "admin-portal.html" },
+    { label: "Manage Users",     icon: "👥", link: "admin-portal.html" },
+    { label: "AI Inspection",    icon: "🤖", link: "ai-inspection.html" },
+    { label: "Driver Hub",       icon: "🚚", link: "driver-hub.html" },
+    { label: "Leaderboard",      icon: "🏆", link: "leaderboard.html" },
+    { label: "Impact & CSR",     icon: "🌍", link: "impact-csr.html" }
+  ]
+};
+
+const loggedInUser = (window.ffAuth && window.ffAuth.getUser) ? window.ffAuth.getUser() : null;
+
+const currentUser = loggedInUser ? {
+  name:      loggedInUser.name      || 'User',
+  role:      loggedInUser.role      || 'donor',
+  avatar:    loggedInUser.avatar    || '👤',
+  roleLabel: loggedInUser.roleLabel || 'User',
+  verified:  loggedInUser.verified  || 'Verified'
+} : {
+  name:      'Guest',
+  role:      'donor',
+  avatar:    '👤',
+  roleLabel: 'Not logged in',
+  verified:  ''
+};
+
+const sidebar        = document.getElementById("profileSidebar");
+const overlay        = document.getElementById("sidebarOverlay");
+const closeBtn       = document.getElementById("closeSidebar");
+const menuContainer  = document.getElementById("sidebarMenu");
+const userNameEl     = document.getElementById("userName");
+const userRoleEl     = document.getElementById("userRole");
+const userAvatarEl   = document.getElementById("userAvatar");
+const userVerifiedEl = document.getElementById("userVerified");
+const logoutBtn      = document.getElementById("logoutBtn");
+
+function renderSidebar(user) {
+  if (!sidebar) return;
+  userNameEl.textContent = user.name;
+  userRoleEl.textContent = user.roleLabel;
+  userAvatarEl.textContent = user.avatar;
+  if (userVerifiedEl) userVerifiedEl.textContent = user.verified ? '✔ ' + user.verified : '';
+
+  menuContainer.innerHTML = "";
+  const items = MENUS[user.role] || [];
+  items.forEach(item => {
+    const a = document.createElement("a");
+    a.className = "menu-item";
+    a.href = item.link;
+    a.innerHTML = `<span class="icon">${item.icon}</span><span>${item.label}</span><span class="arrow">›</span>`;
+    menuContainer.appendChild(a);
+  });
+}
+
+function openSidebar() {
+  sidebar.classList.add("active");
+  overlay.classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+function closeSidebar() {
+  sidebar.classList.remove("active");
+  overlay.classList.remove("active");
+  document.body.style.overflow = "";
+}
+
+const hamburgerBtn = document.getElementById("hamburgerBtn");
+if (hamburgerBtn) hamburgerBtn.addEventListener("click", openSidebar);
+
+const openBtn = document.getElementById("user-chip");
+if (openBtn) openBtn.addEventListener("click", openSidebar);
+
+if (closeBtn) closeBtn.addEventListener("click", closeSidebar);
+if (overlay)  overlay.addEventListener("click", closeSidebar);
+
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeSidebar(); });
+
+if (logoutBtn) {
+  if (loggedInUser) {
+    logoutBtn.addEventListener("click", () => {
+      if (window.ffAuth) window.ffAuth.clear();
+      if (window.ffToast) window.ffToast("You have been logged out.");
+      setTimeout(() => { window.location.href = "index.html"; }, 600);
+    });
+  } else {
+    logoutBtn.innerHTML = '<span class="icon">→</span> Login';
+    logoutBtn.style.color = '#047857';
+    logoutBtn.style.borderColor = '#bbf7d0';
+    logoutBtn.style.background = '#ecfdf5';
+    logoutBtn.addEventListener("click", () => {
+      window.location.href = "index.html";
+    });
+  }
+}
+
+renderSidebar(currentUser);
+</script>
+
+<script src="sidebar.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  const grid     = document.getElementById('ashram-grid');
+  const emptyMsg = document.getElementById('ashram-empty-msg');
+  const countEl  = document.getElementById('ashram-count');
+  const searchEl = document.getElementById('ashram-search');
+  const typeEl   = document.getElementById('type-filter');
+  const nearBtn  = document.getElementById('near-me-btn');
+  const resetBtn = document.getElementById('reset-btn');
+
+  let USER_LOC = null;
+
+  /* ══════════════════════════════════════════════════════════
+     ALL 30 ASHRAMS FROM ashrams.csv
+     ══════════════════════════════════════════════════════════ */
+  const ALL_ASHRAMS = [
+    { name: 'MAKING A DIFFERENCE FOUNDATION', type: 'NGO',
+      address: '2RJW+6RC, Matunga Rd Flyover, Mahim United Industrial Estate, Mahim',
+      city: 'Mumbai', state: 'Maharashtra',
+      phone: '093236 77113', website: 'makingadifferencefoundation.org',
+      verified: 'Yes', food_needed: 'Yes',
+      location: { coordinates: [72.84752002975235, 19.034867640991315] } },
+
+    { name: 'Kokan NGO India', type: 'NGO',
+      address: '3rd Floor, Mahatma Jyotiba Phule Road, next to Sharada Talkies, Old BDD Chawl, Dadar East',
+      city: 'Mumbai', state: 'Maharashtra',
+      phone: '077095 85110', website: 'kokanngo.org',
+      verified: 'Yes', food_needed: 'Yes',
+      location: { coordinates: [72.84672655468694, 19.0141966093117] } },
+
+    { name: 'Marpu Foundation (NGO)', type: 'NGO',
+      address: '405, Meghmalhar CHS, Crystal Armus, Narayan Gajanan Acharya Marg, Anand Nagar, Vaibhav Nagar',
+      city: 'Mumbai', state: 'Maharashtra',
+      phone: '079978 01001', website: 'marpu.org',
+      verified: 'Yes', food_needed: 'Yes',
+      location: { coordinates: [72.90567248597304, 19.062340979875913] } },
+
+    { name: 'Udan Foundation NGO', type: 'NGO',
+      address: 'Room No. 5, 1st Floor, 136, Parmar Guruji Road, Parel',
+      city: 'Mumbai', state: 'Maharashtra',
+      phone: '098702 51275', website: 'udanfoundationngo.org',
+      verified: 'Yes', food_needed: 'Yes',
+      location: { coordinates: [72.84014244259721, 19.00495120824618] } },
+
+    { name: 'Akshaya Chaitanya Kitchen', type: 'NGO',
+      address: 'JAK Compound, Keshavrao Borker Marg, Byculla',
+      city: 'Mumbai', state: 'Maharashtra',
+      phone: '089289 91161', website: 'akshayachaitanya.org',
+      verified: 'Yes', food_needed: 'Yes',
+      location: { coordinates: [72.83848070026147, 18.98506792553001] } },
+
+    { name: 'CRY – Child Rights and You', type: 'NGO',
+      address: '189/A Anand Estate, Sane Guruji Marg',
+      city: 'Mumbai', state: 'Maharashtra',
+      phone: '091159 11500', website: 'cry.org',
+      verified: 'Yes', food_needed: 'No',
+      location: { coordinates: [72.8300873979349, 18.98979612607234] } },
+
+    { name: 'Antarang Foundation', type: 'NGO',
+      address: '1st Floor, C/O Dasra, Shakti Mills Lane, off Dr. Elijah Moses Road, Jacob Circle',
+      city: 'Mumbai', state: 'Maharashtra',
+      phone: '022 4005 0164', website: 'antarangfoundation.org',
+      verified: 'Yes', food_needed: 'Yes',
+      location: { coordinates: [72.82420875170251, 18.993797279730003] } },
+
+    { name: 'Swades Foundation', type: 'NGO',
+      address: '4th Floor, Ceejay House, Unit No. 401, Dr. Annie Besant Road, Worli',
+      city: 'Mumbai', state: 'Maharashtra',
+      phone: '022 6109 3730', website: 'swadesfoundation.org',
+      verified: 'Yes', food_needed: 'No',
+      location: { coordinates: [72.81315110099892, 18.99166197974237] } },
+
+    { name: 'Cuddles Foundation', type: 'NGO',
+      address: '2nd Floor, Brady Gladys Plaza, Unit No. 5, Senapati Bapat Marg, Lower Parel',
+      city: 'Mumbai', state: 'Maharashtra',
+      phone: '', website: 'cuddlesfoundation.org',
+      verified: 'Yes', food_needed: 'Yes',
+      location: { coordinates: [72.82710157828083, 19.007493622449154] } },
+
+    { name: "Sandhya Parvathi's", type: 'Orphanage',
+      address: '2R37+FXG, B Wing, Municipal Colony, Worli Shivaji Nagar, Worli',
+      city: 'Mumbai', state: 'Maharashtra',
+      phone: '1800 23 3555', website: '',
+      verified: 'Yes', food_needed: 'Yes',
+      location: { coordinates: [72.81366363505782, 19.009342037872297] } },
+
+    { name: "Our Lady's Home", type: 'Orphanage',
+      address: '205, Dr. Babasaheb Ambedkar Road, Dadar East',
+      city: 'Mumbai', state: 'Maharashtra',
+      phone: '084519 48077', website: 'ourladyshome.org',
+      verified: 'Yes', food_needed: 'Yes',
+      location: { coordinates: [72.84233654742566, 19.01312374407697] } },
+
+    { name: 'The Byramjee Jeejeebhoy Home for Children', type: 'Orphanage',
+      address: 'Shradhanand Road, Brhmanwada, Matunga East',
+      city: 'Mumbai', state: 'Maharashtra',
+      phone: '022 2401 1197', website: 'spcwi.org',
+      verified: 'Yes', food_needed: 'Yes',
+      location: { coordinates: [72.85448848227287, 19.034664173408007] } },
+
+    { name: "The Salvation Army – Children's Home", type: 'Orphanage',
+      address: '270, Road Number 31, Sion East, Sion',
+      city: 'Mumbai', state: 'Maharashtra',
+      phone: '022 2409 4405', website: 'salvationarmy.com',
+      verified: 'Yes', food_needed: 'Yes',
+      location: { coordinates: [72.85980495376853, 19.04327956310012] } },
+
+    { name: 'Nandivan Ashram', type: 'Ashram',
+      address: 'XRWW+M29, GD Ambekar Marg, MINT Colony, Parel',
+      city: 'Mumbai', state: 'Maharashtra',
+      phone: '', website: '',
+      verified: 'Yes', food_needed: 'Yes',
+      location: { coordinates: [72.84442105913448, 19.00271215516706] } },
+
+    { name: 'Human Social Foundation NGO', type: 'NGO',
+      address: '866 Peter Lane, Gazdhar Bandh Road, Govind Nagar',
+      city: 'Mumbai', state: 'Maharashtra',
+      phone: '084510 94444', website: '',
+      verified: 'Yes', food_needed: 'Yes',
+      location: { coordinates: [72.83050873813119, 19.08718335549425] } },
+
+    { name: 'Ambuja Foundation – CSR Implementation', type: 'NGO',
+      address: 'MIDC, off Andheri–Kurla Road, Bhim Nagar, Andheri East',
+      city: 'Mumbai', state: 'Maharashtra',
+      phone: '022 6616 7616', website: 'ambujafoundation.org',
+      verified: 'Yes', food_needed: 'Yes',
+      location: { coordinates: [72.86793091818656, 19.120922463831764] } },
+
+    { name: 'Smile Foundation NGO in Mumbai', type: 'NGO',
+      address: 'Building 101, First Floor, Gladiola, Hanuman Road, Vile Parle East',
+      city: 'Mumbai', state: 'Maharashtra',
+      phone: '022 2610 4106', website: 'smilefoundationindia.org',
+      verified: 'Yes', food_needed: 'Yes',
+      location: { coordinates: [72.84801819852406, 19.106649065528995] } },
+
+    { name: 'Sadguru Sadananda Ashram Mumbai', type: 'Ashram',
+      address: 'Shree Hind CHS, 18, NS Mankikar Road, Vrindavan, Chunabhatti, Sion',
+      city: 'Mumbai', state: 'Maharashtra',
+      phone: '', website: 'sadgurusadanandamaharaj.com',
+      verified: 'Yes', food_needed: 'Yes',
+      location: { coordinates: [72.8650075668453, 19.05670594412576] } },
+
+    { name: 'Khatik Sanyas Ashram', type: 'Ashram',
+      address: 'Plot No. 47, Khatikwadi, Kherwadi, Bandra East',
+      city: 'Mumbai', state: 'Maharashtra',
+      phone: '', website: '',
+      verified: 'Yes', food_needed: 'Yes',
+      location: { coordinates: [72.84223990148504, 19.07071682205777] } },
+
+    { name: 'Shri Paramhans Ashram', type: 'Ashram',
+      address: '488, Shrikrishna Chowk, New Mill Road, BMC Colony, Kurla West, Kurla',
+      city: 'Mumbai', state: 'Maharashtra',
+      phone: '', website: '',
+      verified: 'Yes', food_needed: 'Yes',
+      location: { coordinates: [72.87744545632769, 19.075609298885794] } },
+
+    { name: 'Sanyas Ashram Municipal School 97', type: 'School',
+      address: 'Vile Parle Municipal School, Sanyas Ashram Road, Pond Gaothan, Vile Parle West',
+      city: 'Mumbai', state: 'Maharashtra',
+      phone: '', website: '',
+      verified: 'Yes', food_needed: 'Yes',
+      location: { coordinates: [72.83988424790256, 19.1083317057273] } },
+
+    { name: 'ISKCON Brahmachari Ashram', type: 'Ashram',
+      address: '4R7G+3XV, ISKCON Temple Entrance Road, Sainath Nagar, MHADA Colony, Juhu',
+      city: 'Mumbai', state: 'Maharashtra',
+      phone: '', website: '',
+      verified: 'Yes', food_needed: 'Yes',
+      location: { coordinates: [72.82674645320587, 19.11706001239924] } },
+
+    { name: 'Sanyas Ashram Temple', type: 'Ashram',
+      address: 'Sanyas Ashram Temple, Sanyas Ashram Road, off Bajaj Road, Vile Parle West',
+      city: 'Mumbai', state: 'Maharashtra',
+      phone: '097020 22070', website: 'sanyasashram.org',
+      verified: 'Yes', food_needed: 'Yes',
+      location: { coordinates: [72.84152647223964, 19.108525673103294] } },
+
+    { name: 'Shri Anandpur Ashram Mandir', type: 'Ashram',
+      address: 'Plot 240/A, Mahakali Caves Road, Sher E Punjab Colony, Andheri East',
+      city: 'Mumbai', state: 'Maharashtra',
+      phone: '', website: '',
+      verified: 'Yes', food_needed: 'Yes',
+      location: { coordinates: [72.86123316428468, 19.118805618437115] } },
+
+    { name: 'Jeevan Ankur Vridhashram (Old Age Home)', type: 'Old Age Home',
+      address: 'Kamgar Nagar Road, beside Shreeram Co-operative Society, Kamgaar Nagar, Kurla',
+      city: 'Mumbai', state: 'Maharashtra',
+      phone: '081696 15400', website: 'jeevanankurtrust.org.in',
+      verified: 'Yes', food_needed: 'Yes',
+      location: { coordinates: [72.88731199185328, 19.064759741033363] } },
+
+    { name: 'GM Care – Elder Care Home in Thane', type: 'Old Age Home',
+      address: '2nd Floor, Shankar Apartments, Lal Bahadur Shastri Marg, Bamanpuri, Kanti Nagar, Thane West',
+      city: 'Thane', state: 'Maharashtra',
+      phone: '', website: 'drshifashaikh.com',
+      verified: 'Yes', food_needed: 'Yes',
+      location: { coordinates: [72.86732559376303, 19.11053423465076] } },
+
+    { name: 'BHN Healthcare & Old Age Home', type: 'Old Age Home',
+      address: 'Riddhi Siddhi, 35 Presidency CHS Ltd, N.S. Road No. 6, JVPD Scheme, Juhu, Vile Parle West',
+      city: 'Mumbai', state: 'Maharashtra',
+      phone: '099208 33386', website: 'bhnhealthcare.com',
+      verified: 'Yes', food_needed: 'Yes',
+      location: { coordinates: [72.83323114996199, 19.115199855461444] } },
+
+    { name: 'Sukhada Solace for Elderly', type: 'Old Age Home',
+      address: '8th Floor, Besides SBI, CritiCare Asia Hospital, Plot No. 516, Teli Gali, Andheri East',
+      city: 'Mumbai', state: 'Maharashtra',
+      phone: '079000 65555', website: 'sukhada.in',
+      verified: 'Yes', food_needed: 'Yes',
+      location: { coordinates: [72.84978773173962, 19.119669850042406] } },
+
+    { name: 'BHN Healthcare & Retirement Home', type: 'Old Age Home',
+      address: 'Flat Nos. 601 and 602, 6th Floor, Anuradha CHS, Swami Vivekanand Road, Vile Parle West',
+      city: 'Mumbai', state: 'Maharashtra',
+      phone: '099208 33386', website: 'bhnhealthcare.com',
+      verified: 'Yes', food_needed: 'Yes',
+      location: { coordinates: [72.84063627938752, 19.114042584781945] } },
+
+    { name: 'AgeNurture Nest Foundation', type: 'Old Age Home',
+      address: 'Andhakshi Ashram Building, 1st Floor, Gilbert Hill Road, behind The Bhavans College Road, Andheri West',
+      city: 'Mumbai', state: 'Maharashtra',
+      phone: '082915 31953', website: '',
+      verified: 'Yes', food_needed: 'Yes',
+      location: { coordinates: [72.83805644974585, 19.125015887351644] } }
+  ];
+
+  /* ══════════════════════════════════════════════════════════
+     PHOTO POOL — 30 images, all children OR old people
+     (No food, no buildings, no monuments.)
+     ══════════════════════════════════════════════════════════ */
+  /* ══════════════════════════════════════════════════════════
+     PHOTO POOL — 30 copies of the chosen children photo
+     ══════════════════════════════════════════════════════════ */
+  const PHOTOS = [
+    'https://plus.unsplash.com/premium_photo-1722945629593-fff80220b79d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D',
+    'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D',
+    'https://images.unsplash.com/photo-1644822861254-c99d0022ab70?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D',
+    'https://plus.unsplash.com/premium_photo-1726704015607-4abe034debfb?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D',
+    'https://plus.unsplash.com/premium_photo-1681505195930-388c317b7a76?q=80&w=1384&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D',
+    'https://media.istockphoto.com/id/1455018915/photo/old-men-friends-playing-with-ball-at-park.webp?a=1&b=1&s=612x612&w=0&k=20&c=x6xgv0W_AihOOluyL-g33S20P2SqsdwczeFgrSGELDI=',
+    'https://images.unsplash.com/photo-1642502073674-793aa61af8ce?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D',
+    'https://images.unsplash.com/photo-1606385881194-10b786d723ee?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D',
+    'https://images.unsplash.com/photo-1727473704473-e4fe94b45b96?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D',
+    'https://images.unsplash.com/photo-1576381203531-d7171e2de67d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D',
+    'https://media.istockphoto.com/id/1405363601/photo/senior-indian-woman-with-eyeglasses-reading-book-at-home-concept-of-leisure-activity-hobbies.webp?a=1&b=1&s=612x612&w=0&k=20&c=2J-wwN6Slqp03s_HzbWzQ_-QpuF4TvVRRV_SxVX7eMo=',
+    'https://images.unsplash.com/photo-1627752885954-e6956866dcbf?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D',
+     'https://images.unsplash.com/photo-1526976668912-1a811878dd37?w=600&auto=format&fit=crop&q=75',
+  'https://images.unsplash.com/photo-1644822861254-c99d0022ab70?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D',
+    'https://plus.unsplash.com/premium_photo-1726704015607-4abe034debfb?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D',
+    'https://plus.unsplash.com/premium_photo-1681505195930-388c317b7a76?q=80&w=1384&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D',
+    'https://media.istockphoto.com/id/1455018915/photo/old-men-friends-playing-with-ball-at-park.webp?a=1&b=1&s=612x612&w=0&k=20&c=x6xgv0W_AihOOluyL-g33S20P2SqsdwczeFgrSGELDI=',
+    'https://images.unsplash.com/photo-1642502073674-793aa61af8ce?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D',
+    'https://images.unsplash.com/photo-1606385881194-10b786d723ee?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D',
+    'https://images.unsplash.com/photo-1727473704473-e4fe94b45b96?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D',
+    'https://images.unsplash.com/photo-1576381203531-d7171e2de67d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D',
+    'https://media.istockphoto.com/id/1405363601/photo/senior-indian-woman-with-eyeglasses-reading-book-at-home-concept-of-leisure-activity-hobbies.webp?a=1&b=1&s=612x612&w=0&k=20&c=2J-wwN6Slqp03s_HzbWzQ_-QpuF4TvVRRV_SxVX7eMo=',
+    'https://images.unsplash.com/photo-1627752885954-e6956866dcbf?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D',
+      'https://images.unsplash.com/photo-1526976668912-1a811878dd37?w=600&auto=format&fit=crop&q=75',
+  ];
+
+  function pickImage(index) {
+    return PHOTOS[index % PHOTOS.length];
+  }
+
+  /* Pick a unique image per card using its index in the grid */
+  function pickImage(index) {
+    return PHOTOS[index % PHOTOS.length];
+  }
+
+  function escapeHtml(s) {
+    return String(s || '').replace(/[&<>"']/g, c => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[c]));
+  }
+
+  function distanceKm(lat1, lng1, lat2, lng2) {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLng = (lng2 - lng1) * Math.PI / 180;
+    const a = Math.sin(dLat/2)**2 +
+              Math.cos(lat1 * Math.PI/180) * Math.cos(lat2 * Math.PI/180) *
+              Math.sin(dLng/2)**2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     ANIMATION: orbs + floating particles
+     ══════════════════════════════════════════════════════════ */
+  (function injectDecorations() {
+    ['o1','o2','o3'].forEach(cls => {
+      const o = document.createElement('div');
+      o.className = 'ff-orb ' + cls;
+      o.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(o);
+    });
+
+    const palette = [
+      'radial-gradient(circle, rgba(16,185,129,.55), rgba(16,185,129,0) 70%)',
+      'radial-gradient(circle, rgba(139,92,246,.45), rgba(139,92,246,0) 70%)',
+      'radial-gradient(circle, rgba(245,158,11,.45), rgba(245,158,11,0) 70%)'
+    ];
+    for (let i = 0; i < 16; i++) {
+      const p = document.createElement('div');
+      p.setAttribute('aria-hidden', 'true');
+      p.style.cssText =
+        'position:fixed;border-radius:50%;pointer-events:none;z-index:0;' +
+        'left:' + (Math.random()*100) + 'vw;' +
+        'width:' + (4 + Math.random()*6) + 'px;' +
+        'height:' + (4 + Math.random()*6) + 'px;' +
+        'background:' + palette[i % 3] + ';' +
+        'animation: ffFloatUp ' + (14 + Math.random()*16) + 's linear infinite;' +
+        'animation-delay:-' + (Math.random()*24) + 's;';
+      document.body.appendChild(p);
+    }
+  })();
+
+  /* ══════════════════════════════════════════════════════════
+     3D TILT
+     ══════════════════════════════════════════════════════════ */
+  function attachTileTilt() {
+    document.querySelectorAll('.ashram-tile').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width;
+        const y = (e.clientY - r.top)  / r.height;
+        const rotY = (x - 0.5) * 10;
+        const rotX = (0.5 - y) * 10;
+        card.style.transform =
+          'translateY(-10px) scale(1.015) ' +
+          'perspective(900px) ' +
+          'rotateX(' + rotX.toFixed(2) + 'deg) ' +
+          'rotateY(' + rotY.toFixed(2) + 'deg)';
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+    });
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     RENDER
+     ══════════════════════════════════════════════════════════ */
+  function render() {
+    const q    = (searchEl.value || '').toLowerCase().trim();
+    const type = typeEl.value;
+
+    let filtered = ALL_ASHRAMS.filter(a => {
+      if (type && !(a.type || '').toLowerCase().includes(type.toLowerCase())) return false;
+      if (q) {
+        const hay = `${a.name} ${a.address} ${a.city} ${a.state}`.toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+      return true;
+    });
+
+    if (USER_LOC) {
+      filtered.forEach(a => {
+        if (a.location && a.location.coordinates) {
+          const [lng, lat] = a.location.coordinates;
+          a._dist = distanceKm(USER_LOC.lat, USER_LOC.lng, lat, lng);
+        }
+      });
+      filtered.sort((a, b) => (a._dist ?? 9999) - (b._dist ?? 9999));
+    }
+
+    countEl.textContent = `Showing ${filtered.length} of ${ALL_ASHRAMS.length} ashrams & NGOs`;
+
+    if (filtered.length === 0) {
+      grid.innerHTML = '';
+      emptyMsg.style.display = 'block';
+      emptyMsg.textContent = 'No ashrams match your filters. Try resetting.';
+      return;
+    }
+
+    emptyMsg.style.display = 'none';
+      grid.innerHTML = filtered.map((a, i) => {
+        const img = pickImage(i);
+      const web = a.website
+        ? (a.website.startsWith('http') ? a.website : `https://${a.website}`)
+        : null;
+      const distTag = a._dist != null
+        ? `<span class="ashram-tile-dist">📍 ${a._dist.toFixed(1)} km</span>`
+        : '';
+      const foodTag = a.food_needed === 'Yes'
+        ? `<span class="ashram-tile-food">🍱 Food Needed</span>`
+        : '';
+
+      return `
+      <div class="ashram-tile">
+        <div class="ashram-tile-img-wrap">
+          <img class="ashram-tile-img" src="${img}" alt="${escapeHtml(a.name)}" loading="lazy">
+          <div class="ashram-tile-img-overlay"></div>
+          <span class="ashram-tile-type-tag">${escapeHtml(a.type || 'Ashram')}</span>
+          ${a.verified === 'Yes' ? '<span class="ashram-tile-verified">✓ Verified</span>' : ''}
+        </div>
+        <div class="ashram-tile-body">
+          <h3>${escapeHtml(a.name)}</h3>
+          <p class="ashram-tile-addr">
+            📍 ${escapeHtml(a.address || '')}${a.city ? ', ' + escapeHtml(a.city) : ''}${a.state ? ', ' + escapeHtml(a.state) : ''}
+          </p>
+          <div class="ashram-tile-meta">
+            ${distTag}
+            ${foodTag}
+            ${a.phone ? `<span>📞 ${escapeHtml(a.phone)}</span>` : ''}
+            ${web ? `<a href="${web}" target="_blank" rel="noopener">🌐 Website</a>` : ''}
+          </div>
+          <a href="donate-food.html" class="ashram-tile-cta" data-guest-donate>🍱 Donate Food Here →</a>
+        </div>
+      </div>`;
+    }).join('');
+
+    attachTileTilt();
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     SKELETON + EVENTS
+     ══════════════════════════════════════════════════════════ */
+  grid.innerHTML = Array.from({ length: 6 })
+    .map(() => '<div class="ff-skeleton"></div>')
+    .join('');
+
+  searchEl.addEventListener('input', render);
+  typeEl.addEventListener('change', render);
+
+  nearBtn.addEventListener('click', () => {
+    if (!navigator.geolocation) {
+      if (window.ffToast) window.ffToast('⚠️ Browser does not support geolocation');
+      return;
+    }
+    nearBtn.textContent = '⏳ Locating…';
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        USER_LOC = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+        nearBtn.textContent = '📍 Near Me ✓';
+        if (window.ffToast) window.ffToast('📍 Sorted by distance');
+        render();
+      },
+      (err) => {
+        console.warn(err);
+        nearBtn.textContent = '📍 Near Me';
+        if (window.ffToast) window.ffToast('❌ Location access denied');
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
+  });
+
+  resetBtn.addEventListener('click', () => {
+    searchEl.value = '';
+    typeEl.value = '';
+    USER_LOC = null;
+    nearBtn.textContent = '📍 Near Me';
+    render();
+    if (window.ffToast) window.ffToast('↺ Filters reset');
+  });
+
+  /* Kick off initial render */
+  setTimeout(() => {
+    render();
+    if (window.ffToast) window.ffToast(`✅ Loaded ${ALL_ASHRAMS.length} ashrams & NGOs`);
+  }, 400);
+});
+
+/* ══════════════════════════════════════════════════════════
+   Guest donate guard
+   ══════════════════════════════════════════════════════════ */
+document.addEventListener('click', (e) => {
+  const link = e.target.closest('[data-guest-donate]');
+  if (!link) return;
+  const user = (window.ffAuth && window.ffAuth.getUser) ? window.ffAuth.getUser() : null;
+  if (user) return;
+  e.preventDefault();
+  if (window.ffToast) window.ffToast('🔒 Please sign up as a Food Donor to donate');
+  if (typeof window.ffOpenSignupModal === 'function') {
+    window.ffOpenSignupModal();
+  } else {
+    setTimeout(() => { window.location.href = 'index.html?signup=1'; }, 500);
+  }
+});
+</script>
+
+<script src="animations.js"></script>
+<script src="chatbot.js"></script>
+
+</body>
+</html>

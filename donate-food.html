@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donate Food | FeedFoodForward</title>
+  <meta name="description" content="Donate surplus food on FeedFoodForward — a 5-step wizard with AI freshness inspection and smart Ashram matching.">
+  <meta name="theme-color" content="#16a34a">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Donate Food | FeedFoodForward">
+  <meta property="og:description" content="A 5-step wizard with AI freshness inspection and smart Ashram matching.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=1200&h=630&auto=format&fit=crop&q=80">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2316a34a'/%3E%3Cpath d='M50 80 C28 62 18 50 18 37 A17 17 0 0 1 50 28 A17 17 0 0 1 82 37 C82 50 72 62 50 80 Z' fill='%23ffffff'/%3E%3C/svg%3E">
+
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<noscript>
+  <div style="background:#fef3c7;color:#92400e;padding:12px 16px;text-align:center;font-weight:600;font-size:14px;border-bottom:1px solid #fde68a;">
+    ⚠️ JavaScript is disabled. The donation wizard won't work without JS.
+  </div>
+</noscript>
+
+<header class="site-header">
+  <div class="header-container">
+
+    <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6"  x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+    <a href="index.html" class="brand-logo" aria-label="FeedFoodForward home">
+      <div class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img">
+          <defs>
+            <linearGradient id="ffTile" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#067A54"/>
+              <stop offset="55%" stop-color="#0B9F6E"/>
+              <stop offset="100%" stop-color="#10B981"/>
+            </linearGradient>
+            <linearGradient id="ffHeart" x1="0" y1="0" x2="0.5" y2="1">
+              <stop offset="0%" stop-color="#FF5A7A"/>
+              <stop offset="100%" stop-color="#F03E64"/>
+            </linearGradient>
+            <linearGradient id="ffLeaf" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#A3E635"/>
+              <stop offset="100%" stop-color="#65A30D"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="44" height="44" rx="11" fill="url(#ffTile)"/>
+          <rect x="2" y="2" width="44" height="20" rx="11" fill="#ffffff" opacity="0.08"/>
+          <g transform="translate(28 6) rotate(20)">
+            <path d="M0 14 C0 6 5 1 12 0 C12 8 7 14 0 14 Z" fill="url(#ffLeaf)"/>
+            <path d="M1 13 C4 10 8 6 11.5 1" stroke="#3E8A4E" stroke-width="0.9"
+                  stroke-linecap="round" fill="none" opacity="0.65"/>
+          </g>
+          <g transform="translate(8 20)">
+            <path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4
+                     C7.4 0.4 9.2 1.8 10 3.4 C10.8 1.8 12.6 0.4 15 0.4
+                     C18.3 0.4 21 2.6 21 6 C21 10 18 14 10 20 Z"
+                  fill="url(#ffHeart)"/>
+            <path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4
+                     C7.4 0.4 9.2 1.8 10 3.4"
+                  fill="#ffffff" opacity="0.22"/>
+          </g>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">FeedFood<span>Forward</span></span>
+        <span class="brand-subtitle">AI FOOD REDISTRIBUTION PLATFORM</span>
+      </div>
+    </a>
+
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation menu">☰</button>
+
+    <nav class="site-nav" id="site-nav" aria-label="Primary">
+      <a href="index.html" class="nav-link" data-nav="home">Home</a>
+      <a href="donor-dashboard.html" class="nav-link nav-donor-only" data-nav="dashboard" hidden>Dashboard</a>
+      <a href="my-donations.html" class="nav-link nav-donor-only" data-nav="donations" hidden>My Donations</a>
+      <a href="donate-food.html" class="nav-link" data-nav="donate">Donate Food</a>
+      <a href="ai-inspection.html" class="nav-link" data-nav="ai">AI Inspection</a>
+      <a href="find-ashrams.html" class="nav-link" data-nav="ashrams">Find Ashrams</a>
+              <a href="pickup-track.html" class="nav-link nav-donor-only" data-nav="pickup" hidden>Pickup</a>
+      <a href="driver-hub.html" class="nav-link nav-driver-only" data-nav="driver" hidden>Driver Hub</a>
+      <a href="ngo-dashboard.html" class="nav-link nav-ashram-only" data-nav="ngo" hidden>NGO Dashboard</a>
+    </nav>
+
+    <div class="header-utilities">
+      <div id="header-guest" class="header-auth-group">
+        <button type="button" class="btn btn-outline btn-sm" id="header-login-btn">Login</button>
+        <button type="button" class="btn btn-primary btn-sm" id="header-signup-btn">Sign Up</button>
+      </div>
+
+      <div id="header-user" class="header-user-group" hidden>
+        <button type="button" class="user-chip" id="user-chip" aria-haspopup="true" aria-expanded="false">
+          <span class="user-avatar" id="user-avatar">🏨</span>
+          <span class="user-name" id="user-name">Hotel Green Leaf</span>
+          <span class="user-caret" aria-hidden="true">▾</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="wizard-section" style="padding-top:3rem;">
+  <div class="section-title">
+    <h2>5-Step Food Rescue Wizard</h2>
+    <p>Upload a photo of surplus food — the AI will detect the food type, freshness, and quantity.</p>
+  </div>
+
+  <div class="wizard-container">
+
+    <div class="wizard-progress-bar" aria-hidden="true">
+      <div class="wizard-progress-fill" id="wizard-progress-fill" style="width:20%;"></div>
+    </div>
+    <p id="wizard-progress-label" style="text-align:center;font-size:0.75rem;color:var(--text-muted);margin:0.35rem 0 1rem 0;">Step 1 of 5</p>
+
+      <div class="wizard-steps-bar" role="tablist" aria-label="Donation steps">
+      <button type="button" class="step-indicator active" data-step-jump="1">1. Photo</button>
+      <button type="button" class="step-indicator" data-step-jump="2">2. Details</button>
+      <button type="button" class="step-indicator" data-step-jump="3">3. AI Pre-Screening</button>
+      <button type="button" class="step-indicator" data-step-jump="4">4. Matching</button>
+      <button type="button" class="step-indicator" data-step-jump="5">5. Pickup Verification</button>
+    </div>
+
+    <!-- STEP 1 -->
+    <div class="wizard-step-body" data-step="1">
+      <h3>Step 1: Upload Food Image</h3>
+
+      <div class="image-upload-box" id="upload-box">
+        <img id="upload-preview" src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=600&auto=format&fit=crop&q=80" alt="Food preview">
+        <label for="food-photo-input" class="btn btn-primary btn-sm" style="display:inline-flex;margin-bottom:0.75rem;">
+          📷 Choose / Capture Image
+        </label>
+        <input type="file" id="food-photo-input" accept="image/jpeg,image/png,image/webp"
+       style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none;">
+        <p>Supported formats: JPG, PNG, WEBP</p>
+        <p id="photo-error" class="field-error" style="display:none;">Please choose or capture a photo before continuing.</p>
+      </div>
+
+      <div class="preset-selector">
+        <h4>Or Select Demo Food Sample Preset:</h4>
+        <div class="preset-chips" role="group">
+          <button type="button" class="chip active" data-preset="prepared" data-src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=600&auto=format&fit=crop&q=80">Prepared Veg Meal</button>
+          <button type="button" class="chip" data-preset="bakery" data-src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&auto=format&fit=crop&q=80">Fresh Bakery Breads</button>
+          <button type="button" class="chip" data-preset="fruit" data-src="https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=600&auto=format&fit=crop&q=80">Fruit & Juice Baskets</button>
+        </div>
+      </div>
+
+      <div class="wizard-nav">
+        <span></span>
+        <button type="button" class="btn btn-primary" data-next>Next: Details →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="wizard-step-body" data-step="2" hidden>
+      <h3>Step 2: Food Details</h3>
+      <p style="font-size:0.85rem; color:#64748b; margin-bottom:1rem;">
+        Provide details the AI cannot reliably know from a photo — the donor knows the real quantity, prep time, and storage.
+      </p>
+
+      <form class="food-form" id="food-details-form" onsubmit="return false;" novalidate>
+        <div class="form-group">
+          <label for="food-name">Food Name / Description</label>
+          <input type="text" id="food-name" placeholder="e.g. Prepared Vegetarian Meals (Paneer, Rice & Dal)" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="food-category">Food Category</label>
+            <select id="food-category" required>
+              <option value="Prepared Vegetarian Meal">Prepared Meal</option>
+              <option value="Bakery & Bread Items">Bakery &amp; Bread</option>
+              <option value="Fresh Fruit & Produce">Fresh Fruit &amp; Produce</option>
+              <option value="Cooked Rice & Curries">Cooked Rice &amp; Curries</option>
+              <option value="Mixed Snacks & Sweets">Snacks &amp; Sweets</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="food-quantity">Quantity (kg)</label>
+            <input type="number" id="food-quantity" min="0.5" step="0.5" placeholder="e.g. 5" required>
+          </div>
+          <div class="form-group">
+            <label for="food-servings">Number of Servings</label>
+            <input type="number" id="food-servings" min="1" placeholder="e.g. 20" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="food-prepared-at">Prepared At</label>
+            <input type="time" id="food-prepared-at" required>
+          </div>
+          <div class="form-group">
+            <label for="food-deadline">Pickup Deadline</label>
+            <input type="time" id="food-deadline" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Storage Condition</label>
+          <div style="display:flex; gap:1.25rem; margin-top:0.35rem; flex-wrap:wrap;">
+            <label style="font-weight:400; font-size:0.85rem; display:flex; align-items:center; gap:0.35rem;">
+              <input type="radio" name="food-storage" value="Room temperature" required> Room temperature
+            </label>
+            <label style="font-weight:400; font-size:0.85rem; display:flex; align-items:center; gap:0.35rem;">
+              <input type="radio" name="food-storage" value="Refrigerated"> Refrigerated
+            </label>
+            <label style="font-weight:400; font-size:0.85rem; display:flex; align-items:center; gap:0.35rem;">
+              <input type="radio" name="food-storage" value="Frozen"> Frozen
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="food-address">Pickup Address</label>
+          <input type="text" id="food-address" placeholder="42 MG Road, Indiranagar, Bengaluru" required>
+        </div>
+
+        <p id="details-error" class="field-error" style="display:none;">Please fill in all fields before continuing.</p>
+      </form>
+
+      <div class="wizard-nav">
+        <button type="button" class="btn btn-outline" data-back>← Back</button>
+        <button type="button" class="btn btn-primary" id="run-ai-btn">🤖 Run AI Detection →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+        <div class="wizard-step-body" data-step="3" hidden>
+      <h3>Step 3: AI Pre-Screening Complete</h3>
+      <div class="ai-result-card" id="ai-result-card">
+               <div class="result-header">
+          <span>AI PRE-SCREENING RESULT</span>
+          <span class="confidence-score">✅ Pre-Screening Complete</span>
+        </div>
+        <div class="result-details">
+          <p>The AI has performed a preliminary visual check of your food image.</p>
+          <p><strong>Important:</strong> This is <em>not</em> a safety guarantee. A driver will physically inspect the food at pickup and make the final decision.</p>
+          <p><strong>Click Continue</strong> to select a receiver organization based on your donation details.</p>
+        </div>
+        <div class="ai-disclaimer">
+          ⚠️ <strong>Safety Disclaimer:</strong> AI pre-screening does not replace human food-safety inspection. The assigned driver must physically verify the food at pickup before the delivery proceeds.
+        </div>
+      </div>
+      <div class="wizard-nav">
+        <button type="button" class="btn btn-outline" data-back>← Back</button>
+        <button type="button" class="btn btn-primary" data-next>Continue: Match Ashram →</button>
+      </div>
+    </div>
+
+     <!-- STEP 4 -->
+    <div class="wizard-step-body" data-step="4" hidden>
+      <h3>Step 4: Smart Receiver Recommendation</h3>
+
+      <div id="match-results">
+        <p style="text-align:center;color:var(--text-muted);padding:1rem;">⏳ Finding the best receivers…</p>
+      </div>
+
+      <div class="wizard-nav">
+        <button type="button" class="btn btn-outline" data-back>← Back</button>
+        <button type="button" class="btn btn-primary" data-next>Next: Confirm →</button>
+      </div>
+    </div>
+
+    <!-- STEP 5 -->
+        <div class="wizard-step-body" data-step="5" hidden>
+      <h3>Step 5: Pickup Verification Summary</h3>
+ <div class="summary-box" id="summary-box">
+  <p><strong>Donation Reference:</strong> <span id="summary-ref">—</span></p>
+  <p><strong>Food Item:</strong> <span id="summary-food">—</span></p>
+  <p><strong>Quantity:</strong> <span id="summary-quantity">—</span> &nbsp;•&nbsp; <span id="summary-servings">—</span> servings</p>
+  <p><strong>Destination:</strong> <span id="summary-destination">Awaiting Ashram claim</span></p>
+  <p><strong>Logistics Driver:</strong> <span id="summary-driver">Driver not assigned yet.</span></p>
+</div>
+
+<div class="summary-box" id="summary-suggested-box" style="background:#f8fafc;border-color:#e2e8f0;">
+  <p style="margin-bottom:0.5rem;"><strong>Suggested Ashram Matches</strong> <span style="font-size:0.7rem;color:#94a3b8;font-weight:600;">(they must claim your donation — you'll approve or reject)</span></p>
+  <ul id="summary-suggested-list" style="margin:0;padding-left:1.1rem;font-size:0.85rem;color:#475569;">
+    <li>No suggestions yet.</li>
+  </ul>
+</div>
+
+      <div class="summary-box" style="background:#fef3c7;border-color:#fde68a;color:#92400e;">
+        ⚠️ <strong>What happens next:</strong> The driver will arrive at the pickup location, physically inspect the food sample (smell, appearance, packaging, temperature, prep time), and confirm whether it is safe to deliver. If the driver rejects the food, the donation will be cancelled.
+      </div>
+
+        <button type="button" id="create-donation-btn" class="btn btn-large btn-success" style="width:100%; cursor:pointer;">✅ Create Donation &amp; Assign Driver →</button>
+      <div class="wizard-nav">
+        <button type="button" class="btn btn-outline" data-back>← Back</button>
+        <span></span>
+      </div>
+
+      <!-- ★ QR PANEL — hidden until donation is created -->
+      <div id="qr-panel" hidden style="display:none;margin-top:2rem;padding:1.5rem;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:16px;">
+        <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem;">
+          <span style="font-size:1.3rem;">🔐</span>
+          <strong style="font-size:1rem;">Verification QR Codes</strong>
+        </div>
+
+              <p style="font-size:0.85rem;color:#166534;margin-bottom:1.5rem;line-height:1.55;">
+          Show this <strong>Pickup QR</strong> to the driver when your food is collected.
+          Once the pickup is confirmed, a <strong>Delivery QR</strong> will be activated
+          for the receiver automatically.
+        </p>
+
+        <!-- Pickup QR (only shown to the donor) -->
+        <div style="background:#fff;padding:1.25rem;border-radius:12px;text-align:center;border:1px solid #e2e8f0;max-width:280px;margin:0 auto;">
+          <div style="font-size:0.7rem;font-weight:800;color:#16a34a;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.75rem;">🍽️ Pickup QR</div>
+          <div id="pickup-qr" style="display:flex;justify-content:center;margin-bottom:0.5rem;"></div>
+          <div style="font-size:0.7rem;color:#64748b;">Show this to the driver at pickup</div>
+        </div>
+
+        <p id="qr-donation-ref" style="font-family:monospace;font-size:0.75rem;color:#166534;text-align:center;margin-top:1rem;"></p>
+
+        <div id="qr-action-row" hidden style="display:none;gap:0.75rem;margin-top:1.5rem;flex-wrap:wrap;">
+                 <button type="button" id="download-qr-btn" class="btn btn-outline" style="flex:1;min-width:180px;padding:0.9rem;font-weight:700;">
+            ⬇️ Download Pickup QR
+          </button>
+      <button type="button" id="continue-to-track-btn" class="btn btn-primary" style="flex:1;min-width:180px;padding:0.9rem;font-weight:700;">
+            Continue to Pickup →
+          </button>
+        </div>
+      </div>
+    </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-brand">
+      <h3>FeedFoodForward</h3>
+      <p>"Rescue Food. Reduce Waste. Feed Communities."</p>
+    </div>
+    <div class="footer-copyright">© 2026 FeedFoodForward Platform.</div>
+  </div>
+</footer>
+
+<!-- PROFILE SIDEBAR is auto-injected by sidebar.js -->
+
+<!-- Toast -->
+<div id="ff-toast" role="status" aria-live="polite"
+     style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);background:#0f172a;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:all .3s ease;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.25);"></div>
+
+<!-- ============ SIDEBAR JS (RBAC-aware) ============ -->
+
+
+<script src="app.js"></script>
+<script src="header-nav.js"></script>
+<script src="sidebar.js"></script>
+<script src="animations.js"></script>
+
+
+<!-- Page-specific inline logic -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+
+    /* ---------- Load real saved donation data (no hardcoded values) ---------- */
+    if (window.ffStore) {
+      const details = window.ffStore.load('donationDetails') || {};
+      const sumFood = document.getElementById('summary-food');
+      const sumQty  = document.getElementById('summary-quantity');
+      const sumServ = document.getElementById('summary-servings');
+      const sumName = document.getElementById('summary-name');
+      if (sumFood && details.name)     sumFood.textContent = details.name;
+      if (sumQty  && details.quantity) sumQty.textContent  = details.quantity + ' kg';
+      if (sumServ && details.servings) sumServ.textContent = details.servings;
+    }
+
+    /* ---------- Suggested Ashram matches (read-only list) ---------- */
+    (function renderSuggested() {
+      const listEl = document.getElementById('summary-suggested-list');
+      if (!listEl) return;
+      const cards = document.querySelectorAll('#match-results .match-card');
+      const items = [];
+      cards.forEach(c => {
+        const name = ((c.querySelector('h4') || {}).textContent || '').trim();
+        const score = ((c.querySelector('.match-score span') || {}).textContent || '').trim();
+        if (name) items.push({ name, score });
+      });
+      if (!items.length) { listEl.innerHTML = '<li>No suggestions yet.</li>'; return; }
+      listEl.innerHTML = items.map(i =>
+        `<li><strong>${i.name}</strong> ${i.score ? '· ' + i.score : ''}</li>`
+      ).join('');
+    })();
+
+    /* ---------- Destination + driver show as unassigned until claim approved ---------- */
+    const destEl = document.getElementById('summary-destination');
+    const driverEl = document.getElementById('summary-driver');
+    if (destEl)   destEl.textContent   = 'Awaiting Ashram claim';
+    if (driverEl) driverEl.textContent = 'Driver not assigned yet.';
+
+    const summaryRef = document.getElementById('summary-ref');
+    if (summaryRef) {
+      const ref = `FF-DON-${Math.floor(10000 + Math.random() * 90000)}`;
+      summaryRef.textContent = ref;
+      sessionStorage.setItem('ff_donationRef', ref);
+    }
+
+    /* Collect suggested Ashram matches from Step 4 (does NOT assign) */
+function readSuggestedAshrams() {
+  const cards = document.querySelectorAll('#match-results .match-card');
+  const list = [];
+  cards.forEach(c => {
+    const name = (c.querySelector('h4') || {}).textContent || '';
+    const score = parseInt((c.querySelector('.match-score span') || {}).textContent, 10) || 0;
+    if (name.trim()) list.push({ name: name.trim(), score });
+  });
+  return list;
+}
+    const btn = document.getElementById('create-donation-btn');
+    if (!btn) return;
+
+    btn.addEventListener('click', async () => {
+      btn.disabled = true;
+      const originalText = btn.textContent;
+      btn.textContent = '⏳ Saving donation…';
+
+try {
+        let image = sessionStorage.getItem('ff_uploadedImage');
+        try { const p = JSON.parse(image); if (typeof p === 'string') image = p; } catch (e) {}
+        const details    = JSON.parse(sessionStorage.getItem('ff_donationDetails') || '{}');
+        const aiResult   = JSON.parse(sessionStorage.getItem('ff_aiResult') || '{}');
+
+        /* Safely read the matched ashram name (may be raw string OR JSON) */
+        let matchedNGO = 'Shanti Vruddhashram';
+        try {
+          const rawNGO = sessionStorage.getItem('ff_matchedNGO');
+          if (rawNGO) {
+            try { matchedNGO = JSON.parse(rawNGO); }
+            catch (e) { matchedNGO = rawNGO; }   /* fall back to the raw string */
+          }
+        } catch (e) { /* keep default */ }
+
+        /* Make sure we always end up with a plain string */
+        if (typeof matchedNGO !== 'string') matchedNGO = 'Shanti Vruddhashram';
+
+        const donationRef = sessionStorage.getItem('ff_donationRef') || `FF-DON-${Math.floor(10000 + Math.random() * 90000)}`;
+        const user = window.ffAuth ? window.ffAuth.getUser() : null;
+   
+
+/* Geocode the donor's pickup address → coords */
+let pickupCoords = [0, 0];
+try {
+  const g = await fetch('/api/geocode?address=' + encodeURIComponent(details.address || ''));
+  const gj = await g.json();
+  if (gj.ok) pickupCoords = [gj.lng, gj.lat];
+} catch (e) { console.warn('Geocode failed:', e.message); }
+
+/* Geocode the matched ashram address → coords */
+let deliveryCoords = [0, 0];
+try {
+  const g2 = await fetch('/api/geocode?address=' + encodeURIComponent(matchedNGO + ', India'));
+  const gj2 = await g2.json();
+  if (gj2.ok) deliveryCoords = [gj2.lng, gj2.lat];
+} catch (e) { console.warn('Ashram geocode failed:', e.message); }
+const suggestedAshrams = readSuggestedAshrams();
+const payload = {
+  donationId:   donationRef,
+  foodName:     (aiResult && aiResult.result && aiResult.result.foodName) || details.category || 'Prepared Meal',
+  foodCategory: details.category || 'Prepared Meals',
+  weightKg:     Number(details.quantity) || 0,
+  servings:     Number(details.servings) || 0,
+  donorName:    (user && user.name) || 'Hotel Green Leaf',
+  ashramName:   'Unassigned',              /* ← no auto-assignment; Ashram must claim */
+  driverName:   'Unassigned',              /* ← no auto-driver */
+  status:       'Pending',
+  matchScore:   0,
+  urgency:      (aiResult && aiResult.result && aiResult.result.recommendation) || 'HIGH',
+  imageUrl:     (typeof image === 'string' && image.replace(/^"+|"+$/g, '').length > 0)
+                ? image.replace(/^"+|"+$/g, '')
+                : '',
+  aiAnalysis:   (aiResult && aiResult.result) || {},
+  suggestedAshrams: suggestedAshrams,      /* ← list of suggested matches only */
+  pickupCoords:   { type: 'Point', coordinates: pickupCoords },
+  deliveryCoords: { type: 'Point', coordinates: [0, 0] }  /* ← set when Ashram is approved */
+};
+
+        const response = await fetch('/api/donations', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || `Server error ${response.status}`);
+        }
+                sessionStorage.setItem('ff_lastDonationId', JSON.stringify(data.donation.donationId));
+        btn.textContent = '✅ Saved!';
+
+        /* ★ Save the donation so other pages can read it */
+        /* Save the ACTUAL persisted donation (from DB response), not the payload */
+        const savedDonation = data.donation;              /* ← use DB record */
+        sessionStorage.setItem('ff_activeDonation', JSON.stringify(savedDonation));
+        sessionStorage.setItem('ff_lastDonationId', JSON.stringify(savedDonation.donationId));
+
+                /* ★ Build ONLY the Pickup QR payload for the donor */
+        const pickupPayload = JSON.stringify({
+          type:       'PICKUP',
+          donationId: savedDonation.donationId,
+          donor:      savedDonation.donorName,
+          food:       savedDonation.foodName,
+          weight:     savedDonation.weightKg,
+          servings:   savedDonation.servings
+        });
+
+        /* ★ Build the Delivery QR payload but DON'T show it yet.
+              It's saved in sessionStorage so the receiver side can pick it up. */
+        const deliveryPayload = JSON.stringify({
+          type:        'DELIVERY',
+          donationId:  savedDonation.donationId,
+          receiver:    savedDonation.ashramName,
+          weight:      savedDonation.weightKg,
+          driver:      savedDonation.driverName
+        });
+        sessionStorage.setItem('ff_deliveryPayload', deliveryPayload);
+
+        /* ★ Use public QR image API — NO library needed */
+        const qrImg = (data, size) =>
+          'https://api.qrserver.com/v1/create-qr-code/?size=' +
+          (size || 200) + 'x' + (size || 200) +
+          '&qzone=2&data=' + encodeURIComponent(data);
+
+        const pickupHolder = document.getElementById('pickup-qr');
+        const refHolder    = document.getElementById('qr-donation-ref');
+
+        if (pickupHolder) {
+          pickupHolder.innerHTML =
+            '<img src="' + qrImg(pickupPayload, 200) + '" alt="Pickup QR" ' +
+            'style="width:200px;height:200px;display:block;border:3px solid #16a34a;border-radius:8px;padding:6px;background:#fff;">';
+        }
+        if (refHolder) refHolder.textContent = 'Donation Reference: ' + savedDonation.donationId;
+
+               /* Reveal the panel — remove both hidden attr and inline display:none */
+        const qrPanel = document.getElementById('qr-panel');
+        if (qrPanel) {
+          qrPanel.removeAttribute('hidden');
+          qrPanel.style.display = 'block';
+        }
+        const qrActionRow = document.getElementById('qr-action-row');
+        if (qrActionRow) {
+          qrActionRow.removeAttribute('hidden');
+          qrActionRow.style.display = 'flex';
+        }
+
+        /* Hide the create button so it can't be clicked twice */
+        btn.style.display = 'none';
+
+        /* Scroll to show the QR */
+        if (qrPanel) qrPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        if (window.ffSuccess) {
+          window.ffSuccess(
+            '🎉 Donation Created!',
+            savedDonation.donationId + ' • Show Pickup QR to driver',
+            { duration: 1800, confetti: true }
+          );
+        }
+        if (window.ffToast) window.ffToast('📦 Pickup QR ready — show it to the driver');
+
+            } catch (err) {
+        console.error('❌ Save failed:', err);
+        btn.disabled = false;
+        btn.textContent = originalText;
+        alert('Could not save donation:\n\n' + err.message);
+      }
+    });
+
+    /* ---- Download the Pickup QR as PNG ---- */
+    const downloadQrBtn = document.getElementById('download-qr-btn');
+    if (downloadQrBtn) {
+      downloadQrBtn.addEventListener('click', () => {
+        const pickupImg = document.querySelector('#pickup-qr img');
+        if (!pickupImg) return;
+
+        const a = document.createElement('a');
+        a.href = pickupImg.src;
+        a.download = 'FF-Pickup-QR.png';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+        if (window.ffToast) window.ffToast('📥 Pickup QR downloaded');
+      });
+    }
+
+    /* ---- Continue to pickup page ---- */
+    const continueBtn = document.getElementById('continue-to-track-btn');
+    if (continueBtn) {
+      continueBtn.addEventListener('click', () => {
+        window.location.href = 'pickup-track.html';
+      });
+    }
+  });
+</script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="chatbot.js"></script>
+</body>
+</html>

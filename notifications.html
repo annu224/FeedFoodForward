@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notifications | FeedFoodForward</title>
+<meta name="theme-color" content="#16a34a">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2316a34a'/%3E%3Cpath d='M50 80 C28 62 18 50 18 37 A17 17 0 0 1 50 28 A17 17 0 0 1 82 37 C82 50 72 62 50 80 Z' fill='%23ffffff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="guest-guard.js"></script>
+<style>
+.ntf{background:#f7f9fb;min-height:100vh;padding:2rem 1.5rem 4rem}
+.ntf-wrap{max-width:820px;margin:0 auto}
+.ntf-card{background:#fff;border:1px solid #e8edf3;border-radius:16px;overflow:hidden}
+.ntf-head{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 1.5rem;border-bottom:1px solid #e8edf3}
+.ntf-head h1{font-family:'Outfit',sans-serif;font-size:1.15rem;font-weight:800;color:#0B1224;margin:0}
+.ntf-mark{padding:.5rem .9rem;background:transparent;color:#047857;font-family:inherit;font-size:.78rem;font-weight:800;border:none;cursor:pointer;display:flex;align-items:center;gap:.4rem;border-radius:8px}
+.ntf-mark:hover{background:#ecfdf5}
+
+.ntf-tabs{display:flex;gap:.25rem;padding:0 1.5rem;border-bottom:1px solid #e8edf3}
+.ntf-tab{padding:.9rem 1.1rem;background:none;border:none;font-family:inherit;font-size:.85rem;font-weight:700;color:#64748b;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s ease}
+.ntf-tab:hover{color:#047857}
+.ntf-tab.active{color:#047857;border-bottom-color:#047857}
+.ntf-tab span.count{background:#dcfce7;color:#047857;font-size:.7rem;padding:.15rem .5rem;border-radius:999px;margin-left:.35rem;font-weight:800}
+
+.ntf-list{display:flex;flex-direction:column}
+.ntf-row{display:flex;gap:1rem;padding:1.15rem 1.5rem;border-bottom:1px solid #f1f5f9;align-items:flex-start;transition:background .2s ease}
+.ntf-row:last-child{border-bottom:none}
+.ntf-row.unread{background:#f0fdf4;position:relative}
+.ntf-row.unread::before{content:"";position:absolute;right:1.5rem;top:1.5rem;width:8px;height:8px;background:#10b981;border-radius:50%}
+.ntf-avatar{width:44px;height:44px;border-radius:50%;overflow:hidden;flex-shrink:0;background:#ecfdf5;display:grid;place-items:center;font-size:1.15rem}
+.ntf-avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.ntf-body{flex:1;min-width:0}
+.ntf-body strong{display:block;font-size:.9rem;font-weight:700;color:#0B1224;margin-bottom:.2rem}
+.ntf-body .time{font-size:.72rem;color:#94a3b8;margin-bottom:.4rem;display:block}
+.ntf-body p{font-size:.82rem;color:#475569;line-height:1.55;margin:.35rem 0 0}
+.ntf-actions{display:flex;gap:.5rem;margin-top:.75rem}
+.ntf-btn{padding:.5rem 1rem;font-family:inherit;font-size:.75rem;font-weight:800;border-radius:8px;cursor:pointer;border:1.5px solid transparent;transition:all .2s ease}
+.ntf-btn-accept{background:#047857;color:#fff}
+.ntf-btn-accept:hover{background:#065f46}
+.ntf-btn-decline{background:#ecfdf5;color:#047857;border-color:#a7f3d0}
+.ntf-btn-decline:hover{background:#d1fae5}
+
+.ntf-reply{display:flex;gap:.5rem;margin-top:.75rem}
+.ntf-reply input{flex:1;padding:.6rem .9rem;font-family:inherit;font-size:.82rem;border:1px solid #e8edf3;border-radius:8px;background:#f8fafc}
+.ntf-reply input:focus{outline:none;border-color:#10b981;background:#fff;box-shadow:0 0 0 3px rgba(16,185,129,.12)}
+.ntf-reply button{width:38px;height:38px;background:#047857;color:#fff;border-radius:8px;border:none;cursor:pointer;font-size:.85rem;display:grid;place-items:center}
+
+.ntf-empty{text-align:center;padding:3rem 1.5rem;color:#94a3b8}
+.ntf-empty .ico{font-size:2.5rem;margin-bottom:.75rem;display:block;opacity:.6}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-container">
+    <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <a href="index.html" class="brand-logo" aria-label="FeedFoodForward home">
+      <div class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="ffTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#067A54"/><stop offset="55%" stop-color="#0B9F6E"/><stop offset="100%" stop-color="#10B981"/></linearGradient></defs><rect x="2" y="2" width="44" height="44" rx="11" fill="url(#ffTile)"/></svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">FeedFood<span>Forward</span></span>
+        <span class="brand-subtitle">AI FOOD REDISTRIBUTION PLATFORM</span>
+      </div>
+    </a>
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation menu">☰</button>
+    <nav class="site-nav" id="site-nav" aria-label="Primary"></nav>
+    <div class="header-utilities">
+      <div id="header-guest" class="header-auth-group">
+        <button type="button" class="btn btn-outline btn-sm" id="header-login-btn">Login</button>
+        <button type="button" class="btn btn-primary btn-sm" id="header-signup-btn">Sign Up</button>
+      </div>
+      <div id="header-user" class="header-user-group" hidden>
+        <button type="button" class="user-chip" id="user-chip" aria-haspopup="true" aria-expanded="false">
+          <span class="user-avatar" id="user-avatar">👵</span>
+          <span class="user-name" id="user-name">Ashram</span>
+          <span class="user-caret" aria-hidden="true">▾</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="ntf">
+<div class="ntf-wrap">
+  <div class="ntf-card">
+
+    <div class="ntf-head">
+      <h1>Notifications</h1>
+      <button type="button" class="ntf-mark" id="mark-all">✓ Mark all as read</button>
+    </div>
+
+    <div class="ntf-tabs">
+      <button type="button" class="ntf-tab active" data-tab="all">View all <span class="count">12</span></button>
+      <button type="button" class="ntf-tab" data-tab="inbox">Inbox</button>
+      <button type="button" class="ntf-tab" data-tab="requests">Requests</button>
+      <button type="button" class="ntf-tab" data-tab="archived">Archived</button>
+    </div>
+
+    <div class="ntf-list" id="ntf-list">
+
+      <div class="ntf-row unread" data-tab="all requests">
+        <div class="ntf-avatar">👨‍🍳</div>
+        <div class="ntf-body">
+          <strong>Ravi Kumar initiated a request to donate surplus food.</strong>
+          <span class="time">25 min ago</span>
+          <div class="ntf-actions">
+            <button type="button" class="ntf-btn ntf-btn-decline">Decline</button>
+            <button type="button" class="ntf-btn ntf-btn-accept">Accept</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ntf-row" data-tab="all inbox">
+        <div class="ntf-avatar">🍱</div>
+        <div class="ntf-body">
+          <strong>Hotel Green Leaf made a donation.</strong>
+          <span class="time">2 hours ago</span>
+        </div>
+      </div>
+
+      <div class="ntf-row" data-tab="all inbox">
+        <div class="ntf-avatar">👩</div>
+        <div class="ntf-body">
+          <strong>Anita Sharma made a donation.</strong>
+          <span class="time">3 hours ago</span>
+          <p>I have extra prepared meals from today's event. Ready for pickup anytime after 5 PM.</p>
+          <div class="ntf-reply">
+            <input type="text" placeholder="Reply to Anita...">
+            <button type="button">➤</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ntf-row" data-tab="all inbox">
+        <div class="ntf-avatar">🚚</div>
+        <div class="ntf-body">
+          <strong>Driver assigned to your request.</strong>
+          <span class="time">3 hours ago</span>
+          <p>Driver Rohit Kumar will pick up the donation from Sunrise Cafe at 6 PM today.</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-brand"><h3>FeedFoodForward</h3><p>"Rescue Food. Reduce Waste. Feed Communities."</p></div>
+    <div class="footer-copyright">© 2026 FeedFoodForward Platform.</div>
+  </div>
+</footer>
+
+<div id="ff-toast" role="status" aria-live="polite" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);background:#0f172a;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:all .3s ease;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.25);"></div>
+
+<script src="app.js"></script>
+<script src="header-nav.js"></script>
+<script src="sidebar.js"></script>
+<script src="animations.js"></script>
+<script src="chatbot.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const tabs = document.querySelectorAll('.ntf-tab');
+  const rows = document.querySelectorAll('.ntf-row');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const key = tab.dataset.tab;
+      let shown = 0;
+      rows.forEach(r => {
+        const t = r.dataset.tab || '';
+        const show = key === 'all' ? true : t.includes(key);
+        r.style.display = show ? '' : 'none';
+        if (show) shown++;
+      });
+      if (window.ffToast) window.ffToast('Showing ' + shown + ' notification' + (shown !== 1 ? 's' : ''));
+    });
+  });
+
+  const markAll = document.getElementById('mark-all');
+  if (markAll) markAll.addEventListener('click', () => {
+    document.querySelectorAll('.ntf-row.unread').forEach(r => r.classList.remove('unread'));
+    if (window.ffToast) window.ffToast('✅ All marked as read');
+  });
+
+  document.querySelectorAll('.ntf-btn-accept').forEach(b => b.addEventListener('click', () => {
+    b.closest('.ntf-row').classList.remove('unread');
+    if (window.ffToast) window.ffToast('✅ Request accepted');
+  }));
+  document.querySelectorAll('.ntf-btn-decline').forEach(b => b.addEventListener('click', () => {
+    b.closest('.ntf-row').style.opacity = '0.5';
+    if (window.ffToast) window.ffToast('Request declined');
+  }));
+});
+</script>
+
+</body>
+</html>

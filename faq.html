@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Help &amp; FAQ | FeedFoodForward</title>
+<meta name="description" content="Frequently asked questions about donating food, receiving donations, and using FeedFoodForward.">
+<meta name="theme-color" content="#16a34a">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2316a34a'/%3E%3Cpath d='M50 80 C28 62 18 50 18 37 A17 17 0 0 1 50 28 A17 17 0 0 1 82 37 C82 50 72 62 50 80 Z' fill='%23ffffff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+/* ============================================================
+   HELP & FAQ — animated modern layout
+   ============================================================ */
+.fq {
+  --fq-ink: #0B1224;
+  --fq-muted: #64748b;
+  --fq-soft: #94a3b8;
+  --fq-line: #e8edf3;
+  --fq-bg: #f7f9fb;
+  --fq-green: #0B9F6E;
+  --fq-green-dark: #047857;
+  --fq-green-deep: #064e3b;
+  --fq-green-50: #ecfdf5;
+  --fq-amber: #f59e0b;
+  --fq-violet: #8b5cf6;
+  background: var(--fq-bg);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ---------- Progress bar ---------- */
+.fq-progress {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 3px; z-index: 999;
+  transform-origin: 0 50%; transform: scaleX(0);
+  background: linear-gradient(90deg, #10b981, #f59e0b, #8b5cf6, #10b981);
+  background-size: 200% 100%;
+  animation: fqHue 8s linear infinite;
+}
+@keyframes fqHue { to { background-position: 200% 50%; } }
+
+/* ---------- Background orbs ---------- */
+.fq-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.fq-orb { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .5; }
+.fq-orb-1 { width: 520px; height: 520px; top: -180px; left: -150px;
+  background: radial-gradient(circle, rgba(16,185,129,.45), transparent 70%);
+  animation: fqOrbFloat 22s ease-in-out infinite; }
+.fq-orb-2 { width: 460px; height: 460px; top: 25%; right: -180px;
+  background: radial-gradient(circle, rgba(245,158,11,.35), transparent 70%);
+  animation: fqOrbFloat 26s ease-in-out infinite -8s; }
+.fq-orb-3 { width: 420px; height: 420px; bottom: -160px; left: 40%;
+  background: radial-gradient(circle, rgba(139,92,246,.28), transparent 70%);
+  animation: fqOrbFloat 24s ease-in-out infinite -14s; }
+@keyframes fqOrbFloat {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  33%      { transform: translate(40px,-30px) scale(1.08); }
+  66%      { transform: translate(-30px,40px) scale(.95); }
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.fq-hero {
+  position: relative; z-index: 1;
+  padding: 4rem 1.5rem 2.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+.fq-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  padding: .5rem 1rem;
+  background: rgba(255,255,255,.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(16,185,129,.25);
+  border-radius: 999px;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--fq-green-dark);
+  margin-bottom: 1.5rem;
+  box-shadow: 0 8px 24px -10px rgba(11,159,110,.28);
+  opacity: 0;
+  animation: fqFadeUp .8s ease forwards .05s;
+}
+.fq-badge-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--fq-green); position: relative;
+}
+.fq-badge-dot::after {
+  content: "";
+  position: absolute; inset: -4px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(16,185,129,.5);
+  animation: fqPing 1.8s ease-out infinite;
+}
+@keyframes fqPing { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(2); opacity: 0; } }
+
+.fq-hero h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -.035em;
+  color: var(--fq-ink);
+  margin: 0 0 1.25rem;
+  opacity: 0;
+  animation: fqFadeUp .9s ease forwards .15s;
+}
+.fq-hero h1 em {
+  font-style: normal;
+  background: linear-gradient(100deg, #067a54 0%, #10b981 40%, #f59e0b 60%, #10b981 80%, #067a54 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: fqShimmer 8s linear infinite;
+}
+@keyframes fqShimmer { from { background-position: 0% 50%; } to { background-position: 250% 50%; } }
+
+.fq-hero p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #475569;
+  max-width: 620px;
+  margin: 0 auto 2rem;
+  opacity: 0;
+  animation: fqFadeUp .9s ease forwards .3s;
+}
+
+/* ---------- Search bar ---------- */
+.fq-search-wrap {
+  max-width: 620px;
+  margin: 0 auto;
+  position: relative;
+  opacity: 0;
+  animation: fqFadeUp .9s ease forwards .45s;
+}
+.fq-search {
+  width: 100%;
+  padding: 1.15rem 1.25rem 1.15rem 3.4rem;
+  font-family: inherit;
+  font-size: .95rem;
+  border: 1.5px solid var(--fq-line);
+  border-radius: 16px;
+  background: #fff;
+  color: var(--fq-ink);
+  transition: all .25s ease;
+  box-shadow: 0 12px 32px -18px rgba(11,18,36,.15);
+}
+.fq-search:focus {
+  outline: none;
+  border-color: var(--fq-green);
+  box-shadow: 0 0 0 5px rgba(16,185,129,.12), 0 12px 32px -18px rgba(11,18,36,.15);
+}
+.fq-search-ico {
+  position: absolute;
+  left: 1.15rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.05rem;
+  pointer-events: none;
+  opacity: .55;
+}
+.fq-search-hint {
+  margin-top: .85rem;
+  font-size: .78rem;
+  color: var(--fq-soft);
+  opacity: 0;
+  animation: fqFadeUp .9s ease forwards .6s;
+}
+.fq-search-hint kbd {
+  display: inline-block;
+  padding: .1rem .45rem;
+  background: #fff;
+  border: 1px solid var(--fq-line);
+  border-bottom-width: 2px;
+  border-radius: 6px;
+  font-size: .72rem;
+  font-weight: 700;
+  color: #475569;
+  margin: 0 .15rem;
+}
+
+@keyframes fqFadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ============================================================
+   QUICK HELP CARDS
+   ============================================================ */
+.fq-quick {
+  position: relative; z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem 3rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.15rem;
+}
+@media (max-width: 800px) { .fq-quick { grid-template-columns: 1fr; } }
+
+.fq-quick-card {
+  background: #fff;
+  border: 1px solid var(--fq-line);
+  border-radius: 20px;
+  padding: 1.65rem 1.5rem;
+  text-decoration: none;
+  color: inherit;
+  transition: all .4s cubic-bezier(.2,.7,.2,1);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(30px);
+}
+.fq-quick-card.fq-in { opacity: 1; transform: none; }
+.fq-quick-card::before {
+  content: "";
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(16,185,129,.15), transparent 70%);
+  opacity: 0;
+  transition: opacity .4s ease;
+}
+.fq-quick-card:hover::before { opacity: 1; }
+.fq-quick-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--fq-green);
+  box-shadow: 0 24px 48px -22px rgba(16,185,129,.35);
+}
+.fq-quick-ico {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--fq-green-50), rgba(16,185,129,.14));
+  color: var(--fq-green-dark);
+  display: grid; place-items: center;
+  font-size: 1.5rem;
+  margin-bottom: 1.1rem;
+  transition: transform .5s cubic-bezier(.34,1.56,.64,1);
+  position: relative;
+  z-index: 1;
+}
+.fq-quick-card:hover .fq-quick-ico { transform: rotate(-10deg) scale(1.1); }
+.fq-quick-card h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--fq-ink);
+  margin: 0 0 .35rem;
+  letter-spacing: -.01em;
+  position: relative;
+  z-index: 1;
+}
+.fq-quick-card p {
+  font-size: .82rem;
+  color: var(--fq-muted);
+  line-height: 1.6;
+  margin: 0 0 1rem;
+  position: relative;
+  z-index: 1;
+}
+.fq-quick-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: .8rem;
+  font-weight: 800;
+  color: var(--fq-green-dark);
+  position: relative;
+  z-index: 1;
+}
+.fq-quick-cta span { display: inline-block; transition: transform .25s ease; }
+.fq-quick-card:hover .fq-quick-cta span { transform: translateX(5px); }
+
+/* ============================================================
+   CATEGORY FILTER
+   ============================================================ */
+.fq-filter-wrap {
+  position: relative; z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem 2rem;
+  display: flex;
+  justify-content: center;
+}
+.fq-filters {
+  display: flex;
+  gap: .4rem;
+  padding: .4rem;
+  background: #fff;
+  border: 1px solid var(--fq-line);
+  border-radius: 999px;
+  box-shadow: 0 12px 30px -18px rgba(11,18,36,.15);
+  flex-wrap: wrap;
+  justify-content: center;
+  opacity: 0;
+  animation: fqFadeUp .8s ease forwards .75s;
+}
+.fq-filter {
+  padding: .6rem 1.15rem;
+  font-family: inherit;
+  font-size: .82rem;
+  font-weight: 700;
+  color: #475569;
+  background: transparent;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all .22s ease;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+}
+.fq-filter:hover {
+  color: var(--fq-green-dark);
+  background: var(--fq-green-50);
+}
+.fq-filter.active {
+  background: var(--fq-green-dark);
+  color: #fff;
+  box-shadow: 0 6px 16px -4px rgba(4,120,87,.4);
+}
+.fq-filter-count {
+  font-size: .68rem;
+  padding: .1rem .4rem;
+  border-radius: 6px;
+  background: rgba(0,0,0,.06);
+  font-weight: 800;
+}
+.fq-filter.active .fq-filter-count {
+  background: rgba(255,255,255,.22);
+  color: #fff;
+}
+
+/* ============================================================
+   FAQ LIST
+   ============================================================ */
+.fq-list-wrap {
+  position: relative; z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+}
+.fq-list {
+  display: flex;
+  flex-direction: column;
+  gap: .85rem;
+}
+
+.fq-item {
+  background: #fff;
+  border: 1px solid var(--fq-line);
+  border-radius: 18px;
+  overflow: hidden;
+  transition: all .35s cubic-bezier(.2,.7,.2,1);
+  opacity: 0;
+  transform: translateY(20px);
+  position: relative;
+}
+.fq-item.fq-in { opacity: 1; transform: none; }
+.fq-item::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--fq-green), var(--fq-amber));
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform .5s cubic-bezier(.2,.7,.2,1);
+}
+.fq-item.fq-open::before,
+.fq-item:hover::before { transform: scaleY(1); }
+.fq-item.fq-open {
+  border-color: rgba(16,185,129,.35);
+  box-shadow: 0 20px 45px -22px rgba(16,185,129,.28);
+}
+.fq-item:hover {
+  border-color: rgba(16,185,129,.25);
+  box-shadow: 0 12px 30px -18px rgba(11,18,36,.12);
+}
+
+.fq-item-btn {
+  width: 100%;
+  padding: 1.25rem 1.5rem;
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--fq-ink);
+}
+.fq-item-num {
+  font-family: 'Outfit', sans-serif;
+  font-size: .72rem;
+  font-weight: 800;
+  color: var(--fq-soft);
+  letter-spacing: .06em;
+  flex-shrink: 0;
+  width: 22px;
+}
+.fq-item-q {
+  flex: 1;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--fq-ink);
+  letter-spacing: -.005em;
+  line-height: 1.35;
+  transition: color .2s ease;
+}
+.fq-item:hover .fq-item-q { color: var(--fq-green-dark); }
+.fq-item-chev {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--fq-bg);
+  color: #64748b;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  font-size: .85rem;
+  font-weight: 800;
+  transition: all .35s cubic-bezier(.34,1.56,.64,1);
+}
+.fq-item.fq-open .fq-item-chev {
+  background: var(--fq-green-dark);
+  color: #fff;
+  transform: rotate(180deg);
+}
+.fq-item:hover .fq-item-chev {
+  background: var(--fq-green-50);
+  color: var(--fq-green-dark);
+}
+.fq-item.fq-open:hover .fq-item-chev {
+  background: var(--fq-green-dark);
+  color: #fff;
+}
+
+.fq-item-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .5s cubic-bezier(.2,.7,.2,1);
+}
+.fq-item.fq-open .fq-item-body {
+  max-height: 600px;
+}
+.fq-item-body-inner {
+  padding: 0 1.5rem 1.5rem 3.7rem;
+  font-size: .93rem;
+  line-height: 1.75;
+  color: #475569;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity .35s ease .15s, transform .35s ease .15s;
+}
+.fq-item.fq-open .fq-item-body-inner {
+  opacity: 1;
+  transform: none;
+}
+.fq-item-body-inner strong { color: var(--fq-ink); font-weight: 800; }
+.fq-item-body-inner a {
+  color: var(--fq-green-dark);
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(4,120,87,.35);
+  transition: border-color .2s ease;
+}
+.fq-item-body-inner a:hover { border-color: var(--fq-green-dark); }
+.fq-item-body-inner ul {
+  margin: .75rem 0 0;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+}
+.fq-item-body-inner ul li { font-size: .9rem; line-height: 1.65; }
+.fq-item-body-inner ul li::marker { color: var(--fq-green); }
+
+/* ---------- Empty state ---------- */
+.fq-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: #fff;
+  border: 1px dashed var(--fq-line);
+  border-radius: 20px;
+  color: var(--fq-muted);
+  grid-column: 1 / -1;
+  display: none;
+}
+.fq-empty.fq-in { display: block; }
+.fq-empty .ico {
+  font-size: 3rem;
+  margin-bottom: .75rem;
+  display: block;
+  opacity: .6;
+}
+.fq-empty strong {
+  display: block;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--fq-ink);
+  margin-bottom: .35rem;
+}
+.fq-empty p { font-size: .9rem; margin: 0; }
+
+/* ---------- Highlight on search match ---------- */
+.fq-item mark {
+  background: linear-gradient(180deg, transparent 55%, rgba(245,158,11,.45) 55%);
+  color: inherit;
+  padding: 0 .15rem;
+  border-radius: 3px;
+}
+
+/* ============================================================
+   STILL STUCK CTA
+   ============================================================ */
+.fq-cta-wrap {
+  position: relative; z-index: 1;
+  max-width: 900px;
+  margin: 0 auto 4rem;
+  padding: 0 1.5rem;
+}
+.fq-cta {
+  background: linear-gradient(135deg, #0B1224 0%, #1e293b 100%);
+  border-radius: 24px;
+  padding: 3rem 2.5rem;
+  color: #fff;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all .9s ease;
+}
+.fq-cta.fq-in { opacity: 1; transform: none; }
+.fq-cta::before {
+  content: "";
+  position: absolute;
+  top: -120px; right: -80px;
+  width: 380px; height: 380px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(16,185,129,.4), transparent 65%);
+  animation: fqOrbFloat 14s ease-in-out infinite;
+}
+.fq-cta::after {
+  content: "";
+  position: absolute;
+  bottom: -120px; left: -80px;
+  width: 340px; height: 340px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245,158,11,.3), transparent 65%);
+  animation: fqOrbFloat 16s ease-in-out infinite reverse;
+}
+.fq-cta-inner { position: relative; z-index: 1; max-width: 560px; margin: 0 auto; }
+.fq-cta-ico {
+  width: 68px; height: 68px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(16,185,129,.3), rgba(16,185,129,.1));
+  display: grid;
+  place-items: center;
+  font-size: 1.85rem;
+  margin: 0 auto 1.25rem;
+  border: 1px solid rgba(16,185,129,.4);
+  animation: fqCtaFloat 4s ease-in-out infinite;
+}
+@keyframes fqCtaFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.fq-cta h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -.025em;
+  line-height: 1.15;
+  margin: 0 0 .75rem;
+}
+.fq-cta h2 em {
+  font-style: normal;
+  background: linear-gradient(120deg, #6ee7b7, #34d399, #fbbf24);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.fq-cta p {
+  font-size: .96rem;
+  color: rgba(255,255,255,.72);
+  line-height: 1.65;
+  margin: 0 0 2rem;
+}
+.fq-cta-actions {
+  display: flex;
+  gap: .75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.fq-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .95rem 1.6rem;
+  font-family: inherit;
+  font-size: .86rem;
+  font-weight: 800;
+  text-decoration: none;
+  border-radius: 14px;
+  transition: all .25s ease;
+  border: 1.5px solid transparent;
+}
+.fq-cta-btn.primary {
+  background: #fff;
+  color: var(--fq-green-deep);
+  box-shadow: 0 12px 30px rgba(255,255,255,.15);
+}
+.fq-cta-btn.primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 42px rgba(255,255,255,.25);
+}
+.fq-cta-btn.outline {
+  background: transparent;
+  color: #fff;
+  border-color: rgba(255,255,255,.35);
+}
+.fq-cta-btn.outline:hover {
+  background: rgba(255,255,255,.1);
+  border-color: #fff;
+  transform: translateY(-3px);
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .fq-progress, .fq-orb, .fq-badge-dot::after,
+  .fq-hero h1 em, .fq-cta::before, .fq-cta::after,
+  .fq-cta-ico {
+    animation: none !important;
+  }
+  .fq-quick-card, .fq-item, .fq-cta,
+  .fq-hero > *, .fq-filters {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="fq-progress" id="fq-progress" aria-hidden="true"></div>
+
+<div class="fq-bg" aria-hidden="true">
+  <div class="fq-orb fq-orb-1"></div>
+  <div class="fq-orb fq-orb-2"></div>
+  <div class="fq-orb fq-orb-3"></div>
+</div>
+
+<header class="site-header">
+  <div class="header-container">
+    <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <a href="index.html" class="brand-logo" aria-label="FeedFoodForward home">
+      <div class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="ffTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#067A54"/><stop offset="55%" stop-color="#0B9F6E"/><stop offset="100%" stop-color="#10B981"/></linearGradient>
+            <linearGradient id="ffHeart" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#FF5A7A"/><stop offset="100%" stop-color="#F03E64"/></linearGradient>
+            <linearGradient id="ffLeaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#A3E635"/><stop offset="100%" stop-color="#65A30D"/></linearGradient>
+          </defs>
+          <rect x="2" y="2" width="44" height="44" rx="11" fill="url(#ffTile)"/>
+          <g transform="translate(28 6) rotate(20)"><path d="M0 14 C0 6 5 1 12 0 C12 8 7 14 0 14 Z" fill="url(#ffLeaf)"/></g>
+          <g transform="translate(8 20)"><path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4 C7.4 0.4 9.2 1.8 10 3.4 C10.8 1.8 12.6 0.4 15 0.4 C18.3 0.4 21 2.6 21 6 C21 10 18 14 10 20 Z" fill="url(#ffHeart)"/></g>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">FeedFood<span>Forward</span></span>
+        <span class="brand-subtitle">AI FOOD REDISTRIBUTION PLATFORM</span>
+      </div>
+    </a>
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation menu">☰</button>
+    <nav class="site-nav" id="site-nav" aria-label="Primary"></nav>
+    <div class="header-utilities">
+      <div id="header-guest" class="header-auth-group">
+        <button type="button" class="btn btn-outline btn-sm" id="header-login-btn">Login</button>
+        <button type="button" class="btn btn-primary btn-sm" id="header-signup-btn">Sign Up</button>
+      </div>
+      <div id="header-user" class="header-user-group" hidden>
+        <button type="button" class="user-chip" id="user-chip" aria-haspopup="true" aria-expanded="false">
+          <span class="user-avatar" id="user-avatar">👤</span>
+          <span class="user-name" id="user-name">User</span>
+          <span class="user-caret" aria-hidden="true">▾</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="fq">
+
+<!-- ==================== HERO ==================== -->
+<section class="fq-hero">
+  <span class="fq-badge">
+    <span class="fq-badge-dot"></span>
+    Help Center
+  </span>
+  <h1>How can we <em>help you?</em></h1>
+  <p>Search our answers, browse by category, or reach out — we usually reply within a day.</p>
+
+  <div class="fq-search-wrap">
+    <span class="fq-search-ico">🔍</span>
+    <input type="text" class="fq-search" id="fq-search" placeholder="Search help topics (e.g. donate, tracking, ashram)…">
+    <p class="fq-search-hint">Try <kbd>donate</kbd> <kbd>AI</kbd> <kbd>tracking</kbd> <kbd>ashram</kbd> or <kbd>privacy</kbd></p>
+  </div>
+</section>
+
+<!-- ==================== QUICK HELP CARDS ==================== -->
+<section class="fq-quick">
+  <a href="how-it-works.html" class="fq-quick-card" data-reveal>
+    <div class="fq-quick-ico">📖</div>
+    <h3>Getting Started</h3>
+    <p>New here? Learn the 5-step food rescue flow in 2 minutes.</p>
+    <span class="fq-quick-cta">Read the guide <span>→</span></span>
+  </a>
+  <a href="food-safety.html" class="fq-quick-card" data-reveal>
+    <div class="fq-quick-ico">🛡️</div>
+    <h3>Food Safety</h3>
+    <p>What's safe to donate, what to avoid, and how we verify everything.</p>
+    <span class="fq-quick-cta">View guidelines <span>→</span></span>
+  </a>
+  <a href="contact.html" class="fq-quick-card" data-reveal>
+    <div class="fq-quick-ico">💬</div>
+    <h3>Contact Us</h3>
+    <p>Can't find the answer? Reach the team directly.</p>
+    <span class="fq-quick-cta">Get in touch <span>→</span></span>
+  </a>
+</section>
+
+<!-- ==================== CATEGORY FILTER ==================== -->
+<div class="fq-filter-wrap">
+  <div class="fq-filters" role="tablist" aria-label="FAQ categories">
+    <button type="button" class="fq-filter active" data-cat="all">
+      <span>All</span><span class="fq-filter-count" id="count-all">0</span>
+    </button>
+    <button type="button" class="fq-filter" data-cat="general">
+      <span>General</span>
+    </button>
+    <button type="button" class="fq-filter" data-cat="donor">
+      <span>🏨 For Donors</span>
+    </button>
+    <button type="button" class="fq-filter" data-cat="receiver">
+      <span>👵 For Ashrams</span>
+    </button>
+    <button type="button" class="fq-filter" data-cat="driver">
+      <span>🚚 For Drivers</span>
+    </button>
+    <button type="button" class="fq-filter" data-cat="account">
+      <span>🔐 Account</span>
+    </button>
+  </div>
+</div>
+
+<!-- ==================== FAQ LIST ==================== -->
+<div class="fq-list-wrap">
+  <div class="fq-list" id="fq-list">
+
+    <div class="fq-item" data-cat="general" data-reveal>
+      <button type="button" class="fq-item-btn" aria-expanded="false">
+        <span class="fq-item-num">01</span>
+        <span class="fq-item-q">What is FeedFoodForward?</span>
+        <span class="fq-item-chev">▾</span>
+      </button>
+      <div class="fq-item-body">
+        <div class="fq-item-body-inner">
+          FeedFoodForward is an <strong>AI-powered food redistribution platform</strong> that connects food donors (hotels, restaurants, cafés, bakeries, event kitchens) with verified receivers (ashrams, NGOs, old-age homes, orphanages) through trained delivery drivers. We combine photo-based AI inspection, smart receiver matching, live GPS tracking, and QR-verified handover — all in one place.
+        </div>
+      </div>
+    </div>
+
+    <div class="fq-item" data-cat="general" data-reveal>
+      <button type="button" class="fq-item-btn" aria-expanded="false">
+        <span class="fq-item-num">02</span>
+        <span class="fq-item-q">Is FeedFoodForward free to use?</span>
+        <span class="fq-item-chev">▾</span>
+      </button>
+      <div class="fq-item-body">
+        <div class="fq-item-body-inner">
+          Yes — completely free for both donors and receivers. There are no commissions, subscriptions, or hidden charges. We only ask partners to keep pickup windows accurate so drivers aren't kept waiting.
+        </div>
+      </div>
+    </div>
+
+    <div class="fq-item" data-cat="donor" data-reveal>
+      <button type="button" class="fq-item-btn" aria-expanded="false">
+        <span class="fq-item-num">03</span>
+        <span class="fq-item-q">Who can donate food on the platform?</span>
+        <span class="fq-item-chev">▾</span>
+      </button>
+      <div class="fq-item-body">
+        <div class="fq-item-body-inner">
+          Any surplus-food business can donate:
+          <ul>
+            <li>Hotels and resorts</li>
+            <li>Restaurants and cafés</li>
+            <li>Bakeries and cloud kitchens</li>
+            <li>Banquet halls and event organizers</li>
+            <li>Corporate and institutional kitchens</li>
+          </ul>
+          Sign up as a <strong>Food Donor</strong> from the homepage to get started.
+        </div>
+      </div>
+    </div>
+
+    <div class="fq-item" data-cat="donor" data-reveal>
+      <button type="button" class="fq-item-btn" aria-expanded="false">
+        <span class="fq-item-num">04</span>
+        <span class="fq-item-q">How does the AI freshness inspection work?</span>
+        <span class="fq-item-chev">▾</span>
+      </button>
+      <div class="fq-item-body">
+        <div class="fq-item-body-inner">
+          Upload a photo of the surplus food. Google Gemini estimates food type, freshness score (0–100), visible spoilage, and pickup urgency. It's a helpful pre-screen — <strong>not a safety guarantee</strong>. The driver physically inspects the food before pickup and makes the final safety call.
+        </div>
+      </div>
+    </div>
+
+    <div class="fq-item" data-cat="donor" data-reveal>
+      <button type="button" class="fq-item-btn" aria-expanded="false">
+        <span class="fq-item-num">05</span>
+        <span class="fq-item-q">How is delivery verified?</span>
+        <span class="fq-item-chev">▾</span>
+      </button>
+      <div class="fq-item-body">
+        <div class="fq-item-body-inner">
+          Two QR scans confirm the chain of custody:
+          <ul>
+            <li>The driver scans the donor's <strong>Pickup QR</strong> at collection</li>
+            <li>The Ashram scans the driver's <strong>Delivery QR</strong> at handover</li>
+          </ul>
+          Both are timestamped and logged. If the wrong QR is scanned, the delivery is blocked.
+        </div>
+      </div>
+    </div>
+
+    <div class="fq-item" data-cat="receiver" data-reveal>
+      <button type="button" class="fq-item-btn" aria-expanded="false">
+        <span class="fq-item-num">06</span>
+        <span class="fq-item-q">How do I register my Ashram or NGO?</span>
+        <span class="fq-item-chev">▾</span>
+      </button>
+      <div class="fq-item-body">
+        <div class="fq-item-body-inner">
+          Click <strong>Sign Up</strong> → choose <strong>Ashram/NGO</strong>. Provide your organization name, type, number of residents, address, and food requirements. Once verified, you can browse and claim available donations on the platform.
+        </div>
+      </div>
+    </div>
+
+    <div class="fq-item" data-cat="receiver" data-reveal>
+      <button type="button" class="fq-item-btn" aria-expanded="false">
+        <span class="fq-item-num">07</span>
+        <span class="fq-item-q">How do I confirm food has arrived?</span>
+        <span class="fq-item-chev">▾</span>
+      </button>
+      <div class="fq-item-body">
+        <div class="fq-item-body-inner">
+          On your <strong>Track Deliveries</strong> page, click <strong>Scan Delivery QR</strong> when the driver arrives. The driver scans the QR and the delivery is confirmed instantly. You can also view a live map with the driver's location and ETA.
+        </div>
+      </div>
+    </div>
+
+    <div class="fq-item" data-cat="driver" data-reveal>
+      <button type="button" class="fq-item-btn" aria-expanded="false">
+        <span class="fq-item-num">08</span>
+        <span class="fq-item-q">How do I become a delivery partner?</span>
+        <span class="fq-item-chev">▾</span>
+      </button>
+      <div class="fq-item-body">
+        <div class="fq-item-body-inner">
+          Sign up as a <strong>Driver</strong> and provide your vehicle type, driving licence number, and operating area. Once approved, you'll get access to the <strong>Driver Hub</strong> where you can accept missions, navigate to pickups, and confirm deliveries via QR scans.
+        </div>
+      </div>
+    </div>
+
+    <div class="fq-item" data-cat="driver" data-reveal>
+      <button type="button" class="fq-item-btn" aria-expanded="false">
+        <span class="fq-item-num">09</span>
+        <span class="fq-item-q">What if I need to reject food at pickup?</span>
+        <span class="fq-item-chev">▾</span>
+      </button>
+      <div class="fq-item-body">
+        <div class="fq-item-body-inner">
+          If food fails inspection (smell, appearance, packaging, temperature, or prep-time), tap <strong>Reject Food</strong> in the Driver Hub. The mission is cancelled and the donor is notified immediately. No penalty is applied — safety always comes first.
+        </div>
+      </div>
+    </div>
+
+    <div class="fq-item" data-cat="account" data-reveal>
+      <button type="button" class="fq-item-btn" aria-expanded="false">
+        <span class="fq-item-num">10</span>
+        <span class="fq-item-q">Can I change my password?</span>
+        <span class="fq-item-chev">▾</span>
+      </button>
+      <div class="fq-item-body">
+        <div class="fq-item-body-inner">
+          Yes. Go to <strong>Settings → Security → Change Password</strong>. If you forgot your password, use <strong>Forgot password?</strong> on the login modal and we'll send you a reset link.
+        </div>
+      </div>
+    </div>
+
+    <div class="fq-item" data-cat="account" data-reveal>
+      <button type="button" class="fq-item-btn" aria-expanded="false">
+        <span class="fq-item-num">11</span>
+        <span class="fq-item-q">How do I delete my account?</span>
+        <span class="fq-item-chev">▾</span>
+      </button>
+      <div class="fq-item-body">
+        <div class="fq-item-body-inner">
+          Go to <strong>Settings → Danger Zone → Delete Account</strong>. You'll be asked to type <strong>DELETE</strong> to confirm. This permanently removes your account and all your data within 30 days. This action cannot be undone.
+        </div>
+      </div>
+    </div>
+
+    <div class="fq-item" data-cat="account" data-reveal>
+      <button type="button" class="fq-item-btn" aria-expanded="false">
+        <span class="fq-item-num">12</span>
+        <span class="fq-item-q">How is my privacy protected?</span>
+        <span class="fq-item-chev">▾</span>
+      </button>
+      <div class="fq-item-body">
+        <div class="fq-item-body-inner">
+          We never sell your data. You control your profile visibility, location sharing, and leaderboard presence from <strong>Settings → Privacy</strong>. Live GPS is shared only during active deliveries and stops automatically when the mission ends. Read our full <a href="privacy-policy.html">Privacy Policy</a>.
+        </div>
+      </div>
+    </div>
+
+    <div class="fq-empty" id="fq-empty">
+      <span class="ico">🔍</span>
+      <strong>No results found</strong>
+      <p>Try a different keyword — or <a href="contact.html" style="color:var(--fq-green-dark);font-weight:700;">contact us directly</a>.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== STILL STUCK CTA ==================== -->
+<div class="fq-cta-wrap">
+  <div class="fq-cta" data-reveal>
+    <div class="fq-cta-inner">
+      <div class="fq-cta-ico">💬</div>
+      <h2>Still stuck? <em>We're here.</em></h2>
+      <p>Reach out anytime. Our team usually replies within a day — with a real human on the other end.</p>
+      <div class="fq-cta-actions">
+        <a href="contact.html" class="fq-cta-btn primary">Contact Us →</a>
+        <a href="feedback.html" class="fq-cta-btn outline">Send Feedback</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-brand"><h3>FeedFoodForward</h3><p>"Rescue Food. Reduce Waste. Feed Communities."</p></div>
+    <div class="footer-copyright">© 2026 FeedFoodForward Platform.</div>
+  </div>
+</footer>
+
+<div id="ff-toast" role="status" aria-live="polite" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);background:#0f172a;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:all .3s ease;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.25);"></div>
+
+<script src="app.js"></script>
+<script src="header-nav.js"></script>
+<script src="sidebar.js"></script>
+<script src="animations.js"></script>
+<script src="chatbot.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  'use strict';
+
+  /* ==========================================================
+     PROGRESS BAR
+     ========================================================== */
+  const progress = document.getElementById('fq-progress');
+  let tick = false;
+  function updateProgress() {
+    if (!progress) return;
+    const h = document.documentElement;
+    const scrolled = h.scrollTop || document.body.scrollTop;
+    const height = (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
+    progress.style.transform = 'scaleX(' + (height > 0 ? scrolled / height : 0) + ')';
+  }
+  window.addEventListener('scroll', () => {
+    if (tick) return;
+    tick = true;
+    requestAnimationFrame(() => { updateProgress(); tick = false; });
+  }, { passive: true });
+  updateProgress();
+
+  /* ==========================================================
+     SCROLL REVEAL
+     ========================================================== */
+  const reveals = document.querySelectorAll('[data-reveal], .fq-quick-card, .fq-item, .fq-cta');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('fq-in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
+    reveals.forEach(el => io.observe(el));
+  } else {
+    reveals.forEach(el => el.classList.add('fq-in'));
+  }
+
+  /* ==========================================================
+     ACCORDION — open / close
+     ========================================================== */
+  const items = document.querySelectorAll('.fq-item');
+  items.forEach(item => {
+    const btn = item.querySelector('.fq-item-btn');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      const isOpen = item.classList.contains('fq-open');
+
+      /* Close all others (single-open accordion) */
+      items.forEach(other => {
+        if (other !== item) {
+          other.classList.remove('fq-open');
+          const otherBtn = other.querySelector('.fq-item-btn');
+          if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      /* Toggle current */
+      item.classList.toggle('fq-open', !isOpen);
+      btn.setAttribute('aria-expanded', String(!isOpen));
+    });
+  });
+
+  /* Open first item by default */
+  if (items.length) {
+    items[0].classList.add('fq-open');
+    const firstBtn = items[0].querySelector('.fq-item-btn');
+    if (firstBtn) firstBtn.setAttribute('aria-expanded', 'true');
+  }
+
+  /* ==========================================================
+     UPDATE CATEGORY COUNT
+     ========================================================== */
+  const countAllEl = document.getElementById('count-all');
+  if (countAllEl) countAllEl.textContent = items.length;
+
+  /* ==========================================================
+     FILTER TABS + SEARCH
+     ========================================================== */
+  const filters = document.querySelectorAll('.fq-filter');
+  const searchEl = document.getElementById('fq-search');
+  const emptyEl = document.getElementById('fq-empty');
+  let activeCat = 'all';
+  let searchQuery = '';
+
+  function esc(s) {
+    return String(s || '').replace(/[&<>"']/g, c => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+  }
+
+  /* Highlight matching text in the question */
+  function highlight(el, q) {
+    const original = el.dataset.original || el.textContent;
+    if (!el.dataset.original) el.dataset.original = original;
+    if (!q) { el.innerHTML = esc(original); return; }
+    const safeQ = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const re = new RegExp('(' + safeQ + ')', 'gi');
+    el.innerHTML = esc(original).replace(re, '<mark>$1</mark>');
+  }
+
+  function applyFilters() {
+    const q = searchQuery.toLowerCase().trim();
+    let visible = 0;
+
+    items.forEach((item, i) => {
+      const cat = item.dataset.cat || '';
+      const matchCat = activeCat === 'all' || cat === activeCat;
+      const qText = item.querySelector('.fq-item-q');
+      const bodyText = item.querySelector('.fq-item-body-inner');
+      const hay = (qText.textContent + ' ' + (bodyText ? bodyText.textContent : '')).toLowerCase();
+      const matchSearch = !q || hay.includes(q);
+      const show = matchCat && matchSearch;
+
+      item.style.display = show ? '' : 'none';
+
+      if (show) {
+        visible++;
+        /* Re-run reveal animation */
+        item.classList.remove('fq-in');
+        void item.offsetWidth;
+        setTimeout(() => item.classList.add('fq-in'), i * 30);
+
+        /* Highlight search term in question */
+        highlight(qText, q);
+      } else {
+        highlight(qText, '');
+      }
+    });
+
+    if (emptyEl) {
+      emptyEl.classList.toggle('fq-in', visible === 0);
+    }
+  }
+
+  filters.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filters.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeCat = btn.dataset.cat;
+      applyFilters();
+    });
+  });
+
+  if (searchEl) {
+    let st = null;
+    searchEl.addEventListener('input', () => {
+      clearTimeout(st);
+      st = setTimeout(() => {
+        searchQuery = searchEl.value;
+        applyFilters();
+      }, 180);
+    });
+  }
+
+  /* ---------- Keyboard: press "/" to focus search ---------- */
+  document.addEventListener('keydown', (e) => {
+    if (e.key === '/' && document.activeElement !== searchEl) {
+      e.preventDefault();
+      if (searchEl) searchEl.focus();
+    }
+    if (e.key === 'Escape' && document.activeElement === searchEl) {
+      searchEl.value = '';
+      searchQuery = '';
+      applyFilters();
+      searchEl.blur();
+    }
+  });
+
+});
+</script>
+
+</body>
+</html>

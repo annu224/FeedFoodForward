@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Impact &amp; CSR | FeedFoodForward</title>
+  <meta name="description" content="FeedFoodForward Impact & CSR dashboard — track food rescued, meals served, CO2 prevented, and generate printable CSR reports.">
+  <meta name="theme-color" content="#16a34a">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Impact & CSR | FeedFoodForward">
+  <meta property="og:description" content="Track food rescued, meals served, CO₂ prevented, and generate printable CSR reports.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=1200&h=630&auto=format&fit=crop&q=80">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2316a34a'/%3E%3Cpath d='M50 80 C28 62 18 50 18 37 A17 17 0 0 1 50 28 A17 17 0 0 1 82 37 C82 50 72 62 50 80 Z' fill='%23ffffff'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<noscript>
+  <div style="background:#fef3c7;color:#92400e;padding:12px 16px;text-align:center;font-weight:600;font-size:14px;border-bottom:1px solid #fde68a;">
+    ⚠️ JavaScript is disabled. The monthly chart and filters won't work.
+  </div>
+</noscript>
+
+<header class="site-header">
+  <div class="header-container">
+
+    <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6"  x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+    <a href="index.html" class="brand-logo" aria-label="FeedFoodForward home">
+      <div class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img">
+          <defs>
+            <linearGradient id="ffTile" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#067A54"/>
+              <stop offset="55%" stop-color="#0B9F6E"/>
+              <stop offset="100%" stop-color="#10B981"/>
+            </linearGradient>
+            <linearGradient id="ffHeart" x1="0" y1="0" x2="0.5" y2="1">
+              <stop offset="0%" stop-color="#FF5A7A"/>
+              <stop offset="100%" stop-color="#F03E64"/>
+            </linearGradient>
+            <linearGradient id="ffLeaf" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#A3E635"/>
+              <stop offset="100%" stop-color="#65A30D"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="44" height="44" rx="11" fill="url(#ffTile)"/>
+          <rect x="2" y="2" width="44" height="20" rx="11" fill="#ffffff" opacity="0.08"/>
+          <g transform="translate(28 6) rotate(20)">
+            <path d="M0 14 C0 6 5 1 12 0 C12 8 7 14 0 14 Z" fill="url(#ffLeaf)"/>
+            <path d="M1 13 C4 10 8 6 11.5 1" stroke="#3E8A4E" stroke-width="0.9"
+                  stroke-linecap="round" fill="none" opacity="0.65"/>
+          </g>
+          <g transform="translate(8 20)">
+            <path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4
+                     C7.4 0.4 9.2 1.8 10 3.4 C10.8 1.8 12.6 0.4 15 0.4
+                     C18.3 0.4 21 2.6 21 6 C21 10 18 14 10 20 Z"
+                  fill="url(#ffHeart)"/>
+            <path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4
+                     C7.4 0.4 9.2 1.8 10 3.4"
+                  fill="#ffffff" opacity="0.22"/>
+          </g>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">FeedFood<span>Forward</span></span>
+        <span class="brand-subtitle">AI FOOD REDISTRIBUTION PLATFORM</span>
+      </div>
+    </a>
+
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation menu">☰</button>
+
+    <nav class="site-nav" id="site-nav" aria-label="Primary">
+      <a href="index.html" class="nav-link" data-nav="home">Home</a>
+      <a href="donor-dashboard.html" class="nav-link nav-donor-only" data-nav="dashboard" hidden>Dashboard</a>
+      <a href="my-donations.html" class="nav-link nav-donor-only" data-nav="donations" hidden>My Donations</a>
+      <a href="donate-food.html" class="nav-link" data-nav="donate">Donate Food</a>
+      <a href="ai-inspection.html" class="nav-link" data-nav="ai">AI Inspection</a>
+      <a href="find-ashrams.html" class="nav-link" data-nav="ashrams">Find Ashrams</a>
+      <a href="pickup-track.html" class="nav-link" data-nav="pickup">Pickup</a>
+      <a href="driver-hub.html" class="nav-link nav-driver-only" data-nav="driver" hidden>Driver Hub</a>
+      <a href="ngo-dashboard.html" class="nav-link nav-ashram-only" data-nav="ngo" hidden>NGO Dashboard</a>
+    </nav>
+
+    <div class="header-utilities">
+      <div id="header-guest" class="header-auth-group">
+        <button type="button" class="btn btn-outline btn-sm" id="header-login-btn">Login</button>
+        <button type="button" class="btn btn-primary btn-sm" id="header-signup-btn">Sign Up</button>
+      </div>
+
+      <div id="header-user" class="header-user-group" hidden>
+        <button type="button" class="user-chip" id="user-chip" aria-haspopup="true" aria-expanded="false">
+          <span class="user-avatar" id="user-avatar">🏨</span>
+          <span class="user-name" id="user-name">Hotel Green Leaf</span>
+          <span class="user-caret" aria-hidden="true">▾</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="impact-section" style="padding-top:3rem;">
+  <div class="section-title">
+    <h2>Social Impact &amp; CSR Analytics</h2>
+    <p>Quantifying environmental carbon prevention and hunger relief metrics.</p>
+  </div>
+
+  <div class="impact-grid">
+    <div class="impact-box"><h3>1,420 KG</h3><p>Total Food Rescued</p></div>
+    <div class="impact-box"><h3>3,570+</h3><p>Nutritional Meals Served</p></div>
+    <div class="impact-box"><h3>142</h3><p>Completed Deliveries</p></div>
+    <div class="impact-box"><h3>18</h3><p>Ashrams Supported</p></div>
+  </div>
+
+  <div style="max-width:1100px;margin:0 auto 2rem auto;padding:0 1.5rem;">
+    <h3 style="font-size:1.15rem;margin-bottom:0.5rem;">Estimated Environmental Impact</h3>
+    <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:1.25rem;">
+      These are directional estimates based on standard food-waste conversion factors. Actual figures may vary.
+    </p>
+    <div class="impact-grid" style="margin:0;">
+      <div class="impact-box"><h3>~2,840 KG</h3><p>CO₂ Emissions Prevented (est.)</p></div>
+      <div class="impact-box"><h3>~1.2M L</h3><p>Water Equivalent Saved (est.)</p></div>
+      <div class="impact-box"><h3>~4.1 Acres</h3><p>Landfill Space Saved (est.)</p></div>
+    </div>
+  </div>
+
+  <div style="max-width:900px;margin:0 auto 3rem auto;padding:0 1.5rem;">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;margin-bottom:1rem;">
+      <h3 style="font-size:1.15rem;margin:0;">Monthly Snapshot</h3>
+      <div>
+        <label for="range-filter" style="position:absolute;left:-9999px;">Select date range</label>
+        <select id="range-filter" class="role-dropdown" aria-label="Select date range">
+          <option value="6">Last 6 Months</option>
+          <option value="3">Last 3 Months</option>
+          <option value="1">Last Month</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="monthly-chart" id="monthly-chart" role="img" aria-label="Bar chart of food rescued per month"></div>
+
+    <div class="leaderboard-table-wrapper" style="margin-top:1.5rem;">
+      <table class="leaderboard-table" id="monthly-table">
+        <thead>
+          <tr>
+            <th scope="col">Month</th>
+            <th scope="col">Food Rescued</th>
+            <th scope="col">Meals Served</th>
+            <th scope="col">Deliveries</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-kg="180"><td>January 2026</td><td>180 KG</td><td>450 Meals</td><td>18</td></tr>
+          <tr data-kg="220"><td>February 2026</td><td>220 KG</td><td>560 Meals</td><td>22</td></tr>
+          <tr data-kg="260"><td>March 2026</td><td>260 KG</td><td>640 Meals</td><td>26</td></tr>
+          <tr data-kg="240"><td>April 2026</td><td>240 KG</td><td>600 Meals</td><td>24</td></tr>
+          <tr data-kg="280"><td>May 2026</td><td>280 KG</td><td>710 Meals</td><td>28</td></tr>
+          <tr data-kg="240"><td>June 2026</td><td>240 KG</td><td>610 Meals</td><td>24</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div style="max-width:900px;margin:0 auto 4rem auto;padding:0 1.5rem;">
+    <div class="ashram-card">
+      <div class="card-body">
+        <div class="ashram-head">
+          <h3>Corporate CSR Report</h3>
+          <span class="badge verified">Business Donor</span>
+        </div>
+        <p class="address">Generate a printable monthly report for your CSR filings and internal ESG tracking.</p>
+
+        <div class="summary-box" style="margin:1rem 0;">
+          <p><strong>Business:</strong> Hotel Green Leaf</p>
+          <p><strong>Reporting Period:</strong> January 2026 – June 2026</p>
+          <p><strong>Total Donations:</strong> 86</p>
+          <p><strong>Total Food Rescued:</strong> 1,250 KG</p>
+          <p><strong>Estimated Meals:</strong> 3,400</p>
+          <p><strong>Ashrams Supported:</strong> 18</p>
+          <p><strong>Successful Deliveries:</strong> 84</p>
+        </div>
+
+        <p style="font-size:0.72rem;color:var(--text-muted);">
+          All environmental figures are labeled estimates. Meal counts are derived from food weight using standard conversion ratios.
+        </p>
+
+        <div class="action-buttons" style="margin-top:1rem;">
+          <button type="button" id="print-csr-btn" class="btn btn-dark">🖨️ Generate CSR Report (PDF)</button>
+          <a href="leaderboard.html" class="btn btn-outline">View Leaderboard</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-brand">
+      <h3>FeedFoodForward</h3>
+      <p>"Rescue Food. Reduce Waste. Feed Communities."</p>
+    </div>
+    <div class="footer-copyright">© 2026 FeedFoodForward Platform.</div>
+  </div>
+</footer>
+
+<!-- PROFILE SIDEBAR is auto-injected by sidebar.js -->
+
+<div id="ff-toast" role="status" aria-live="polite"
+     style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);background:#0f172a;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:all .3s ease;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.25);"></div>
+
+<!-- Sidebar JS (RBAC-aware) -->
+<script src="app.js"></script>
+<script src="header-nav.js"></script>
+<script>
+const MENUS = {
+  donor: [
+    { label: "Profile",        icon: "👤", link: "profile.html" },
+    { label: "My Donations",   icon: "🎁", link: "donate-food.html" },
+    { label: "My Impact",      icon: "🌱", link: "impact-csr.html" },
+    { label: "Leaderboard",    icon: "🏆", link: "leaderboard.html" },
+    { label: "Impact & CSR",   icon: "🌍", link: "impact-csr.html" }
+  ],
+  driver: [
+    { label: "Profile",        icon: "👤", link: "profile.html" },
+    { label: "Driver Hub",     icon: "🚚", link: "driver-hub.html" },
+    { label: "My Deliveries",  icon: "📦", link: "driver-hub.html" },
+    { label: "My Impact",      icon: "🌱", link: "impact-csr.html" },
+    { label: "Leaderboard",    icon: "🏆", link: "leaderboard.html" },
+    { label: "Impact & CSR",   icon: "🌍", link: "impact-csr.html" }
+  ],
+  ashram: [
+    { label: "Profile",        icon: "👤", link: "profile.html" },
+    { label: "Find Food",      icon: "🍲", link: "find-ashrams.html" },
+    { label: "My Requests",    icon: "📝", link: "find-ashrams.html" },
+    { label: "My Impact",      icon: "🌱", link: "impact-csr.html" },
+    { label: "Leaderboard",    icon: "🏆", link: "leaderboard.html" },
+    { label: "Impact & CSR",   icon: "🌍", link: "impact-csr.html" }
+  ],
+  admin: [
+    { label: "Profile",          icon: "👤", link: "profile.html" },
+    { label: "Admin Portal",     icon: "🛡️", link: "admin-portal.html" },
+    { label: "Manage Donations", icon: "🎁", link: "admin-portal.html" },
+    { label: "Manage Users",     icon: "👥", link: "admin-portal.html" },
+    { label: "AI Inspection",    icon: "🤖", link: "ai-inspection.html" },
+    { label: "Driver Hub",       icon: "🚚", link: "driver-hub.html" },
+    { label: "Leaderboard",      icon: "🏆", link: "leaderboard.html" },
+    { label: "Impact & CSR",     icon: "🌍", link: "impact-csr.html" }
+  ]
+};
+
+const loggedInUser = (window.ffAuth && window.ffAuth.getUser) ? window.ffAuth.getUser() : null;
+
+const currentUser = loggedInUser ? {
+  name:      loggedInUser.name      || 'User',
+  role:      loggedInUser.role      || 'donor',
+  avatar:    loggedInUser.avatar    || '👤',
+  roleLabel: loggedInUser.roleLabel || 'User',
+  verified:  loggedInUser.verified  || 'Verified'
+} : {
+  name: 'Guest',
+  role: 'donor',
+  avatar: '👤',
+  roleLabel: 'Not logged in',
+  verified: ''
+};
+
+const sidebar        = document.getElementById("profileSidebar");
+const overlay        = document.getElementById("sidebarOverlay");
+const closeBtn       = document.getElementById("closeSidebar");
+const menuContainer  = document.getElementById("sidebarMenu");
+const userNameEl     = document.getElementById("userName");
+const userRoleEl     = document.getElementById("userRole");
+const userAvatarEl   = document.getElementById("userAvatar");
+const userVerifiedEl = document.getElementById("userVerified");
+const logoutBtn      = document.getElementById("logoutBtn");
+
+function renderSidebar(user) {
+  if (!sidebar) return;
+  userNameEl.textContent = user.name;
+  userRoleEl.textContent = user.roleLabel;
+  userAvatarEl.textContent = user.avatar;
+  if (userVerifiedEl) userVerifiedEl.textContent = user.verified ? '✔ ' + user.verified : '';
+
+  menuContainer.innerHTML = "";
+  const items = MENUS[user.role] || [];
+  items.forEach(item => {
+    const a = document.createElement("a");
+    a.className = "menu-item";
+    a.href = item.link;
+    a.innerHTML = `<span class="icon">${item.icon}</span><span>${item.label}</span><span class="arrow">›</span>`;
+    menuContainer.appendChild(a);
+  });
+}
+
+function openSidebar() {
+  sidebar.classList.add("active");
+  overlay.classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+function closeSidebar() {
+  sidebar.classList.remove("active");
+  overlay.classList.remove("active");
+  document.body.style.overflow = "";
+}
+
+const hamburgerBtn = document.getElementById("hamburgerBtn");
+if (hamburgerBtn) hamburgerBtn.addEventListener("click", openSidebar);
+
+const openBtn = document.getElementById("user-chip");
+if (openBtn) openBtn.addEventListener("click", openSidebar);
+
+if (closeBtn) closeBtn.addEventListener("click", closeSidebar);
+if (overlay)  overlay.addEventListener("click", closeSidebar);
+
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeSidebar(); });
+
+if (logoutBtn) {
+  if (loggedInUser) {
+    logoutBtn.addEventListener("click", () => {
+      if (window.ffAuth) window.ffAuth.clear();
+      if (window.ffToast) window.ffToast("You have been logged out.");
+      setTimeout(() => { window.location.href = "index.html"; }, 600);
+    });
+  } else {
+    logoutBtn.innerHTML = '<span class="icon">→</span> Login';
+    logoutBtn.style.color = '#047857';
+    logoutBtn.style.borderColor = '#bbf7d0';
+    logoutBtn.style.background = '#ecfdf5';
+    logoutBtn.addEventListener("click", () => {
+      window.location.href = "index.html";
+    });
+  }
+}
+
+renderSidebar(currentUser);
+</script>
+
+<script src="sidebar.js"></script>
+<script src="animations.js"></script>
+<script src="chatbot.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+</body>
+</html>

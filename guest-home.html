@@ -1,0 +1,1761 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FeedFoodForward — Reduce Food Waste, Feed Communities</title>
+<meta name="description" content="FeedFoodForward connects surplus food from restaurants, hotels, and events with communities that need it most.">
+<meta name="theme-color" content="#16a34a">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2316a34a'/%3E%3Cpath d='M50 80 C28 62 18 50 18 37 A17 17 0 0 1 50 28 A17 17 0 0 1 82 37 C82 50 72 62 50 80 Z' fill='%23ffffff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+/* ============================================================
+   GUEST HOME — Premium animated cinematic layout
+   ============================================================ */
+.gh {
+  --gh-ink: #0B1224;
+  --gh-muted: #64748b;
+  --gh-soft: #94a3b8;
+  --gh-line: #e8edf3;
+  --gh-bg: #f7f9fb;
+  --gh-green: #0B9F6E;
+  --gh-green-dark: #047857;
+  --gh-green-deep: #064e3b;
+  --gh-green-50: #ecfdf5;
+  --gh-amber: #f59e0b;
+  --gh-violet: #8b5cf6;
+  --gh-blue: #3b82f6;
+  background: var(--gh-bg);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  scroll-behavior: smooth;
+}
+
+/* ==========================================================
+   ANIMATED BACKGROUND
+   ========================================================== */
+.gh-bg {
+  position: fixed; inset: 0; z-index: 0;
+  pointer-events: none; overflow: hidden;
+}
+.gh-orb {
+  position: absolute; border-radius: 50%;
+  filter: blur(90px); opacity: .55;
+}
+.gh-orb-1 {
+  width: 620px; height: 620px; top: -200px; left: -180px;
+  background: radial-gradient(circle, rgba(16,185,129,.5), transparent 70%);
+  animation: ghOrbFloat 24s ease-in-out infinite;
+}
+.gh-orb-2 {
+  width: 540px; height: 540px; top: 28%; right: -200px;
+  background: radial-gradient(circle, rgba(245,158,11,.4), transparent 70%);
+  animation: ghOrbFloat 28s ease-in-out infinite -8s;
+}
+.gh-orb-3 {
+  width: 500px; height: 500px; bottom: -180px; left: 40%;
+  background: radial-gradient(circle, rgba(139,92,246,.32), transparent 70%);
+  animation: ghOrbFloat 26s ease-in-out infinite -14s;
+}
+@keyframes ghOrbFloat {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  33%      { transform: translate(50px,-40px) scale(1.1); }
+  66%      { transform: translate(-40px,50px) scale(.92); }
+}
+.gh-bg-grid {
+  position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(11,18,36,.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse at center, #000 20%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 20%, transparent 70%);
+  animation: ghGridPan 60s linear infinite;
+}
+@keyframes ghGridPan {
+  from { background-position: 0 0; }
+  to   { background-position: 200px 200px; }
+}
+
+/* Floating particles */
+.gh-particle {
+  position: absolute;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(16,185,129,.45);
+  pointer-events: none;
+  animation: ghParticleRise linear infinite;
+}
+@keyframes ghParticleRise {
+  0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+}
+
+.gh-progress {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 3px; z-index: 999;
+  transform-origin: 0 50%; transform: scaleX(0);
+  background: linear-gradient(90deg, #10b981, #f59e0b, #8b5cf6, #10b981);
+  background-size: 200% 100%;
+  animation: ghHue 8s linear infinite;
+}
+@keyframes ghHue { to { background-position: 200% 50%; } }
+
+/* ============================================================
+   TICKER
+   ============================================================ */
+.gh-ticker {
+  position: relative; z-index: 2;
+  overflow: hidden;
+  padding: .85rem 0;
+  background: #fff;
+  border-bottom: 1px solid var(--gh-line);
+  border-top: 1px solid var(--gh-line);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.gh-ticker-track {
+  display: flex; align-items: center;
+  gap: 2rem; width: max-content;
+  animation: ghTickerRun 45s linear infinite;
+}
+.gh-ticker:hover .gh-ticker-track { animation-play-state: paused; }
+@keyframes ghTickerRun {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.gh-ticker-item {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font-size: .82rem; font-weight: 700;
+  color: #334155; white-space: nowrap;
+}
+.gh-ticker-item .dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--gh-green);
+  box-shadow: 0 0 0 0 rgba(16,185,129,.6);
+  animation: ghPing 1.8s ease-out infinite;
+}
+.gh-ticker-item strong { color: var(--gh-green-dark); font-weight: 800; }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.gh-hero {
+  position: relative; z-index: 1;
+  padding: 4.5rem 1.5rem 3.5rem;
+  max-width: 1320px;
+  margin: 0 auto;
+}
+.gh-hero-inner {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+@media (max-width: 960px) {
+  .gh-hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+}
+
+.gh-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  padding: .55rem 1.1rem;
+  background: #fff;
+  border: 1px solid rgba(16,185,129,.3);
+  border-radius: 999px;
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--gh-green-dark);
+  margin-bottom: 1.5rem;
+  box-shadow: 0 8px 22px -10px rgba(11,159,110,.28);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  animation: ghFadeUp .8s ease forwards .05s;
+}
+.gh-badge::after {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0; width: 40%; left: -70%;
+  background: linear-gradient(100deg, transparent, rgba(16,185,129,.32), transparent);
+  animation: ghSweep 3.6s ease-in-out infinite;
+}
+@keyframes ghSweep {
+  0%   { left: -70%; }
+  55%, 100% { left: 130%; }
+}
+.gh-badge-dot {
+  width: 8px; height: 8px;
+  background: var(--gh-green);
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+}
+.gh-badge-dot::after {
+  content: "";
+  position: absolute; inset: -4px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(16,185,129,.5);
+  animation: ghPing 1.8s ease-out infinite;
+}
+@keyframes ghPing {
+  0%   { transform: scale(1); opacity: 1; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+.gh-hero h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(2.2rem, 4.8vw, 3.9rem);
+  font-weight: 800;
+  line-height: 1.03;
+  letter-spacing: -.04em;
+  color: var(--gh-ink);
+  margin: 0 0 1.35rem;
+  opacity: 0;
+  animation: ghFadeUp .9s ease forwards .15s;
+}
+.gh-hero h1 em {
+  font-style: normal;
+  background: linear-gradient(100deg, #067a54 0%, #10b981 40%, #f59e0b 60%, #10b981 80%, #067a54 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: ghShimmer 8s linear infinite;
+}
+@keyframes ghShimmer {
+  from { background-position: 0% 50%; }
+  to   { background-position: 250% 50%; }
+}
+
+.gh-hero p.lead {
+  font-size: 1.06rem;
+  line-height: 1.75;
+  color: #475569;
+  max-width: 540px;
+  margin: 0 0 2.25rem;
+  opacity: 0;
+  animation: ghFadeUp .9s ease forwards .3s;
+}
+
+.gh-hero-actions {
+  display: flex;
+  gap: .75rem;
+  flex-wrap: wrap;
+  margin-bottom: 2.25rem;
+  opacity: 0;
+  animation: ghFadeUp .9s ease forwards .45s;
+}
+.gh-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  padding: 1rem 1.7rem;
+  font-family: inherit;
+  font-size: .88rem;
+  font-weight: 800;
+  text-decoration: none;
+  border-radius: 12px;
+  transition: all .3s cubic-bezier(.2,.7,.2,1);
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+.gh-btn.primary {
+  background: var(--gh-green-dark);
+  color: #fff;
+  box-shadow: 0 10px 24px -10px rgba(4,120,87,.5);
+}
+.gh-btn.primary::after {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 40%; left: -70%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.5), transparent);
+  transform: skewX(-20deg);
+  transition: left .6s ease;
+}
+.gh-btn.primary:hover::after { left: 130%; }
+.gh-btn.primary:hover {
+  background: var(--gh-green-deep);
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px -12px rgba(4,120,87,.7);
+}
+.gh-btn.primary span { transition: transform .25s ease; }
+.gh-btn.primary:hover span { transform: translateX(5px); }
+.gh-btn.outline {
+  background: #fff;
+  color: var(--gh-green-dark);
+  border-color: #a7f3d0;
+}
+.gh-btn.outline:hover {
+  background: var(--gh-green-50);
+  border-color: var(--gh-green);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 26px -12px rgba(11,159,110,.35);
+}
+
+.gh-hero-features {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  font-size: .84rem;
+  color: #475569;
+  font-weight: 600;
+  opacity: 0;
+  animation: ghFadeUp .9s ease forwards .6s;
+}
+.gh-hero-features span {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+}
+.gh-hero-features .ico {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--gh-green-50);
+  color: var(--gh-green-dark);
+  display: grid; place-items: center;
+  font-size: .7rem;
+  flex-shrink: 0;
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+.gh-hero-features span:hover .ico { transform: scale(1.2) rotate(-10deg); }
+
+@keyframes ghFadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ============================================================
+   HERO VISUAL
+   ============================================================ */
+.gh-visual-stack {
+  position: relative;
+  height: 540px;
+  opacity: 0;
+  animation: ghFadeUp 1s ease forwards .3s;
+}
+@media (max-width: 640px) { .gh-visual-stack { height: 440px; } }
+
+.gh-visual-main {
+  position: absolute;
+  top: 0; right: 0;
+  width: 86%;
+  height: 82%;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 40px 80px -30px rgba(11,18,36,.45);
+  background: #e2e8f0;
+  z-index: 2;
+  transition: transform .5s cubic-bezier(.2,.7,.2,1);
+}
+.gh-visual-main img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  transition: transform 1.4s cubic-bezier(.2,.7,.2,1);
+}
+.gh-visual-main:hover img { transform: scale(1.06); }
+.gh-visual-main::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(6,78,59,.4) 100%);
+  pointer-events: none;
+}
+
+.gh-visual-secondary {
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 55%;
+  height: 55%;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 30px 60px -20px rgba(11,18,36,.4);
+  background: #e2e8f0;
+  z-index: 3;
+  border: 5px solid #fff;
+  transition: transform .5s cubic-bezier(.2,.7,.2,1);
+  animation: ghFloatSlow 6s ease-in-out infinite;
+}
+@keyframes ghFloatSlow {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+.gh-visual-secondary img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+}
+
+.gh-visual-badge {
+  position: absolute;
+  top: 1.25rem; left: 1.25rem;
+  background: rgba(255,255,255,.97);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: .95rem 1.15rem;
+  box-shadow: 0 20px 45px -18px rgba(11,159,110,.5);
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  max-width: 220px;
+  animation: ghFloat 3.4s ease-in-out infinite;
+}
+@keyframes ghFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+.gh-visual-badge .ico {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #10b981, #047857);
+  color: #fff;
+  display: grid; place-items: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  box-shadow: 0 10px 22px -8px rgba(11,159,110,.55);
+}
+.gh-visual-badge strong {
+  display: block;
+  font-family: 'Outfit', sans-serif;
+  font-size: .9rem;
+  font-weight: 800;
+  color: var(--gh-ink);
+  line-height: 1.15;
+}
+.gh-visual-badge span {
+  font-size: .68rem;
+  font-weight: 700;
+  color: var(--gh-muted);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.gh-visual-caption {
+  position: absolute;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  max-width: 240px;
+  background: rgba(255,255,255,.98);
+  backdrop-filter: blur(10px);
+  border-radius: 14px;
+  padding: .95rem 1.05rem;
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--gh-green-deep);
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  z-index: 4;
+  box-shadow: 0 14px 34px -14px rgba(11,18,36,.3);
+  line-height: 1.45;
+}
+.gh-visual-caption span:first-child { font-size: 1.05rem; }
+
+.gh-float-stat {
+  position: absolute;
+  z-index: 5;
+  background: #fff;
+  border-radius: 14px;
+  padding: .9rem 1.05rem;
+  box-shadow: 0 20px 42px -18px rgba(11,18,36,.3);
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  animation: ghFloat 4s ease-in-out infinite;
+}
+.gh-float-stat.top {
+  top: 30%;
+  right: -1.5rem;
+  animation-delay: -1s;
+}
+.gh-float-stat.bottom {
+  bottom: 25%;
+  left: -1.5rem;
+  animation-delay: -2s;
+}
+@media (max-width: 960px) {
+  .gh-float-stat.top    { right: .5rem; }
+  .gh-float-stat.bottom { left: .5rem; }
+}
+.gh-float-stat-ico {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+  color: var(--gh-green-dark);
+  display: grid; place-items: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.gh-float-stat strong {
+  display: block;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--gh-ink);
+  line-height: 1.1;
+}
+.gh-float-stat span {
+  font-size: .66rem;
+  font-weight: 700;
+  color: var(--gh-muted);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+/* ============================================================
+   NUMBERS STRIP
+   ============================================================ */
+.gh-numbers {
+  position: relative; z-index: 1;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem 3rem;
+}
+.gh-numbers-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  background: #fff;
+  border: 1px solid var(--gh-line);
+  border-radius: 22px;
+  box-shadow: 0 16px 40px -22px rgba(11,18,36,.18);
+  overflow: hidden;
+}
+@media (max-width: 800px) { .gh-numbers-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .gh-numbers-grid { grid-template-columns: 1fr; } }
+
+.gh-num {
+  text-align: center;
+  padding: 1.85rem 1rem;
+  border-right: 1px solid var(--gh-line);
+  transition: background .4s ease;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px);
+}
+.gh-num.gh-in { opacity: 1; transform: none; }
+.gh-num::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gh-green), var(--gh-amber));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .6s ease;
+}
+.gh-num.gh-in::before { transform: scaleX(1); }
+.gh-num:hover { background: var(--gh-green-50); }
+.gh-num:last-child { border-right: none; }
+@media (max-width: 800px) {
+  .gh-num:nth-child(2) { border-right: none; }
+  .gh-num:nth-child(-n+2) { border-bottom: 1px solid var(--gh-line); }
+}
+@media (max-width: 480px) {
+  .gh-num { border-right: none; border-bottom: 1px solid var(--gh-line); }
+  .gh-num:last-child { border-bottom: none; }
+}
+.gh-num strong {
+  display: block;
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(1.75rem, 3vw, 2.35rem);
+  font-weight: 800;
+  color: var(--gh-green-dark);
+  letter-spacing: -.03em;
+  line-height: 1;
+  margin-bottom: .45rem;
+}
+.gh-num span {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--gh-muted);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+/* ============================================================
+   SECTION WRAPPER
+   ============================================================ */
+.gh-section {
+  position: relative; z-index: 1;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+.gh-sec-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 2.25rem;
+  flex-wrap: wrap;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: all .7s cubic-bezier(.2,.7,.2,1);
+}
+.gh-sec-head.gh-in { opacity: 1; transform: none; }
+.gh-sec-head-left h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(1.5rem, 2.6vw, 2.05rem);
+  font-weight: 800;
+  letter-spacing: -.03em;
+  color: var(--gh-ink);
+  margin: 0 0 .4rem;
+}
+.gh-sec-head-left p {
+  font-size: .92rem;
+  color: var(--gh-muted);
+  margin: 0;
+}
+.gh-sec-head-right {
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--gh-green-dark);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  transition: gap .25s ease;
+}
+.gh-sec-head-right:hover { gap: .6rem; }
+
+/* ============================================================
+   EXPLORE
+   ============================================================ */
+.gh-explore {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.1rem;
+}
+@media (max-width: 900px) { .gh-explore { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .gh-explore { grid-template-columns: 1fr; } }
+
+.gh-explore-card {
+  background: #fff;
+  border: 1px solid var(--gh-line);
+  border-radius: 22px;
+  padding: 2rem 1.7rem;
+  text-decoration: none;
+  color: inherit;
+  transition: all .45s cubic-bezier(.2,.7,.2,1);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  min-height: 260px;
+  opacity: 0;
+  transform: translateY(30px);
+}
+.gh-explore-card.gh-in { opacity: 1; transform: none; }
+.gh-explore-card::before {
+  content: "";
+  position: absolute;
+  top: -80px; right: -80px;
+  width: 260px; height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(16,185,129,.2), transparent 70%);
+  opacity: 0;
+  transition: opacity .55s ease, transform .55s ease;
+  transform: scale(.85);
+}
+.gh-explore-card:hover::before { opacity: 1; transform: scale(1.1); }
+.gh-explore-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--gh-green);
+  box-shadow: 0 35px 65px -25px rgba(16,185,129,.45);
+}
+.gh-explore-ico {
+  width: 60px; height: 60px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+  color: var(--gh-green-dark);
+  display: grid; place-items: center;
+  font-size: 1.6rem;
+  margin-bottom: 1.35rem;
+  transition: transform .6s cubic-bezier(.34,1.56,.64,1);
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 12px 24px -12px rgba(11,159,110,.4);
+}
+.gh-explore-card:hover .gh-explore-ico {
+  transform: rotate(-12deg) scale(1.18);
+}
+.gh-explore-card h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--gh-ink);
+  margin: 0 0 .55rem;
+  letter-spacing: -.02em;
+  position: relative;
+  z-index: 1;
+}
+.gh-explore-card p {
+  font-size: .87rem;
+  color: var(--gh-muted);
+  line-height: 1.65;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+.gh-explore-cta {
+  margin-top: auto;
+  padding-top: 1.35rem;
+  font-size: .82rem;
+  font-weight: 800;
+  color: var(--gh-green-dark);
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  position: relative;
+  z-index: 1;
+}
+.gh-explore-cta .arrow {
+  transition: transform .3s ease;
+  display: inline-block;
+}
+.gh-explore-card:hover .gh-explore-cta .arrow { transform: translateX(7px); }
+
+/* ============================================================
+   HOW IT WORKS
+   ============================================================ */
+.gh-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.1rem;
+  position: relative;
+}
+@media (max-width: 900px) { .gh-steps { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .gh-steps { grid-template-columns: 1fr; } }
+
+.gh-steps::before {
+  content: "";
+  position: absolute;
+  top: 60px;
+  left: 12%;
+  right: 12%;
+  height: 2px;
+  background: repeating-linear-gradient(90deg,
+    var(--gh-green) 0 8px,
+    transparent 8px 16px);
+  opacity: .45;
+  z-index: 0;
+  animation: ghMarch 1.4s linear infinite;
+}
+@keyframes ghMarch {
+  from { background-position: 0 0; }
+  to   { background-position: 16px 0; }
+}
+@media (max-width: 900px) { .gh-steps::before { display: none; } }
+
+.gh-step {
+  position: relative;
+  z-index: 1;
+  background: #fff;
+  border: 1px solid var(--gh-line);
+  border-radius: 22px;
+  padding: 2rem 1.4rem 1.6rem;
+  text-align: center;
+  transition: all .45s cubic-bezier(.2,.7,.2,1);
+  opacity: 0;
+  transform: translateY(30px);
+}
+.gh-step.gh-in { opacity: 1; transform: none; }
+.gh-step:hover {
+  transform: translateY(-10px);
+  border-color: var(--gh-green);
+  box-shadow: 0 35px 65px -25px rgba(16,185,129,.45);
+}
+.gh-step-ico {
+  width: 66px; height: 66px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+  color: var(--gh-green-dark);
+  display: grid; place-items: center;
+  font-size: 1.75rem;
+  margin: 0 auto 1.25rem;
+  position: relative;
+  box-shadow: 0 12px 24px -12px rgba(11,159,110,.4);
+  transition: transform .6s cubic-bezier(.34,1.56,.64,1);
+}
+.gh-step:hover .gh-step-ico {
+  transform: rotate(-12deg) scale(1.15);
+}
+.gh-step-num {
+  position: absolute;
+  top: -8px; right: -8px;
+  background: var(--gh-green-dark);
+  color: #fff;
+  font-family: 'Outfit', sans-serif;
+  font-size: .68rem;
+  font-weight: 800;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  border: 2px solid #fff;
+}
+.gh-step h4 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: var(--gh-ink);
+  margin: 0 0 .55rem;
+  letter-spacing: -.01em;
+}
+.gh-step p {
+  font-size: .8rem;
+  color: var(--gh-muted);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ============================================================
+   TESTIMONIALS
+   ============================================================ */
+.gh-testi {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.1rem;
+}
+@media (max-width: 900px) { .gh-testi { grid-template-columns: 1fr; } }
+
+.gh-testi-card {
+  background: #fff;
+  border: 1px solid var(--gh-line);
+  border-radius: 22px;
+  padding: 2rem 1.75rem 1.6rem;
+  transition: all .45s cubic-bezier(.2,.7,.2,1);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(30px);
+}
+.gh-testi-card.gh-in { opacity: 1; transform: none; }
+.gh-testi-card::before {
+  content: "\201C";
+  position: absolute;
+  top: -.9rem; right: 1.35rem;
+  font-family: 'Outfit', Georgia, serif;
+  font-size: 7rem;
+  line-height: 1;
+  color: rgba(16,185,129,.14);
+  font-weight: 900;
+  pointer-events: none;
+}
+.gh-testi-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--gh-green);
+  box-shadow: 0 30px 60px -25px rgba(16,185,129,.4);
+}
+.gh-testi-quote {
+  font-size: .93rem;
+  color: #334155;
+  line-height: 1.78;
+  font-style: italic;
+  margin: 0 0 1.6rem;
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+.gh-testi-author {
+  display: flex;
+  align-items: center;
+  gap: .85rem;
+  padding-top: 1.35rem;
+  border-top: 1px solid var(--gh-line);
+  position: relative;
+  z-index: 1;
+}
+.gh-testi-author img {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #e2e8f0;
+  transition: transform .45s cubic-bezier(.34,1.56,.64,1);
+  border: 2px solid #fff;
+  box-shadow: 0 6px 14px -6px rgba(11,18,36,.2);
+}
+.gh-testi-card:hover .gh-testi-author img { transform: scale(1.15); }
+.gh-testi-author strong {
+  display: block;
+  font-size: .9rem;
+  font-weight: 800;
+  color: var(--gh-ink);
+  margin-bottom: .1rem;
+}
+.gh-testi-author span {
+  font-size: .74rem;
+  color: var(--gh-muted);
+}
+
+/* ============================================================
+   CAROUSEL
+   ============================================================ */
+.gh-carousel-wrap {
+  position: relative;
+}
+.gh-carousel {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.1rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding-bottom: .5rem;
+}
+@media (max-width: 900px) {
+  .gh-carousel { display: flex; grid-template-columns: none; }
+}
+.gh-carousel::-webkit-scrollbar { height: 6px; }
+.gh-carousel::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 999px; }
+
+.gh-donor-card {
+  background: #fff;
+  border: 1px solid var(--gh-line);
+  border-radius: 20px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: all .45s cubic-bezier(.2,.7,.2,1);
+  min-width: 240px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transform: translateY(30px);
+}
+.gh-donor-card.gh-in { opacity: 1; transform: none; }
+.gh-donor-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--gh-green);
+  box-shadow: 0 30px 60px -25px rgba(16,185,129,.45);
+}
+.gh-donor-img {
+  height: 150px;
+  background: #e2e8f0;
+  overflow: hidden;
+  position: relative;
+}
+.gh-donor-img::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 60%, rgba(6,78,59,.4) 100%);
+  pointer-events: none;
+}
+.gh-donor-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 1s cubic-bezier(.2,.7,.2,1);
+}
+.gh-donor-card:hover .gh-donor-img img { transform: scale(1.1); }
+.gh-donor-body {
+  padding: 1.1rem 1.25rem 1.25rem;
+}
+.gh-donor-body h4 {
+  font-family: 'Outfit', sans-serif;
+  font-size: .95rem;
+  font-weight: 800;
+  color: var(--gh-ink);
+  margin: 0 0 .35rem;
+  letter-spacing: -.005em;
+}
+.gh-donor-body p {
+  font-size: .75rem;
+  color: var(--gh-muted);
+  margin: 0 0 .85rem;
+  font-weight: 600;
+}
+.gh-donor-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: .5rem;
+}
+.gh-donor-tag {
+  font-size: .62rem;
+  font-weight: 800;
+  padding: .28rem .6rem;
+  border-radius: 6px;
+  background: #ecfdf5;
+  color: #047857;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.gh-donor-tag.receiver {
+  background: #ede9fe;
+  color: #5b21b6;
+}
+.gh-donor-stats {
+  font-size: .74rem;
+  font-weight: 700;
+  color: var(--gh-ink);
+}
+
+.gh-carousel-nav {
+  display: flex;
+  gap: .5rem;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+.gh-carousel-btn {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid var(--gh-line);
+  color: var(--gh-ink);
+  cursor: pointer;
+  display: grid; place-items: center;
+  font-size: 1rem;
+  transition: all .28s ease;
+  font-family: inherit;
+}
+.gh-carousel-btn:hover {
+  background: var(--gh-green-50);
+  border-color: var(--gh-green);
+  color: var(--gh-green-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 22px -10px rgba(11,159,110,.4);
+}
+
+/* ============================================================
+   BOTTOM CTA
+   ============================================================ */
+.gh-cta-strip {
+  background: linear-gradient(135deg, #064e3b 0%, #047857 60%, #0B9F6E 100%);
+  border-radius: 28px;
+  padding: 3rem 2.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all .7s cubic-bezier(.2,.7,.2,1);
+  box-shadow: 0 35px 70px -30px rgba(6,78,59,.55);
+}
+.gh-cta-strip.gh-in { opacity: 1; transform: none; }
+.gh-cta-strip::before {
+  content: "";
+  position: absolute;
+  top: -120px; right: -80px;
+  width: 400px; height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,.22), transparent 65%);
+  pointer-events: none;
+  animation: ghOrbFloat 16s ease-in-out infinite;
+}
+.gh-cta-strip::after {
+  content: "";
+  position: absolute;
+  bottom: -140px; left: -80px;
+  width: 360px; height: 360px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245,158,11,.32), transparent 65%);
+  pointer-events: none;
+  animation: ghOrbFloat 18s ease-in-out infinite reverse;
+}
+.gh-cta-strip-left {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex: 1;
+  min-width: 240px;
+  position: relative;
+  z-index: 1;
+}
+.gh-cta-strip-ico {
+  width: 68px; height: 68px;
+  border-radius: 20px;
+  background: rgba(255,255,255,.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.32);
+  color: #fff;
+  display: grid; place-items: center;
+  font-size: 1.85rem;
+  flex-shrink: 0;
+  animation: ghPulseIco 2.6s ease-in-out infinite;
+}
+@keyframes ghPulseIco {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,.5); }
+  50%      { box-shadow: 0 0 0 18px rgba(255,255,255,0); }
+}
+.gh-cta-strip-text h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 .4rem;
+  letter-spacing: -.02em;
+}
+.gh-cta-strip-text p {
+  font-size: .94rem;
+  color: rgba(255,255,255,.88);
+  margin: 0;
+  line-height: 1.6;
+}
+.gh-cta-strip .gh-btn.primary {
+  background: #fff;
+  color: var(--gh-green-deep);
+  box-shadow: 0 14px 34px rgba(0,0,0,.18);
+  position: relative;
+  z-index: 1;
+}
+.gh-cta-strip .gh-btn.primary:hover {
+  background: #f0fdf4;
+  transform: translateY(-4px);
+  box-shadow: 0 24px 48px rgba(0,0,0,.3);
+}
+.gh-cta-strip .gh-btn.primary::after {
+  background: linear-gradient(100deg, transparent, rgba(16,185,129,.4), transparent);
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.gh-footer {
+  max-width: 1280px;
+  margin: 2.5rem auto 0;
+  padding: 2rem 1.5rem;
+  border-top: 1px solid var(--gh-line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-size: .78rem;
+  color: var(--gh-muted);
+  position: relative;
+  z-index: 1;
+}
+.gh-footer-brand {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  color: var(--gh-ink);
+}
+.gh-footer-brand .mark {
+  width: 34px; height: 34px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #10b981, #047857);
+  display: grid; place-items: center;
+  color: #fff;
+  font-size: 1.05rem;
+  box-shadow: 0 8px 18px -8px rgba(11,159,110,.5);
+}
+.gh-footer-links {
+  display: flex;
+  gap: 1.35rem;
+  flex-wrap: wrap;
+}
+.gh-footer-links a {
+  color: var(--gh-muted);
+  text-decoration: none;
+  transition: color .2s ease, transform .2s ease;
+  display: inline-block;
+}
+.gh-footer-links a:hover {
+  color: var(--gh-green-dark);
+  transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gh-orb, .gh-bg-grid, .gh-progress, .gh-hero h1 em,
+  .gh-visual-badge, .gh-visual-secondary, .gh-float-stat,
+  .gh-cta-strip-ico, .gh-cta-strip::before, .gh-cta-strip::after,
+  .gh-steps::before, .gh-ticker-track, .gh-particle,
+  .gh-badge::after, .gh-badge-dot::after,
+  .gh-btn.primary::after { animation: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="gh-progress" id="gh-progress" aria-hidden="true"></div>
+
+<div class="gh-bg" aria-hidden="true">
+  <div class="gh-orb gh-orb-1"></div>
+  <div class="gh-orb gh-orb-2"></div>
+  <div class="gh-orb gh-orb-3"></div>
+  <div class="gh-bg-grid"></div>
+</div>
+
+<header class="site-header">
+  <div class="header-container">
+    <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <a href="guest-home.html" class="brand-logo" aria-label="FeedFoodForward home">
+      <div class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="ffTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#067A54"/><stop offset="55%" stop-color="#0B9F6E"/><stop offset="100%" stop-color="#10B981"/></linearGradient>
+            <linearGradient id="ffHeart" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#FF5A7A"/><stop offset="100%" stop-color="#F03E64"/></linearGradient>
+            <linearGradient id="ffLeaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#A3E635"/><stop offset="100%" stop-color="#65A30D"/></linearGradient>
+          </defs>
+          <rect x="2" y="2" width="44" height="44" rx="11" fill="url(#ffTile)"/>
+          <g transform="translate(28 6) rotate(20)"><path d="M0 14 C0 6 5 1 12 0 C12 8 7 14 0 14 Z" fill="url(#ffLeaf)"/></g>
+          <g transform="translate(8 20)"><path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4 C7.4 0.4 9.2 1.8 10 3.4 C10.8 1.8 12.6 0.4 15 0.4 C18.3 0.4 21 2.6 21 6 C21 10 18 14 10 20 Z" fill="url(#ffHeart)"/></g>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">FeedFood<span>Forward</span></span>
+        <span class="brand-subtitle">AI FOOD REDISTRIBUTION PLATFORM</span>
+      </div>
+    </a>
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation menu">☰</button>
+    <nav class="site-nav" id="site-nav" aria-label="Primary"></nav>
+    <div class="header-utilities">
+      <div id="header-guest" class="header-auth-group">
+        <button type="button" class="btn btn-outline btn-sm" id="header-login-btn">Login</button>
+        <button type="button" class="btn btn-primary btn-sm" id="header-signup-btn">Sign Up</button>
+      </div>
+      <div id="header-user" class="header-user-group" hidden>
+        <button type="button" class="user-chip" id="user-chip" aria-haspopup="true" aria-expanded="false">
+          <span class="user-avatar" id="user-avatar">👤</span>
+          <span class="user-name" id="user-name">User</span>
+          <span class="user-caret" aria-hidden="true">▾</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="gh">
+
+<!-- ==================== LIVE TICKER ==================== -->
+<section class="gh-ticker" aria-hidden="true">
+  <div class="gh-ticker-track">
+    <span class="gh-ticker-item"><span class="dot"></span> <strong>Hotel Green Leaf</strong> just rescued 45 KG prepared meals</span>
+    <span class="gh-ticker-item"><span class="dot"></span> <strong>Shanti Vruddhashram</strong> received 120 meals in Jayanagar</span>
+    <span class="gh-ticker-item"><span class="dot"></span> <strong>Urban Bakery</strong> donated 18 KG fresh breads</span>
+    <span class="gh-ticker-item"><span class="dot"></span> <strong>Sunrise Cafe</strong> rescued 22 KG surplus food today</span>
+    <span class="gh-ticker-item"><span class="dot"></span> <strong>Anand Seva Ashram</strong> served 300 meals this week</span>
+    <span class="gh-ticker-item"><span class="dot"></span> <strong>Royal Palace Events</strong> donated a wedding feast</span>
+
+    <span class="gh-ticker-item" aria-hidden="true"><span class="dot"></span> <strong>Hotel Green Leaf</strong> just rescued 45 KG prepared meals</span>
+    <span class="gh-ticker-item" aria-hidden="true"><span class="dot"></span> <strong>Shanti Vruddhashram</strong> received 120 meals in Jayanagar</span>
+    <span class="gh-ticker-item" aria-hidden="true"><span class="dot"></span> <strong>Urban Bakery</strong> donated 18 KG fresh breads</span>
+    <span class="gh-ticker-item" aria-hidden="true"><span class="dot"></span> <strong>Sunrise Cafe</strong> rescued 22 KG surplus food today</span>
+    <span class="gh-ticker-item" aria-hidden="true"><span class="dot"></span> <strong>Anand Seva Ashram</strong> served 300 meals this week</span>
+    <span class="gh-ticker-item" aria-hidden="true"><span class="dot"></span> <strong>Royal Palace Events</strong> donated a wedding feast</span>
+  </div>
+</section>
+
+<!-- ==================== HERO ==================== -->
+<section class="gh-hero">
+  <div class="gh-hero-inner">
+
+    <div>
+      <span class="gh-badge">
+        <span class="gh-badge-dot"></span>
+        Reducing Food Waste · Feeding Communities
+      </span>
+      <h1>Good food deserves <em>a second chance.</em></h1>
+      <p class="lead">FeedFoodForward connects surplus food from restaurants, hotels, and events with communities that need it most — powered by AI inspection, live tracking, and verified handovers.</p>
+      <div class="gh-hero-actions">
+        <a href="find-ashrams.html" class="gh-btn primary">Explore Ashrams <span>→</span></a>
+        <a href="find-donors.html" class="gh-btn outline">Explore Food Donors</a>
+      </div>
+      <div class="gh-hero-features">
+        <span><span class="ico">✓</span> Less Food Waste</span>
+        <span><span class="ico">✓</span> Stronger Communities</span>
+        <span><span class="ico">✓</span> A Greener Tomorrow</span>
+      </div>
+    </div>
+
+    <div class="gh-visual-stack">
+      <div class="gh-visual-main">
+        <img src="https://images.unsplash.com/photo-1593113598332-cd288d649433?w=1000&auto=format&fit=crop&q=80" alt="Volunteers serving food to community">
+      </div>
+      <div class="gh-visual-secondary">
+        <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=600&auto=format&fit=crop&q=80" alt="Children receiving food">
+      </div>
+
+      <div class="gh-visual-badge">
+        <div class="ico">🍽️</div>
+        <div>
+          <strong>Real Food.</strong>
+          <span>Real Impact.</span>
+        </div>
+      </div>
+
+      <div class="gh-visual-caption">
+        <span>🍱</span>
+        <span>Fresh food is here to help those in need</span>
+      </div>
+
+      <div class="gh-float-stat top">
+        <div class="gh-float-stat-ico">⚡</div>
+        <div>
+          <strong>2.4s</strong>
+          <span>AI Analysis</span>
+        </div>
+      </div>
+
+      <div class="gh-float-stat bottom">
+        <div class="gh-float-stat-ico">🛡️</div>
+        <div>
+          <strong>100%</strong>
+          <span>QR Verified</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ==================== NUMBERS STRIP ==================== -->
+<section class="gh-numbers">
+  <div class="gh-numbers-grid">
+    <div class="gh-num" data-reveal>
+      <strong data-count="12500" data-suffix="+">0</strong>
+      <span>Meals Redistributed</span>
+    </div>
+    <div class="gh-num" data-reveal>
+      <strong data-count="320" data-suffix="+">0</strong>
+      <span>Participating Donors</span>
+    </div>
+    <div class="gh-num" data-reveal>
+      <strong data-count="85" data-suffix="+">0</strong>
+      <span>Ashrams &amp; NGOs</span>
+    </div>
+    <div class="gh-num" data-reveal>
+      <strong data-count="22" data-suffix="+">0</strong>
+      <span>Tons of Food Saved</span>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== EXPLORE ==================== -->
+<section class="gh-section">
+  <div class="gh-sec-head" data-reveal>
+    <div class="gh-sec-head-left">
+      <h2>Explore FeedFoodForward</h2>
+      <p>Discover how you can make a difference today.</p>
+    </div>
+  </div>
+
+  <div class="gh-explore">
+    <a href="find-ashrams.html" class="gh-explore-card" data-reveal>
+      <div class="gh-explore-ico">🏛️</div>
+      <h3>Find Ashrams</h3>
+      <p>Explore participating Ashrams, Vruddhashrams, and NGOs near you — see their current food needs.</p>
+      <span class="gh-explore-cta">Browse directory <span class="arrow">→</span></span>
+    </a>
+    <a href="find-donors.html" class="gh-explore-card" data-reveal>
+      <div class="gh-explore-ico">🍽️</div>
+      <h3>Explore Food Donors</h3>
+      <p>Discover the restaurants, hotels, bakeries, and cafés already donating surplus food in your city.</p>
+      <span class="gh-explore-cta">See donors <span class="arrow">→</span></span>
+    </a>
+    <a href="impact-csr.html" class="gh-explore-card" data-reveal>
+      <div class="gh-explore-ico">📊</div>
+      <h3>Our Impact</h3>
+      <p>See the real difference we're making together — meals served, food rescued, and CO₂ prevented.</p>
+      <span class="gh-explore-cta">View impact report <span class="arrow">→</span></span>
+    </a>
+    <a href="food-safety.html" class="gh-explore-card" data-reveal>
+      <div class="gh-explore-ico">🛡️</div>
+      <h3>Food Safety</h3>
+      <p>Learn about safe food handling, packaging, temperature zones, and how every pickup is verified.</p>
+      <span class="gh-explore-cta">Read guidelines <span class="arrow">→</span></span>
+    </a>
+  </div>
+</section>
+
+<!-- ==================== HOW IT WORKS ==================== -->
+<section class="gh-section" style="padding-top:1rem;">
+  <div class="gh-sec-head" data-reveal>
+    <div class="gh-sec-head-left">
+      <h2>How It Works</h2>
+      <p>A simple process. A big impact.</p>
+    </div>
+    <a href="how-it-works.html" class="gh-sec-head-right">Learn More →</a>
+  </div>
+
+  <div class="gh-steps">
+    <div class="gh-step" data-reveal>
+      <div class="gh-step-ico">
+        🍱
+        <span class="gh-step-num">1</span>
+      </div>
+      <h4>Donate Food</h4>
+      <p>Restaurants and hotels list surplus food with a quick photo and pickup details.</p>
+    </div>
+    <div class="gh-step" data-reveal>
+      <div class="gh-step-ico">
+        🤖
+        <span class="gh-step-num">2</span>
+      </div>
+      <h4>AI Pre-Screening</h4>
+      <p>Our AI checks freshness, food type, and urgency — never a replacement for human inspection.</p>
+    </div>
+    <div class="gh-step" data-reveal>
+      <div class="gh-step-ico">
+        ✅
+        <span class="gh-step-num">3</span>
+      </div>
+      <h4>Pickup Verification</h4>
+      <p>A trained driver inspects the food at pickup and scans the donor's QR to confirm safety.</p>
+    </div>
+    <div class="gh-step" data-reveal>
+      <div class="gh-step-ico">
+        🚚
+        <span class="gh-step-num">4</span>
+      </div>
+      <h4>Track &amp; Deliver</h4>
+      <p>Follow the delivery live on the map. The ashram scans the delivery QR to confirm receipt.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== TESTIMONIALS ==================== -->
+<section class="gh-section" style="padding-top:1rem;">
+  <div class="gh-sec-head" data-reveal>
+    <div class="gh-sec-head-left">
+      <h2>Real Stories. Real Impact.</h2>
+      <p>See how your support brings smiles and hope.</p>
+    </div>
+    <a href="success-stories.html" class="gh-sec-head-right">View All Stories →</a>
+  </div>
+
+  <div class="gh-testi">
+    <div class="gh-testi-card" data-reveal>
+      <p class="gh-testi-quote">"This food has made a real difference. We are grateful to those who support us. Our hearts feel full."</p>
+      <div class="gh-testi-author">
+        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&auto=format&fit=crop&q=80" alt="Rita Thomas">
+        <div>
+          <strong>Rita Thomas</strong>
+          <span>Shanti Vruddhashram</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="gh-testi-card" data-reveal>
+      <p class="gh-testi-quote">"It feels great to contribute to causes that fight food waste and help those in need."</p>
+      <div class="gh-testi-author">
+        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=100&auto=format&fit=crop&q=80" alt="Green Leaf Restaurant">
+        <div>
+          <strong>Green Leaf Restaurant</strong>
+          <span>Food Donor</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="gh-testi-card" data-reveal>
+      <p class="gh-testi-quote">"These meals are reliable and affordable. They help us a lot in our daily meals. Thank you to the donors!"</p>
+      <div class="gh-testi-author">
+        <img src="https://images.unsplash.com/photo-1552058544-f2b08422138a?w=100&auto=format&fit=crop&q=80" alt="Hope Home NGO">
+        <div>
+          <strong>Hope Home NGO</strong>
+          <span>Ashram / NGO</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FEATURED DONORS ==================== -->
+<section class="gh-section" style="padding-top:1rem;">
+  <div class="gh-sec-head" data-reveal>
+    <div class="gh-sec-head-left">
+      <h2>Featured Donors &amp; Ashrams</h2>
+      <p>Some of our valued partners making a difference.</p>
+    </div>
+    <a href="find-donors.html" class="gh-sec-head-right">View All →</a>
+  </div>
+
+  <div class="gh-carousel-wrap">
+    <div class="gh-carousel-nav">
+      <button type="button" class="gh-carousel-btn" id="gh-carousel-prev" aria-label="Previous">←</button>
+      <button type="button" class="gh-carousel-btn" id="gh-carousel-next" aria-label="Next">→</button>
+    </div>
+
+    <div class="gh-carousel" id="gh-carousel">
+      <a href="find-donors.html" class="gh-donor-card" data-reveal>
+        <div class="gh-donor-img">
+          <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500&auto=format&fit=crop&q=70" alt="Green Leaf Restaurant">
+        </div>
+        <div class="gh-donor-body">
+          <h4>Green Leaf Restaurant</h4>
+          <p>Indiranagar, Bengaluru</p>
+          <div class="gh-donor-foot">
+            <span class="gh-donor-tag">Donor</span>
+            <span class="gh-donor-stats">⭐ 4.9</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="find-donors.html" class="gh-donor-card" data-reveal>
+        <div class="gh-donor-img">
+          <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?w=500&auto=format&fit=crop&q=70" alt="Sunshine Hotel">
+        </div>
+        <div class="gh-donor-body">
+          <h4>Sunshine Hotel</h4>
+          <p>Jayanagar, Bengaluru</p>
+          <div class="gh-donor-foot">
+            <span class="gh-donor-tag">Donor</span>
+            <span class="gh-donor-stats">⭐ 4.7</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="find-ashrams.html" class="gh-donor-card" data-reveal>
+        <div class="gh-donor-img">
+          <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=500&auto=format&fit=crop&q=70" alt="Shanti Vruddhashram">
+        </div>
+        <div class="gh-donor-body">
+          <h4>Shanti Vruddhashram</h4>
+          <p>Jayanagar, Bengaluru</p>
+          <div class="gh-donor-foot">
+            <span class="gh-donor-tag receiver">Ashram</span>
+            <span class="gh-donor-stats">85 residents</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="find-ashrams.html" class="gh-donor-card" data-reveal>
+        <div class="gh-donor-img">
+          <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=500&auto=format&fit=crop&q=70" alt="Anand Seva Anath Ashram">
+        </div>
+        <div class="gh-donor-body">
+          <h4>Anand Seva Anath Ashram</h4>
+          <p>BTM Layout, Bengaluru</p>
+          <div class="gh-donor-foot">
+            <span class="gh-donor-tag receiver">Ashram</span>
+            <span class="gh-donor-stats">120 children</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== BOTTOM CTA ==================== -->
+<section class="gh-section" style="padding-top:1rem;">
+  <div class="gh-cta-strip" data-reveal>
+    <div class="gh-cta-strip-left">
+      <div class="gh-cta-strip-ico">🤝</div>
+      <div class="gh-cta-strip-text">
+        <h3>Be a part of the change</h3>
+        <p>Join hands with us to reduce food waste and feed communities across India.</p>
+      </div>
+    </div>
+    <a href="index.html?signup=1" class="gh-btn primary" id="gh-learn-more">Get Started <span>→</span></a>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="gh-footer">
+  <div class="gh-footer-brand">
+    <span class="mark">🍽️</span>
+    <span>FeedFoodForward</span>
+  </div>
+  <div class="gh-footer-links">
+    <a href="about.html">About</a>
+    <a href="privacy-policy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="contact.html">Contact</a>
+    <a href="faq.html">Help</a>
+  </div>
+  <div>© 2026 FeedFoodForward</div>
+</footer>
+
+</main>
+
+<script src="app.js"></script>
+<script src="header-nav.js"></script>
+<script src="sidebar.js"></script>
+<script src="animations.js"></script>
+<script src="chatbot.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  'use strict';
+
+  /* ==========================================================
+     1. GUEST GUARD — skip if user is just opening login/signup
+     ========================================================== */
+  const params = new URLSearchParams(location.search);
+  const isAuthFlow = params.get('login') === '1' || params.get('signup') === '1';
+
+  if (!isAuthFlow) {
+    const user = (window.ffAuth && window.ffAuth.getUser) ? window.ffAuth.getUser() : null;
+    if (user && user.role) {
+      const ROLE_HOME = {
+        donor:  'donor-dashboard.html',
+        driver: 'driver-hub.html',
+        ashram: 'ngo-dashboard.html',
+        admin:  'admin-portal.html'
+      };
+      window.location.replace(ROLE_HOME[user.role] || 'donor-dashboard.html');
+      return;
+    }
+  }
+
+  /* ==========================================================
+     2. PROGRESS BAR
+     ========================================================== */
+  const progress = document.getElementById('gh-progress');
+  let tick = false;
+  function updateProgress() {
+    if (!progress) return;
+    const h = document.documentElement;
+    const scrolled = h.scrollTop || document.body.scrollTop;
+    const height = (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
+    progress.style.transform = 'scaleX(' + (height > 0 ? scrolled / height : 0) + ')';
+  }
+  window.addEventListener('scroll', () => {
+    if (tick) return;
+    tick = true;
+    requestAnimationFrame(() => { updateProgress(); tick = false; });
+  }, { passive: true });
+  updateProgress();
+
+  /* ==========================================================
+     3. SCROLL REVEAL
+     ========================================================== */
+  const reveals = document.querySelectorAll('[data-reveal], .gh-num, .gh-explore-card, .gh-step, .gh-testi-card, .gh-donor-card, .gh-sec-head, .gh-cta-strip');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          const el = e.target;
+          el.style.transitionDelay = ((i % 6) * 70) + 'ms';
+          el.classList.add('gh-in');
+          io.unobserve(el);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
+    reveals.forEach(el => io.observe(el));
+  } else {
+    reveals.forEach(el => el.classList.add('gh-in'));
+  }
+
+  /* ==========================================================
+     4. COUNT-UP NUMBERS
+     ========================================================== */
+  const counters = document.querySelectorAll('[data-count]');
+  const counted = new WeakSet();
+
+  function runCounter(el) {
+    if (counted.has(el)) return;
+    counted.add(el);
+    const target = parseFloat(el.dataset.count) || 0;
+    const suffix = el.dataset.suffix || '';
+    const dur = 1600;
+    const start = performance.now();
+    (function step(now) {
+      const t = Math.min((now - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - t, 4);
+      el.textContent = Math.round(target * eased).toLocaleString('en-IN') + suffix;
+      if (t < 1) requestAnimationFrame(step);
+    })(start);
+  }
+
+  if ('IntersectionObserver' in window) {
+    const cIO = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { runCounter(e.target); cIO.unobserve(e.target); }
+      });
+    }, { threshold: 0.3 });
+    counters.forEach(el => cIO.observe(el));
+    setTimeout(() => counters.forEach(runCounter), 2500);
+  } else {
+    counters.forEach(runCounter);
+  }
+
+  /* ==========================================================
+     5. CAROUSEL CONTROLS
+     ========================================================== */
+  const carousel = document.getElementById('gh-carousel');
+  const prevBtn = document.getElementById('gh-carousel-prev');
+  const nextBtn = document.getElementById('gh-carousel-next');
+  if (carousel && prevBtn && nextBtn) {
+    const scrollAmount = 280;
+    prevBtn.addEventListener('click', () => {
+      carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    });
+    nextBtn.addEventListener('click', () => {
+      carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    });
+  }
+
+  /* ==========================================================
+     6. HERO VISUAL PARALLAX (desktop only)
+     ========================================================== */
+  const hero = document.querySelector('.gh-hero');
+  const stack = document.querySelector('.gh-visual-stack');
+  if (hero && stack &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
+      window.matchMedia('(hover: hover) and (min-width: 1024px)').matches) {
+    hero.addEventListener('mousemove', (e) => {
+      const rect = hero.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      stack.style.transform = 'translate(' + (x * 16) + 'px,' + (y * 16) + 'px)';
+    });
+    hero.addEventListener('mouseleave', () => { stack.style.transform = ''; });
+  }
+
+  /* ==========================================================
+     7. FLOATING PARTICLES (background ambience)
+     ========================================================== */
+  (function spawnParticles() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const bg = document.querySelector('.gh-bg');
+    if (!bg) return;
+    const total = 18;
+    for (let i = 0; i < total; i++) {
+      const p = document.createElement('div');
+      p.className = 'gh-particle';
+      const size = 4 + Math.random() * 8;
+      p.style.left = (Math.random() * 100) + '%';
+      p.style.width = size + 'px';
+      p.style.height = size + 'px';
+      p.style.background = Math.random() > 0.5
+        ? 'rgba(16,185,129,.45)'
+        : 'rgba(245,158,11,.4)';
+      p.style.animationDuration = (14 + Math.random() * 16) + 's';
+      p.style.animationDelay = (-Math.random() * 20) + 's';
+      p.style.opacity = 0.3 + Math.random() * 0.5;
+      bg.appendChild(p);
+    }
+  })();
+
+  /* ==========================================================
+     8. HEADER BUTTONS → go to index.html and open modal
+        (guest-home stays the backdrop, index.html handles the modal)
+     ========================================================== */
+  const headerLogin  = document.getElementById('header-login-btn');
+  const headerSignup = document.getElementById('header-signup-btn');
+  if (headerLogin)  headerLogin.addEventListener('click',  (e) => {
+    e.preventDefault();
+    window.location.assign('index.html?login=1');
+  });
+  if (headerSignup) headerSignup.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.location.assign('index.html?signup=1');
+  });
+});
+</script>
+</html>

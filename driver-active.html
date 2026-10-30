@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your delivery mission | FeedFoodForward</title>
+<meta name="theme-color" content="#16a34a">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2316a34a'/%3E%3Cpath d='M50 80 C28 62 18 50 18 37 A17 17 0 0 1 50 28 A17 17 0 0 1 82 37 C82 50 72 62 50 80 Z' fill='%23ffffff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="style.css">
+<script src="guest-guard.js"></script>
+
+<style>
+* { box-sizing: border-box; }
+body { margin: 0; font-family: 'Inter', system-ui, -apple-system, sans-serif; background: #f6f9fc; color: #0f172a; -webkit-font-smoothing: antialiased; }
+.dam-page { max-width: 1400px; margin: 0 auto; padding: 1.75rem 1.5rem 3rem; }
+.dam-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+.dam-head-left h1 { font-family: 'Outfit', sans-serif; font-size: clamp(1.4rem, 2.6vw, 1.75rem); font-weight: 800; color: #0f172a; margin: 0 0 .25rem; letter-spacing: -.02em; }
+.dam-head-meta { display: flex; gap: 1rem; flex-wrap: wrap; font-size: .8rem; color: #64748b; font-weight: 600; }
+.dam-head-meta strong { color: #0f172a; font-weight: 700; }
+.dam-head-meta .dot { color: #cbd5e1; }
+.dam-status-pill { display: inline-flex; align-items: center; gap: .5rem; padding: .55rem 1.1rem; background: #dbeafe; color: #1e40af; border-radius: 999px; font-size: .75rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; transition: background .3s ease, color .3s ease; }
+.dam-status-pill .dot { width: 8px; height: 8px; border-radius: 50%; background: #2563eb; box-shadow: 0 0 0 0 rgba(37,99,235,.6); animation: damPulse 1.8s infinite; }
+.dam-status-pill.at-pickup { background: #fef3c7; color: #92400e; }
+.dam-status-pill.at-pickup .dot { background: #f59e0b; }
+.dam-status-pill.picked { background: #d1fae5; color: #065f46; }
+.dam-status-pill.picked .dot { background: #10b981; }
+.dam-status-pill.delivered { background: #d1fae5; color: #065f46; }
+.dam-status-pill.delivered .dot { background: #10b981; }
+@keyframes damPulse { 0%{box-shadow:0 0 0 0 rgba(37,99,235,.6)} 70%{box-shadow:0 0 0 8px rgba(37,99,235,0)} 100%{box-shadow:0 0 0 0 rgba(37,99,235,0)} }
+.dam-layout { display: grid; grid-template-columns: 1fr 380px; gap: 1.25rem; align-items: start; }
+@media (max-width: 1100px) { .dam-layout { grid-template-columns: 1fr; } }
+.dam-left { display: flex; flex-direction: column; gap: 1.25rem; }
+.dam-map-card { background: #fff; border: 1px solid #e8edf3; border-radius: 18px; overflow: hidden; box-shadow: 0 4px 20px rgba(11,18,36,.04); }
+.dam-map-head { display: flex; justify-content: space-between; align-items: center; gap: .75rem; padding: 1rem 1.25rem; border-bottom: 1px solid #e8edf3; flex-wrap: wrap; }
+.dam-map-title { display: flex; align-items: center; gap: .5rem; font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 800; color: #0f172a; }
+.dam-map-title .pin { font-size: 1.1rem; }
+.dam-map-badges { display: flex; gap: .6rem; flex-wrap: wrap; font-size: .75rem; font-weight: 700; color: #475569; }
+.dam-map-badge { display: inline-flex; align-items: center; gap: .3rem; padding: .3rem .7rem; background: #f1f5f9; border-radius: 999px; }
+#dam-map { height: 480px; width: 100%; background: #e2e8f0; }
+@media (max-width: 640px) { #dam-map { height: 340px; } }
+.dam-legend { display: flex; gap: 1rem; padding: .9rem 1.25rem; border-top: 1px solid #e8edf3; flex-wrap: wrap; font-size: .74rem; color: #64748b; font-weight: 600; }
+.dam-legend-item { display: inline-flex; align-items: center; gap: .4rem; }
+.dam-legend-pin { width: 14px; height: 14px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; color: #fff; font-weight: 800; }
+.dam-legend-pin.pickup { background: #10b981; }
+.dam-legend-pin.drop { background: #ef4444; }
+.dam-legend-pin.driver { background: #f97316; }
+.dam-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media (max-width: 700px) { .dam-two-col { grid-template-columns: 1fr; } }
+.dam-info-card { background: #fff; border: 1px solid #e8edf3; border-radius: 16px; padding: 1.1rem 1.2rem; transition: border-color .3s ease, background .3s ease; }
+.dam-info-card.completed { border-color: #d1fae5; }
+.dam-info-card.current { border-color: #fecaca; background: #fff9f9; }
+.dam-info-card.current.phase-pickup { border-color: #fcd34d; background: #fffbeb; }
+.dam-info-card.current.phase-drop { border-color: #c4b5fd; background: #faf5ff; }
+.dam-info-head { display: flex; align-items: center; gap: .7rem; margin-bottom: .85rem; }
+.dam-info-num { width: 30px; height: 30px; border-radius: 50%; background: #f1f5f9; color: #475569; display: grid; place-items: center; font-family: 'Outfit', sans-serif; font-size: .82rem; font-weight: 800; flex-shrink: 0; }
+.dam-info-card.completed .dam-info-num { background: #10b981; color: #fff; }
+.dam-info-card.current .dam-info-num { background: #ef4444; color: #fff; }
+.dam-info-card.current.phase-pickup .dam-info-num { background: #f59e0b; }
+.dam-info-card.current.phase-drop .dam-info-num { background: #8b5cf6; }
+.dam-info-icon { font-size: 1.15rem; }
+.dam-info-title { font-family: 'Outfit', sans-serif; font-size: .95rem; font-weight: 800; color: #0f172a; flex: 1; }
+.dam-info-status { display: inline-flex; align-items: center; gap: .3rem; padding: .2rem .6rem; font-size: .65rem; font-weight: 800; border-radius: 999px; letter-spacing: .04em; text-transform: uppercase; }
+.dam-info-card.completed .dam-info-status { background: #d1fae5; color: #065f46; }
+.dam-info-card.current .dam-info-status { background: #fee2e2; color: #991b1b; }
+.dam-info-card.current.phase-pickup .dam-info-status { background: #fef3c7; color: #92400e; }
+.dam-info-card.current.phase-drop .dam-info-status { background: #ede9fe; color: #6d28d9; }
+.dam-info-rows { display: flex; flex-direction: column; gap: .45rem; font-size: .82rem; color: #475569; padding-top: .6rem; border-top: 1px solid #f1f5f9; }
+.dam-info-row { display: flex; align-items: center; gap: .5rem; line-height: 1.4; }
+.dam-info-row .ico { flex-shrink: 0; font-size: .9rem; }
+.dam-info-row strong { color: #0f172a; font-weight: 700; font-size: .85rem; display: block; margin-bottom: 1px; }
+.dam-right { display: flex; flex-direction: column; gap: 1.25rem; }
+.dam-panel { background: #fff; border: 1px solid #e8edf3; border-radius: 16px; padding: 1.2rem 1.3rem; box-shadow: 0 4px 20px rgba(11,18,36,.03); }
+.dam-panel-head { display: flex; justify-content: space-between; align-items: center; gap: .5rem; margin-bottom: 1rem; }
+.dam-panel-head h2 { font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 800; color: #0f172a; margin: 0; display: flex; align-items: center; gap: .5rem; }
+.dam-panel-tag { font-size: .62rem; font-weight: 800; padding: .25rem .6rem; border-radius: 999px; text-transform: uppercase; letter-spacing: .05em; background: #ecfdf5; color: #047857; }
+.dam-panel-tag.amber { background: #fef3c7; color: #92400e; }
+.dam-task-current { display: flex; align-items: flex-start; gap: .75rem; padding: 1rem 1.1rem; background: linear-gradient(135deg, #d1fae5, #ecfdf5); border: 1px solid #86efac; border-radius: 14px; margin-bottom: 1rem; }
+.dam-task-current.phase-pickup { background: linear-gradient(135deg, #fef3c7, #fffbeb); border-color: #fcd34d; }
+.dam-task-current.phase-drop { background: linear-gradient(135deg, #ede9fe, #f5f3ff); border-color: #c4b5fd; }
+.dam-task-current .pin { font-size: 1.35rem; flex-shrink: 0; line-height: 1.2; }
+.dam-task-current h3 { font-family: 'Outfit', sans-serif; font-size: 1.05rem; font-weight: 800; color: #064e3b; margin: 0 0 .25rem; }
+.dam-task-current.phase-pickup h3 { color: #78350f; }
+.dam-task-current.phase-drop h3 { color: #4c1d95; }
+.dam-task-current p { font-size: .78rem; color: #047857; margin: 0; font-weight: 600; }
+.dam-task-current.phase-pickup p { color: #92400e; }
+.dam-task-current.phase-drop p { color: #6d28d9; }
+.dam-person { display: flex; align-items: flex-start; gap: .75rem; padding: .85rem 0; border-top: 1px solid #f1f5f9; }
+.dam-person-avatar { width: 40px; height: 40px; border-radius: 50%; background: #ecfdf5; color: #047857; display: grid; place-items: center; font-size: 1.15rem; flex-shrink: 0; }
+.dam-person-body { flex: 1; min-width: 0; }
+.dam-person-body strong { display: block; font-size: .88rem; font-weight: 700; color: #0f172a; margin-bottom: 2px; }
+.dam-person-body .meta { display: block; font-size: .74rem; color: #64748b; margin-bottom: 3px; }
+.dam-person-body .addr { display: flex; align-items: flex-start; gap: .3rem; font-size: .74rem; color: #64748b; line-height: 1.4; }
+.dam-call-btn { display: inline-flex; align-items: center; gap: .35rem; padding: .45rem .85rem; background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; border-radius: 10px; font-family: inherit; font-size: .74rem; font-weight: 800; cursor: pointer; flex-shrink: 0; text-decoration: none; }
+.dam-call-btn:hover { background: #d1fae5; }
+.dam-cta-primary { display: flex; align-items: center; justify-content: center; gap: .5rem; width: 100%; padding: .9rem 1rem; background: linear-gradient(135deg, #10b981, #047857); color: #fff; border: none; border-radius: 12px; font-family: inherit; font-size: .88rem; font-weight: 800; text-decoration: none; cursor: pointer; margin-top: 1rem; box-shadow: 0 8px 22px rgba(11,159,110,.35); transition: transform .15s ease, box-shadow .15s ease; }
+.dam-cta-primary:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(11,159,110,.45); color: #fff; }
+.dam-donation-row { display: flex; align-items: center; gap: .85rem; margin-bottom: .85rem; }
+.dam-donation-img { width: 60px; height: 60px; border-radius: 10px; object-fit: cover; flex-shrink: 0; background: #f1f5f9; }
+.dam-donation-body strong { display: block; font-size: .88rem; font-weight: 800; color: #0f172a; margin-bottom: .35rem; line-height: 1.35; }
+.dam-donation-meta { display: flex; gap: .85rem; flex-wrap: wrap; font-size: .74rem; color: #64748b; }
+.dam-donation-meta span { display: inline-flex; align-items: center; gap: .25rem; }
+.dam-progress { list-style: none; padding: 0; margin: 0; position: relative; }
+.dam-progress li { display: flex; gap: .9rem; padding: .55rem 0; position: relative; align-items: flex-start; }
+.dam-progress li:not(:last-child)::before { content: ''; position: absolute; left: 11px; top: 28px; bottom: -6px; width: 2px; background: #e2e8f0; border-radius: 2px; }
+.dam-progress li.done:not(:last-child)::before { background: #10b981; }
+.dam-progress-dot { width: 24px; height: 24px; border-radius: 50%; background: #fff; border: 2px solid #e2e8f0; flex-shrink: 0; display: grid; place-items: center; font-size: .7rem; font-weight: 800; color: transparent; z-index: 1; margin-top: 1px; }
+.dam-progress li.done .dam-progress-dot { background: #10b981; border-color: #10b981; color: #fff; }
+.dam-progress li.active .dam-progress-dot { background: #fff; border-color: #10b981; box-shadow: 0 0 0 4px rgba(16,185,129,.2); }
+.dam-progress li.active .dam-progress-dot::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #10b981; }
+.dam-progress-body { flex: 1; min-width: 0; }
+.dam-progress-body strong { display: block; font-size: .86rem; font-weight: 800; color: #0f172a; margin-bottom: 2px; }
+.dam-progress-body small { display: block; font-size: .72rem; color: #94a3b8; font-weight: 500; }
+.dam-progress li.done .dam-progress-body strong { color: #047857; }
+.dam-progress li.active .dam-progress-body strong { color: #10b981; }
+.dam-progress-tag { font-size: .62rem; font-weight: 800; padding: .2rem .55rem; border-radius: 6px; align-self: flex-start; flex-shrink: 0; text-transform: uppercase; letter-spacing: .04em; }
+.dam-progress-tag.completed { background: #d1fae5; color: #065f46; }
+.dam-progress-tag.inprogress { background: #dbeafe; color: #1e40af; }
+.dam-progress-tag.upcoming { background: #f1f5f9; color: #64748b; }
+.dam-action-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.25rem; }
+@media (max-width: 640px) { .dam-action-bar { grid-template-columns: 1fr; } }
+.dam-action-btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; padding: .95rem 1.25rem; font-family: inherit; font-size: .88rem; font-weight: 800; border-radius: 12px; border: 1.5px solid transparent; cursor: pointer; text-decoration: none; transition: all .15s ease; }
+.dam-action-btn.danger { background: #fff; color: #dc2626; border-color: #fecaca; }
+.dam-action-btn.danger:hover { background: #fef2f2; border-color: #fca5a5; }
+.dam-action-btn.primary { background: linear-gradient(135deg, #047857, #0B9F6E); color: #fff; box-shadow: 0 8px 20px rgba(11,159,110,.3); }
+.dam-action-btn.primary:hover { transform: translateY(-1px); box-shadow: 0 12px 26px rgba(11,159,110,.4); color: #fff; }
+.dam-action-btn.primary:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
+.dam-mk { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-size: 15px; border: 3px solid #fff; box-shadow: 0 4px 12px rgba(0,0,0,.28); }
+.dam-mk.pickup { background: linear-gradient(135deg, #10b981, #047857); width: 40px; height: 40px; font-size: 20px; }
+.dam-mk.drop { background: linear-gradient(135deg, #ef4444, #b91c1c); width: 40px; height: 40px; font-size: 20px; }
+.dam-mk-number { position: absolute; top: -6px; right: -6px; width: 20px; height: 20px; background: #0f172a; color: #fff; border-radius: 50%; border: 2px solid #fff; font-size: 11px; font-weight: 800; display: grid; place-items: center; }
+.dam-mk-label { position: absolute; top: 50%; left: 44px; transform: translateY(-50%); padding: .25rem .6rem; background: #0f172a; color: #fff; font-size: 10px; font-weight: 800; border-radius: 5px; white-space: nowrap; letter-spacing: .04em; pointer-events: none; }
+.dam-mk-label.pickup { background: #10b981; }
+.dam-mk-label.drop { background: #ef4444; }
+.dam-driver-mk { position: relative; width: 58px; height: 58px; display: flex; align-items: center; justify-content: center; animation: scooterBob 2.4s ease-in-out infinite; }
+@keyframes scooterBob { 0%,100% { transform: translateY(0);} 50% { transform: translateY(-3px);} }
+.dam-driver-glow { position: absolute; inset: -10px; border-radius: 50%; background: radial-gradient(circle, rgba(249,115,22,.5), transparent 70%); animation: driverGlow 1.8s ease-in-out infinite; pointer-events: none; }
+@keyframes driverGlow { 0%,100% { opacity:.6; transform:scale(1);} 50% { opacity:1; transform:scale(1.15);} }
+.dam-driver-halo { position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle, rgba(249,115,22,.45), transparent 70%); animation: damDriverHalo 1.9s ease-out infinite; }
+.dam-driver-halo-2 { position: absolute; inset: 0; border-radius: 50%; border: 2px solid rgba(249,115,22,.55); animation: damDriverHalo2 2.6s ease-out infinite; }
+@keyframes damDriverHalo { 0%{transform:scale(.9);opacity:.9} 100%{transform:scale(2.2);opacity:0} }
+@keyframes damDriverHalo2 { 0%{transform:scale(.7);opacity:.8} 100%{transform:scale(1.9);opacity:0} }
+.dam-driver-core { position: relative; width: 46px; height: 46px; background: radial-gradient(circle at 30% 25%, #fbbf24 0%, #f97316 45%, #ea580c 100%); border: 3px solid #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 10px 24px rgba(234,88,12,.55), 0 0 0 4px rgba(249,115,22,.25), inset 0 -3px 8px rgba(154,52,18,.45); transition: transform .35s linear; }
+.dam-driver-core::after { content: "📦"; position: absolute; top: -4px; right: -4px; font-size: 14px; filter: drop-shadow(0 2px 3px rgba(0,0,0,.35)); }
+.dam-driver-core .scooter-flip { transform: scaleX(-1); display: inline-block; }
+.dam-waiting { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(15,23,42,.92); color: #fff; padding: .85rem 1.25rem; border-radius: 999px; font-size: .82rem; font-weight: 700; display: none; align-items: center; gap: .55rem; z-index: 700; box-shadow: 0 10px 30px rgba(0,0,0,.35); white-space: nowrap; backdrop-filter: blur(8px); }
+.dam-waiting.show { display: inline-flex; }
+.dam-waiting .dot { width: 8px; height: 8px; border-radius: 50%; background: #f59e0b; box-shadow: 0 0 0 0 rgba(245,158,11,.6); animation: damPulse 1.8s infinite; }
+.dam-demo-bar { display: flex; align-items: center; gap: .6rem; padding: .75rem 1rem; margin-bottom: 1.25rem; background: linear-gradient(135deg, #fef3c7, #fffbeb); border: 1px solid #fde68a; border-radius: 14px; font-size: .78rem; color: #78350f; font-weight: 700; flex-wrap: wrap; }
+.dam-demo-bar .tag { background: #f59e0b; color: #fff; padding: .25rem .6rem; border-radius: 999px; font-size: .65rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+.dam-demo-bar button { padding: .5rem 1rem; background: #f59e0b; color: #fff; border: none; border-radius: 8px; font-family: inherit; font-size: .78rem; font-weight: 800; cursor: pointer; transition: transform .15s ease; }
+.dam-demo-bar button:hover { transform: translateY(-1px); }
+.dam-success-overlay { position: fixed; inset: 0; background: rgba(15,23,42,.55); backdrop-filter: blur(6px); z-index: 5000; display: none; align-items: center; justify-content: center; padding: 1.5rem; opacity: 0; transition: opacity .4s ease; }
+.dam-success-overlay.show { display: flex; opacity: 1; }
+.dam-success-card { background: #fff; border-radius: 24px; padding: 2.5rem 2rem 2rem; max-width: 460px; width: 100%; text-align: center; box-shadow: 0 40px 100px -20px rgba(6,95,70,.5); transform: scale(.85) translateY(20px); transition: transform .6s cubic-bezier(.3,1.5,.5,1); position: relative; }
+.dam-success-overlay.show .dam-success-card { transform: scale(1) translateY(0); }
+.dam-success-icon { width: 88px; height: 88px; margin: 0 auto 1.25rem; border-radius: 50%; background: linear-gradient(135deg, #10b981, #047857); display: grid; place-items: center; font-size: 3rem; box-shadow: 0 20px 40px -10px rgba(6,95,70,.6); }
+.dam-success-card h2 { font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 800; color: #065f46; margin: 0 0 .5rem; letter-spacing: -.02em; }
+.dam-success-card p { font-size: .92rem; color: #475569; line-height: 1.6; margin: 0 0 1.75rem; }
+.dam-success-card p b { color: #0f172a; font-weight: 800; }
+.dam-success-actions { display: flex; flex-direction: column; gap: .75rem; }
+.dam-success-actions a, .dam-success-actions button { display: flex; align-items: center; justify-content: center; gap: .55rem; padding: 1rem 1.25rem; border-radius: 14px; font-family: inherit; font-size: .92rem; font-weight: 800; text-decoration: none; cursor: pointer; border: none; transition: transform .15s ease, box-shadow .15s ease; }
+.dam-success-actions .primary { background: linear-gradient(135deg, #047857, #0B9F6E); color: #fff; box-shadow: 0 12px 26px -8px rgba(6,95,70,.6); }
+.dam-success-actions .primary:hover { transform: translateY(-2px); }
+.dam-success-actions .secondary { background: #f1f5f9; color: #0f172a; }
+.dam-success-actions .secondary:hover { background: #e2e8f0; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-container">
+    <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <a href="driver-home.html" class="brand-logo">
+      <div class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="ffTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#067A54"/><stop offset="55%" stop-color="#0B9F6E"/><stop offset="100%" stop-color="#10B981"/></linearGradient>
+          <linearGradient id="ffHeart" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#FF5A7A"/><stop offset="100%" stop-color="#F03E64"/></linearGradient></defs>
+          <rect x="2" y="2" width="44" height="44" rx="11" fill="url(#ffTile)"/>
+          <g transform="translate(8 20)"><path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4 C7.4 0.4 9.2 1.8 10 3.4 C10.8 1.8 12.6 0.4 15 0.4 C18.3 0.4 21 2.6 21 6 C21 10 18 14 10 20 Z" fill="url(#ffHeart)"/></g>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">FeedFood<span>Forward</span></span>
+        <span class="brand-subtitle">DRIVER · ACTIVE MISSION</span>
+      </div>
+    </a>
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation menu">☰</button>
+    <nav class="site-nav" id="site-nav" aria-label="Primary"></nav>
+    <div class="header-utilities">
+      <div id="header-guest" class="header-auth-group">
+        <button type="button" class="btn btn-outline btn-sm" id="header-login-btn">Login</button>
+        <button type="button" class="btn btn-primary btn-sm" id="header-signup-btn">Sign Up</button>
+      </div>
+      <div id="header-user" class="header-user-group" hidden>
+        <button type="button" class="user-chip" id="user-chip" aria-haspopup="true" aria-expanded="false">
+          <span class="user-avatar" id="user-avatar">🚚</span>
+          <span class="user-name" id="user-name">Driver</span>
+          <span class="user-caret" aria-hidden="true">▾</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="dam-page">
+
+  <div class="dam-head">
+    <div class="dam-head-left">
+      <h1>Your delivery mission</h1>
+      <div class="dam-head-meta">
+        <span>Mission ID: <strong id="dam-mission-id">—</strong></span>
+        <span class="dot">•</span>
+        <span>Assigned on: <strong id="dam-assigned-at">—</strong></span>
+      </div>
+    </div>
+    <div class="dam-status-pill" id="dam-status-pill">
+      <span class="dot"></span>
+      <span id="dam-status-text">En Route to Pickup</span>
+    </div>
+  </div>
+
+  <div class="dam-demo-bar" id="dam-demo-bar">
+    <span class="tag">Live mission</span>
+    <span id="dam-demo-message">Heading to the donor — will arrive shortly.</span>
+    <button type="button" id="dam-demo-toggle">⏸ Pause</button>
+  </div>
+
+  <div class="dam-layout" id="dam-layout">
+    <div class="dam-left">
+      <div class="dam-map-card">
+        <div class="dam-map-head">
+          <div class="dam-map-title">
+            <span class="pin">📍</span>
+            <span id="dam-map-title">Driver → Pickup</span>
+          </div>
+          <div class="dam-map-badges">
+            <span class="dam-map-badge">🛣️ <strong id="dam-stops">2 stops</strong></span>
+            <span class="dam-map-badge">📏 <strong id="dam-distance">—</strong></span>
+            <span class="dam-map-badge">⏱️ <strong id="dam-duration">—</strong></span>
+          </div>
+        </div>
+        <div style="position:relative;">
+          <div id="dam-map"></div>
+          <div class="dam-waiting" id="dam-waiting">
+            <span class="dot"></span>
+            <span id="dam-waiting-text">Waiting for pickup verification…</span>
+          </div>
+        </div>
+        <div class="dam-legend">
+          <span class="dam-legend-item"><span class="dam-legend-pin driver">🛵</span> You (driver)</span>
+          <span class="dam-legend-item"><span class="dam-legend-pin pickup">1</span> Pickup</span>
+          <span class="dam-legend-item"><span class="dam-legend-pin drop">2</span> Drop-off</span>
+        </div>
+      </div>
+
+      <div class="dam-two-col">
+        <div class="dam-info-card completed" id="dam-card-pickup">
+          <div class="dam-info-head">
+            <span class="dam-info-num">1</span>
+            <span class="dam-info-icon">📦</span>
+            <span class="dam-info-title">Collect donation</span>
+            <span class="dam-info-status" id="dam-collect-status">✓ Completed</span>
+          </div>
+          <div class="dam-info-rows">
+            <div class="dam-info-row"><span class="ico">👤</span><strong id="dam-pickup-name">—</strong></div>
+            <div class="dam-info-row"><span class="ico">📍</span><span id="dam-pickup-addr">—</span></div>
+            <div class="dam-info-row"><span class="ico">📞</span><span id="dam-pickup-phone">—</span></div>
+          </div>
+        </div>
+
+        <div class="dam-info-card current" id="dam-card-drop">
+          <div class="dam-info-head">
+            <span class="dam-info-num">2</span>
+            <span class="dam-info-icon">🏠</span>
+            <span class="dam-info-title">Deliver to ashram</span>
+            <span class="dam-info-status" id="dam-deliver-status">● Current</span>
+          </div>
+          <div class="dam-info-rows">
+            <div class="dam-info-row"><span class="ico">👤</span><strong id="dam-drop-name">—</strong></div>
+            <div class="dam-info-row"><span class="ico">📍</span><span id="dam-drop-addr">—</span></div>
+            <div class="dam-info-row"><span class="ico">📞</span><span id="dam-drop-phone">—</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="dam-right">
+      <div class="dam-panel">
+        <div class="dam-panel-head"><h2>🧭 Current task</h2></div>
+        <div class="dam-task-current" id="dam-task-current">
+          <span class="pin" id="dam-task-pin">📍</span>
+          <div>
+            <h3 id="dam-task-title">Head to the donor</h3>
+            <p id="dam-task-sub">Pickup location • 1st stop</p>
+          </div>
+        </div>
+        <div class="dam-person">
+          <div class="dam-person-avatar">👤</div>
+          <div class="dam-person-body">
+            <strong id="dam-current-name">—</strong>
+            <span class="meta" id="dam-current-phone">—</span>
+            <span class="addr">📍 <span id="dam-current-addr">—</span></span>
+          </div>
+          <a class="dam-call-btn" id="dam-current-call" href="#">📞 Call</a>
+        </div>
+        <a class="dam-cta-primary" id="dam-open-nav" href="#" target="_blank" rel="noopener">🧭 Open navigation →</a>
+      </div>
+
+      <div class="dam-panel">
+        <div class="dam-panel-head">
+          <h2>📦 Donation details</h2>
+          <span class="dam-panel-tag amber" id="dam-priority">High Priority</span>
+        </div>
+        <div class="dam-donation-row">
+          <img class="dam-donation-img" id="dam-food-img" src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=200&auto=format&fit=crop&q=70" alt="Food">
+          <div class="dam-donation-body">
+            <strong id="dam-food-name">—</strong>
+            <div class="dam-donation-meta">
+              <span>⚖️ <span id="dam-food-weight">—</span></span>
+              <span>🍽️ <span id="dam-food-servings">—</span></span>
+            </div>
+            <div class="dam-donation-meta" style="margin-top:.3rem;">
+              <span>🌿 <span id="dam-food-category">—</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dam-panel">
+        <div class="dam-panel-head"><h2>📋 Mission progress</h2></div>
+        <ul class="dam-progress">
+          <li class="done" id="dam-step-accepted">
+            <div class="dam-progress-dot">✓</div>
+            <div class="dam-progress-body"><strong>Mission accepted</strong><small id="dam-step-accepted-time">—</small></div>
+            <span class="dam-progress-tag completed">Completed</span>
+          </li>
+          <li class="active" id="dam-step-pickup">
+            <div class="dam-progress-dot"></div>
+            <div class="dam-progress-body"><strong>Driver → Pickup</strong><small id="dam-step-pickup-time">Now</small></div>
+            <span class="dam-progress-tag inprogress" id="dam-step-pickup-tag">In progress</span>
+          </li>
+          <li id="dam-step-verify">
+            <div class="dam-progress-dot"></div>
+            <div class="dam-progress-body"><strong>Food verification</strong><small id="dam-step-verify-time">Pending</small></div>
+            <span class="dam-progress-tag upcoming" id="dam-step-verify-tag">Upcoming</span>
+          </li>
+          <li id="dam-step-transit">
+            <div class="dam-progress-dot"></div>
+            <div class="dam-progress-body"><strong>Pickup → Ashram</strong><small id="dam-step-transit-time">Pending</small></div>
+            <span class="dam-progress-tag upcoming" id="dam-step-transit-tag">Upcoming</span>
+          </li>
+          <li id="dam-step-delivered">
+            <div class="dam-progress-dot"></div>
+            <div class="dam-progress-body"><strong>Delivered</strong><small id="dam-step-delivered-time">Pending</small></div>
+            <span class="dam-progress-tag upcoming" id="dam-step-delivered-tag">Upcoming</span>
+          </li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
+  <div class="dam-action-bar" id="dam-action-bar">
+    <button type="button" class="dam-action-btn danger" id="dam-report-btn">⚠️ Report a problem</button>
+    <button type="button" class="dam-action-btn primary" id="dam-verify-btn" disabled>🔐 Verify Pickup</button>
+  </div>
+
+</main>
+
+<div class="dam-success-overlay" id="dam-success-overlay">
+  <div class="dam-success-card" id="dam-success-card">
+    <div class="dam-success-icon">🎉</div>
+    <h2>Delivery Completed!</h2>
+    <p>Food has been delivered successfully to <b id="dam-success-ashram">the ashram</b>.<br>Thank you for making a difference!</p>
+    <div class="dam-success-actions">
+      <button type="button" class="primary" id="dam-next-delivery-btn">🚚 Get Next Delivery</button>
+      <a href="driver-hub.html" class="secondary">🏠 Back to Driver Hub</a>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-brand"><h3>FeedFoodForward</h3><p>"Rescue Food. Reduce Waste. Feed Communities."</p></div>
+    <div class="footer-copyright">© 2026 FeedFoodForward Platform.</div>
+  </div>
+</footer>
+
+<div id="ff-toast" role="status" aria-live="polite" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);background:#0f172a;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;opacity:.0;transition:all .3s ease;z-index:9999;"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="app.js"></script>
+<script src="header-nav.js"></script>
+<script src="sidebar.js"></script>
+<script src="animations.js"></script>
+<script src="chatbot.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  'use strict';
+
+  var toast = function (m) { if (window.ffToast) window.ffToast(m); };
+  var $ = function (id) { return document.getElementById(id); };
+  var setText = function (id, v) { var e = $(id); if (e) e.textContent = v; };
+  var fmtTime = function (iso) {
+    if (!iso) return '—';
+    try {
+      var d = new Date(iso);
+      return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) + ', ' +
+             d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+    } catch (e) { return '—'; }
+  };
+
+  /* ══════════════════════════════════════════════════════
+     SHARED STATE
+     ══════════════════════════════════════════════════════ */
+  var LIVE_KEY = 'ff_livePickup';
+  var LIVE_VERSION = 4;
+  var DEMO_DURATION_MIN = 0.5;
+  var MISSION_MAX_AGE_MS = 5 * 60 * 1000;
+
+  /* ★ NEW — broadcast helper */
+  var DRIVER_POS_KEY = 'ff_driverLivePos';
+
+  function broadcastDriverPos(lat, lng, bearingDeg) {
+    try {
+      localStorage.setItem(DRIVER_POS_KEY, JSON.stringify({
+        donationId: live.donationId,
+        lat: lat,
+        lng: lng,
+        bearing: bearingDeg || 0,
+        phase:   live.phase,
+        status:  live.status,
+        updatedAt: Date.now()
+      }));
+    } catch (e) {}
+  }
+
+  var readLive = function () {
+    try {
+      var r = localStorage.getItem(LIVE_KEY);
+      if (!r) return null;
+      var d = JSON.parse(r);
+      if (!d || d._v !== LIVE_VERSION) return null;
+      /* Only reject stale *active* missions. Completed missions
+         must survive so boot() can render the success screen. */
+      if (d.phase !== 'done' && d.status !== 'delivered') {
+        var createdTs = d.createdAt ? new Date(d.createdAt).getTime() : 0;
+        if (createdTs && Date.now() - createdTs > MISSION_MAX_AGE_MS) return null;
+      }
+      /* Reject stale missions (older than 5 min) */
+      var createdTs = d.createdAt ? new Date(d.createdAt).getTime() : 0;
+      if (createdTs && Date.now() - createdTs > MISSION_MAX_AGE_MS) return null;
+      return d;
+    } catch (e) { return null; }
+  };
+  var writeLive = function (d) {
+    try { d._v = LIVE_VERSION; localStorage.setItem(LIVE_KEY, JSON.stringify(d)); } catch (e) {}
+  };
+  var hasActiveDonation = function () {
+    try {
+      var r = sessionStorage.getItem('ff_activeDonation');
+      if (!r) return false;
+      var d = JSON.parse(r);
+      return !!(d && d.donationId);
+    } catch (e) { return false; }
+  };
+
+  /* ══════════════════════════════════════════════════════
+     EMPTY STATE — shown when there's no active mission
+     ══════════════════════════════════════════════════════ */
+  function showEmptyState() {
+    var page = document.querySelector('.dam-page');
+    if (!page) return;
+
+    page.innerHTML =
+      '<div style="max-width:640px;margin:4rem auto;text-align:center;padding:2rem;">' +
+        '<div style="font-size:4rem;line-height:1;margin-bottom:1rem;">🚚</div>' +
+        '<h1 style="font-family:\'Outfit\',sans-serif;font-size:1.6rem;font-weight:800;color:#0f172a;margin:0 0 .5rem;letter-spacing:-.02em;">No active mission</h1>' +
+        '<p style="font-size:.95rem;color:#64748b;line-height:1.65;margin:0 auto 1.75rem;max-width:440px;">' +
+          'You don\'t have a delivery assigned right now. Wait for the next pickup request — or start a demo mission to test the flow.' +
+        '</p>' +
+        '<div style="display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;">' +
+          '<button type="button" id="dam-start-demo-btn" style="display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:1rem 1.75rem;border-radius:12px;background:linear-gradient(135deg,#047857,#0B9F6E);color:#fff;font-weight:800;font-size:.9rem;border:none;cursor:pointer;box-shadow:0 12px 26px -8px rgba(6,95,70,.6);font-family:inherit;">' +
+            '🎬 Start Demo Mission' +
+          '</button>' +
+          '<a href="driver-hub.html" style="display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:1rem 1.75rem;border-radius:12px;background:#f1f5f9;color:#0f172a;font-weight:800;font-size:.9rem;text-decoration:none;font-family:inherit;">' +
+            '🏠 Back to Driver Hub' +
+          '</a>' +
+        '</div>' +
+      '</div>';
+
+    var demoBtn = document.getElementById('dam-start-demo-btn');
+    if (demoBtn) {
+      demoBtn.addEventListener('click', function () {
+        /* Seed a fresh demo donation and reload */
+        var demoDonation = {
+          donationId:   'FF-DEMO-' + Math.floor(10000 + Math.random() * 90000),
+          donorName:    'Burma Burma Restaurant & Tea Room (बर्मा बर्मा)',
+          donorAddr:    'Kothari House, Allana Centre Lane, opposite Mumbai University, Kala Ghoda, Fort, Mumbai 400001',
+          donorLat:     18.93203951931495,
+          donorLng:     72.8314570140827,
+          donorPhone:   '+91 98765 43210',
+          ashramName:   'Nandivan Ashram (नंदिवन आश्रम)',
+          ashramAddr:   'XRWW+M29, GD Ambekar Marg, MINT Colony, Parel, Mumbai 400012',
+          ashramLat:    19.00271215516706,
+          ashramLng:    72.84442105913448,
+          ashramPhone:  '+91 98765 76543',
+          foodName:     'Paneer Butter Masala with Naan',
+          weightKg:     5,
+          servings:     22,
+          foodCategory: 'Prepared Vegetarian Meal',
+          createdAt:    new Date().toISOString()
+        };
+        try { sessionStorage.setItem('ff_activeDonation', JSON.stringify(demoDonation)); } catch (e) {}
+        try { localStorage.removeItem(LIVE_KEY); } catch (e) {}
+        window.location.reload();
+      });
+    }
+  }
+
+  /* ══════════════════════════════════════════════════════
+     LOAD OR CREATE MISSION
+     ══════════════════════════════════════════════════════ */
+  var live = readLive();
+  var createdFresh = false;
+
+  /* If there's no fresh live mission AND no active donation → empty state */
+  if (!live && !hasActiveDonation()) {
+    showEmptyState();
+    return;
+  }
+
+  if (!live) {
+    var _active = null;
+    try {
+      var raw = sessionStorage.getItem('ff_activeDonation');
+      if (raw) _active = JSON.parse(raw);
+    } catch (e) {}
+
+    var demoPickupLat = 18.93203951931495;
+    var demoPickupLng = 72.8314570140827;
+    var demoAshramLat = 19.00271215516706;
+    var demoAshramLng = 72.84442105913448;
+
+    live = {
+      donationId:   (_active && _active.donationId) || ('FF-DON-' + Math.floor(10000 + Math.random() * 90000)),
+      donorName:    (_active && _active.donorName)  || 'Burma Burma Restaurant & Tea Room (बर्मा बर्मा)',
+      donorAddr:    (_active && _active.donorAddr)  || 'Kothari House, Allana Centre Lane, opposite Mumbai University, Kala Ghoda, Fort, Mumbai 400001',
+      donorLat:     demoPickupLat,
+      donorLng:     demoPickupLng,
+      donorPhone:   (_active && _active.donorPhone) || '+91 98765 43210',
+      ashramName:   (_active && _active.ashramName) || 'Nandivan Ashram (नंदिवन आश्रम)',
+      ashramAddr:   (_active && _active.ashramAddr) || 'XRWW+M29, GD Ambekar Marg, MINT Colony, Parel, Mumbai 400012',
+      ashramLat:    demoAshramLat,
+      ashramLng:    demoAshramLng,
+      ashramPhone:  (_active && _active.ashramPhone) || '+91 98765 76543',
+      foodName:     (_active && _active.foodName) || 'Surplus prepared meal (demo)',
+      weightKg:     (_active && _active.weightKg) || 0.5,
+      servings:     (_active && _active.servings) || 22,
+      foodCategory: (_active && _active.foodCategory) || 'Prepared Vegetarian Meal',
+      driverStart:  [demoPickupLat + 0.012, demoPickupLng + 0.010],
+      status:       'assigned',
+      phase:        'to_pickup',
+      phaseStartTime: Date.now(),
+      durationMin:  DEMO_DURATION_MIN,
+      createdAt:    new Date().toISOString()
+    };
+    writeLive(live);
+    createdFresh = true;
+  }
+
+  /* ══════════════════════════════════════════════════════
+     FILL STATIC UI
+     ══════════════════════════════════════════════════════ */
+  setText('dam-mission-id', live.donationId);
+  setText('dam-assigned-at', fmtTime(live.createdAt));
+  setText('dam-pickup-name',  live.donorName);
+  setText('dam-pickup-addr',  live.donorAddr);
+  setText('dam-pickup-phone', live.donorPhone);
+  setText('dam-drop-name',    live.ashramName);
+  setText('dam-drop-addr',    live.ashramAddr);
+  setText('dam-drop-phone',   live.ashramPhone);
+  setText('dam-food-name',     live.foodName);
+  setText('dam-food-weight',   live.weightKg + ' kg');
+  setText('dam-food-servings', live.servings + ' servings');
+  setText('dam-food-category', live.foodCategory);
+  setText('dam-step-accepted-time', fmtTime(live.createdAt));
+
+  /* ══════════════════════════════════════════════════════
+     MAP SETUP
+     ══════════════════════════════════════════════════════ */
+  var PICKUP = [live.donorLat, live.donorLng];
+  var DROP   = [live.ashramLat, live.ashramLng];
+
+  var map = null, routeLayer = null;
+  var driverMarker = null;
+  var currentRouteCoords = [];
+  var segmentDistances = [], cumulativeDistances = [0], totalRouteKm = 0;
+  var rafStarted = false;
+  var animationPaused = false;
+  var phaseLocked = false;
+  var lastProgress = -1;
+
+  function ensureMap() {
+    if (map) return map;
+    var el = $('dam-map');
+    if (!el || typeof L === 'undefined') return null;
+    map = L.map(el, { zoomControl: true, attributionControl: false, zoomControlPosition: 'topleft' })
+           .setView([19.02, 72.85], 12);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
+    routeLayer = L.layerGroup().addTo(map);
+    return map;
+  }
+  function fixMapSize() { if (map) map.invalidateSize(true); }
+
+  function pickupIcon() {
+    return L.divIcon({
+      className: '',
+      html: '<div style="position:relative;"><div class="dam-mk pickup">🍽</div><div class="dam-mk-number">1</div><div class="dam-mk-label pickup">PICKUP</div></div>',
+      iconSize: [40, 40], iconAnchor: [20, 20]
+    });
+  }
+  function dropIcon() {
+    return L.divIcon({
+      className: '',
+      html: '<div style="position:relative;"><div class="dam-mk drop">🏛</div><div class="dam-mk-number">2</div><div class="dam-mk-label drop">DELIVER TO</div></div>',
+      iconSize: [40, 40], iconAnchor: [20, 20]
+    });
+  }
+  function driverIcon() {
+    return L.divIcon({
+      className: '',
+      html: '<div class="dam-driver-mk"><div class="dam-driver-glow"></div><div class="dam-driver-halo"></div><div class="dam-driver-halo-2"></div><div class="dam-driver-core"><span class="scooter-flip">🛵</span></div></div>',
+      iconSize: [58, 58], iconAnchor: [29, 29]
+    });
+  }
+
+  function fetchShortestRoute(start, end) {
+    if (!start || !end) return Promise.resolve(null);
+    var url = 'https://router.project-osrm.org/route/v1/driving/' +
+              start[1] + ',' + start[0] + ';' + end[1] + ',' + end[0] +
+              '?overview=full&geometries=geojson&alternatives=3';
+    return fetch(url)
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (!data.routes || !data.routes.length) return null;
+        var best = data.routes.reduce(function (min, rt) { return rt.distance < min.distance ? rt : min; }, data.routes[0]);
+        return {
+          coords: best.geometry.coordinates.map(function (c) { return [c[1], c[0]]; }),
+          distanceKm: best.distance / 1000,
+          durationMin: best.duration / 60
+        };
+      })
+      .catch(function () { return null; });
+  }
+
+  function haversineKm(a, b) {
+    var R = 6371;
+    var dLat = (b[0] - a[0]) * Math.PI / 180;
+    var dLng = (b[1] - a[1]) * Math.PI / 180;
+    var h = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(a[0] * Math.PI / 180) * Math.cos(b[0] * Math.PI / 180) *
+            Math.sin(dLng / 2) * Math.sin(dLng / 2);
+    return R * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
+  }
+  function bearing(a, b) {
+    var lat1 = a[0] * Math.PI / 180, lat2 = b[0] * Math.PI / 180;
+    var dLng = (b[1] - a[1]) * Math.PI / 180;
+    var y = Math.sin(dLng) * Math.cos(lat2);
+    var x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLng);
+    return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
+  }
+  function rebuildSegments(coords) {
+    segmentDistances = [];
+    cumulativeDistances = [0];
+    totalRouteKm = 0;
+    for (var i = 0; i < coords.length - 1; i++) {
+      var d = haversineKm(coords[i], coords[i + 1]);
+      segmentDistances.push(d);
+      totalRouteKm += d;
+      cumulativeDistances.push(totalRouteKm);
+    }
+  }
+  function pointAtT(coords, t) {
+    if (!coords.length) return null;
+    if (t <= 0) return coords[0];
+    if (t >= 1) return coords[coords.length - 1];
+    var target = t * totalRouteKm;
+    for (var i = 0; i < segmentDistances.length; i++) {
+      if (cumulativeDistances[i] + segmentDistances[i] >= target) {
+        var seg = segmentDistances[i] === 0 ? 0 : (target - cumulativeDistances[i]) / segmentDistances[i];
+        var a = coords[i], b = coords[i + 1];
+        return [a[0] + (b[0] - a[0]) * seg, a[1] + (b[1] - a[1]) * seg];
+      }
+    }
+    return coords[coords.length - 1];
+  }
+
+  /* ══════════════════════════════════════════════════════
+     PHASE TRANSITIONS
+     ══════════════════════════════════════════════════════ */
+  function arriveAtPickup() {
+    if (phaseLocked) return;
+    phaseLocked = true;
+
+    live.status = 'at_pickup';
+    live.phase  = 'waiting_pickup';
+    writeLive(live);
+    broadcastDriverPos(PICKUP[0], PICKUP[1], 0);   // ★
+
+    var w = $('dam-waiting');
+    if (w) {
+      $('dam-waiting-text').textContent = '✅ Arrived at pickup — verify food to continue';
+      w.classList.add('show');
+    }
+
+    setText('dam-task-title', 'Waiting for pickup verification');
+    setText('dam-task-sub',   'Click "Verify Pickup" to continue');
+    setText('dam-map-title',  '🛑 Waiting at pickup');
+    setText('dam-demo-message', '✅ Arrived at the donor — verify to continue.');
+
+    var pill = $('dam-status-pill');
+    pill.className = 'dam-status-pill at-pickup';
+    setText('dam-status-text', 'At Pickup');
+
+    var stepPickup = $('dam-step-pickup');
+    var stepVerify = $('dam-step-verify');
+    if (stepPickup) {
+      stepPickup.className = 'done';
+      var tp = stepPickup.querySelector('.dam-progress-tag');
+      if (tp) { tp.textContent = 'Completed'; tp.className = 'dam-progress-tag completed'; }
+    }
+    if (stepVerify) {
+      stepVerify.className = 'active';
+      var tv = stepVerify.querySelector('.dam-progress-tag');
+      if (tv) { tv.textContent = 'Ready'; tv.className = 'dam-progress-tag inprogress'; }
+      var sv = stepVerify.querySelector('small');
+      if (sv) sv.textContent = 'Verify now';
+    }
+
+    var vbtn = $('dam-verify-btn');
+    if (vbtn) {
+      vbtn.disabled = false;
+      vbtn.textContent = '🔐 Verify Pickup';
+    }
+
+    toast('🏁 Arrived at pickup — click Verify to continue');
+  }
+
+  function arriveAtAshram() {
+    if (phaseLocked) return;
+    phaseLocked = true;
+
+    live.status = 'at_ashram';
+    live.phase  = 'waiting_drop';
+    writeLive(live);
+    broadcastDriverPos(DROP[0], DROP[1], 0);   // ★
+    var w = $('dam-waiting');
+    if (w) {
+      $('dam-waiting-text').textContent = '🏛 Arrived at ashram — verify delivery to complete';
+      w.classList.add('show');
+    }
+
+    setText('dam-task-title', 'Waiting for delivery verification');
+    setText('dam-task-sub',   'Click "Verify Delivery" to complete');
+    setText('dam-map-title',  '🛑 Waiting at ashram');
+    setText('dam-demo-message', '🏛 Arrived at the ashram — verify to complete.');
+
+    var pill = $('dam-status-pill');
+    pill.className = 'dam-status-pill picked';
+    setText('dam-status-text', 'At Ashram');
+
+    var stepTransit = $('dam-step-transit');
+    var stepDelivered = $('dam-step-delivered');
+    if (stepTransit) {
+      stepTransit.className = 'done';
+      var tt = stepTransit.querySelector('.dam-progress-tag');
+      if (tt) { tt.textContent = 'Completed'; tt.className = 'dam-progress-tag completed'; }
+    }
+    if (stepDelivered) {
+      stepDelivered.className = 'active';
+      var td = stepDelivered.querySelector('.dam-progress-tag');
+      if (td) { td.textContent = 'Ready'; td.className = 'dam-progress-tag inprogress'; }
+      var sd = stepDelivered.querySelector('small');
+      if (sd) sd.textContent = 'Verify now';
+    }
+
+    var vbtn = $('dam-verify-btn');
+    if (vbtn) {
+      vbtn.disabled = false;
+      vbtn.textContent = '🔐 Verify Delivery';
+    }
+
+    toast('🏛 Arrived at the ashram — click Verify to complete');
+  }
+
+  /* ══════════════════════════════════════════════════════
+     ANIMATION LOOP
+     ══════════════════════════════════════════════════════ */
+  function tick() {
+    if (!driverMarker || currentRouteCoords.length < 2) {
+      requestAnimationFrame(tick);
+      return;
+    }
+
+    if (!animationPaused && (live.phase === 'to_pickup' || live.phase === 'to_drop')) {
+      var dur = (live.durationMin || DEMO_DURATION_MIN) * 60 * 1000;
+      var elapsed = Date.now() - (live.phaseStartTime || Date.now());
+      var progress = elapsed / dur;
+      if (progress < 0) progress = 0;
+      if (progress > 1) progress = 1;
+
+      if (progress !== lastProgress) {
+        lastProgress = progress;
+
+        var pos = pointAtT(currentRouteCoords, progress);
+        driverMarker.setLatLng(pos);
+
+        var ahead = pointAtT(currentRouteCoords, Math.min(1, progress + 0.01));
+        if (ahead) {
+          var head = bearing(pos, ahead);
+          broadcastDriverPos(pos[0], pos[1], head);   // ★ NEW
+          var el = driverMarker.getElement && driverMarker.getElement();
+          var core = el && el.querySelector('.dam-driver-core');
+          if (core) core.style.transform = 'rotate(' + head + 'deg)';
+        }
+
+        var remainKm = totalRouteKm * (1 - progress);
+        var remainMin = Math.max(0, Math.ceil((live.durationMin || DEMO_DURATION_MIN) * (1 - progress)));
+        setText('dam-distance', remainKm.toFixed(2) + ' km');
+        setText('dam-duration', remainMin + ' min');
+      }
+
+      if (progress >= 1) {
+        if (live.phase === 'to_pickup') arriveAtPickup();
+        else if (live.phase === 'to_drop') arriveAtAshram();
+      }
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  /* ══════════════════════════════════════════════════════
+     DELIVERY VERIFIED — success
+     ══════════════════════════════════════════════════════ */
+  function onDeliveryVerified() {
+    live.status = 'delivered';
+    live.phase  = 'done';
+    live.deliveredAt = new Date().toISOString();
+    writeLive(live);
+    broadcastDriverPos(DROP[0], DROP[1], 0);   // ★
+
+    var stepDelivered = $('dam-step-delivered');
+    if (stepDelivered) {
+      stepDelivered.className = 'done';
+      var t = stepDelivered.querySelector('.dam-progress-tag');
+      if (t) { t.textContent = 'Completed'; t.className = 'dam-progress-tag completed'; }
+      var s = stepDelivered.querySelector('small');
+      if (s) s.textContent = fmtTime(live.deliveredAt);
+    }
+
+    var pill = $('dam-status-pill');
+    pill.className = 'dam-status-pill delivered';
+    setText('dam-status-text', 'Delivered');
+
+    var w = $('dam-waiting');
+    if (w) w.classList.remove('show');
+
+    setText('dam-success-ashram', live.ashramName);
+    $('dam-success-overlay').classList.add('show');
+
+    var vbtn = $('dam-verify-btn');
+    if (vbtn) { vbtn.disabled = true; vbtn.textContent = '✅ Delivered'; }
+
+    toast('🎉 Delivery completed!');
+  }
+
+  /* ══════════════════════════════════════════════════════
+     VERIFY BUTTON — redirects to driver-verify.html
+     ══════════════════════════════════════════════════════ */
+  function handleVerifyClick() {
+    if (live.phase === 'waiting_pickup') {
+      window.location.href = 'driver-verify.html?step=pickup';
+    } else if (live.phase === 'waiting_drop') {
+      window.location.href = 'driver-verify.html?step=delivery';
+    } else {
+      toast('⚠️ Not at a verification step yet');
+    }
+  }
+
+  /* Pause */
+  $('dam-demo-toggle').addEventListener('click', function (e) {
+    animationPaused = !animationPaused;
+    e.currentTarget.textContent = animationPaused ? '▶ Resume' : '⏸ Pause';
+    if (animationPaused) {
+      live._pausedAt = Date.now();
+    } else if (live._pausedAt) {
+      live.phaseStartTime += (Date.now() - live._pausedAt);
+      delete live._pausedAt;
+      writeLive(live);
+    }
+  });
+
+  /* Report */
+  $('dam-report-btn').addEventListener('click', function () {
+    var reason = prompt('Describe the problem:');
+    if (!reason) return;
+    toast('⚠️ Issue reported');
+  });
+
+  /* Next delivery */
+  $('dam-next-delivery-btn').addEventListener('click', function () {
+    try { localStorage.removeItem(LIVE_KEY); } catch (e) {}
+    try { localStorage.removeItem(DRIVER_POS_KEY); } catch (e) {}   // ★
+    try { sessionStorage.removeItem('ff_activeDonation'); } catch (e) {}
+    window.location.href = 'driver-hub.html';
+  });
+  /* ══════════════════════════════════════════════════════
+     BOOT
+     ══════════════════════════════════════════════════════ */
+  async function boot() {
+    ensureMap();
+
+    /* If already delivered → show success immediately */
+    if (live.phase === 'done' || live.status === 'delivered') {
+      onDeliveryVerified();
+      return;
+    }
+
+    /* ── At pickup, waiting for verify (returning from verify page) ── */
+    if (live.phase === 'waiting_pickup') {
+      routeLayer.clearLayers();
+      L.marker(PICKUP, { icon: pickupIcon(), zIndexOffset: 1000 }).addTo(routeLayer);
+      L.marker(DROP,   { icon: dropIcon(),   zIndexOffset: 1000 }).addTo(routeLayer);
+      driverMarker = L.marker(PICKUP, { icon: driverIcon(), zIndexOffset: 2000 }).addTo(routeLayer);
+      currentRouteCoords = [PICKUP, PICKUP];
+      rebuildSegments(currentRouteCoords);
+      map.fitBounds(L.latLngBounds([PICKUP, DROP]), { padding: [60, 60], maxZoom: 13 });
+      arriveAtPickup();
+      phaseLocked = false;
+      return;
+    }
+
+    /* ── At ashram, waiting for verify ── */
+    if (live.phase === 'waiting_drop') {
+      var p2w = await fetchShortestRoute(PICKUP, DROP);
+      routeLayer.clearLayers();
+      L.marker(PICKUP, { icon: pickupIcon(), zIndexOffset: 1000 }).addTo(routeLayer);
+      L.marker(DROP,   { icon: dropIcon(),   zIndexOffset: 1000 }).addTo(routeLayer);
+      if (p2w && p2w.coords && p2w.coords.length > 1) {
+        L.polyline(p2w.coords, { color: '#86efac', weight: 10, opacity: .5 }).addTo(routeLayer);
+        L.polyline(p2w.coords, { color: '#047857', weight: 5, opacity: .95 }).addTo(routeLayer);
+        currentRouteCoords = p2w.coords;
+      } else {
+        currentRouteCoords = [PICKUP, DROP];
+      }
+      driverMarker = L.marker(DROP, { icon: driverIcon(), zIndexOffset: 2000 }).addTo(routeLayer);
+      rebuildSegments(currentRouteCoords);
+      map.fitBounds(L.latLngBounds([PICKUP, DROP]), { padding: [60, 60], maxZoom: 13 });
+      arriveAtAshram();
+      phaseLocked = false;
+      return;
+    }
+
+    /* ── Phase 2 in transit (returning from verify page after pickup) ── */
+    if (live.phase === 'to_drop') {
+      var p2d = await fetchShortestRoute(PICKUP, DROP);
+      routeLayer.clearLayers();
+      L.marker(PICKUP, { icon: pickupIcon(), zIndexOffset: 1000 }).addTo(routeLayer);
+      L.marker(DROP,   { icon: dropIcon(),   zIndexOffset: 1000 }).addTo(routeLayer);
+      if (p2d && p2d.coords && p2d.coords.length > 1) {
+        L.polyline(p2d.coords, { color: '#86efac', weight: 10, opacity: .5 }).addTo(routeLayer);
+        L.polyline(p2d.coords, { color: '#047857', weight: 5, opacity: .95 }).addTo(routeLayer);
+        currentRouteCoords = p2d.coords;
+      } else {
+        currentRouteCoords = [PICKUP, DROP];
+      }
+      rebuildSegments(currentRouteCoords);
+
+      var dur2 = (live.durationMin || DEMO_DURATION_MIN) * 60 * 1000;
+      var elapsed2 = Date.now() - (live.phaseStartTime || Date.now());
+      var prog2 = Math.min(1, Math.max(0, elapsed2 / dur2));
+      var pos2 = pointAtT(currentRouteCoords, prog2);
+      driverMarker = L.marker(pos2, { icon: driverIcon(), zIndexOffset: 2000 }).addTo(routeLayer);
+
+      map.fitBounds(L.latLngBounds([PICKUP, DROP]), { padding: [60, 60], maxZoom: 13 });
+
+      /* UI state for phase 2 */
+      setText('dam-map-title', 'Driver → Ashram (delivery)');
+      setText('dam-task-title', 'Head to the ashram');
+      setText('dam-task-sub', 'Delivery location • 2nd stop');
+      setText('dam-current-name',  live.ashramName);
+      setText('dam-current-phone', live.ashramPhone);
+      setText('dam-current-addr',  live.ashramAddr);
+      $('dam-current-call').href = 'tel:' + live.ashramPhone.replace(/\s/g, '');
+      $('dam-open-nav').href = 'https://www.google.com/maps/dir/?api=1&destination=' + DROP[0] + ',' + DROP[1] + '&travelmode=driving';
+
+      var task2 = $('dam-task-current');
+      if (task2) {
+        task2.classList.remove('phase-pickup');
+        task2.classList.add('phase-drop');
+        $('dam-task-pin').textContent = '🏛';
+      }
+      var dropCard2 = $('dam-card-drop');
+      if (dropCard2) dropCard2.classList.add('phase-drop');
+
+      var pill2 = $('dam-status-pill');
+      pill2.className = 'dam-status-pill picked';
+      setText('dam-status-text', 'In Transit');
+
+      var sp2 = $('dam-step-pickup');
+      var sv2 = $('dam-step-verify');
+      var st2 = $('dam-step-transit');
+      if (sp2) sp2.className = 'done';
+      if (sv2) {
+        sv2.className = 'done';
+        var tv2 = sv2.querySelector('.dam-progress-tag');
+        if (tv2) { tv2.textContent = 'Completed'; tv2.className = 'dam-progress-tag completed'; }
+      }
+      if (st2) {
+        st2.className = 'active';
+        var tt2 = st2.querySelector('.dam-progress-tag');
+        if (tt2) { tt2.textContent = 'In progress'; tt2.className = 'dam-progress-tag inprogress'; }
+      }
+
+      var vbtn2 = $('dam-verify-btn');
+      if (vbtn2) { vbtn2.disabled = true; vbtn2.textContent = '🔐 Verify Delivery'; }
+
+      phaseLocked = false;
+      lastProgress = -1;
+      if (!rafStarted) { rafStarted = true; requestAnimationFrame(tick); }
+
+      setTimeout(fixMapSize, 100);
+      setTimeout(fixMapSize, 500);
+      setTimeout(fixMapSize, 1200);
+      return;
+    }
+
+    /* ── Fresh mission ── */
+    routeLayer.clearLayers();
+    L.marker(PICKUP, { icon: pickupIcon(), zIndexOffset: 1000 })
+      .addTo(routeLayer)
+      .bindPopup('<b>🍽 ' + live.donorName + '</b><br>Pickup point');
+    L.marker(DROP, { icon: dropIcon(), zIndexOffset: 1000 })
+      .addTo(routeLayer)
+      .bindPopup('<b>🏛 ' + live.ashramName + '</b><br>Delivery point');
+
+    var driverStart = live.driverStart || [PICKUP[0] + 0.012, PICKUP[1] + 0.010];
+    var p1 = await fetchShortestRoute(driverStart, PICKUP);
+    var p2 = await fetchShortestRoute(PICKUP, DROP);
+
+    if (p2) {
+      L.polyline(p2.coords, { color: '#8b5cf6', weight: 4, opacity: .3, dashArray: '6 10' }).addTo(routeLayer);
+    }
+
+    if (p1 && p1.coords && p1.coords.length > 1) {
+      L.polyline(p1.coords, { color: '#86efac', weight: 10, opacity: .5 }).addTo(routeLayer);
+      L.polyline(p1.coords, { color: '#047857', weight: 5, opacity: .95 }).addTo(routeLayer);
+      currentRouteCoords = p1.coords;
+    } else {
+      currentRouteCoords = [driverStart, PICKUP];
+      L.polyline(currentRouteCoords, { color: '#047857', weight: 5, opacity: .9, dashArray: '8 8' }).addTo(routeLayer);
+    }
+
+    rebuildSegments(currentRouteCoords);
+
+    live.phaseStartTime = Date.now();
+    writeLive(live);
+
+    setText('dam-distance', totalRouteKm.toFixed(2) + ' km');
+    setText('dam-duration', Math.ceil(DEMO_DURATION_MIN) + ' min');
+
+    driverMarker = L.marker(driverStart, { icon: driverIcon(), zIndexOffset: 2000 }).addTo(routeLayer);
+
+    map.fitBounds(L.latLngBounds([driverStart, PICKUP, DROP]), { padding: [60, 60], maxZoom: 13 });
+
+    setText('dam-current-name',  live.donorName);
+    setText('dam-current-phone', live.donorPhone);
+    setText('dam-current-addr',  live.donorAddr);
+    $('dam-current-call').href = 'tel:' + live.donorPhone.replace(/\s/g, '');
+    $('dam-open-nav').href = 'https://www.google.com/maps/dir/?api=1&destination=' + PICKUP[0] + ',' + PICKUP[1] + '&travelmode=driving';
+
+    var taskF = $('dam-task-current');
+    if (taskF) taskF.classList.add('phase-pickup');
+
+    phaseLocked = false;
+    lastProgress = -1;
+
+    if (!rafStarted) { rafStarted = true; requestAnimationFrame(tick); }
+
+    setTimeout(fixMapSize, 100);
+    setTimeout(fixMapSize, 500);
+    setTimeout(fixMapSize, 1200);
+  }
+
+  boot();
+
+  /* Verify button binding */
+  var verifyBtn = $('dam-verify-btn');
+  if (verifyBtn) verifyBtn.addEventListener('click', handleVerifyClick);
+
+  /* Map resize */
+  if (window.ResizeObserver) {
+    var mapEl = $('dam-map');
+    if (mapEl) new ResizeObserver(function () { fixMapSize(); }).observe(mapEl);
+  }
+  window.addEventListener('load', function () {
+    setTimeout(fixMapSize, 200);
+    setTimeout(fixMapSize, 800);
+  });
+});
+</script>
+
+</body>
+</html>

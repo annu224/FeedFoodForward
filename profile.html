@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile | FeedFoodForward</title>
+  <meta name="description" content="Your FeedFoodForward profile — donations, achievements, and account settings.">
+  <meta name="theme-color" content="#16a34a">
+
+  <meta property="og:type" content="profile">
+  <meta property="og:title" content="Profile | FeedFoodForward">
+  <meta property="og:description" content="Role-based profile with donation history, achievements, and account settings.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&h=630&auto=format&fit=crop&q=80">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2316a34a'/%3E%3Cpath d='M50 80 C28 62 18 50 18 37 A17 17 0 0 1 50 28 A17 17 0 0 1 82 37 C82 50 72 62 50 80 Z' fill='%23ffffff'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="guest-guard.js"></script>
+</head>
+<body>
+
+<noscript>
+  <div style="background:#fef3c7;color:#92400e;padding:12px 16px;text-align:center;font-weight:600;font-size:14px;border-bottom:1px solid #fde68a;">
+    ⚠️ JavaScript is disabled. Profile editing and modals won't work.
+  </div>
+</noscript>
+
+<header class="site-header">
+  <div class="header-container">
+
+    <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6"  x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+    <a href="index.html" class="brand-logo" aria-label="FeedFoodForward home">
+      <div class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img">
+          <defs>
+            <linearGradient id="ffTile" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#067A54"/>
+              <stop offset="55%" stop-color="#0B9F6E"/>
+              <stop offset="100%" stop-color="#10B981"/>
+            </linearGradient>
+            <linearGradient id="ffHeart" x1="0" y1="0" x2="0.5" y2="1">
+              <stop offset="0%" stop-color="#FF5A7A"/>
+              <stop offset="100%" stop-color="#F03E64"/>
+            </linearGradient>
+            <linearGradient id="ffLeaf" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#A3E635"/>
+              <stop offset="100%" stop-color="#65A30D"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="44" height="44" rx="11" fill="url(#ffTile)"/>
+          <rect x="2" y="2" width="44" height="20" rx="11" fill="#ffffff" opacity="0.08"/>
+          <g transform="translate(28 6) rotate(20)">
+            <path d="M0 14 C0 6 5 1 12 0 C12 8 7 14 0 14 Z" fill="url(#ffLeaf)"/>
+            <path d="M1 13 C4 10 8 6 11.5 1" stroke="#3E8A4E" stroke-width="0.9"
+                  stroke-linecap="round" fill="none" opacity="0.65"/>
+          </g>
+          <g transform="translate(8 20)">
+            <path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4
+                     C7.4 0.4 9.2 1.8 10 3.4 C10.8 1.8 12.6 0.4 15 0.4
+                     C18.3 0.4 21 2.6 21 6 C21 10 18 14 10 20 Z"
+                  fill="url(#ffHeart)"/>
+            <path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4
+                     C7.4 0.4 9.2 1.8 10 3.4"
+                  fill="#ffffff" opacity="0.22"/>
+          </g>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">FeedFood<span>Forward</span></span>
+        <span class="brand-subtitle">AI FOOD REDISTRIBUTION PLATFORM</span>
+      </div>
+    </a>
+
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation menu">☰</button>
+
+    <nav class="site-nav" id="site-nav" aria-label="Primary">
+      <a href="index.html" class="nav-link" data-nav="home">Home</a>
+      <a href="donor-dashboard.html" class="nav-link nav-donor-only" data-nav="dashboard" hidden>Dashboard</a>
+      <a href="my-donations.html" class="nav-link nav-donor-only" data-nav="donations" hidden>My Donations</a>
+      <a href="donate-food.html" class="nav-link" data-nav="donate">Donate Food</a>
+      <a href="ai-inspection.html" class="nav-link" data-nav="ai">AI Inspection</a>
+      <a href="find-ashrams.html" class="nav-link" data-nav="ashrams">Find Ashrams</a>
+            <a href="pickup-track.html" class="nav-link nav-donor-only" data-nav="pickup" hidden>Pickup</a>
+      <a href="driver-hub.html" class="nav-link nav-driver-only" data-nav="driver" hidden>Driver Hub</a>
+      <a href="ngo-dashboard.html" class="nav-link nav-ashram-only" data-nav="ngo" hidden>NGO Dashboard</a>
+    </nav>
+
+    <div class="header-utilities">
+      <div id="header-guest" class="header-auth-group">
+        <button type="button" class="btn btn-outline btn-sm" id="header-login-btn">Login</button>
+        <button type="button" class="btn btn-primary btn-sm" id="header-signup-btn">Sign Up</button>
+      </div>
+
+      <div id="header-user" class="header-user-group" hidden>
+        <button type="button" class="user-chip" id="user-chip" aria-haspopup="true" aria-expanded="false">
+          <span class="user-avatar" id="user-avatar">🏨</span>
+          <span class="user-name" id="user-name">Hotel Green Leaf</span>
+          <span class="user-caret" aria-hidden="true">▾</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section style="max-width:1000px;margin:3rem auto 4rem auto;padding:0 1.5rem;">
+
+  <div class="ashram-card" style="display:block;">
+    <div style="position:relative;">
+      <img
+        id="profile-cover-photo"
+        src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&auto=format&fit=crop&q=80"
+        alt="Profile cover"
+        style="height:220px;width:100%;object-fit:cover;"
+      >
+      <label for="cover-photo-input" class="btn btn-outline btn-sm" style="position:absolute;bottom:0.75rem;right:0.75rem;background:rgba(255,255,255,0.9);">
+        📷 Change Photo
+      </label>
+      <input type="file" id="cover-photo-input" accept="image/jpeg,image/png,image/webp" hidden>
+    </div>
+
+    <div class="card-body">
+      <div class="ashram-head">
+        <div>
+          <h3 id="profile-name" style="font-size:1.5rem;margin-bottom:0.25rem;">Hotel Green Leaf</h3>
+          <p id="profile-tagline" style="font-size:0.8rem;color:var(--text-muted);margin:0;">
+            Business Donor • Since 2024 • Rating ⭐ 4.9
+          </p>
+        </div>
+        <div style="display:flex;gap:0.4rem;flex-wrap:wrap;justify-content:flex-end;">
+          <span class="badge role-badge" id="profile-role-badge">🏨 Donor</span>
+          <span class="badge verified" id="profile-verified">✓ Verified Donor</span>
+        </div>
+      </div>
+
+      <p class="address" id="profile-contact" style="margin-top:0.75rem;">
+        📍 42 MG Road, Indiranagar, Bengaluru • 📞 +91 98xxx xxxxx • ✉️ contact@greenleaf.demo
+      </p>
+
+      <div class="impact-grid" id="profile-stats-grid" style="margin:1.5rem 0 0 0;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));"></div>
+
+      <div style="margin-top:1.5rem;">
+        <h4 style="margin-bottom:0.75rem;font-size:1rem;">Achievements</h4>
+        <div class="preset-chips" id="profile-achievements-chips"></div>
+      </div>
+
+      <div class="action-buttons" id="profile-cta-row" style="margin-top:1.5rem;"></div>
+    </div>
+  </div>
+
+  <div style="margin-top:2.5rem;">
+    <h3 style="font-size:1.15rem;margin-bottom:1rem;" id="profile-history-title">Donation History</h3>
+    <div class="leaderboard-table-wrapper">
+      <table class="leaderboard-table">
+        <thead><tr id="profile-history-thead"></tr></thead>
+        <tbody id="profile-history-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div style="margin-top:2.5rem;">
+    <h3 style="font-size:1.15rem;margin-bottom:0.75rem;">About</h3>
+    <div class="summary-box">
+      <p id="profile-about-body"></p>
+      <p id="profile-about-meta" style="margin-top:0.75rem;"></p>
+    </div>
+  </div>
+
+  <div style="margin-top:2.5rem;">
+    <h3 style="font-size:1.15rem;margin-bottom:0.75rem;">Account Settings</h3>
+    <div class="summary-box">
+      <p><strong>Notifications:</strong> <span id="settings-notif-status">Email + SMS enabled</span></p>
+      <p><strong>Location Sharing:</strong> Enabled during active pickups</p>
+      <p><strong>Password:</strong> Last changed 42 days ago</p>
+
+      <div class="action-buttons" style="margin-top:1rem;flex-wrap:wrap;">
+        <button type="button" class="btn btn-outline btn-sm" id="edit-profile-btn">✏️ Edit Profile</button>
+        <button type="button" class="btn btn-outline btn-sm" id="notif-prefs-btn">🔔 Notification Preferences</button>
+        <button type="button" class="btn btn-outline btn-sm" id="change-password-toggle">🔒 Change Password</button>
+        <button type="button" class="btn btn-outline btn-sm" id="profile-logout-btn" style="color:#dc2626;border-color:#fecaca;">🚪 Logout</button>
+      </div>
+
+      <form id="change-password-form" class="food-form" style="margin-top:1.25rem;display:none;" onsubmit="return false;" novalidate>
+        <div class="form-group">
+          <label for="current-password">Current Password</label>
+          <input type="password" id="current-password" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="new-password">New Password</label>
+            <input type="password" id="new-password" minlength="8" required>
+          </div>
+          <div class="form-group">
+            <label for="confirm-password">Confirm New Password</label>
+            <input type="password" id="confirm-password" minlength="8" required>
+          </div>
+        </div>
+        <p id="password-error" class="field-error" style="display:none;">Passwords don't match or are too short (min 8 characters).</p>
+        <div class="wizard-nav">
+          <button type="button" class="btn btn-outline" id="cancel-password-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="save-password-btn">Save New Password</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-brand">
+      <h3>FeedFoodForward</h3>
+      <p>"Rescue Food. Reduce Waste. Feed Communities."</p>
+    </div>
+    <div class="footer-copyright">© 2026 FeedFoodForward Platform.</div>
+  </div>
+</footer>
+
+<!-- ============ MODAL: Edit Profile ============ -->
+<div class="modal-overlay" id="edit-profile-modal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="edit-profile-title">
+    <div class="modal-header">
+      <h3 id="edit-profile-title">Edit Profile</h3>
+      <button type="button" class="modal-close" data-modal-close aria-label="Close">×</button>
+    </div>
+    <div class="modal-body">
+      <form class="food-form" onsubmit="return false;">
+        <div class="form-group">
+          <label for="edit-name">Display Name</label>
+          <input type="text" id="edit-name">
+        </div>
+        <div class="form-group">
+          <label for="edit-tagline">Tagline</label>
+          <input type="text" id="edit-tagline" placeholder="e.g. Business Donor • Since 2024">
+        </div>
+        <div class="form-group">
+          <label for="edit-contact">Contact Info</label>
+          <input type="text" id="edit-contact" placeholder="Address • Phone • Email">
+        </div>
+        <div class="form-group">
+          <label for="edit-about">About</label>
+          <textarea id="edit-about" rows="4" style="padding:0.65rem 0.85rem;font-size:0.8rem;border-radius:10px;border:1px solid var(--slate-border);font-family:inherit;resize:vertical;"></textarea>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" data-modal-close>Cancel</button>
+      <button type="button" class="btn btn-primary" id="save-profile-btn">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL: Notification Preferences ============ -->
+<div class="modal-overlay" id="notif-prefs-modal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="notif-title">
+    <div class="modal-header">
+      <h3 id="notif-title">Notification Preferences</h3>
+      <button type="button" class="modal-close" data-modal-close aria-label="Close">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="toggle-row">
+        <div>
+          <strong>Email Notifications</strong>
+          <p style="font-size:0.72rem;color:var(--text-muted);margin:0;">Receive updates via email</p>
+        </div>
+        <div class="toggle-switch on" data-toggle="email" role="switch" aria-checked="true" tabindex="0"></div>
+      </div>
+      <div class="toggle-row">
+        <div>
+          <strong>SMS Notifications</strong>
+          <p style="font-size:0.72rem;color:var(--text-muted);margin:0;">Get texts for time-critical updates</p>
+        </div>
+        <div class="toggle-switch on" data-toggle="sms" role="switch" aria-checked="true" tabindex="0"></div>
+      </div>
+      <div class="toggle-row">
+        <div>
+          <strong>Pickup Reminders</strong>
+          <p style="font-size:0.72rem;color:var(--text-muted);margin:0;">Alerts before pickup deadline</p>
+        </div>
+        <div class="toggle-switch on" data-toggle="pickup" role="switch" aria-checked="true" tabindex="0"></div>
+      </div>
+      <div class="toggle-row">
+        <div>
+          <strong>Delivery Updates</strong>
+          <p style="font-size:0.72rem;color:var(--text-muted);margin:0;">Status changes for active deliveries</p>
+        </div>
+        <div class="toggle-switch on" data-toggle="delivery" role="switch" aria-checked="true" tabindex="0"></div>
+      </div>
+      <div class="toggle-row">
+        <div>
+          <strong>Weekly Impact Summary</strong>
+          <p style="font-size:0.72rem;color:var(--text-muted);margin:0;">Your rescue stats every Monday</p>
+        </div>
+        <div class="toggle-switch" data-toggle="weekly" role="switch" aria-checked="false" tabindex="0"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" data-modal-close>Cancel</button>
+      <button type="button" class="btn btn-primary" id="save-notif-btn">Save Preferences</button>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE SIDEBAR is auto-injected by sidebar.js -->
+
+<div id="ff-toast" role="status" aria-live="polite"
+     style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);background:#0f172a;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:all .3s ease;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.25);"></div>
+
+
+
+<script src="app.js"></script>
+<script src="header-nav.js"></script>
+<script src="sidebar.js"></script>
+<script src="animations.js"></script>
+
+<!-- ============================================================
+     3. ★ PROFILE ROLE-FIX
+        Runs after app.js renders. Overrides the profile with the
+        ACTUAL logged-in user's name, role, avatar, contact info.
+     ============================================================ -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  /* Wait a beat so app.js's own DOMContentLoaded handler finishes */
+  setTimeout(function () {
+    const user = (window.ffAuth && window.ffAuth.getUser) ? window.ffAuth.getUser() : null;
+
+    /* If nobody is logged in, leave the default donor preview as-is */
+    if (!user) return;
+
+    const role = user.role || 'donor';
+
+    /* ---------- 1. Force the profile to render with the CORRECT role ---------- */
+    if (typeof window.ffRenderProfile === 'function') {
+      window.ffRenderProfile(role);
+    }
+
+     /* ---------- 2. Override the name / tagline / contact with the real user ---------- */
+    const nameEl = document.getElementById('profile-name');
+    if (nameEl && user.name) nameEl.textContent = user.name;
+
+    /* Reset stats to zero for freshly registered users */
+    const statsGrid = document.getElementById('profile-stats-grid');
+    if (statsGrid && !user._hasHistory) {
+      statsGrid.innerHTML = [
+        { value: '0', label: 'Donations' },
+        { value: '0 KG', label: 'Food Rescued' },
+        { value: '0', label: 'Meals Supported' },
+        { value: '0', label: 'Ashrams Helped' }
+      ].map(s => `
+        <div class="impact-box" style="padding:1.25rem;">
+          <h3 style="font-size:1.6rem;">${s.value}</h3>
+          <p>${s.label}</p>
+        </div>`).join('');
+    }
+
+    const taglineEl = document.getElementById('profile-tagline');
+    if (taglineEl) {
+      const taglineMap = {
+        donor:  'Food Donor • Member since 2024 • ⭐ 4.9',
+        driver: 'Delivery Driver • Member since 2023 • ⭐ 4.95',
+        ashram: 'Receiving Organization • Member since 2022 • ⭐ 4.8',
+        admin:  'Platform Administrator • Full Access'
+      };
+      taglineEl.textContent = taglineMap[role] || '';
+    }
+
+    const roleBadge = document.getElementById('profile-role-badge');
+    if (roleBadge) {
+      const badgeMap = {
+        donor:  '🏨 Donor',
+        driver: '🚚 Driver',
+        ashram: '👵 Ashram',
+        admin:  '⚡ Admin'
+      };
+      roleBadge.textContent = badgeMap[role] || '👤 User';
+    }
+
+    const verifiedEl = document.getElementById('profile-verified');
+    if (verifiedEl && user.verified) verifiedEl.textContent = '✓ ' + user.verified;
+
+    /* ---------- 3. Contact line built from the real signup fields ---------- */
+    const contactEl = document.getElementById('profile-contact');
+    if (contactEl) {
+      const parts = [];
+      const addr = user.address || user.area || '';
+      if (addr)          parts.push('📍 ' + addr);
+      if (user.phone)    parts.push('📞 ' + user.phone);
+      if (user.email)    parts.push('✉️ ' + user.email);
+      if (parts.length) contactEl.textContent = parts.join(' • ');
+    }
+
+    /* ---------- 4. About section — personalised ---------- */
+    const aboutBodyEl = document.getElementById('profile-about-body');
+    if (aboutBodyEl) {
+      const aboutMap = {
+        donor:  (user.name || 'This donor') + ' is a registered food donor on FeedFoodForward, rescuing surplus meals for nearby Ashrams and NGOs.',
+        driver: (user.name || 'This driver') + ' is a verified delivery partner on FeedFoodForward, handling pickups and handovers across the city.',
+        ashram: (user.name || 'This organization') + ' is a verified receiver on FeedFoodForward, distributing rescued meals to its residents.',
+        admin:  'This is the platform administrator account with full oversight across donors, drivers, receivers, and donations.'
+      };
+      aboutBodyEl.textContent = aboutMap[role] || '';
+    }
+
+    /* ---------- 5. Avatar in the header + sidebar (match the real user) ---------- */
+    const headerAvatar = document.getElementById('user-avatar');
+    if (headerAvatar && user.avatar) headerAvatar.textContent = user.avatar;
+
+  }, 250); /* 250ms lets app.js finish its own render first */
+});
+</script>
+<script src="chatbot.js"></script>
+</body>
+</html>

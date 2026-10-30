@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us | FeedFoodForward</title>
+<meta name="description" content="Get in touch with the FeedFoodForward team — email, phone, or use the contact form.">
+<meta name="theme-color" content="#16a34a">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2316a34a'/%3E%3Cpath d='M50 80 C28 62 18 50 18 37 A17 17 0 0 1 50 28 A17 17 0 0 1 82 37 C82 50 72 62 50 80 Z' fill='%23ffffff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+/* ============================================================
+   CONTACT US — animated modern layout
+   ============================================================ */
+.ct {
+  --ct-ink: #0B1224;
+  --ct-muted: #64748b;
+  --ct-soft: #94a3b8;
+  --ct-line: #e8edf3;
+  --ct-bg: #f7f9fb;
+  --ct-green: #0B9F6E;
+  --ct-green-dark: #047857;
+  --ct-green-deep: #064e3b;
+  --ct-green-50: #ecfdf5;
+  --ct-amber: #f59e0b;
+  --ct-violet: #8b5cf6;
+  background: var(--ct-bg);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ---------- Progress bar ---------- */
+.ct-progress {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 3px; z-index: 999;
+  transform-origin: 0 50%; transform: scaleX(0);
+  background: linear-gradient(90deg, #10b981, #f59e0b, #8b5cf6, #10b981);
+  background-size: 200% 100%;
+  animation: ctHue 8s linear infinite;
+}
+@keyframes ctHue { to { background-position: 200% 50%; } }
+
+/* ---------- Background orbs ---------- */
+.ct-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.ct-orb { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .5; }
+.ct-orb-1 { width: 520px; height: 520px; top: -180px; left: -150px;
+  background: radial-gradient(circle, rgba(16,185,129,.45), transparent 70%);
+  animation: ctOrbFloat 22s ease-in-out infinite; }
+.ct-orb-2 { width: 460px; height: 460px; top: 25%; right: -180px;
+  background: radial-gradient(circle, rgba(245,158,11,.35), transparent 70%);
+  animation: ctOrbFloat 26s ease-in-out infinite -8s; }
+.ct-orb-3 { width: 420px; height: 420px; bottom: -160px; left: 40%;
+  background: radial-gradient(circle, rgba(139,92,246,.28), transparent 70%);
+  animation: ctOrbFloat 24s ease-in-out infinite -14s; }
+@keyframes ctOrbFloat {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  33%      { transform: translate(40px,-30px) scale(1.08); }
+  66%      { transform: translate(-30px,40px) scale(.95); }
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.ct-hero {
+  position: relative; z-index: 1;
+  padding: 4rem 1.5rem 2.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+.ct-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  padding: .5rem 1rem;
+  background: rgba(255,255,255,.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(16,185,129,.25);
+  border-radius: 999px;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ct-green-dark);
+  margin-bottom: 1.5rem;
+  box-shadow: 0 8px 24px -10px rgba(11,159,110,.28);
+  opacity: 0;
+  animation: ctFadeUp .8s ease forwards .05s;
+}
+.ct-badge-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--ct-green); position: relative;
+}
+.ct-badge-dot::after {
+  content: "";
+  position: absolute; inset: -4px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(16,185,129,.5);
+  animation: ctPing 1.8s ease-out infinite;
+}
+@keyframes ctPing { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(2); opacity: 0; } }
+
+.ct-hero h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -.035em;
+  color: var(--ct-ink);
+  margin: 0 0 1.25rem;
+  opacity: 0;
+  animation: ctFadeUp .9s ease forwards .15s;
+}
+.ct-hero h1 em {
+  font-style: normal;
+  background: linear-gradient(100deg, #067a54 0%, #10b981 40%, #f59e0b 60%, #10b981 80%, #067a54 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: ctShimmer 8s linear infinite;
+}
+@keyframes ctShimmer { from { background-position: 0% 50%; } to { background-position: 250% 50%; } }
+
+.ct-hero p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #475569;
+  max-width: 620px;
+  margin: 0 auto;
+  opacity: 0;
+  animation: ctFadeUp .9s ease forwards .3s;
+}
+
+@keyframes ctFadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ============================================================
+   CONTACT METHOD CARDS
+   ============================================================ */
+.ct-methods {
+  position: relative; z-index: 1;
+  max-width: 1100px;
+  margin: 2.5rem auto 0;
+  padding: 0 1.5rem 3rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+@media (max-width: 900px) { .ct-methods { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .ct-methods { grid-template-columns: 1fr; } }
+
+.ct-method {
+  background: #fff;
+  border: 1px solid var(--ct-line);
+  border-radius: 20px;
+  padding: 1.75rem 1.4rem;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  transition: all .4s cubic-bezier(.2,.7,.2,1);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(30px);
+}
+.ct-method.ct-in { opacity: 1; transform: none; }
+.ct-method::before {
+  content: "";
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(16,185,129,.15), transparent 70%);
+  opacity: 0;
+  transition: opacity .4s ease;
+}
+.ct-method:hover::before { opacity: 1; }
+.ct-method:hover {
+  transform: translateY(-8px);
+  border-color: var(--ct-green);
+  box-shadow: 0 24px 48px -22px rgba(16,185,129,.35);
+}
+.ct-method-ico {
+  width: 56px; height: 56px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--ct-green-50), rgba(16,185,129,.15));
+  color: var(--ct-green-dark);
+  display: grid; place-items: center;
+  font-size: 1.55rem;
+  margin: 0 auto 1.1rem;
+  transition: transform .5s cubic-bezier(.34,1.56,.64,1);
+  position: relative;
+  z-index: 1;
+}
+.ct-method:hover .ct-method-ico { transform: rotate(-10deg) scale(1.12); }
+.ct-method h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--ct-ink);
+  margin: 0 0 .35rem;
+  letter-spacing: -.01em;
+  position: relative;
+  z-index: 1;
+}
+.ct-method p {
+  font-size: .82rem;
+  color: var(--ct-muted);
+  line-height: 1.55;
+  margin: 0 0 .75rem;
+  position: relative;
+  z-index: 1;
+}
+.ct-method-val {
+  font-size: .82rem;
+  font-weight: 800;
+  color: var(--ct-green-dark);
+  position: relative;
+  z-index: 1;
+  word-break: break-all;
+}
+
+/* ============================================================
+   FORM + INFO LAYOUT
+   ============================================================ */
+.ct-layout {
+  position: relative; z-index: 1;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 1.5rem 3rem;
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+@media (max-width: 960px) { .ct-layout { grid-template-columns: 1fr; } }
+
+/* ---------- Form card ---------- */
+.ct-form-card {
+  background: #fff;
+  border: 1px solid var(--ct-line);
+  border-radius: 24px;
+  padding: 2.5rem 2.5rem;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all .8s ease;
+}
+.ct-form-card.ct-in { opacity: 1; transform: none; }
+.ct-form-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--ct-green), var(--ct-amber));
+}
+.ct-form-head {
+  margin-bottom: 2rem;
+}
+.ct-form-head h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -.025em;
+  color: var(--ct-ink);
+  margin: 0 0 .5rem;
+  line-height: 1.15;
+}
+.ct-form-head h2 em {
+  font-style: normal;
+  color: var(--ct-green);
+}
+.ct-form-head p {
+  font-size: .9rem;
+  color: var(--ct-muted);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.ct-field {
+  margin-bottom: 1.25rem;
+}
+.ct-label {
+  display: block;
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--ct-ink);
+  margin-bottom: .5rem;
+}
+.ct-label .req {
+  color: var(--ct-amber);
+  font-weight: 800;
+}
+.ct-input,
+.ct-select,
+.ct-textarea {
+  width: 100%;
+  padding: .9rem 1.05rem;
+  font-family: inherit;
+  font-size: .92rem;
+  color: var(--ct-ink);
+  border: 1.5px solid var(--ct-line);
+  border-radius: 12px;
+  background: #fff;
+  transition: all .2s ease;
+}
+.ct-input:focus,
+.ct-select:focus,
+.ct-textarea:focus {
+  outline: none;
+  border-color: var(--ct-green);
+  box-shadow: 0 0 0 5px rgba(16,185,129,.12);
+}
+.ct-textarea {
+  min-height: 140px;
+  resize: vertical;
+  line-height: 1.65;
+}
+.ct-select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+.ct-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+@media (max-width: 600px) { .ct-row { grid-template-columns: 1fr; } }
+
+.ct-char {
+  text-align: right;
+  font-size: .72rem;
+  color: var(--ct-soft);
+  font-weight: 600;
+  margin-top: .4rem;
+}
+.ct-char.warn  { color: var(--ct-amber); }
+.ct-char.danger { color: #dc2626; }
+
+.ct-error {
+  display: none;
+  align-items: center;
+  gap: .5rem;
+  padding: .85rem 1.1rem;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  color: #991b1b;
+  font-size: .82rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  line-height: 1.5;
+}
+.ct-error.ct-show {
+  display: flex;
+  animation: ctShake .45s ease;
+}
+@keyframes ctShake {
+  0%, 100% { transform: translateX(0); }
+  20%      { transform: translateX(-6px); }
+  40%      { transform: translateX(6px); }
+  60%      { transform: translateX(-4px); }
+  80%      { transform: translateX(4px); }
+}
+
+.ct-submit {
+  width: 100%;
+  padding: 1.05rem 1.75rem;
+  background: linear-gradient(135deg, #10b981, #047857);
+  color: #fff;
+  font-family: inherit;
+  font-size: .95rem;
+  font-weight: 800;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  transition: all .3s cubic-bezier(.2,.7,.2,1);
+  box-shadow: 0 14px 32px -12px rgba(11,159,110,.6);
+  position: relative;
+  overflow: hidden;
+}
+.ct-submit::after {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 40%; left: -70%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.5), transparent);
+  transform: skewX(-20deg);
+  animation: ctSheen 3.2s ease-in-out infinite;
+}
+@keyframes ctSheen { 0% { left: -70%; } 40%,100% { left: 130%; } }
+.ct-submit:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 42px -12px rgba(11,159,110,.85);
+}
+.ct-submit:disabled {
+  opacity: .7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ---------- Success card ---------- */
+.ct-success {
+  display: none;
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+}
+.ct-success.ct-show { display: block; animation: ctPop .55s cubic-bezier(.34,1.56,.64,1); }
+@keyframes ctPop {
+  0%   { transform: scale(.85); opacity: 0; }
+  100% { transform: scale(1);   opacity: 1; }
+}
+.ct-success-ico {
+  width: 88px; height: 88px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+  color: var(--ct-green-dark);
+  display: grid; place-items: center;
+  font-size: 2.5rem;
+  margin: 0 auto 1.25rem;
+  box-shadow: 0 20px 45px -15px rgba(16,185,129,.5);
+  animation: ctSuccessBounce 1.2s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes ctSuccessBounce {
+  0%   { transform: scale(0) rotate(-180deg); opacity: 0; }
+  60%  { transform: scale(1.2) rotate(10deg); }
+  100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+.ct-success h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--ct-green-deep);
+  margin: 0 0 .65rem;
+  letter-spacing: -.02em;
+}
+.ct-success p {
+  font-size: .96rem;
+  color: var(--ct-muted);
+  line-height: 1.65;
+  margin: 0 0 1.75rem;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.ct-success-actions {
+  display: flex;
+  gap: .75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.ct-success-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .9rem 1.6rem;
+  font-family: inherit;
+  font-size: .86rem;
+  font-weight: 800;
+  text-decoration: none;
+  border-radius: 12px;
+  transition: all .25s ease;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+}
+.ct-success-btn.primary {
+  background: var(--ct-green-dark);
+  color: #fff;
+  box-shadow: 0 10px 24px -10px rgba(4,120,87,.5);
+}
+.ct-success-btn.primary:hover { background: var(--ct-green-deep); transform: translateY(-2px); }
+.ct-success-btn.outline {
+  background: #fff;
+  color: var(--ct-green-dark);
+  border-color: #a7f3d0;
+}
+.ct-success-btn.outline:hover { background: var(--ct-green-50); border-color: var(--ct-green); }
+
+/* ============================================================
+   INFO SIDEBAR
+   ============================================================ */
+.ct-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.ct-info-card {
+  background: #fff;
+  border: 1px solid var(--ct-line);
+  border-radius: 22px;
+  padding: 1.85rem 1.75rem;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all .8s ease;
+}
+.ct-info-card.ct-in { opacity: 1; transform: none; }
+
+.ct-info-card h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--ct-ink);
+  margin: 0 0 1.25rem;
+  letter-spacing: -.015em;
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+}
+
+.ct-info-row {
+  display: flex;
+  gap: .95rem;
+  align-items: flex-start;
+  padding: .85rem 0;
+  border-bottom: 1px solid #f1f5f9;
+  transition: all .2s ease;
+}
+.ct-info-row:last-child { border-bottom: none; padding-bottom: 0; }
+.ct-info-row:hover { transform: translateX(4px); }
+.ct-info-ico {
+  width: 40px; height: 40px;
+  border-radius: 11px;
+  background: linear-gradient(135deg, var(--ct-green-50), rgba(16,185,129,.14));
+  color: var(--ct-green-dark);
+  display: grid; place-items: center;
+  font-size: 1.05rem;
+  flex-shrink: 0;
+}
+.ct-info-body { flex: 1; min-width: 0; }
+.ct-info-body small {
+  display: block;
+  font-size: .7rem;
+  font-weight: 800;
+  color: var(--ct-soft);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-bottom: .2rem;
+}
+.ct-info-body strong {
+  display: block;
+  font-size: .92rem;
+  font-weight: 700;
+  color: var(--ct-ink);
+  margin-bottom: .15rem;
+  word-break: break-word;
+}
+.ct-info-body a {
+  color: var(--ct-green-dark);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: .88rem;
+}
+.ct-info-body a:hover { text-decoration: underline; }
+.ct-info-body span {
+  font-size: .78rem;
+  color: var(--ct-muted);
+  display: block;
+  line-height: 1.55;
+}
+
+/* ---------- Office hours ---------- */
+.ct-hours-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: .84rem;
+  padding: .6rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+.ct-hours-row:last-child { border-bottom: none; }
+.ct-hours-row .day { color: var(--ct-muted); font-weight: 600; }
+.ct-hours-row .time { color: var(--ct-ink); font-weight: 800; }
+.ct-hours-row .closed { color: #dc2626; font-weight: 700; }
+.ct-hours-now {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  padding: .4rem .85rem;
+  border-radius: 999px;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  margin-top: 1rem;
+  width: max-content;
+}
+.ct-hours-now.open {
+  background: rgba(16,185,129,.14);
+  color: var(--ct-green-dark);
+}
+.ct-hours-now.closed {
+  background: rgba(220,38,38,.12);
+  color: #991b1b;
+}
+.ct-hours-now .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  position: relative;
+}
+.ct-hours-now.open .dot::after {
+  content: "";
+  position: absolute; inset: -4px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  animation: ctPing 1.8s ease-out infinite;
+}
+
+/* ---------- Response time card ---------- */
+.ct-response {
+  background: linear-gradient(135deg, var(--ct-green-50), #fff);
+  border: 1px solid #bbf7d0;
+}
+.ct-response h3 { color: var(--ct-green-deep); }
+.ct-response .big {
+  font-family: 'Outfit', sans-serif;
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--ct-green-deep);
+  letter-spacing: -.02em;
+  line-height: 1;
+  margin-bottom: .35rem;
+}
+.ct-response p {
+  font-size: .85rem;
+  color: var(--ct-green-deep);
+  margin: 0;
+  line-height: 1.55;
+  opacity: .85;
+}
+
+
+/* ============================================================
+   FAQ SNIPPET
+   ============================================================ */
+.ct-faq-wrap {
+  position: relative; z-index: 1;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+}
+.ct-faq-head {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 2.5rem;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: all .8s ease;
+}
+.ct-faq-head.ct-in { opacity: 1; transform: none; }
+.ct-kicker {
+  display: inline-block;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ct-amber);
+  margin-bottom: .85rem;
+}
+.ct-faq-head h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -.025em;
+  color: var(--ct-ink);
+  margin: 0 0 .55rem;
+  line-height: 1.15;
+}
+.ct-faq-head h2 em { font-style: normal; color: var(--ct-green); }
+.ct-faq-head p { font-size: .95rem; color: var(--ct-muted); margin: 0; line-height: 1.65; }
+
+.ct-faq-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+@media (max-width: 900px) { .ct-faq-grid { grid-template-columns: 1fr; } }
+
+.ct-faq-card {
+  background: #fff;
+  border: 1px solid var(--ct-line);
+  border-radius: 18px;
+  padding: 1.5rem 1.5rem 1.25rem;
+  text-decoration: none;
+  color: inherit;
+  transition: all .35s cubic-bezier(.2,.7,.2,1);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(30px);
+}
+.ct-faq-card.ct-in { opacity: 1; transform: none; }
+.ct-faq-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--ct-green);
+  box-shadow: 0 22px 44px -20px rgba(16,185,129,.32);
+}
+.ct-faq-card h4 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--ct-ink);
+  margin: 0 0 .55rem;
+  letter-spacing: -.01em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+}
+.ct-faq-card h4 .arrow {
+  color: var(--ct-green);
+  transition: transform .25s ease;
+}
+.ct-faq-card:hover h4 .arrow { transform: translateX(5px); }
+.ct-faq-card p {
+  font-size: .85rem;
+  color: var(--ct-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ============================================================
+   CTA
+   ============================================================ */
+.ct-cta-wrap {
+  position: relative; z-index: 1;
+  max-width: 1180px;
+  margin: 0 auto 4rem;
+  padding: 0 1.5rem;
+}
+.ct-cta {
+  background: linear-gradient(135deg, #0B1224 0%, #1e293b 100%);
+  border-radius: 26px;
+  padding: 3rem 3rem;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all .9s ease;
+}
+.ct-cta.ct-in { opacity: 1; transform: none; }
+.ct-cta::before {
+  content: "";
+  position: absolute;
+  top: -140px; right: -90px;
+  width: 420px; height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(16,185,129,.4), transparent 65%);
+  animation: ctOrbFloat 14s ease-in-out infinite;
+}
+.ct-cta::after {
+  content: "";
+  position: absolute;
+  bottom: -140px; left: -90px;
+  width: 360px; height: 360px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245,158,11,.3), transparent 65%);
+  animation: ctOrbFloat 16s ease-in-out infinite reverse;
+}
+.ct-cta-inner { position: relative; z-index: 1; max-width: 620px; margin: 0 auto; }
+.ct-cta h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -.025em;
+  line-height: 1.1;
+  margin: 0 0 .9rem;
+}
+.ct-cta h2 em {
+  font-style: normal;
+  background: linear-gradient(120deg, #6ee7b7, #34d399, #fbbf24);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.ct-cta p {
+  font-size: 1rem;
+  color: rgba(255,255,255,.75);
+  line-height: 1.65;
+  margin: 0 0 2rem;
+}
+.ct-cta-actions {
+  display: flex;
+  gap: .75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.ct-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  padding: 1rem 1.7rem;
+  font-family: inherit;
+  font-size: .88rem;
+  font-weight: 800;
+  text-decoration: none;
+  border-radius: 14px;
+  transition: all .25s ease;
+  border: 1.5px solid transparent;
+}
+.ct-cta-btn.primary {
+  background: #fff;
+  color: var(--ct-green-deep);
+  box-shadow: 0 12px 30px rgba(255,255,255,.15);
+}
+.ct-cta-btn.primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 42px rgba(255,255,255,.25);
+}
+.ct-cta-btn.outline {
+  background: transparent;
+  color: #fff;
+  border-color: rgba(255,255,255,.35);
+}
+.ct-cta-btn.outline:hover {
+  background: rgba(255,255,255,.1);
+  border-color: #fff;
+  transform: translateY(-3px);
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .ct-progress, .ct-orb, .ct-badge-dot::after,
+  .ct-hero h1 em, .ct-cta::before, .ct-cta::after,
+  .ct-submit::after,
+  .ct-hours-now.open .dot::after {
+    animation: none !important;
+  }
+  .ct-method, .ct-form-card, .ct-info-card,
+  .ct-faq-card, .ct-cta, .ct-faq-head,
+  .ct-hero > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="ct-progress" id="ct-progress" aria-hidden="true"></div>
+
+<div class="ct-bg" aria-hidden="true">
+  <div class="ct-orb ct-orb-1"></div>
+  <div class="ct-orb ct-orb-2"></div>
+  <div class="ct-orb ct-orb-3"></div>
+</div>
+
+<header class="site-header">
+  <div class="header-container">
+    <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <a href="index.html" class="brand-logo" aria-label="FeedFoodForward home">
+      <div class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="ffTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#067A54"/><stop offset="55%" stop-color="#0B9F6E"/><stop offset="100%" stop-color="#10B981"/></linearGradient>
+            <linearGradient id="ffHeart" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#FF5A7A"/><stop offset="100%" stop-color="#F03E64"/></linearGradient>
+            <linearGradient id="ffLeaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#A3E635"/><stop offset="100%" stop-color="#65A30D"/></linearGradient>
+          </defs>
+          <rect x="2" y="2" width="44" height="44" rx="11" fill="url(#ffTile)"/>
+          <g transform="translate(28 6) rotate(20)"><path d="M0 14 C0 6 5 1 12 0 C12 8 7 14 0 14 Z" fill="url(#ffLeaf)"/></g>
+          <g transform="translate(8 20)"><path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4 C7.4 0.4 9.2 1.8 10 3.4 C10.8 1.8 12.6 0.4 15 0.4 C18.3 0.4 21 2.6 21 6 C21 10 18 14 10 20 Z" fill="url(#ffHeart)"/></g>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">FeedFood<span>Forward</span></span>
+        <span class="brand-subtitle">AI FOOD REDISTRIBUTION PLATFORM</span>
+      </div>
+    </a>
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation menu">☰</button>
+    <nav class="site-nav" id="site-nav" aria-label="Primary"></nav>
+    <div class="header-utilities">
+      <div id="header-guest" class="header-auth-group">
+        <button type="button" class="btn btn-outline btn-sm" id="header-login-btn">Login</button>
+        <button type="button" class="btn btn-primary btn-sm" id="header-signup-btn">Sign Up</button>
+      </div>
+      <div id="header-user" class="header-user-group" hidden>
+        <button type="button" class="user-chip" id="user-chip" aria-haspopup="true" aria-expanded="false">
+          <span class="user-avatar" id="user-avatar">👤</span>
+          <span class="user-name" id="user-name">User</span>
+          <span class="user-caret" aria-hidden="true">▾</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="ct">
+
+<!-- ==================== HERO ==================== -->
+<section class="ct-hero">
+  <span class="ct-badge">
+    <span class="ct-badge-dot"></span>
+    We'd love to hear from you
+  </span>
+  <h1>Let's <em>talk.</em></h1>
+  <p>Questions, feedback, partnership ideas, or press inquiries — the FeedFoodForward team is here. We usually reply within 24 hours.</p>
+</section>
+
+<!-- ==================== 4 CONTACT METHODS ==================== -->
+<section class="ct-methods">
+  <a href="mailto:support@feedfoodforward.demo" class="ct-method" data-reveal>
+    <div class="ct-method-ico">✉️</div>
+    <h3>Email Us</h3>
+    <p>Best for general questions and support</p>
+    <span class="ct-method-val">support@feedfoodforward.demo</span>
+  </a>
+  <a href="tel:+919812345678" class="ct-method" data-reveal>
+    <div class="ct-method-ico">📞</div>
+    <h3>Call Us</h3>
+    <p>Mon–Fri, 9 AM – 6 PM IST</p>
+    <span class="ct-method-val">+91 98123 45678</span>
+  </a>
+  <a href="feedback.html" class="ct-method" data-reveal>
+    <div class="ct-method-ico">💬</div>
+    <h3>Send Feedback</h3>
+    <p>Report a bug or suggest a feature</p>
+    <span class="ct-method-val">Open feedback form →</span>
+  </a>
+  <a href="faq.html" class="ct-method" data-reveal>
+    <div class="ct-method-ico">❓</div>
+    <h3>Browse FAQ</h3>
+    <p>Quick answers to common questions</p>
+    <span class="ct-method-val">Visit Help Center →</span>
+  </a>
+</section>
+
+<!-- ==================== FORM + INFO ==================== -->
+<div class="ct-layout">
+
+  <!-- ---------- Contact Form ---------- -->
+  <div class="ct-form-card" data-reveal>
+    <div class="ct-form-head">
+      <h2>Send us a <em>message.</em></h2>
+      <p>Fill in the form and we'll get back to you as soon as we can.</p>
+    </div>
+
+    <!-- FORM -->
+    <form id="ct-form" novalidate>
+
+      <div class="ct-row">
+        <div class="ct-field">
+          <label class="ct-label" for="ct-name">Your name <span class="req">*</span></label>
+          <input type="text" class="ct-input" id="ct-name" placeholder="e.g. Priya Sharma" required>
+        </div>
+        <div class="ct-field">
+          <label class="ct-label" for="ct-email">Email address <span class="req">*</span></label>
+          <input type="email" class="ct-input" id="ct-email" placeholder="you@example.com" required>
+        </div>
+      </div>
+
+      <div class="ct-row">
+        <div class="ct-field">
+          <label class="ct-label" for="ct-phone">Phone <span style="color:var(--ct-soft);font-weight:500;">(optional)</span></label>
+          <input type="tel" class="ct-input" id="ct-phone" placeholder="+91 98xxx xxxxx">
+        </div>
+        <div class="ct-field">
+          <label class="ct-label" for="ct-topic">Topic <span class="req">*</span></label>
+          <select class="ct-select" id="ct-topic" required>
+            <option value="">Select a topic</option>
+            <option value="general">General inquiry</option>
+            <option value="donor">I want to donate food</option>
+            <option value="receiver">I represent an Ashram / NGO</option>
+            <option value="driver">I want to be a delivery partner</option>
+            <option value="partnership">Partnership / CSR</option>
+            <option value="press">Press / media</option>
+            <option value="bug">Report a bug</option>
+            <option value="other">Something else</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="ct-field">
+        <label class="ct-label" for="ct-subject">Subject <span class="req">*</span></label>
+        <input type="text" class="ct-input" id="ct-subject" placeholder="Brief summary of your message" required>
+      </div>
+
+      <div class="ct-field">
+        <label class="ct-label" for="ct-message">Your message <span class="req">*</span></label>
+        <textarea class="ct-textarea" id="ct-message" placeholder="Please give as much detail as you can — the more context, the better we can help." required></textarea>
+        <div class="ct-char" id="ct-char">0 / 800 characters</div>
+      </div>
+
+      <div class="ct-error" id="ct-error" role="alert">
+        <span>⚠️</span>
+        <span id="ct-error-text">Please check the form and try again.</span>
+      </div>
+
+      <button type="submit" class="ct-submit" id="ct-submit">
+        <span>Send Message</span>
+        <span>→</span>
+      </button>
+    </form>
+
+    <!-- SUCCESS -->
+    <div class="ct-success" id="ct-success">
+      <div class="ct-success-ico">✓</div>
+      <h3>Message sent!</h3>
+      <p>Thanks for reaching out. We'll reply to your email within 24 hours — often much sooner.</p>
+      <div class="ct-success-actions">
+        <a href="index.html" class="ct-success-btn primary">Back to Home</a>
+        <button type="button" class="ct-success-btn outline" id="ct-send-again">Send Another</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ---------- Info Sidebar ---------- -->
+  <aside class="ct-info">
+
+    <!-- Contact info card -->
+    <div class="ct-info-card" data-reveal>
+      <h3>📍 Reach us directly</h3>
+
+      <div class="ct-info-row">
+        <div class="ct-info-ico">✉️</div>
+        <div class="ct-info-body">
+          <small>Email</small>
+          <a href="mailto:support@feedfoodforward.demo">support@feedfoodforward.demo</a>
+          <span>Replies within 24 hours</span>
+        </div>
+      </div>
+
+      <div class="ct-info-row">
+        <div class="ct-info-ico">📞</div>
+        <div class="ct-info-body">
+          <small>Phone</small>
+          <a href="tel:+919812345678">+91 98123 45678</a>
+          <span>Mon–Fri, 9 AM – 6 PM IST</span>
+        </div>
+      </div>
+
+      <div class="ct-info-row">
+        <div class="ct-info-ico">📍</div>
+        <div class="ct-info-body">
+          <small>Office</small>
+          <strong>FeedFoodForward HQ</strong>
+          <span>Bandra Kurla Complex, Mumbai 400051, India</span>
+        </div>
+      </div>
+
+      <div class="ct-info-row">
+        <div class="ct-info-ico">📬</div>
+        <div class="ct-info-body">
+          <small>Mailing address</small>
+          <strong>P.O. Box 98241</strong>
+          <span>Mumbai GPO, Maharashtra 400001</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Office hours -->
+    <div class="ct-info-card" data-reveal>
+      <h3>🕐 Office hours</h3>
+
+      <div class="ct-hours-row">
+        <span class="day">Monday – Friday</span>
+        <span class="time">9:00 AM – 6:00 PM</span>
+      </div>
+      <div class="ct-hours-row">
+        <span class="day">Saturday</span>
+        <span class="time">10:00 AM – 2:00 PM</span>
+      </div>
+      <div class="ct-hours-row">
+        <span class="day">Sunday</span>
+        <span class="closed">Closed</span>
+      </div>
+
+      <div class="ct-hours-now" id="ct-hours-now">
+        <span class="dot"></span>
+        <span id="ct-hours-text">Checking…</span>
+      </div>
+    </div>
+
+    <!-- Response time -->
+    <div class="ct-info-card ct-response" data-reveal>
+      <h3>⚡ Fast replies</h3>
+      <div class="big">&lt; 24 hrs</div>
+      <p>Average time to first reply on emails. Urgent? Call us during business hours.</p>
+    </div>
+
+  </aside>
+</div>
+
+
+
+<!-- ==================== FAQ SNIPPET ==================== -->
+<section class="ct-faq-wrap">
+  <div class="ct-faq-head" data-reveal>
+    <span class="ct-kicker">Common Questions</span>
+    <h2>Quick <em>answers.</em></h2>
+    <p>Before you reach out — these cover 90% of what people ask us.</p>
+  </div>
+
+  <div class="ct-faq-grid">
+    <a href="faq.html" class="ct-faq-card" data-reveal>
+      <h4>How quickly do you reply? <span class="arrow">→</span></h4>
+      <p>We reply to every message within 24 hours on business days — usually within a few hours.</p>
+    </a>
+    <a href="faq.html" class="ct-faq-card" data-reveal>
+      <h4>Can I partner with you? <span class="arrow">→</span></h4>
+      <p>Yes! We work with hotels, restaurants, NGOs, and CSR teams. Choose "Partnership" in the form.</p>
+    </a>
+    <a href="faq.html" class="ct-faq-card" data-reveal>
+      <h4>Report a bug or issue? <span class="arrow">→</span></h4>
+      <p>Use the Feedback page or pick "Report a bug" in the form — we triage bugs daily.</p>
+    </a>
+  </div>
+</section>
+
+<!-- ==================== CTA ==================== -->
+<div class="ct-cta-wrap">
+  <div class="ct-cta" data-reveal>
+    <div class="ct-cta-inner">
+      <h2>Prefer to explore <em>first?</em></h2>
+      <p>Browse our help center, food safety guidelines, or the interactive demo — all without signing up.</p>
+      <div class="ct-cta-actions">
+        <a href="faq.html" class="ct-cta-btn primary">Visit Help Center →</a>
+        <a href="food-safety.html" class="ct-cta-btn outline">Food Safety Guidelines</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-brand"><h3>FeedFoodForward</h3><p>"Rescue Food. Reduce Waste. Feed Communities."</p></div>
+    <div class="footer-copyright">© 2026 FeedFoodForward Platform.</div>
+  </div>
+</footer>
+
+<div id="ff-toast" role="status" aria-live="polite" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);background:#0f172a;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:all .3s ease;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.25);"></div>
+
+<script src="app.js"></script>
+<script src="header-nav.js"></script>
+<script src="sidebar.js"></script>
+<script src="animations.js"></script>
+<script src="chatbot.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  'use strict';
+
+  /* ==========================================================
+     PROGRESS BAR
+     ========================================================== */
+  const progress = document.getElementById('ct-progress');
+  let tick = false;
+  function updateProgress() {
+    if (!progress) return;
+    const h = document.documentElement;
+    const scrolled = h.scrollTop || document.body.scrollTop;
+    const height = (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
+    progress.style.transform = 'scaleX(' + (height > 0 ? scrolled / height : 0) + ')';
+  }
+  window.addEventListener('scroll', () => {
+    if (tick) return;
+    tick = true;
+    requestAnimationFrame(() => { updateProgress(); tick = false; });
+  }, { passive: true });
+  updateProgress();
+
+  /* ==========================================================
+     SCROLL REVEAL
+     ========================================================== */
+  const reveals = document.querySelectorAll('[data-reveal], .ct-method, .ct-form-card, .ct-info-card, .ct-map, .ct-faq-card, .ct-cta, .ct-faq-head');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('ct-in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
+    reveals.forEach(el => io.observe(el));
+  } else {
+    reveals.forEach(el => el.classList.add('ct-in'));
+  }
+
+  /* ==========================================================
+     PRE-FILL USER INFO (if logged in)
+     ========================================================== */
+  const user = (window.ffAuth && window.ffAuth.getUser) ? window.ffAuth.getUser() : null;
+  if (user) {
+    const nameEl = document.getElementById('ct-name');
+    const emailEl = document.getElementById('ct-email');
+    const phoneEl = document.getElementById('ct-phone');
+    if (nameEl && user.name && !nameEl.value) nameEl.value = user.name;
+    if (emailEl && user.email && !emailEl.value) emailEl.value = user.email;
+    if (phoneEl && user.phone && !phoneEl.value) phoneEl.value = user.phone;
+  }
+
+  /* ==========================================================
+     CHARACTER COUNTER
+     ========================================================== */
+  const msgEl = document.getElementById('ct-message');
+  const charEl = document.getElementById('ct-char');
+  const MAX_CHARS = 800;
+
+  if (msgEl && charEl) {
+    msgEl.addEventListener('input', () => {
+      let len = msgEl.value.length;
+      if (len > MAX_CHARS) { msgEl.value = msgEl.value.slice(0, MAX_CHARS); len = MAX_CHARS; }
+      charEl.textContent = len + ' / ' + MAX_CHARS + ' characters';
+      charEl.classList.remove('warn', 'danger');
+      if (len > MAX_CHARS * 0.9) charEl.classList.add('danger');
+      else if (len > MAX_CHARS * 0.7) charEl.classList.add('warn');
+    });
+  }
+
+  /* ==========================================================
+     FORM SUBMIT
+     ========================================================== */
+  const form = document.getElementById('ct-form');
+  const errorEl = document.getElementById('ct-error');
+  const errorTextEl = document.getElementById('ct-error-text');
+  const submitBtn = document.getElementById('ct-submit');
+  const successEl = document.getElementById('ct-success');
+  const sendAgainBtn = document.getElementById('ct-send-again');
+
+  function showError(msg) {
+    if (!errorEl || !errorTextEl) return;
+    errorTextEl.textContent = msg;
+    errorEl.classList.remove('ct-show');
+    void errorEl.offsetWidth;
+    errorEl.classList.add('ct-show');
+    errorEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  function hideError() {
+    if (errorEl) errorEl.classList.remove('ct-show');
+  }
+
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      hideError();
+
+      const name = (document.getElementById('ct-name') || {}).value || '';
+      const email = (document.getElementById('ct-email') || {}).value || '';
+      const topic = (document.getElementById('ct-topic') || {}).value || '';
+      const subject = (document.getElementById('ct-subject') || {}).value || '';
+      const message = msgEl ? msgEl.value : '';
+
+      if (!name.trim()) {
+        showError('Please enter your name.');
+        document.getElementById('ct-name').focus();
+        return;
+      }
+      if (!/^\S+@\S+\.\S+$/.test(email.trim())) {
+        showError('Please enter a valid email address.');
+        document.getElementById('ct-email').focus();
+        return;
+      }
+      if (!topic) {
+        showError('Please choose a topic so we can route your message.');
+        document.getElementById('ct-topic').focus();
+        return;
+      }
+      if (!subject.trim()) {
+        showError('Please add a short subject line.');
+        document.getElementById('ct-subject').focus();
+        return;
+      }
+      if (message.trim().length < 10) {
+        showError('Please write a message of at least 10 characters.');
+        if (msgEl) msgEl.focus();
+        return;
+      }
+
+      /* Loading state */
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>Sending…</span><span>⏳</span>';
+
+      /* Simulate network delay, then show success */
+      setTimeout(() => {
+        form.style.display = 'none';
+        if (successEl) {
+          successEl.classList.add('ct-show');
+          successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        if (window.ffToast) window.ffToast('✅ Message sent — we\'ll reply soon!');
+      }, 1200);
+    });
+  }
+
+  /* Send another */
+  if (sendAgainBtn) {
+    sendAgainBtn.addEventListener('click', () => {
+      if (form) {
+        form.reset();
+        form.style.display = '';
+        if (charEl) charEl.textContent = '0 / ' + MAX_CHARS + ' characters';
+        hideError();
+        /* Re-apply user info */
+        if (user) {
+          const nameEl = document.getElementById('ct-name');
+          const emailEl = document.getElementById('ct-email');
+          const phoneEl = document.getElementById('ct-phone');
+          if (nameEl && user.name) nameEl.value = user.name;
+          if (emailEl && user.email) emailEl.value = user.email;
+          if (phoneEl && user.phone) phoneEl.value = user.phone;
+        }
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span>Send Message</span><span>→</span>';
+      }
+      if (successEl) successEl.classList.remove('ct-show');
+      window.scrollTo({ top: form.getBoundingClientRect().top + window.scrollY - 100, behavior: 'smooth' });
+    });
+  }
+
+  /* ==========================================================
+     OFFICE HOURS — live indicator
+     ========================================================== */
+  const hoursNowEl = document.getElementById('ct-hours-now');
+  const hoursTextEl = document.getElementById('ct-hours-text');
+
+  function updateOfficeStatus() {
+    if (!hoursNowEl || !hoursTextEl) return;
+    const now = new Date();
+    const day = now.getDay(); // 0=Sun, 6=Sat
+    const hour = now.getHours() + now.getMinutes() / 60;
+
+    let open = false;
+    let label = '';
+
+    if (day === 0) {
+      open = false;
+      label = 'Closed · Sundays';
+    } else if (day === 6) {
+      open = hour >= 10 && hour < 14;
+      label = open ? 'Open now · until 2 PM' : 'Closed · opens Sat 10 AM';
+    } else {
+      open = hour >= 9 && hour < 18;
+      label = open ? 'Open now · until 6 PM' : 'Closed · opens 9 AM';
+    }
+
+    hoursNowEl.classList.toggle('open', open);
+    hoursNowEl.classList.toggle('closed', !open);
+    hoursTextEl.textContent = label;
+  }
+  updateOfficeStatus();
+  setInterval(updateOfficeStatus, 60000);
+
+  /* ==========================================================
+     "/" KEYBOARD SHORTCUT — focus first field
+     ========================================================== */
+  document.addEventListener('keydown', (e) => {
+    if (e.key === '/' && document.activeElement.tagName === 'BODY') {
+      e.preventDefault();
+      const first = document.getElementById('ct-name');
+      if (first) first.focus();
+    }
+  });
+
+});
+</script>
+
+</body>
+</html>

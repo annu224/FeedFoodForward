@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings | FeedFoodForward</title>
+  <meta name="description" content="Manage your FeedFoodForward account settings — profile, notifications, privacy, and preferences.">
+  <meta name="theme-color" content="#16a34a">
+
+  <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2316a34a'/%3E%3Cpath d='M50 80 C28 62 18 50 18 37 A17 17 0 0 1 50 28 A17 17 0 0 1 82 37 C82 50 72 62 50 80 Z' fill='%23ffffff'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="guest-guard.js"></script>
+</head>
+<body>
+
+<noscript>
+  <div style="background:#fef3c7;color:#92400e;padding:12px 16px;text-align:center;font-weight:600;font-size:14px;border-bottom:1px solid #fde68a;">
+    ⚠️ JavaScript is disabled. Settings won't work without JS.
+  </div>
+</noscript>
+
+<header class="site-header">
+  <div class="header-container">
+
+    <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6"  x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+    <a href="index.html" class="brand-logo" aria-label="FeedFoodForward home">
+      <div class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img">
+          <defs>
+            <linearGradient id="ffTile" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#067A54"/>
+              <stop offset="55%" stop-color="#0B9F6E"/>
+              <stop offset="100%" stop-color="#10B981"/>
+            </linearGradient>
+            <linearGradient id="ffHeart" x1="0" y1="0" x2="0.5" y2="1">
+              <stop offset="0%" stop-color="#FF5A7A"/>
+              <stop offset="100%" stop-color="#F03E64"/>
+            </linearGradient>
+            <linearGradient id="ffLeaf" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#A3E635"/>
+              <stop offset="100%" stop-color="#65A30D"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="44" height="44" rx="11" fill="url(#ffTile)"/>
+          <g transform="translate(28 6) rotate(20)">
+            <path d="M0 14 C0 6 5 1 12 0 C12 8 7 14 0 14 Z" fill="url(#ffLeaf)"/>
+          </g>
+          <g transform="translate(8 20)">
+            <path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4
+                     C7.4 0.4 9.2 1.8 10 3.4 C10.8 1.8 12.6 0.4 15 0.4
+                     C18.3 0.4 21 2.6 21 6 C21 10 18 14 10 20 Z"
+                  fill="url(#ffHeart)"/>
+          </g>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">FeedFood<span>Forward</span></span>
+        <span class="brand-subtitle">AI FOOD REDISTRIBUTION PLATFORM</span>
+      </div>
+    </a>
+
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation menu">☰</button>
+
+    <nav class="site-nav" id="site-nav" aria-label="Primary">
+      <a href="index.html" class="nav-link" data-nav="home">Home</a>
+      <a href="donor-dashboard.html" class="nav-link nav-donor-only" data-nav="dashboard" hidden>Dashboard</a>
+      <a href="my-donations.html" class="nav-link nav-donor-only" data-nav="donations" hidden>My Donations</a>
+      <a href="donate-food.html" class="nav-link" data-nav="donate">Donate Food</a>
+      <a href="ai-inspection.html" class="nav-link" data-nav="ai">AI Inspection</a>
+      <a href="find-ashrams.html" class="nav-link" data-nav="ashrams">Find Ashrams</a>
+      <a href="pickup-track.html" class="nav-link" data-nav="pickup">Pickup</a>
+      <a href="driver-hub.html" class="nav-link nav-driver-only" data-nav="driver" hidden>Driver Hub</a>
+      <a href="ngo-dashboard.html" class="nav-link nav-ashram-only" data-nav="ngo" hidden>NGO Dashboard</a>
+    </nav>
+
+    <div class="header-utilities">
+      <div id="header-guest" class="header-auth-group">
+        <button type="button" class="btn btn-outline btn-sm" id="header-login-btn">Login</button>
+        <button type="button" class="btn btn-primary btn-sm" id="header-signup-btn">Sign Up</button>
+      </div>
+      <div id="header-user" class="header-user-group" hidden>
+        <button type="button" class="user-chip" id="user-chip" aria-haspopup="true" aria-expanded="false">
+          <span class="user-avatar" id="user-avatar">👤</span>
+          <span class="user-name" id="user-name">User</span>
+          <span class="user-caret" aria-hidden="true">▾</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section style="max-width:900px;margin:3rem auto 4rem auto;padding:0 1.5rem;">
+
+  <div class="section-title" style="margin-bottom:2rem;">
+    <h2>Settings</h2>
+    <p>Manage your account, notifications, privacy, and preferences.</p>
+  </div>
+
+  <!-- ============ ACCOUNT ============ -->
+  <div class="ashram-card" style="display:block;margin-bottom:1.5rem;">
+    <div class="card-body">
+      <h3 style="font-size:1.05rem;margin-bottom:1rem;">👤 Account</h3>
+
+      <div class="toggle-row" style="padding:0.75rem 0;border-bottom:1px solid var(--slate-border);">
+        <div>
+          <strong>Display Name</strong>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin:0;">Shown to other users on the platform</p>
+        </div>
+        <input type="text" id="set-display-name" placeholder="Your name"
+               style="max-width:220px;padding:0.5rem 0.75rem;border-radius:10px;border:1px solid var(--slate-border);font-family:inherit;font-size:0.85rem;">
+      </div>
+
+      <div class="toggle-row" style="padding:0.75rem 0;border-bottom:1px solid var(--slate-border);">
+        <div>
+          <strong>Email Address</strong>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin:0;">Used for login and notifications</p>
+        </div>
+        <input type="email" id="set-email" placeholder="you@example.com"
+               style="max-width:220px;padding:0.5rem 0.75rem;border-radius:10px;border:1px solid var(--slate-border);font-family:inherit;font-size:0.85rem;">
+      </div>
+
+      <div class="toggle-row" style="padding:0.75rem 0;border-bottom:1px solid var(--slate-border);">
+        <div>
+          <strong>Phone Number</strong>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin:0;">For SMS alerts and driver contact</p>
+        </div>
+        <input type="tel" id="set-phone" placeholder="+91 98xxx xxxxx"
+               style="max-width:220px;padding:0.5rem 0.75rem;border-radius:10px;border:1px solid var(--slate-border);font-family:inherit;font-size:0.85rem;">
+      </div>
+
+      <div class="toggle-row" style="padding:0.75rem 0;">
+        <div>
+          <strong>Language</strong>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin:0;">Interface language</p>
+        </div>
+        <select id="set-language" class="role-dropdown" style="max-width:220px;">
+          <option value="en-IN" selected>English (India)</option>
+          <option value="hi-IN">हिन्दी (Hindi)</option>
+          <option value="mr-IN">मराठी (Marathi)</option>
+          <option value="ta-IN">தமிழ் (Tamil)</option>
+          <option value="te-IN">తెలుగు (Telugu)</option>
+        </select>
+      </div>
+
+      <div class="action-buttons" style="margin-top:1rem;">
+        <button type="button" class="btn btn-primary btn-sm" id="save-account-btn">💾 Save Account Info</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ NOTIFICATIONS ============ -->
+  <div class="ashram-card" style="display:block;margin-bottom:1.5rem;">
+    <div class="card-body">
+      <h3 style="font-size:1.05rem;margin-bottom:1rem;">🔔 Notifications</h3>
+
+      <div class="toggle-row">
+        <div>
+          <strong>Email Notifications</strong>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin:0;">Receive updates via email</p>
+        </div>
+        <div class="toggle-switch on" data-toggle="email" role="switch" aria-checked="true" tabindex="0"></div>
+      </div>
+
+      <div class="toggle-row">
+        <div>
+          <strong>SMS Notifications</strong>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin:0;">Get texts for time-critical updates</p>
+        </div>
+        <div class="toggle-switch on" data-toggle="sms" role="switch" aria-checked="true" tabindex="0"></div>
+      </div>
+
+      <div class="toggle-row">
+        <div>
+          <strong>Pickup Reminders</strong>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin:0;">Alerts before pickup deadline</p>
+        </div>
+        <div class="toggle-switch on" data-toggle="pickup" role="switch" aria-checked="true" tabindex="0"></div>
+      </div>
+
+      <div class="toggle-row">
+        <div>
+          <strong>Delivery Updates</strong>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin:0;">Status changes for active deliveries</p>
+        </div>
+        <div class="toggle-switch on" data-toggle="delivery" role="switch" aria-checked="true" tabindex="0"></div>
+      </div>
+
+      <div class="toggle-row">
+        <div>
+          <strong>Weekly Impact Summary</strong>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin:0;">Your rescue stats every Monday</p>
+        </div>
+        <div class="toggle-switch" data-toggle="weekly" role="switch" aria-checked="false" tabindex="0"></div>
+      </div>
+
+      <div class="toggle-row">
+        <div>
+          <strong>Marketing &amp; Promotions</strong>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin:0;">Product news and platform updates</p>
+        </div>
+        <div class="toggle-switch" data-toggle="marketing" role="switch" aria-checked="false" tabindex="0"></div>
+      </div>
+
+      <div class="action-buttons" style="margin-top:1rem;">
+        <button type="button" class="btn btn-primary btn-sm" id="save-notif-settings-btn">💾 Save Notification Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ PRIVACY ============ -->
+  <div class="ashram-card" style="display:block;margin-bottom:1.5rem;">
+    <div class="card-body">
+      <h3 style="font-size:1.05rem;margin-bottom:1rem;">🔒 Privacy</h3>
+
+      <div class="toggle-row">
+        <div>
+          <strong>Show My Profile Publicly</strong>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin:0;">Allow others to view your impact stats</p>
+        </div>
+        <div class="toggle-switch on" data-toggle="public-profile" role="switch" aria-checked="true" tabindex="0"></div>
+      </div>
+
+      <div class="toggle-row">
+        <div>
+          <strong>Share Live Location</strong>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin:0;">Only during active pickups</p>
+        </div>
+        <div class="toggle-switch on" data-toggle="location" role="switch" aria-checked="true" tabindex="0"></div>
+      </div>
+
+      <div class="toggle-row">
+        <div>
+          <strong>Appear on Leaderboard</strong>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin:0;">Show your name in public rankings</p>
+        </div>
+        <div class="toggle-switch on" data-toggle="leaderboard" role="switch" aria-checked="true" tabindex="0"></div>
+      </div>
+
+      <div class="toggle-row">
+        <div>
+          <strong>Allow Data for Research</strong>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin:0;">Anonymous usage data to improve the platform</p>
+        </div>
+        <div class="toggle-switch" data-toggle="research" role="switch" aria-checked="false" tabindex="0"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SECURITY ============ -->
+  <div class="ashram-card" style="display:block;margin-bottom:1.5rem;">
+    <div class="card-body">
+      <h3 style="font-size:1.05rem;margin-bottom:1rem;">🛡️ Security</h3>
+
+      <div class="toggle-row" style="padding:0.75rem 0;border-bottom:1px solid var(--slate-border);">
+        <div>
+          <strong>Password</strong>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin:0;">Last changed 42 days ago</p>
+        </div>
+        <button type="button" class="btn btn-outline btn-sm" id="change-password-toggle">🔒 Change Password</button>
+      </div>
+
+      <div class="toggle-row" style="padding:0.75rem 0;border-bottom:1px solid var(--slate-border);">
+        <div>
+          <strong>Two-Factor Authentication</strong>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin:0;">Extra security for your account</p>
+        </div>
+        <div class="toggle-switch" data-toggle="2fa" role="switch" aria-checked="false" tabindex="0"></div>
+      </div>
+
+      <div class="toggle-row" style="padding:0.75rem 0;">
+        <div>
+          <strong>Active Sessions</strong>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin:0;">1 device currently logged in</p>
+        </div>
+        <button type="button" class="btn btn-outline btn-sm" id="logout-all-btn" style="color:#dc2626;border-color:#fecaca;">Log out everywhere</button>
+      </div>
+
+      <form id="change-password-form" class="food-form" style="margin-top:1.25rem;display:none;" onsubmit="return false;" novalidate>
+        <div class="form-group">
+          <label for="current-password">Current Password</label>
+          <input type="password" id="current-password" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="new-password">New Password</label>
+            <input type="password" id="new-password" minlength="8" required>
+          </div>
+          <div class="form-group">
+            <label for="confirm-password">Confirm New Password</label>
+            <input type="password" id="confirm-password" minlength="8" required>
+          </div>
+        </div>
+        <p id="password-error" class="field-error" style="display:none;">Passwords don't match or are too short (min 8 characters).</p>
+        <div class="wizard-nav">
+          <button type="button" class="btn btn-outline" id="cancel-password-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="save-password-btn">Save New Password</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============ APPEARANCE ============ -->
+  <div class="ashram-card" style="display:block;margin-bottom:1.5rem;">
+    <div class="card-body">
+      <h3 style="font-size:1.05rem;margin-bottom:1rem;">🎨 Appearance</h3>
+
+      <div class="toggle-row" style="padding:0.75rem 0;border-bottom:1px solid var(--slate-border);">
+        <div>
+          <strong>Theme</strong>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin:0;">Choose your preferred theme</p>
+        </div>
+        <select id="set-theme" class="role-dropdown" style="max-width:220px;">
+          <option value="light" selected>Light</option>
+          <option value="dark">Dark</option>
+          <option value="system">Follow System</option>
+        </select>
+      </div>
+
+      <div class="toggle-row" style="padding:0.75rem 0;border-bottom:1px solid var(--slate-border);">
+        <div>
+          <strong>Reduce Animations</strong>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin:0;">Turn off motion effects</p>
+        </div>
+        <div class="toggle-switch" data-toggle="reduce-motion" role="switch" aria-checked="false" tabindex="0"></div>
+      </div>
+
+      <div class="toggle-row" style="padding:0.75rem 0;">
+        <div>
+          <strong>Compact Mode</strong>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin:0;">Show more content per screen</p>
+        </div>
+        <div class="toggle-switch" data-toggle="compact" role="switch" aria-checked="false" tabindex="0"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ DANGER ZONE ============ -->
+  <div class="ashram-card" style="display:block;margin-bottom:1.5rem;border-color:#fecaca;">
+    <div class="card-body">
+      <h3 style="font-size:1.05rem;margin-bottom:1rem;color:#dc2626;">⚠️ Danger Zone</h3>
+
+      <div class="toggle-row" style="padding:0.75rem 0;border-bottom:1px solid #fee2e2;">
+        <div>
+          <strong>Download My Data</strong>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin:0;">Get a copy of everything we store about you</p>
+        </div>
+        <button type="button" class="btn btn-outline btn-sm" id="download-data-btn">📥 Download</button>
+      </div>
+
+      <div class="toggle-row" style="padding:0.75rem 0;">
+        <div>
+          <strong style="color:#dc2626;">Delete Account</strong>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin:0;">Permanently remove your account and data</p>
+        </div>
+        <button type="button" class="btn btn-sm" id="delete-account-btn"
+                style="background:#dc2626;color:#fff;border-color:#dc2626;">Delete</button>
+      </div>
+    </div>
+  </div>
+
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-brand">
+      <h3>FeedFoodForward</h3>
+      <p>"Rescue Food. Reduce Waste. Feed Communities."</p>
+    </div>
+    <div class="footer-copyright">© 2026 FeedFoodForward Platform.</div>
+  </div>
+</footer>
+
+<div id="ff-toast" role="status" aria-live="polite"
+     style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);background:#0f172a;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:all .3s ease;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.25);"></div>
+
+<script src="app.js"></script>
+<script src="header-nav.js"></script>
+<script src="sidebar.js"></script>
+<script src="animations.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  /* ---- Get current user ---- */
+  function currentUser() {
+    return (window.ffAuth && window.ffAuth.getUser) ? window.ffAuth.getUser() : null;
+  }
+  function toast(msg) {
+    if (window.ffToast) window.ffToast(msg);
+  }
+
+  /* ---- Toggle switches ---- */
+  document.querySelectorAll('.toggle-switch[data-toggle]').forEach(sw => {
+    const toggle = () => {
+      sw.classList.toggle('on');
+      sw.setAttribute('aria-checked', String(sw.classList.contains('on')));
+    };
+    sw.addEventListener('click', toggle);
+    sw.addEventListener('keydown', (e) => {
+      if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggle(); }
+    });
+  });
+
+  function isOn(name) {
+    const sw = document.querySelector('.toggle-switch[data-toggle="' + name + '"]');
+    return sw ? sw.classList.contains('on') : false;
+  }
+  function setOn(name, val) {
+    const sw = document.querySelector('.toggle-switch[data-toggle="' + name + '"]');
+    if (!sw) return;
+    sw.classList.toggle('on', !!val);
+    sw.setAttribute('aria-checked', String(!!val));
+  }
+
+  /* ---- Load settings from backend ---- */
+  (async function loadSettings() {
+    const user = currentUser();
+    if (!user || !user.email) return;
+
+    const nameEl  = document.getElementById('set-display-name');
+    const emailEl = document.getElementById('set-email');
+    const phoneEl = document.getElementById('set-phone');
+    const langEl  = document.getElementById('set-language');
+    if (nameEl  && user.name)     nameEl.value  = user.name;
+    if (emailEl && user.email)    emailEl.value = user.email;
+    if (phoneEl && user.phone)    phoneEl.value = user.phone;
+    if (langEl  && user.language) langEl.value  = user.language;
+
+    try {
+      const r = await fetch('/api/users/settings?email=' + encodeURIComponent(user.email));
+      const data = await r.json();
+      if (!data.ok) return;
+
+      const s = data.settings || {};
+
+      if (s.notifications) {
+        setOn('email',     s.notifications.email);
+        setOn('sms',       s.notifications.sms);
+        setOn('pickup',    s.notifications.pickup);
+        setOn('delivery',  s.notifications.delivery);
+        setOn('weekly',    s.notifications.weekly);
+        setOn('marketing', s.notifications.marketing);
+      }
+      if (s.privacy) {
+        setOn('public-profile', s.privacy.publicProfile);
+        setOn('location',       s.privacy.location);
+        setOn('leaderboard',    s.privacy.leaderboard);
+        setOn('research',       s.privacy.research);
+      }
+      if (s.security) {
+        setOn('2fa', s.security.twoFactor);
+      }
+      if (s.appearance) {
+        if (s.appearance.theme) {
+          const t = document.getElementById('set-theme');
+          if (t) t.value = s.appearance.theme;
+        }
+        setOn('reduce-motion', s.appearance.reduceMotion);
+        setOn('compact',       s.appearance.compact);
+      }
+      if (data.language && langEl) langEl.value = data.language;
+    } catch (err) {
+      console.warn('Could not load settings:', err);
+    }
+  })();
+
+  /* ---- Save account info ---- */
+  const saveAccountBtn = document.getElementById('save-account-btn');
+  if (saveAccountBtn) {
+    saveAccountBtn.addEventListener('click', async () => {
+      const user = currentUser();
+      if (!user || !user.email) { toast('⚠️ Please log in first'); return; }
+
+      const name  = (document.getElementById('set-display-name') || {}).value || '';
+      const phone = (document.getElementById('set-phone') || {}).value || '';
+      const lang  = (document.getElementById('set-language') || {}).value || 'en-IN';
+
+      saveAccountBtn.disabled = true;
+      saveAccountBtn.textContent = '⏳ Saving…';
+
+      try {
+        const r = await fetch('/api/users/settings?email=' + encodeURIComponent(user.email), {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, phone, language: lang })
+        });
+        const data = await r.json();
+        if (!data.ok) throw new Error(data.error || 'Save failed');
+
+        const updated = Object.assign({}, user, { name, phone, language: lang });
+        window.ffAuth.setUser(updated);
+        if (window.ffRefreshSidebar) window.ffRefreshSidebar();
+        toast('✅ Account info saved');
+      } catch (err) {
+        toast('⚠️ Could not save: ' + err.message);
+      } finally {
+        saveAccountBtn.disabled = false;
+        saveAccountBtn.textContent = '💾 Save Account Info';
+      }
+    });
+  }
+
+  /* ---- Save notification settings ---- */
+  const saveNotifBtn = document.getElementById('save-notif-settings-btn');
+  if (saveNotifBtn) {
+    saveNotifBtn.addEventListener('click', async () => {
+      const user = currentUser();
+      if (!user || !user.email) { toast('⚠️ Please log in first'); return; }
+
+      const payload = {
+        notifications: {
+          email:     isOn('email'),
+          sms:       isOn('sms'),
+          pickup:    isOn('pickup'),
+          delivery:  isOn('delivery'),
+          weekly:    isOn('weekly'),
+          marketing: isOn('marketing')
+        },
+        privacy: {
+          publicProfile: isOn('public-profile'),
+          location:      isOn('location'),
+          leaderboard:   isOn('leaderboard'),
+          research:      isOn('research')
+        },
+        security: { twoFactor: isOn('2fa') },
+        appearance: {
+          theme:        (document.getElementById('set-theme') || {}).value || 'light',
+          reduceMotion: isOn('reduce-motion'),
+          compact:      isOn('compact')
+        }
+      };
+
+      saveNotifBtn.disabled = true;
+      saveNotifBtn.textContent = '⏳ Saving…';
+
+      try {
+        const r = await fetch('/api/users/settings?email=' + encodeURIComponent(user.email), {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await r.json();
+        if (!data.ok) throw new Error(data.error || 'Save failed');
+        toast('✅ Settings saved');
+      } catch (err) {
+        toast('⚠️ Could not save: ' + err.message);
+      } finally {
+        saveNotifBtn.disabled = false;
+        saveNotifBtn.textContent = '💾 Save Notification Settings';
+      }
+    });
+  }
+
+  /* ---- Change password ---- */
+  const pwToggle  = document.getElementById('change-password-toggle');
+  const pwForm    = document.getElementById('change-password-form');
+  const pwCancel  = document.getElementById('cancel-password-btn');
+  const pwError   = document.getElementById('password-error');
+  const pwNew     = document.getElementById('new-password');
+  const pwConfirm = document.getElementById('confirm-password');
+
+  if (pwToggle && pwForm) {
+    pwToggle.addEventListener('click', () => {
+      pwForm.style.display = pwForm.style.display === 'none' ? 'block' : 'none';
+      if (pwForm.style.display === 'block') pwForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
+  if (pwCancel && pwForm) {
+    pwCancel.addEventListener('click', () => {
+      pwForm.reset();
+      if (pwError) pwError.style.display = 'none';
+      pwForm.style.display = 'none';
+    });
+  }
+  if (pwForm) {
+    pwForm.addEventListener('submit', () => {
+      const valid = pwForm.checkValidity() && pwNew && pwConfirm && pwNew.value === pwConfirm.value;
+      if (!valid) { if (pwError) pwError.style.display = 'block'; return; }
+      if (pwError) pwError.style.display = 'none';
+      toast('✅ Password updated');
+      pwForm.reset();
+      pwForm.style.display = 'none';
+    });
+  }
+
+  /* ---- Log out everywhere ---- */
+  const logoutAllBtn = document.getElementById('logout-all-btn');
+  if (logoutAllBtn) {
+    logoutAllBtn.addEventListener('click', () => {
+      if (!confirm('Log out of all devices?')) return;
+      if (window.ffAuth) window.ffAuth.clear();
+      toast('Logged out of all devices');
+      setTimeout(() => { window.location.href = 'guest-home.html'; }, 800);
+    });
+  }
+
+  /* ---- Download my data ---- */
+  const dlDataBtn = document.getElementById('download-data-btn');
+  if (dlDataBtn) {
+    dlDataBtn.addEventListener('click', async () => {
+      const user = currentUser();
+      const email = user && user.email;
+      let payload = user || {};
+
+      if (email) {
+        try {
+          const r = await fetch('/api/users/me?email=' + encodeURIComponent(email));
+          const data = await r.json();
+          if (data.ok) payload = data.user;
+        } catch (err) {}
+      }
+
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href = url;
+      a.download = 'feedfoodforward-my-data.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      toast('📥 Data downloaded');
+    });
+  }
+
+  /* ---- Delete account ---- */
+  const delAccBtn = document.getElementById('delete-account-btn');
+  if (delAccBtn) {
+    delAccBtn.addEventListener('click', async () => {
+      const user = currentUser();
+      if (!user || !user.email) { toast('⚠️ Please log in first'); return; }
+      const c = prompt('Type DELETE to permanently remove your account:');
+      if (c !== 'DELETE') return;
+
+      delAccBtn.disabled = true;
+      delAccBtn.textContent = '⏳ Deleting…';
+
+      try {
+        const r = await fetch('/api/users/me?email=' + encodeURIComponent(user.email), {
+          method: 'DELETE'
+        });
+        const data = await r.json();
+        if (!data.ok) throw new Error(data.error || 'Delete failed');
+        if (window.ffAuth) window.ffAuth.clear();
+        toast('Account deleted');
+        setTimeout(() => { window.location.href = 'index.html'; }, 800);
+      } catch (err) {
+        toast('⚠️ Could not delete: ' + err.message);
+        delAccBtn.disabled = false;
+        delAccBtn.textContent = 'Delete';
+      }
+    });
+  }
+
+});
+</script>
+<script src="chatbot.js"></script>
+</body>
+</html>

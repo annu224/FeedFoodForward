@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explore Food Donors | FeedFoodForward</title>
+<meta name="theme-color" content="#16a34a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .rest-tile {
+    background: #fff; border-radius: 18px;
+    border: 1px solid var(--slate-border);
+    overflow: hidden; transition: all .25s ease;
+    display: flex; flex-direction: column;
+  }
+  .rest-tile:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px -12px rgba(16,185,129,.22);
+    border-color: var(--primary-green);
+  }
+  .rest-tile-img-wrap {
+    position: relative; height: 160px; overflow: hidden;
+    background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3.5rem;
+  }
+  .rest-tile-type-tag {
+    position: absolute; top: 0.65rem; left: 0.65rem;
+    background: rgba(255,255,255,.95); color: var(--dark-green);
+    font-size: 0.62rem; font-weight: 800;
+    padding: 0.25rem 0.6rem; border-radius: 6px;
+    text-transform: uppercase; letter-spacing: .03em;
+  }
+  .rest-tile-rating {
+    position: absolute; top: 0.65rem; right: 0.65rem;
+    background: #fef3c7; color: #92400e;
+    font-size: 0.65rem; font-weight: 800;
+    padding: 0.25rem 0.55rem; border-radius: 6px;
+  }
+  .rest-tile-body {
+    padding: 1rem 1.1rem 1.15rem;
+    display: flex; flex-direction: column; gap: 0.5rem; flex: 1;
+  }
+  .rest-tile h3 { font-size: 1rem; margin: 0; color: var(--navy-dark); line-height: 1.3; }
+  .rest-tile-addr { font-size: 0.75rem; color: var(--text-muted); line-height: 1.5; margin: 0; }
+  .rest-tile-meta { display: flex; gap: 0.4rem; flex-wrap: wrap; font-size: 0.7rem; margin-top: auto; }
+  .rest-tile-meta span, .rest-tile-meta a {
+    background: #f1f5f9; color: var(--navy-dark);
+    padding: 0.2rem 0.55rem; border-radius: 6px;
+    text-decoration: none; font-weight: 600;
+  }
+  .rest-tile-meta a { background: var(--light-green); color: var(--dark-green); }
+  .rest-tile-meta a:hover { background: var(--primary-green); color: #fff; }
+  .rest-tile-cuisine { background: #dbeafe !important; color: #1e40af !important; font-weight: 800 !important; }
+  .rest-tile-cta {
+    display: inline-block; text-align: center;
+    margin-top: 0.75rem; padding: 0.6rem;
+    background: linear-gradient(135deg, var(--dark-green), var(--primary-green));
+    color: #fff; font-weight: 700; font-size: 0.78rem;
+    border-radius: 10px; text-decoration: none;
+  }
+  .rest-tile-cta:hover { opacity: .9; }
+  .ashram-grid-outer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1.5rem 4rem 1.5rem;
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-container">
+    <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <a href="index.html" class="brand-logo" aria-label="FeedFoodForward home">
+      <div class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="ffTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#067A54"/><stop offset="55%" stop-color="#0B9F6E"/><stop offset="100%" stop-color="#10B981"/></linearGradient><linearGradient id="ffHeart" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#FF5A7A"/><stop offset="100%" stop-color="#F03E64"/></linearGradient><linearGradient id="ffLeaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#A3E635"/><stop offset="100%" stop-color="#65A30D"/></linearGradient></defs>
+          <rect x="2" y="2" width="44" height="44" rx="11" fill="url(#ffTile)"/>
+          <g transform="translate(28 6) rotate(20)"><path d="M0 14 C0 6 5 1 12 0 C12 8 7 14 0 14 Z" fill="url(#ffLeaf)"/></g>
+          <g transform="translate(8 20)"><path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4 C7.4 0.4 9.2 1.8 10 3.4 C10.8 1.8 12.6 0.4 15 0.4 C18.3 0.4 21 2.6 21 6 C21 10 18 14 10 20 Z" fill="url(#ffHeart)"/></g>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">FeedFood<span>Forward</span></span>
+        <span class="brand-subtitle">AI FOOD REDISTRIBUTION PLATFORM</span>
+      </div>
+    </a>
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation menu">☰</button>
+    <nav class="site-nav" id="site-nav" aria-label="Primary">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="success-stories.html" class="nav-link">Success Stories</a>
+      <a href="find-ashrams.html" class="nav-link">Find Ashrams</a>
+      <a href="find-donors.html" class="nav-link">Explore Food Donors</a>
+      <a href="impact-csr.html" class="nav-link">Impact &amp; CSR</a>
+      <a href="how-it-works.html" class="nav-link">How It Works</a>
+    </nav>
+    <div class="header-utilities">
+      <div id="header-guest" class="header-auth-group">
+        <button type="button" class="btn btn-outline btn-sm" id="header-login-btn">Login</button>
+        <button type="button" class="btn btn-primary btn-sm" id="header-signup-btn">Sign Up</button>
+      </div>
+      <div id="header-user" class="header-user-group" hidden>
+        <button type="button" class="user-chip" id="user-chip" aria-haspopup="true" aria-expanded="false">
+          <span class="user-avatar" id="user-avatar">👤</span>
+          <span class="user-name" id="user-name">User</span>
+          <span class="user-caret" aria-hidden="true">▾</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section style="padding-top:3rem;">
+
+  <div class="section-title">
+    <h2>Explore Food Donors in Mumbai</h2>
+    <p id="rest-count">Loading restaurants…</p>
+  </div>
+
+  <div style="max-width:1280px;margin:0 auto 1.5rem auto;padding:0 1.5rem;">
+    <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;">
+      <input type="text" id="rest-search" placeholder="🔍 Search restaurant or area (e.g. Juhu, Bandra, Veg)…" class="search-input" style="flex:1;min-width:220px;">
+      <select id="rest-cuisine-filter" class="role-dropdown" style="font-size:0.85rem;padding:0.6rem 0.9rem;max-width:220px;">
+        <option value="">All Cuisines</option>
+        <option value="Pure Veg / Vegetarian">Pure Veg / Vegetarian</option>
+      </select>
+      <button type="button" id="rest-reset-btn" class="btn btn-outline btn-sm" style="padding:0.65rem 1.2rem;">↺ Reset</button>
+    </div>
+  </div>
+
+  <p id="rest-empty-msg" style="display:none;text-align:center;color:var(--text-muted);padding:3rem 1rem;"></p>
+
+  <div class="ashram-grid-outer" id="rest-grid"></div>
+
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-brand">
+      <h3>FeedFoodForward</h3>
+      <p>"Rescue Food. Reduce Waste. Feed Communities."</p>
+    </div>
+    <div class="footer-copyright">© 2026 FeedFoodForward Platform.</div>
+  </div>
+</footer>
+
+<div id="ff-toast" role="status" aria-live="polite"
+     style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);background:#0f172a;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:all .3s ease;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.25);"></div>
+
+<script src="app.js"></script>
+<script src="header-nav.js"></script>
+<script src="sidebar.js"></script>
+<script src="animations.js"></script>
+<script src="chatbot.js"></script>
+
+<script>
+(function () {
+  'use strict';
+
+  var RESTAURANTS = [
+    { name: "Oye Kake",                                    area: "Kala Ghoda, Fort",         address: "13 Cawasji Patel Street, Fort, Mumbai 400001",                     rating: 4.2, cuisine: "Pure Veg / Vegetarian", img: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&auto=format&fit=crop&q=80" },
+    { name: "Burma Burma Restaurant & Tea Room",           area: "Kala Ghoda, Fort",         address: "Kothari House, Allana Centre Lane, Kala Ghoda, Fort, Mumbai 400001", rating: 4.5, cuisine: "Pure Veg / Vegetarian", img: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=600&auto=format&fit=crop&q=80" },
+    { name: "Radha Krishna Veg Delight",                   area: "Andheri East",             address: "Shop 2/3/4, Shree Sainath SRA CHS, Parsi Panchayat Road, Andheri East", rating: 4.4, cuisine: "Pure Veg / Vegetarian", img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&auto=format&fit=crop&q=80" },
+    { name: "Ciel Pure Veg",                               area: "Andheri East",             address: "45, Teli Gali, Andheri East, Mumbai 400069",                        rating: 4.1, cuisine: "Pure Veg / Vegetarian", img: "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=600&auto=format&fit=crop&q=80" },
+    { name: "Radha Krishna Veg. Restaurant",               area: "Andheri West",             address: "Andheri West, Mumbai",                                              rating: 4.3, cuisine: "Pure Veg / Vegetarian", img: "https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=600&auto=format&fit=crop&q=80" },
+    { name: "Hare Rama Hare Krishna Veg Restaurant",       area: "Andheri East (Chakala)",   address: "82 Sir M V Road, Andheri Kurla Road, Chakala, Mumbai 400069",       rating: 4.2, cuisine: "Pure Veg / Vegetarian", img: "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=600&auto=format&fit=crop&q=80" },
+    { name: "Tiara - Pure Veg Rooftop Lounge & Cafe",      area: "Andheri West",             address: "Sai Kanwal Complex, 427/428, Indira Nagar, DN Nagar, Andheri West", rating: 4.1, cuisine: "Pure Veg / Vegetarian", img: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&auto=format&fit=crop&q=80" },
+    { name: "Naanaya's Simply Veg",                        area: "Marol, Andheri East",      address: "Shop 11, Parijat Towers, Saki Vihar Road, Marol, Andheri East",     rating: 4.4, cuisine: "Pure Veg / Vegetarian", img: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=600&auto=format&fit=crop&q=80" },
+    { name: "Kalinga Veg. Restaurant",                     area: "Andheri West",             address: "Oberoi Complex, Shop 10, Nyayadeep CHS, New Link Road, Andheri West", rating: 4.1, cuisine: "Pure Veg / Vegetarian", img: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=600&auto=format&fit=crop&q=80" },
+    { name: "Madras Diaries",                              area: "Bandra West",              address: "Shop 7, Muzaffar Manor, 28th Road, Bandra West, Mumbai 400050",     rating: 3.9, cuisine: "Pure Veg / Vegetarian", img: "https://images.unsplash.com/photo-1567337710282-00832b415979?w=600&auto=format&fit=crop&q=80" },
+    { name: "Gokul Veg Restaurant",                        area: "Bandra West",              address: "Bandra West, Mumbai",                                               rating: 4.3, cuisine: "Pure Veg / Vegetarian", img: "https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=600&auto=format&fit=crop&q=80" },
+    { name: "The Bombay Cartel",                           area: "Vile Parle West / Juhu",   address: "Shop 4-5, 1st Floor, Bombay Hub, Senapati Bapat Marg, Lower Parel", rating: 4.0, cuisine: "Pure Veg / Vegetarian", img: "https://images.unsplash.com/photo-1552566626-52f8b828add9?w=600&auto=format&fit=crop&q=80" },
+    { name: "Saffron & Soy",                               area: "Juhu",                     address: "18/B, Juhu Tara Road, Juhu, Mumbai 400054",                         rating: 4.4, cuisine: "Pure Veg / Vegetarian", img: "https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=600&auto=format&fit=crop&q=80" },
+    { name: "Utsav Restaurant",                            area: "Juhu / Vile Parle West",   address: "Ravindra Natya Mandir, Sayani Marg, Prabhadevi, Mumbai 400025",     rating: 4.3, cuisine: "Pure Veg / Vegetarian", img: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&auto=format&fit=crop&q=80" },
+    { name: "Bayleaf Cafe",                                area: "Juhu",                     address: "Juhu, Mumbai",                                                      rating: 4.4, cuisine: "Pure Veg / Vegetarian", img: "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=600&auto=format&fit=crop&q=80" },
+    { name: "Avatara Mumbai",                              area: "Santacruz West",           address: "7th Floor, Krishna Curve Building, Juhu Road, Santacruz West",      rating: 4.6, cuisine: "Pure Veg / Vegetarian", img: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&auto=format&fit=crop&q=80" },
+    { name: "Achija Veg Restaurant Juhu",                  area: "Juhu",                     address: "Juhu, Mumbai",                                                      rating: 3.8, cuisine: "Pure Veg / Vegetarian", img: "https://images.unsplash.com/photo-1596797038530-2c107229654b?w=600&auto=format&fit=crop&q=80" },
+    { name: "Radha Krishna Multi Cuisine Vegetarian Restaurant", area: "Vile Parle East",    address: "Vile Parle East, Mumbai",                                           rating: 4.3, cuisine: "Pure Veg / Vegetarian", img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&auto=format&fit=crop&q=80" },
+    { name: "Aaswad Upahar & Mithai Gruh",                 area: "Dadar West",               address: "Lady Jamshedji Road, Opp. Shiv Sena Bhavan, Gadkari Chowk, Dadar",  rating: 4.4, cuisine: "Pure Veg / Vegetarian", img: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=600&auto=format&fit=crop&q=80" },
+    { name: "Mumbai Rejoice",                              area: "Dadar West",               address: "Dadar West, Mumbai",                                                rating: 4.7, cuisine: "Pure Veg / Vegetarian", img: "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=600&auto=format&fit=crop&q=80" },
+    { name: "Gandharva",                                   area: "Dadar East",               address: "Dadar East, Mumbai",                                                rating: 4.3, cuisine: "Pure Veg / Vegetarian", img: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=600&auto=format&fit=crop&q=80" },
+    { name: "Apoorva Delicacies",                          area: "Dadar West",               address: "Dadar West, Mumbai",                                                rating: 4.2, cuisine: "Pure Veg / Vegetarian", img: "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=600&auto=format&fit=crop&q=80" },
+    { name: "Sai Sagar Pure Veg Restaurant",               area: "Dadar East",               address: "Dadar East, Mumbai",                                                rating: 3.8, cuisine: "Pure Veg / Vegetarian", img: "https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=600&auto=format&fit=crop&q=80" },
+    { name: "Mutuswami Cafe",                              area: "Dadar East",               address: "Ground Floor, Ramee Guestline Hotel, Dadar East, Mumbai 400014",    rating: 4.4, cuisine: "Pure Veg / Vegetarian", img: "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=600&auto=format&fit=crop&q=80" },
+    { name: "Udupi 2 Mumbai Dadar",                        area: "Dadar East",               address: "Shop 3-5, 188-Sharda Mansion, BA Road, Dadar East, Mumbai",         rating: 4.0, cuisine: "Pure Veg / Vegetarian", img: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&auto=format&fit=crop&q=80" },
+    { name: "Prasad Food Divine",                          area: "Powai (near IIT)",         address: "TX 22-7/14C, Goregaon-Mulund Link Road, Opp. D-Mart, Mulund West",  rating: 4.7, cuisine: "Pure Veg / Vegetarian", img: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=600&auto=format&fit=crop&q=80" },
+    { name: "Soul Thali Pure Veg Restaurant",              area: "Chandivali, Powai",        address: "Shop 3, 11 A S Marg, near Coast Guard, Chandivali, Powai, Mumbai",  rating: 4.8, cuisine: "Pure Veg / Vegetarian", img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&auto=format&fit=crop&q=80" },
+    { name: "Classic Pure Veg Restaurant",                 area: "Malad West",               address: "Bhanu Apt, Sant Dnyaneshwar Road, Shankheshwar Nagar, Borivali East", rating: 4.7, cuisine: "Pure Veg / Vegetarian", img: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=600&auto=format&fit=crop&q=80" },
+    { name: "Green Tadka",                                 area: "Malad West",               address: "Shop 4, Business Classic, Chincholi Bunder Road, Malad West",      rating: 4.3, cuisine: "Pure Veg / Vegetarian", img: "https://images.unsplash.com/photo-1596797038530-2c107229654b?w=600&auto=format&fit=crop&q=80" },
+    { name: "Greens",                                      area: "Malad West",               address: "Malad West, Mumbai",                                                rating: 4.1, cuisine: "Pure Veg / Vegetarian", img: "https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=600&auto=format&fit=crop&q=80" }
+  ];
+
+  function esc(s) {
+    return String(s || '').replace(/[&<>"']/g, function (c) {
+      return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
+    });
+  }
+
+  var grid = document.getElementById('rest-grid');
+  var empty = document.getElementById('rest-empty-msg');
+  var count = document.getElementById('rest-count');
+  var search = document.getElementById('rest-search');
+  var cuisine = document.getElementById('rest-cuisine-filter');
+  var reset = document.getElementById('rest-reset-btn');
+
+  function render() {
+    var q = (search.value || '').toLowerCase().trim();
+    var c = cuisine.value;
+
+    var filtered = RESTAURANTS.filter(function (r) {
+      if (c && r.cuisine !== c) return false;
+      if (q) {
+        var hay = (r.name + ' ' + r.area + ' ' + r.address + ' ' + r.cuisine).toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+      return true;
+    });
+
+    count.textContent = 'Showing ' + filtered.length + ' of ' + RESTAURANTS.length + ' restaurants';
+
+    if (filtered.length === 0) {
+      grid.innerHTML = '';
+      empty.style.display = 'block';
+      empty.textContent = 'No restaurants match your search. Try a different keyword.';
+      return;
+    }
+    empty.style.display = 'none';
+
+    grid.innerHTML = filtered.map(function (r) {
+      return (
+        '<div class="rest-tile">' +
+          '<div class="rest-tile-img-wrap">' +
+            '<img src="' + esc(r.img) + '" alt="' + esc(r.name) + '" ' +
+                 'style="width:100%;height:100%;object-fit:cover;display:block;" ' +
+                 'loading="lazy" ' +
+                 'onerror="this.parentElement.style.fontSize=\'3.5rem\';this.parentElement.innerHTML=\'🍽️<span class=&quot;rest-tile-type-tag&quot;>Restaurant</span><span class=&quot;rest-tile-rating&quot;>⭐ ' + r.rating.toFixed(1) + '</span>\';">' +
+            '<span class="rest-tile-type-tag">Restaurant</span>' +
+            '<span class="rest-tile-rating">⭐ ' + r.rating.toFixed(1) + '</span>' +
+          '</div>' +
+          '<div class="rest-tile-body">' +
+            '<h3>' + esc(r.name) + '</h3>' +
+            '<p class="rest-tile-addr">📍 ' + esc(r.area) + ' — ' + esc(r.address) + '</p>' +
+            '<div class="rest-tile-meta">' +
+              '<span class="rest-tile-cuisine">' + esc(r.cuisine) + '</span>' +
+            '</div>' +
+            '<a href="donate-food.html" class="rest-tile-cta" data-guest-donate>🍱 Donate from here →</a>' +
+          '</div>' +
+        '</div>'
+      );
+    }).join('');
+  }
+
+  if (search)  search.addEventListener('input', render);
+  if (cuisine) cuisine.addEventListener('change', render);
+
+  if (reset) {
+    reset.addEventListener('click', function () {
+      search.value = '';
+      cuisine.value = '';
+      render();
+      if (window.ffToast) window.ffToast('↺ Filters reset');
+    });
+  }
+
+  render();
+
+  /* Guest donate guard — ask guest to log in / sign up as a Food Donor */
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest('[data-guest-donate]');
+    if (!link) return;
+    var user = (window.ffAuth && window.ffAuth.getUser) ? window.ffAuth.getUser() : null;
+    if (user) return;
+    e.preventDefault();
+    if (window.ffToast) window.ffToast('🔒 Please sign up as a Food Donor to donate');
+    if (typeof window.ffOpenSignupModal === 'function') {
+      window.ffOpenSignupModal();
+    } else {
+      setTimeout(function () { window.location.href = 'index.html?signup=1'; }, 500);
+    }
+  });
+
+})();
+</script>
+
+</body>
+</html>

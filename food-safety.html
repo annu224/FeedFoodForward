@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Food Safety Guidelines | FeedFoodForward</title>
+<meta name="description" content="Learn what's safe to donate, what to avoid, and how every donation is inspected by trained drivers.">
+<meta name="theme-color" content="#16a34a">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2316a34a'/%3E%3Cpath d='M50 80 C28 62 18 50 18 37 A17 17 0 0 1 50 28 A17 17 0 0 1 82 37 C82 50 72 62 50 80 Z' fill='%23ffffff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+/* ============================================================
+   FOOD SAFETY GUIDELINES — animated modern layout
+   ============================================================ */
+.fsg {
+  --fsg-ink: #0B1224;
+  --fsg-muted: #64748b;
+  --fsg-soft: #94a3b8;
+  --fsg-line: #e8edf3;
+  --fsg-bg: #f7f9fb;
+  --fsg-green: #0B9F6E;
+  --fsg-green-dark: #047857;
+  --fsg-green-deep: #064e3b;
+  --fsg-green-50: #ecfdf5;
+  --fsg-red: #dc2626;
+  --fsg-red-50: #fef2f2;
+  --fsg-amber: #f59e0b;
+  --fsg-amber-50: #fffbeb;
+  background: var(--fsg-bg);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ---------- Progress bar ---------- */
+.fsg-progress {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 3px; z-index: 999;
+  transform-origin: 0 50%; transform: scaleX(0);
+  background: linear-gradient(90deg, #10b981, #f59e0b, #10b981);
+  background-size: 200% 100%;
+  animation: fsgHue 8s linear infinite;
+}
+@keyframes fsgHue { to { background-position: 200% 50%; } }
+
+/* ---------- Background orbs ---------- */
+.fsg-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.fsg-orb { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .5; }
+.fsg-orb-1 { width: 520px; height: 520px; top: -180px; left: -150px;
+  background: radial-gradient(circle, rgba(16,185,129,.45), transparent 70%);
+  animation: fsgOrbFloat 22s ease-in-out infinite; }
+.fsg-orb-2 { width: 460px; height: 460px; top: 25%; right: -180px;
+  background: radial-gradient(circle, rgba(245,158,11,.35), transparent 70%);
+  animation: fsgOrbFloat 26s ease-in-out infinite -8s; }
+.fsg-orb-3 { width: 420px; height: 420px; bottom: -160px; left: 40%;
+  background: radial-gradient(circle, rgba(139,92,246,.28), transparent 70%);
+  animation: fsgOrbFloat 24s ease-in-out infinite -14s; }
+@keyframes fsgOrbFloat {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  33%      { transform: translate(40px,-30px) scale(1.08); }
+  66%      { transform: translate(-30px,40px) scale(.95); }
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.fsg-hero {
+  position: relative; z-index: 1;
+  padding: 4rem 1.5rem 3rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+.fsg-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  padding: .5rem 1rem;
+  background: rgba(255,255,255,.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(16,185,129,.25);
+  border-radius: 999px;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--fsg-green-dark);
+  margin-bottom: 1.5rem;
+  box-shadow: 0 8px 24px -10px rgba(11,159,110,.28);
+  opacity: 0;
+  animation: fsgFadeUp .8s ease forwards .05s;
+}
+.fsg-badge-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--fsg-green); position: relative;
+}
+.fsg-badge-dot::after {
+  content: "";
+  position: absolute; inset: -4px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(16,185,129,.5);
+  animation: fsgPing 1.8s ease-out infinite;
+}
+@keyframes fsgPing { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(2); opacity: 0; } }
+
+.fsg-hero h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -.035em;
+  color: var(--fsg-ink);
+  margin: 0 0 1.25rem;
+  opacity: 0;
+  animation: fsgFadeUp .9s ease forwards .15s;
+}
+.fsg-hero h1 em {
+  font-style: normal;
+  background: linear-gradient(100deg, #067a54 0%, #10b981 40%, #f59e0b 60%, #10b981 80%, #067a54 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: fsgShimmer 8s linear infinite;
+}
+@keyframes fsgShimmer { from { background-position: 0% 50%; } to { background-position: 250% 50%; } }
+
+.fsg-hero p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #475569;
+  max-width: 640px;
+  margin: 0 auto 2rem;
+  opacity: 0;
+  animation: fsgFadeUp .9s ease forwards .3s;
+}
+.fsg-hero-actions {
+  display: flex;
+  gap: .75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fsgFadeUp .9s ease forwards .45s;
+}
+.fsg-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  padding: 1rem 1.65rem;
+  font-family: inherit;
+  font-size: .88rem;
+  font-weight: 800;
+  text-decoration: none;
+  border-radius: 14px;
+  transition: all .25s cubic-bezier(.2,.7,.2,1);
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+.fsg-btn.primary {
+  background: linear-gradient(135deg, #10b981, #047857);
+  color: #fff;
+  box-shadow: 0 14px 32px -12px rgba(11,159,110,.6);
+}
+.fsg-btn.primary::after {
+  content: "";
+  position: absolute; top: 0; bottom: 0; width: 40%; left: -70%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.5), transparent);
+  transform: skewX(-20deg);
+  animation: fsgSheen 3.2s ease-in-out infinite;
+}
+@keyframes fsgSheen { 0% { left: -70%; } 40%,100% { left: 130%; } }
+.fsg-btn.primary:hover { transform: translateY(-3px); box-shadow: 0 20px 42px -12px rgba(11,159,110,.85); }
+.fsg-btn.ghost {
+  background: #fff;
+  color: var(--fsg-ink);
+  border-color: var(--fsg-line);
+}
+.fsg-btn.ghost:hover {
+  border-color: var(--fsg-green);
+  color: var(--fsg-green-dark);
+  background: var(--fsg-green-50);
+  transform: translateY(-3px);
+}
+
+@keyframes fsgFadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ============================================================
+   QUICK STATS STRIP
+   ============================================================ */
+.fsg-stats {
+  position: relative; z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem 3rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+@media (max-width: 800px) { .fsg-stats { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .fsg-stats { grid-template-columns: 1fr; } }
+
+.fsg-stat {
+  background: rgba(255,255,255,.88);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--fsg-line);
+  border-radius: 18px;
+  padding: 1.35rem 1.4rem;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all .55s cubic-bezier(.2,.7,.2,1);
+}
+.fsg-stat.fsg-in { opacity: 1; transform: none; }
+.fsg-stat:hover {
+  transform: translateY(-6px);
+  border-color: var(--fsg-green);
+  box-shadow: 0 24px 48px -22px rgba(16,185,129,.32);
+}
+.fsg-stat-ico {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--fsg-green-50), rgba(16,185,129,.15));
+  color: var(--fsg-green-dark);
+  display: grid; place-items: center;
+  font-size: 1.3rem;
+  margin: 0 auto .85rem;
+}
+.fsg-stat strong {
+  display: block;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: var(--fsg-ink);
+  letter-spacing: -.02em;
+  line-height: 1;
+  margin-bottom: .35rem;
+}
+.fsg-stat span {
+  font-size: .74rem;
+  font-weight: 700;
+  color: var(--fsg-muted);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+/* ============================================================
+   TWO-COLUMN SAFE / NEVER
+   ============================================================ */
+.fsg-two-col {
+  position: relative; z-index: 1;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 1.5rem 3rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+@media (max-width: 900px) { .fsg-two-col { grid-template-columns: 1fr; } }
+
+.fsg-box {
+  background: #fff;
+  border: 1px solid var(--fsg-line);
+  border-radius: 24px;
+  padding: 2rem 2.1rem;
+  position: relative;
+  overflow: hidden;
+  transition: all .35s cubic-bezier(.2,.7,.2,1);
+  opacity: 0;
+  transform: translateY(40px);
+}
+.fsg-box.fsg-in { opacity: 1; transform: none; }
+.fsg-box:hover { box-shadow: 0 24px 48px -22px rgba(11,18,36,.15); }
+.fsg-box.safe {
+  border-top: 4px solid var(--fsg-green);
+}
+.fsg-box.never {
+  border-top: 4px solid var(--fsg-red);
+}
+
+.fsg-box-head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.fsg-box-ico {
+  width: 56px; height: 56px;
+  border-radius: 16px;
+  display: grid; place-items: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  transition: transform .4s cubic-bezier(.34,1.56,.64,1);
+}
+.fsg-box:hover .fsg-box-ico { transform: rotate(-8deg) scale(1.08); }
+.fsg-box.safe .fsg-box-ico {
+  background: linear-gradient(135deg, var(--fsg-green-50), rgba(16,185,129,.15));
+  color: var(--fsg-green-dark);
+}
+.fsg-box.never .fsg-box-ico {
+  background: linear-gradient(135deg, var(--fsg-red-50), rgba(220,38,38,.12));
+  color: var(--fsg-red);
+}
+
+.fsg-box-head h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  margin: 0;
+  color: var(--fsg-ink);
+}
+.fsg-box-head p {
+  font-size: .82rem;
+  color: var(--fsg-muted);
+  margin: .15rem 0 0;
+  font-weight: 500;
+}
+
+.fsg-item {
+  display: flex;
+  gap: .85rem;
+  align-items: flex-start;
+  padding: .9rem 1rem;
+  background: var(--fsg-bg);
+  border-radius: 12px;
+  border-left: 3px solid transparent;
+  margin-bottom: .6rem;
+  font-size: .9rem;
+  line-height: 1.6;
+  color: #334155;
+  transition: all .25s ease;
+  opacity: 0;
+  transform: translateX(-14px);
+}
+.fsg-box.fsg-in .fsg-item { opacity: 1; transform: none; }
+.fsg-box.fsg-in .fsg-item:nth-child(1) { transition-delay: .1s; }
+.fsg-box.fsg-in .fsg-item:nth-child(2) { transition-delay: .15s; }
+.fsg-box.fsg-in .fsg-item:nth-child(3) { transition-delay: .2s; }
+.fsg-box.fsg-in .fsg-item:nth-child(4) { transition-delay: .25s; }
+.fsg-box.fsg-in .fsg-item:nth-child(5) { transition-delay: .3s; }
+.fsg-item:hover { transform: translateX(4px); background: #fff; box-shadow: 0 6px 16px -8px rgba(11,18,36,.1); }
+.fsg-box.safe  .fsg-item { border-left-color: var(--fsg-green); }
+.fsg-box.safe  .fsg-item:hover { background: var(--fsg-green-50); }
+.fsg-box.never .fsg-item { border-left-color: var(--fsg-red); }
+.fsg-box.never .fsg-item:hover { background: var(--fsg-red-50); }
+
+.fsg-item .ico {
+  flex-shrink: 0;
+  font-size: 1.05rem;
+  line-height: 1.4;
+}
+.fsg-box.safe  .fsg-item .ico { color: var(--fsg-green-dark); font-weight: 800; }
+.fsg-box.never .fsg-item .ico { color: var(--fsg-red); font-weight: 800; }
+.fsg-item strong { color: var(--fsg-ink); font-weight: 800; }
+
+/* ============================================================
+   INSPECTION TIMELINE
+   ============================================================ */
+.fsg-section {
+  position: relative; z-index: 1;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+.fsg-section-head {
+  text-align: center;
+  max-width: 620px;
+  margin: 0 auto 3rem;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: all .8s ease;
+}
+.fsg-section-head.fsg-in { opacity: 1; transform: none; }
+.fsg-kicker {
+  display: inline-block;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--fsg-amber);
+  margin-bottom: .85rem;
+}
+.fsg-section-head h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -.025em;
+  color: var(--fsg-ink);
+  margin: 0 0 .6rem;
+  line-height: 1.15;
+}
+.fsg-section-head h2 em {
+  font-style: normal;
+  color: var(--fsg-green);
+}
+.fsg-section-head p {
+  font-size: .95rem;
+  color: var(--fsg-muted);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ---------- Inspection steps ---------- */
+.fsg-steps {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+  position: relative;
+}
+@media (max-width: 900px) {
+  .fsg-steps { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .fsg-steps { grid-template-columns: 1fr; }
+}
+.fsg-steps::before {
+  content: "";
+  position: absolute;
+  top: 50px;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: repeating-linear-gradient(90deg,
+    var(--fsg-green) 0 8px,
+    transparent 8px 16px);
+  opacity: .4;
+  animation: fsgMarch 1.4s linear infinite;
+  z-index: 0;
+}
+@media (max-width: 900px) { .fsg-steps::before { display: none; } }
+@keyframes fsgMarch {
+  from { background-position: 0 0; }
+  to   { background-position: 16px 0; }
+}
+
+.fsg-step {
+  position: relative;
+  z-index: 1;
+  background: #fff;
+  border: 1px solid var(--fsg-line);
+  border-radius: 18px;
+  padding: 1.75rem 1.2rem 1.4rem;
+  text-align: center;
+  transition: all .4s cubic-bezier(.2,.7,.2,1);
+  opacity: 0;
+  transform: translateY(40px);
+}
+.fsg-step.fsg-in { opacity: 1; transform: none; }
+.fsg-step:hover {
+  transform: translateY(-8px);
+  border-color: var(--fsg-green);
+  box-shadow: 0 24px 48px -22px rgba(16,185,129,.35);
+}
+.fsg-step-num {
+  position: absolute;
+  top: -14px; left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #10b981, #047857);
+  color: #fff;
+  font-family: 'Outfit', sans-serif;
+  font-size: .72rem;
+  font-weight: 800;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  box-shadow: 0 8px 18px -6px rgba(11,159,110,.6);
+}
+.fsg-step-ico {
+  width: 56px; height: 56px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--fsg-green-50), rgba(16,185,129,.12));
+  color: var(--fsg-green-dark);
+  display: grid; place-items: center;
+  font-size: 1.5rem;
+  margin: 0 auto 1rem;
+  transition: transform .45s cubic-bezier(.34,1.56,.64,1);
+}
+.fsg-step:hover .fsg-step-ico { transform: rotate(-10deg) scale(1.12); }
+.fsg-step h4 {
+  font-family: 'Outfit', sans-serif;
+  font-size: .95rem;
+  font-weight: 800;
+  color: var(--fsg-ink);
+  margin: 0 0 .4rem;
+  letter-spacing: -.01em;
+}
+.fsg-step p {
+  font-size: .78rem;
+  color: var(--fsg-muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ============================================================
+   WARNING CARD
+   ============================================================ */
+.fsg-warning {
+  position: relative; z-index: 1;
+  max-width: 1100px;
+  margin: 1rem auto 3rem;
+  padding: 0 1.5rem;
+}
+.fsg-warning-card {
+  background: linear-gradient(135deg, #fffbeb 0%, #fff7ed 100%);
+  border: 1px solid #fde68a;
+  border-left: 5px solid var(--fsg-amber);
+  border-radius: 20px;
+  padding: 1.75rem 2rem;
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all .8s ease;
+}
+.fsg-warning-card.fsg-in { opacity: 1; transform: none; }
+.fsg-warning-card::before {
+  content: "";
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245,158,11,.2), transparent 70%);
+  animation: fsgOrbFloat 12s ease-in-out infinite;
+}
+.fsg-warning-ico {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--fsg-amber), #d97706);
+  color: #fff;
+  display: grid; place-items: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  animation: fsgWarnShake 3s ease-in-out infinite;
+}
+@keyframes fsgWarnShake {
+  0%, 100% { transform: rotate(0); }
+  45%      { transform: rotate(0); }
+  50%      { transform: rotate(-8deg); }
+  55%      { transform: rotate(8deg); }
+  60%      { transform: rotate(0); }
+}
+.fsg-warning-body { position: relative; z-index: 1; }
+.fsg-warning-body h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #92400e;
+  margin: 0 0 .5rem;
+  letter-spacing: -.01em;
+}
+.fsg-warning-body p {
+  font-size: .92rem;
+  color: #78350f;
+  line-height: 1.65;
+  margin: 0;
+}
+.fsg-warning-body strong { color: #78350f; font-weight: 800; }
+
+/* ============================================================
+   SAFETY TIPS GRID
+   ============================================================ */
+.fsg-tips {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+@media (max-width: 900px) { .fsg-tips { grid-template-columns: 1fr; } }
+
+.fsg-tip {
+  background: #fff;
+  border: 1px solid var(--fsg-line);
+  border-radius: 20px;
+  padding: 1.75rem 1.5rem;
+  text-align: center;
+  transition: all .4s cubic-bezier(.2,.7,.2,1);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(40px);
+}
+.fsg-tip.fsg-in { opacity: 1; transform: none; }
+.fsg-tip::before {
+  content: "";
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 160px; height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(16,185,129,.12), transparent 70%);
+  opacity: 0;
+  transition: opacity .4s ease;
+}
+.fsg-tip:hover::before { opacity: 1; }
+.fsg-tip:hover {
+  transform: translateY(-8px);
+  border-color: var(--fsg-green);
+  box-shadow: 0 24px 48px -22px rgba(16,185,129,.35);
+}
+.fsg-tip-ico {
+  width: 60px; height: 60px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--fsg-green-50), rgba(16,185,129,.15));
+  color: var(--fsg-green-dark);
+  display: grid; place-items: center;
+  font-size: 1.7rem;
+  margin: 0 auto 1.1rem;
+  position: relative;
+  z-index: 1;
+  transition: transform .5s cubic-bezier(.34,1.56,.64,1);
+}
+.fsg-tip:hover .fsg-tip-ico { transform: rotate(-10deg) scale(1.12); }
+.fsg-tip h4 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--fsg-ink);
+  margin: 0 0 .5rem;
+  letter-spacing: -.01em;
+  position: relative;
+  z-index: 1;
+}
+.fsg-tip p {
+  font-size: .85rem;
+  color: var(--fsg-muted);
+  line-height: 1.65;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================================
+   CTA
+   ============================================================ */
+.fsg-cta-wrap {
+  position: relative; z-index: 1;
+  max-width: 1180px;
+  margin: 1rem auto 4rem;
+  padding: 0 1.5rem;
+}
+.fsg-cta {
+  background: linear-gradient(135deg, #0B1224 0%, #1e293b 100%);
+  border-radius: 26px;
+  padding: 3rem 3rem;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all .9s ease;
+}
+.fsg-cta.fsg-in { opacity: 1; transform: none; }
+.fsg-cta::before {
+  content: "";
+  position: absolute;
+  top: -140px; right: -90px;
+  width: 420px; height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(16,185,129,.4), transparent 65%);
+  animation: fsgOrbFloat 14s ease-in-out infinite;
+}
+.fsg-cta::after {
+  content: "";
+  position: absolute;
+  bottom: -140px; left: -90px;
+  width: 360px; height: 360px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245,158,11,.3), transparent 65%);
+  animation: fsgOrbFloat 16s ease-in-out infinite reverse;
+}
+.fsg-cta-inner { position: relative; z-index: 1; max-width: 620px; margin: 0 auto; }
+.fsg-cta h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -.025em;
+  line-height: 1.1;
+  margin: 0 0 .9rem;
+}
+.fsg-cta h2 em {
+  font-style: normal;
+  background: linear-gradient(120deg, #6ee7b7, #34d399, #fbbf24);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.fsg-cta p {
+  font-size: 1rem;
+  color: rgba(255,255,255,.75);
+  line-height: 1.65;
+  margin: 0 0 2rem;
+}
+.fsg-cta-actions {
+  display: flex;
+  gap: .75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.fsg-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  padding: 1rem 1.7rem;
+  font-family: inherit;
+  font-size: .88rem;
+  font-weight: 800;
+  text-decoration: none;
+  border-radius: 14px;
+  transition: all .25s ease;
+  border: 1.5px solid transparent;
+}
+.fsg-cta-btn.primary {
+  background: #fff;
+  color: var(--fsg-green-deep);
+  box-shadow: 0 12px 30px rgba(255,255,255,.15);
+}
+.fsg-cta-btn.primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 42px rgba(255,255,255,.25);
+}
+.fsg-cta-btn.outline {
+  background: transparent;
+  color: #fff;
+  border-color: rgba(255,255,255,.35);
+}
+.fsg-cta-btn.outline:hover {
+  background: rgba(255,255,255,.1);
+  border-color: #fff;
+  transform: translateY(-3px);
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .fsg-progress, .fsg-orb, .fsg-badge-dot::after,
+  .fsg-hero h1 em, .fsg-cta::before, .fsg-cta::after,
+  .fsg-steps::before, .fsg-btn.primary::after,
+  .fsg-warning-ico, .fsg-warning-card::before {
+    animation: none !important;
+  }
+  .fsg-box, .fsg-tip, .fsg-step, .fsg-stat,
+  .fsg-section-head, .fsg-cta, .fsg-warning-card,
+  .fsg-item {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="fsg-progress" id="fsg-progress" aria-hidden="true"></div>
+
+<div class="fsg-bg" aria-hidden="true">
+  <div class="fsg-orb fsg-orb-1"></div>
+  <div class="fsg-orb fsg-orb-2"></div>
+  <div class="fsg-orb fsg-orb-3"></div>
+</div>
+
+<header class="site-header">
+  <div class="header-container">
+    <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <a href="index.html" class="brand-logo" aria-label="FeedFoodForward home">
+      <div class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="ffTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#067A54"/><stop offset="55%" stop-color="#0B9F6E"/><stop offset="100%" stop-color="#10B981"/></linearGradient>
+            <linearGradient id="ffHeart" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#FF5A7A"/><stop offset="100%" stop-color="#F03E64"/></linearGradient>
+            <linearGradient id="ffLeaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#A3E635"/><stop offset="100%" stop-color="#65A30D"/></linearGradient>
+          </defs>
+          <rect x="2" y="2" width="44" height="44" rx="11" fill="url(#ffTile)"/>
+          <g transform="translate(28 6) rotate(20)"><path d="M0 14 C0 6 5 1 12 0 C12 8 7 14 0 14 Z" fill="url(#ffLeaf)"/></g>
+          <g transform="translate(8 20)"><path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4 C7.4 0.4 9.2 1.8 10 3.4 C10.8 1.8 12.6 0.4 15 0.4 C18.3 0.4 21 2.6 21 6 C21 10 18 14 10 20 Z" fill="url(#ffHeart)"/></g>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">FeedFood<span>Forward</span></span>
+        <span class="brand-subtitle">AI FOOD REDISTRIBUTION PLATFORM</span>
+      </div>
+    </a>
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation menu">☰</button>
+    <nav class="site-nav" id="site-nav" aria-label="Primary"></nav>
+    <div class="header-utilities">
+      <div id="header-guest" class="header-auth-group">
+        <button type="button" class="btn btn-outline btn-sm" id="header-login-btn">Login</button>
+        <button type="button" class="btn btn-primary btn-sm" id="header-signup-btn">Sign Up</button>
+      </div>
+      <div id="header-user" class="header-user-group" hidden>
+        <button type="button" class="user-chip" id="user-chip" aria-haspopup="true" aria-expanded="false">
+          <span class="user-avatar" id="user-avatar">👤</span>
+          <span class="user-name" id="user-name">User</span>
+          <span class="user-caret" aria-hidden="true">▾</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="fsg">
+
+<!-- ==================== HERO ==================== -->
+<section class="fsg-hero">
+  <span class="fsg-badge">
+    <span class="fsg-badge-dot"></span>
+    Food Safety First
+  </span>
+  <h1>Safety comes first. <em>Always.</em></h1>
+  <p>Only freshly-prepared, properly-stored food should be donated. Every donation is physically inspected by a trained driver before pickup.</p>
+  <div class="fsg-hero-actions">
+    <a href="#guidelines" class="fsg-btn primary">View Guidelines <span>↓</span></a>
+    <a href="donate-food.html" class="fsg-btn ghost">Start a Donation</a>
+  </div>
+</section>
+
+<!-- ==================== QUICK STATS ==================== -->
+<section class="fsg-stats">
+  <div class="fsg-stat" data-reveal>
+    <div class="fsg-stat-ico">🛡️</div>
+    <strong>100%</strong>
+    <span>Inspected</span>
+  </div>
+  <div class="fsg-stat" data-reveal>
+    <div class="fsg-stat-ico">⏱️</div>
+    <strong>2 hrs</strong>
+    <span>Max food age</span>
+  </div>
+  <div class="fsg-stat" data-reveal>
+    <div class="fsg-stat-ico">🌡️</div>
+    <strong>Safe</strong>
+    <span>Temperature zones</span>
+  </div>
+  <div class="fsg-stat" data-reveal>
+    <div class="fsg-stat-ico">✅</div>
+    <strong>5-Point</strong>
+    <span>Driver check</span>
+  </div>
+</section>
+
+<!-- ==================== SAFE vs NEVER ==================== -->
+<div class="fsg-two-col" id="guidelines">
+
+  <!-- SAFE -->
+  <div class="fsg-box safe" data-reveal>
+    <div class="fsg-box-head">
+      <div class="fsg-box-ico">✅</div>
+      <div>
+        <h2>Safe to Donate</h2>
+        <p>Fresh, properly handled food</p>
+      </div>
+    </div>
+
+    <div class="fsg-item"><span class="ico">✓</span><span><strong>Freshly cooked or baked</strong> — ideally within 4 hours of preparation</span></div>
+    <div class="fsg-item"><span class="ico">✓</span><span><strong>Properly packaged</strong> — clean, sealed, or covered containers</span></div>
+    <div class="fsg-item"><span class="ico">✓</span><span><strong>Safe temperatures</strong> — hot food ≥ 60°C, cold food ≤ 5°C</span></div>
+    <div class="fsg-item"><span class="ico">✓</span><span><strong>Sealed packaged goods</strong> — bakery, dairy, or canned within expiry date</span></div>
+    <div class="fsg-item"><span class="ico">✓</span><span><strong>Fresh produce</strong> — firm fruits and vegetables, no visible blemishes</span></div>
+  </div>
+
+  <!-- NEVER -->
+  <div class="fsg-box never" data-reveal>
+    <div class="fsg-box-head">
+      <div class="fsg-box-ico">❌</div>
+      <div>
+        <h2>Never Donate</h2>
+        <p>Unsafe or spoiled food</p>
+      </div>
+    </div>
+
+    <div class="fsg-item"><span class="ico">✕</span><span><strong>Food left out >2 hours</strong> — bacteria grows fast at room temp</span></div>
+    <div class="fsg-item"><span class="ico">✕</span><span><strong>Visible spoilage</strong> — mould, discolouration, or off smell</span></div>
+    <div class="fsg-item"><span class="ico">✕</span><span><strong>Plate leftovers</strong> — food already served to someone</span></div>
+    <div class="fsg-item"><span class="ico">✕</span><span><strong>Expired or damaged</strong> — expired goods, dented or swollen cans</span></div>
+    <div class="fsg-item"><span class="ico">✕</span><span><strong>Raw meat &amp; seafood</strong> — unless cold-chain is guaranteed throughout</span></div>
+  </div>
+
+</div>
+
+<!-- ==================== INSPECTION TIMELINE ==================== -->
+<section class="fsg-section">
+  <div class="fsg-section-head" data-reveal>
+    <span class="fsg-kicker">Driver Inspection</span>
+    <h2>What our drivers <em>check</em> at pickup</h2>
+    <p>Every single donation goes through a strict 5-point physical inspection — no exceptions.</p>
+  </div>
+
+  <div class="fsg-steps">
+    <div class="fsg-step" data-reveal>
+      <span class="fsg-step-num">01</span>
+      <div class="fsg-step-ico">👃</div>
+      <h4>Smell</h4>
+      <p>Checking for any off odours that suggest spoilage</p>
+    </div>
+    <div class="fsg-step" data-reveal>
+      <span class="fsg-step-num">02</span>
+      <div class="fsg-step-ico">👀</div>
+      <h4>Appearance</h4>
+      <p>Colour, texture, and any signs of spoilage or mould</p>
+    </div>
+    <div class="fsg-step" data-reveal>
+      <span class="fsg-step-num">03</span>
+      <div class="fsg-step-ico">📦</div>
+      <h4>Packaging</h4>
+      <p>Containers are intact, clean, sealed, and undamaged</p>
+    </div>
+    <div class="fsg-step" data-reveal>
+      <span class="fsg-step-num">04</span>
+      <div class="fsg-step-ico">🌡️</div>
+      <h4>Temperature</h4>
+      <p>Food is at safe temperature for its type and prep time</p>
+    </div>
+    <div class="fsg-step" data-reveal>
+      <span class="fsg-step-num">05</span>
+      <div class="fsg-step-ico">🕐</div>
+      <h4>Prep Time</h4>
+      <p>Cooked food is within the safe 4-hour window</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== WARNING ==================== -->
+<div class="fsg-warning">
+  <div class="fsg-warning-card" data-reveal>
+    <div class="fsg-warning-ico">⚠️</div>
+    <div class="fsg-warning-body">
+      <h3>AI pre-screening is not a safety guarantee</h3>
+      <p>The AI gives you a helpful visual assessment, but the driver makes the <strong>final physical safety call</strong> at pickup. If any check fails, the delivery is cancelled immediately — no exceptions.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SAFETY TIPS ==================== -->
+<section class="fsg-section" style="padding-top: 2rem;">
+  <div class="fsg-section-head" data-reveal>
+    <span class="fsg-kicker">Best Practices</span>
+    <h2>Every rescue needs <em>care</em></h2>
+    <p>A few simple habits make every donation safer and more reliable.</p>
+  </div>
+
+  <div class="fsg-tips">
+    <div class="fsg-tip" data-reveal>
+      <div class="fsg-tip-ico">🧊</div>
+      <h4>Cool quickly</h4>
+      <p>Move cooked food into the fridge within 90 minutes of preparation. Bacteria grows fast at room temperature.</p>
+    </div>
+    <div class="fsg-tip" data-reveal>
+      <div class="fsg-tip-ico">🍱</div>
+      <h4>Package smart</h4>
+      <p>Use clean, food-grade containers. Seal properly and label with preparation time and contents.</p>
+    </div>
+    <div class="fsg-tip" data-reveal>
+      <div class="fsg-tip-ico">⏱️</div>
+      <h4>Timing matters</h4>
+      <p>List your donation the moment you know there's surplus. Fast pickups = fresher food for receivers.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CTA ==================== -->
+<div class="fsg-cta-wrap">
+  <div class="fsg-cta" data-reveal>
+    <div class="fsg-cta-inner">
+      <h2>Ready to rescue <em>safely?</em></h2>
+      <p>Follow the guidelines, and every donation you make will reach someone who needs it — safely and with dignity.</p>
+      <div class="fsg-cta-actions">
+        <a href="donate-food.html" class="fsg-cta-btn primary">Start a Donation →</a>
+        <a href="how-it-works.html" class="fsg-cta-btn outline">See How It Works</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-brand"><h3>FeedFoodForward</h3><p>"Rescue Food. Reduce Waste. Feed Communities."</p></div>
+    <div class="footer-copyright">© 2026 FeedFoodForward Platform.</div>
+  </div>
+</footer>
+
+<div id="ff-toast" role="status" aria-live="polite" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);background:#0f172a;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:all .3s ease;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.25);"></div>
+
+<script src="app.js"></script>
+<script src="header-nav.js"></script>
+<script src="sidebar.js"></script>
+<script src="animations.js"></script>
+<script src="chatbot.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  'use strict';
+
+  /* ---------- Progress bar ---------- */
+  const progress = document.getElementById('fsg-progress');
+  let tick = false;
+  function updateProgress() {
+    if (!progress) return;
+    const h = document.documentElement;
+    const scrolled = h.scrollTop || document.body.scrollTop;
+    const height = (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
+    progress.style.transform = 'scaleX(' + (height > 0 ? scrolled / height : 0) + ')';
+  }
+  window.addEventListener('scroll', () => {
+    if (tick) return;
+    tick = true;
+    requestAnimationFrame(() => { updateProgress(); tick = false; });
+  }, { passive: true });
+  updateProgress();
+
+  /* ---------- Scroll reveal ---------- */
+  const reveals = document.querySelectorAll('[data-reveal], .fsg-stat, .fsg-box, .fsg-step, .fsg-tip, .fsg-section-head, .fsg-cta, .fsg-warning-card');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('fsg-in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
+    reveals.forEach(el => io.observe(el));
+  } else {
+    reveals.forEach(el => el.classList.add('fsg-in'));
+  }
+
+  /* ---------- Smooth scroll for #guidelines ---------- */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href');
+      if (id.length < 2) return;
+      const target = document.querySelector(id);
+      if (!target) return;
+      e.preventDefault();
+      const top = target.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({ top, behavior: 'smooth' });
+    });
+  });
+
+});
+</script>
+
+</body>
+</html>

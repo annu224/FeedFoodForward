@@ -1,0 +1,1613 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Track Your Pickup | FeedFoodForward</title>
+<meta name="theme-color" content="#0B9F6E">
+
+<link rel="icon" type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2316a34a'/%3E%3Cpath d='M50 80 C28 62 18 50 18 37 A17 17 0 0 1 50 28 A17 17 0 0 1 82 37 C82 50 72 62 50 80 Z' fill='%23ffffff'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: #f6f9fc;
+  color: #0f172a;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  padding-top: 72px;
+}
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+:root {
+  --g50:#ecfdf5; --g100:#d1fae5; --g500:#10b981; --g600:#0B9F6E;
+  --g700:#047857; --g800:#065f46;
+  --line:#e2e8f0; --muted:#64748b;
+  --orange:#f59e0b; --orange-bg:#fef3c7;
+  --blue:#2563eb; --blue-bg:#dbeafe;
+  --purple:#8b5cf6;
+}
+
+/* HEADER */
+.site-header {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: rgba(255,255,255,.94);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  border-bottom: 1px solid var(--line);
+  height: 72px;
+}
+.header-container {
+  display: flex; align-items: center; gap: 1.25rem;
+  height: 100%; max-width: 1400px; margin: 0 auto;
+  padding: 0 1.5rem;
+}
+.hamburger-btn {
+  display: flex; align-items: center; justify-content: center;
+  width: 42px; height: 42px; flex-shrink: 0;
+  border-radius: 50%; background: transparent; border: none;
+  color: #5f6368; cursor: pointer;
+  transition: background .15s ease;
+}
+.hamburger-btn:hover { background: #f1f3f4; color: #0f172a; }
+.brand-logo { display: flex; align-items: center; gap: 0.7rem; flex-shrink: 0; }
+.logo-mark { width: 42px; height: 42px; flex-shrink: 0; }
+.brand-text { display: flex; flex-direction: column; line-height: 1.05; }
+.brand-title {
+  font-family: 'Outfit', sans-serif; font-weight: 800;
+  font-size: 1.2rem; color: #0f172a; letter-spacing: -0.02em;
+}
+.brand-title span { color: var(--g600); }
+.brand-subtitle {
+  font-size: 0.58rem; font-weight: 800; letter-spacing: 0.14em;
+  color: var(--g600); text-transform: uppercase; margin-top: 4px;
+}
+.site-nav { display: flex; align-items: center; gap: 0.15rem; margin-left: auto; }
+.nav-link {
+  padding: 0.5rem 0.75rem; font-size: 0.85rem; font-weight: 600;
+  color: #475569; border-radius: 10px; transition: all .18s ease;
+  white-space: nowrap;
+}
+.nav-link:hover { background: #f6f9fc; color: #0f172a; }
+.nav-link.active { color: var(--g700); background: var(--g50); font-weight: 700; }
+.header-utilities { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+.user-chip {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.3rem 0.7rem 0.3rem 0.3rem;
+  background: #fff; border: 1px solid var(--line);
+  border-radius: 999px; font-size: 0.85rem; font-weight: 600;
+}
+.user-avatar {
+  width: 30px; height: 30px; border-radius: 50%;
+  display: grid; place-items: center; background: var(--g50);
+}
+
+/* PAGE */
+.page { max-width: 1400px; margin: 0 auto; padding: 1.5rem 1.5rem 3rem; }
+.page-top {
+  display: flex; align-items: center; gap: 1rem;
+  margin-bottom: 1.25rem; flex-wrap: wrap;
+}
+.btn-back {
+  width: 40px; height: 40px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: #fff; border: 1px solid var(--line);
+  color: #0f172a; font-size: 1.1rem;
+  transition: all .15s ease; flex-shrink: 0;
+}
+.btn-back:hover { background: var(--g50); border-color: var(--g500); }
+.page-title-block { flex: 1; min-width: 0; }
+.page-title-block h1 {
+  font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 800;
+  margin: 0 0 3px; color: #0f172a; letter-spacing: -0.02em;
+}
+.page-title-block p {
+  font-size: 0.82rem; color: var(--muted); margin: 0;
+  display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;
+}
+.page-title-block p b { color: #0f172a; font-weight: 700; }
+.page-title-block p .arrow { color: var(--muted); }
+
+.status-tag {
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  padding: 0.5rem 1rem; border-radius: 999px;
+  font-size: 0.72rem; font-weight: 800; letter-spacing: 0.06em;
+  text-transform: uppercase; white-space: nowrap;
+  transition: background .3s ease, color .3s ease;
+}
+.status-tag.driver-assigned {
+  background: #dbeafe; color: #1e40af;
+}
+.status-tag.driver-assigned .dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--blue);
+  box-shadow: 0 0 0 0 rgba(37,99,235,.6);
+  animation: pulse-blue 1.8s infinite;
+}
+.status-tag.picked-up {
+  background: #d1fae5; color: #065f46;
+}
+.status-tag.picked-up .dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--g500);
+  box-shadow: 0 0 0 0 rgba(16,185,129,.6);
+  animation: pulse 1.8s infinite;
+}
+@keyframes pulse-blue {
+  0%,100% { box-shadow: 0 0 0 0 rgba(37,99,235,.6); }
+  70%     { box-shadow: 0 0 0 7px rgba(37,99,235,0); }
+}
+
+/* SUCCESS BANNER */
+.pickup-success-banner {
+  position: fixed;
+  top: 88px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-260%);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1rem 1.4rem;
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  border: 2px solid #10b981;
+  border-radius: 16px;
+  box-shadow: 0 24px 60px -12px rgba(6, 95, 70, .45),
+              0 0 0 6px rgba(16, 185, 129, .12);
+  max-width: min(90vw, 620px);
+  transition: transform .8s cubic-bezier(.3, 1.4, .5, 1);
+  pointer-events: auto;
+}
+.pickup-success-banner.show { transform: translateX(-50%) translateY(0); }
+.psb-icon {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: linear-gradient(135deg, #10b981, #047857);
+  display: grid; place-items: center;
+  font-size: 1.6rem; flex-shrink: 0;
+  box-shadow: 0 8px 20px -6px rgba(6, 95, 70, .6);
+  animation: psbPop .8s cubic-bezier(.3, 1.6, .5, 1) both;
+}
+@keyframes psbPop {
+  0%   { transform: scale(.4) rotate(-15deg); }
+  60%  { transform: scale(1.12) rotate(6deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+.psb-body { flex: 1; min-width: 0; }
+.psb-body strong {
+  display: block;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: #064e3b;
+  margin-bottom: 2px;
+  line-height: 1.25;
+}
+.psb-body span {
+  font-size: 0.82rem;
+  color: #047857;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.psb-close {
+  width: 30px; height: 30px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: #047857; font-size: 1.2rem;
+  background: rgba(255,255,255,.6);
+  transition: background .15s ease;
+  flex-shrink: 0;
+}
+.psb-close:hover { background: #fff; }
+
+/* MAIN GRID */
+.main-grid {
+  display: grid; grid-template-columns: 1fr 380px;
+  gap: 1.1rem; margin-bottom: 1.1rem;
+}
+@media (max-width: 1100px) { .main-grid { grid-template-columns: 1fr; } }
+
+/* MAP */
+.map-card {
+  position: relative; background: #fff;
+  border: 1px solid var(--line); border-radius: 20px;
+  overflow: hidden; box-shadow: 0 4px 20px rgba(11,18,36,.04);
+}
+#pickup-map { height: 560px; width: 100%; background: #e2e8f0; }
+@media (max-width: 1100px) { #pickup-map { height: 420px; } }
+
+.map-status {
+  position: absolute; top: 1rem; left: 1rem; z-index: 500;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.5rem 0.9rem; background: rgba(255,255,255,.96);
+  backdrop-filter: blur(8px); border-radius: 999px;
+  font-size: 0.78rem; font-weight: 800; color: #0f172a;
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+  border: 1px solid var(--line);
+}
+.map-status-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--g500);
+  box-shadow: 0 0 0 0 rgba(16,185,129,.6);
+  animation: pulse 1.6s infinite;
+}
+@keyframes pulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(16,185,129,.6); }
+  70%     { box-shadow: 0 0 0 8px rgba(16,185,129,0); }
+}
+
+.map-eta {
+  position: absolute; bottom: 1rem; left: 1rem; z-index: 500;
+  display: inline-flex; align-items: center; gap: 0.65rem;
+  padding: 0.65rem 1rem; background: #fff;
+  border-radius: 999px; box-shadow: 0 8px 24px rgba(0,0,0,.14);
+  font-size: 0.82rem; font-weight: 700; border: 1px solid var(--line);
+}
+.map-eta strong { color: var(--g700); font-weight: 800; font-size: 0.95rem; }
+.map-eta .sub {
+  font-size: 0.72rem; font-weight: 600; color: var(--muted);
+  padding-left: 0.65rem; margin-left: 0.25rem;
+  border-left: 1px solid var(--line);
+}
+
+/* MARKERS */
+.pin-wrap { position: relative; width: 44px; height: 44px; }
+.pin {
+  position: absolute; inset: 0;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  border: 3px solid #fff;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 8px 22px rgba(0,0,0,.35), 0 0 0 4px rgba(255,255,255,.35);
+  animation: pinDrop .65s cubic-bezier(.3,1.6,.5,1) both;
+}
+.pin::after {
+  content:""; position:absolute; inset:-8px; border-radius:50%;
+  border:2px solid currentColor; opacity:.35;
+  animation: pinRing 2.2s ease-out infinite;
+}
+@keyframes pinRing {
+  0%   { transform: scale(.85); opacity: .45; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+@keyframes pinDrop {
+  0%   { opacity: 0; transform: rotate(-45deg) translateY(-24px) scale(.6); }
+  70%  { transform: rotate(-45deg) translateY(2px) scale(1.08); }
+  100% { opacity: 1; transform: rotate(-45deg) scale(1); }
+}
+.pin span { transform: rotate(45deg); font-size: 17px; }
+.pin-donor   { background: linear-gradient(135deg, #d97706, #b45309); color: #d97706; }
+.pin-ashram  { background: linear-gradient(135deg, #7c3aed, #6d28d9); color: #7c3aed; }
+
+/* ORANGE scooter — matches driver-active.html */
+.scooter-wrap {
+  position: relative; width: 58px; height: 58px;
+  display: flex; align-items: center; justify-content: center;
+  animation: scooterBob 2.4s ease-in-out infinite;
+}
+@keyframes scooterBob {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-3px); }
+}
+.scooter-glow {
+  position: absolute; inset: -10px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(249,115,22,.5), transparent 70%);
+  animation: scooterGlow 1.8s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes scooterGlow {
+  0%,100% { opacity: .6; transform: scale(1); }
+  50%     { opacity: 1; transform: scale(1.15); }
+}
+.scooter-halo {
+  position: absolute; inset: 0; border-radius: 50%;
+  background: radial-gradient(circle, rgba(249,115,22,.45), transparent 70%);
+  animation: halo 1.9s ease-out infinite;
+}
+.scooter-halo-2 {
+  position: absolute; inset: 0; border-radius: 50%;
+  border: 2px solid rgba(249,115,22,.55);
+  animation: halo2 2.6s ease-out infinite;
+}
+@keyframes halo {
+  0%   { transform: scale(.9); opacity: .9; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+@keyframes halo2 {
+  0%   { transform: scale(.7); opacity: .8; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+.scooter-puck {
+  position: relative; width: 46px; height: 46px;
+  background: radial-gradient(circle at 30% 25%, #fbbf24 0%, #f97316 45%, #ea580c 100%);
+  border: 3px solid #fff;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  box-shadow:
+    0 10px 24px rgba(234,88,12,.55),
+    0 0 0 4px rgba(249,115,22,.25),
+    inset 0 -3px 8px rgba(154,52,18,.45);
+  transition: transform .35s linear;
+}
+.scooter-puck::after {
+  content: "📦";
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  font-size: 14px;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,.35));
+}
+.scooter-flip { transform: scaleX(-1); display: inline-block; }
+
+/* SIDEBAR */
+.side { display: flex; flex-direction: column; gap: 1.1rem; }
+
+.status-banner {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.85rem 1.1rem;
+  background: linear-gradient(135deg, #d1fae5 0%, #ecfdf5 100%);
+  border: 1px solid #bbf7d0;
+  border-radius: 16px;
+  transition: background .4s ease, border-color .4s ease;
+}
+.status-left { display: flex; align-items: center; gap: 0.6rem; }
+.status-scooter {
+  font-size: 1.35rem; line-height: 1;
+  display: inline-flex; align-items: center;
+}
+.status-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.05rem; font-weight: 800;
+  color: var(--g800);
+  letter-spacing: -0.01em;
+}
+.status-pill {
+  display: inline-flex; align-items: center;
+  padding: 0.3rem 0.85rem;
+  background: #ffffff;
+  color: var(--g800);
+  font-size: 0.72rem; font-weight: 800;
+  border-radius: 999px;
+  border: 1px solid #86efac;
+  box-shadow: 0 2px 6px rgba(16,185,129,.15);
+}
+
+.pickup-card {
+  background: #fff; border: 1px solid var(--line);
+  border-radius: 20px; overflow: hidden;
+  box-shadow: 0 4px 20px rgba(11,18,36,.04);
+}
+.pc-row {
+  display: flex; align-items: center; gap: 0.85rem;
+  padding: 0.95rem 1.15rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+.pc-row:last-child { border-bottom: none; }
+.pc-donor { align-items: flex-start; }
+.pc-thumb {
+  width: 56px; height: 56px; border-radius: 12px;
+  object-fit: cover; flex-shrink: 0;
+}
+.pc-donor-info { flex: 1; min-width: 0; padding-top: 2px; }
+.pc-donor-info h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.05rem; font-weight: 800;
+  color: #0f172a; margin: 0 0 4px;
+  letter-spacing: -0.01em;
+}
+.pc-donor-info p {
+  font-size: 0.76rem; color: var(--muted); margin: 0;
+  display: flex; align-items: center; gap: 4px;
+  line-height: 1.4;
+}
+.pc-chevron {
+  font-size: 1.6rem; color: #cbd5e1;
+  line-height: 1; flex-shrink: 0;
+  align-self: center;
+  font-weight: 300;
+}
+.pc-ico {
+  width: 26px; height: 26px; flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--g700);
+}
+.pc-body { flex: 1; min-width: 0; }
+.pc-body small {
+  display: block;
+  font-size: 0.74rem; font-weight: 600;
+  color: var(--muted); margin-bottom: 2px;
+}
+.pc-body b {
+  display: block;
+  font-size: 0.9rem; font-weight: 700;
+  color: #0f172a; line-height: 1.3;
+}
+.pc-driver { align-items: center; }
+.pc-avatar {
+  width: 48px; height: 48px; border-radius: 50%;
+  object-fit: cover; flex-shrink: 0;
+  border: 2px solid #d1fae5;
+}
+.pc-driver-name {
+  font-size: 0.95rem !important; font-weight: 800 !important;
+  margin-bottom: 3px !important;
+}
+.pc-driver-phone {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 0.78rem; color: var(--muted); font-weight: 600;
+}
+.pc-driver-phone svg { color: var(--g700); }
+.pc-call {
+  width: 46px; height: 46px; border-radius: 14px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--g600), var(--g700));
+  color: #fff; flex-shrink: 0;
+  box-shadow: 0 6px 16px rgba(11,159,110,.35);
+  transition: transform .15s ease;
+}
+.pc-call:hover { transform: scale(1.06); }
+.pc-call:active { transform: scale(.97); }
+
+.eta-card {
+  display: flex; align-items: stretch;
+  background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%);
+  border: 1px solid #bbf7d0;
+  border-radius: 16px; overflow: hidden;
+}
+.eta-half {
+  flex: 1; display: flex; align-items: center;
+  gap: 0.75rem; padding: 1rem 1.1rem;
+}
+.eta-ico {
+  width: 40px; height: 40px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: #ffffff; flex-shrink: 0;
+  color: var(--g700);
+  box-shadow: 0 2px 8px rgba(11,159,110,.15);
+}
+.eta-ico-outline {
+  color: #64748b;
+  border: 2px solid #e2e8f0;
+  box-shadow: none;
+}
+.eta-text b {
+  display: block;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.15rem; font-weight: 800;
+  color: var(--g800); line-height: 1.1;
+}
+.eta-text small {
+  display: block;
+  font-size: 0.68rem; font-weight: 700;
+  color: var(--muted); text-transform: uppercase;
+  letter-spacing: 0.04em; margin-top: 3px;
+}
+.eta-divider { width: 1px; background: #bbf7d0; margin: 0.75rem 0; }
+
+/* BOTTOM GRID */
+.bottom-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1.1rem; margin-bottom: 1.1rem;
+}
+@media (max-width: 900px) { .bottom-grid { grid-template-columns: 1fr; } }
+
+.card {
+  background: #fff; border: 1px solid var(--line); border-radius: 20px;
+  padding: 1.25rem 1.4rem;
+  box-shadow: 0 4px 20px rgba(11,18,36,.04);
+}
+.card-label {
+  font-size: 0.7rem; font-weight: 800; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  margin: 0 0 1.1rem;
+}
+
+.timeline { list-style: none; padding: 0; margin: 0; position: relative; }
+.timeline li { display: flex; gap: 1rem; padding: 0.55rem 0; position: relative; }
+.timeline li:not(:last-child)::before {
+  content: ''; position: absolute; left: 11px; top: 30px; bottom: -8px;
+  width: 2px; background: var(--line); border-radius: 2px;
+}
+.timeline li.done:not(:last-child)::before { background: var(--g500); }
+.timeline .t-dot {
+  position: relative; width: 24px; height: 24px; border-radius: 50%;
+  background: #fff; border: 2px solid var(--line); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 800; color: transparent;
+  z-index: 1;
+}
+.timeline li.done .t-dot { background: var(--g500); border-color: var(--g500); color: #fff; }
+.timeline li.active .t-dot {
+  background: #fff; border-color: var(--blue);
+  box-shadow: 0 0 0 4px rgba(37,99,235,.18);
+}
+.timeline li.active .t-dot::after {
+  content: ''; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--blue);
+  animation: pulse 1.6s infinite;
+}
+.timeline .t-body { flex: 1; min-width: 0; }
+.timeline .t-body strong {
+  display: block; font-size: 0.88rem; font-weight: 700;
+  color: #0f172a; margin-bottom: 2px;
+}
+.timeline li.done .t-body strong { color: var(--g700); }
+.timeline li.active .t-body strong { color: var(--blue); }
+.timeline .t-body small { font-size: 0.72rem; color: var(--muted); display: block; }
+.timeline li:not(.done):not(.active) .t-body strong { color: var(--muted); }
+
+.detail-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.6rem 0; border-bottom: 1px solid var(--line);
+  font-size: 0.85rem;
+}
+.detail-row:last-child { border-bottom: none; }
+.detail-row .label {
+  display: flex; align-items: center; gap: 0.55rem;
+  color: var(--muted); font-weight: 600;
+}
+.detail-row .label .ico { font-size: 0.95rem; }
+.detail-row .value { font-weight: 800; color: #0f172a; text-align: right; }
+
+.impact-card {
+  background: linear-gradient(135deg, var(--g50) 0%, #ffffff 60%);
+  border: 1px solid var(--g100); border-radius: 20px;
+  padding: 1.4rem 1.5rem; margin-bottom: 1.1rem;
+}
+.impact-card h4 {
+  font-family: 'Outfit', sans-serif; font-size: 0.9rem; font-weight: 800;
+  margin: 0 0 1rem; color: var(--g800);
+  display: flex; align-items: center; gap: 0.5rem;
+  text-transform: uppercase; letter-spacing: 0.04em;
+}
+.impact-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.85rem; }
+@media (max-width: 720px) { .impact-grid { grid-template-columns: repeat(2, 1fr); } }
+.impact-stat {
+  background: #fff; border: 1px solid var(--g100); border-radius: 14px;
+  padding: 0.9rem 0.75rem; text-align: center;
+}
+.impact-stat strong {
+  display: block; font-family: 'Outfit', sans-serif;
+  font-size: 1.35rem; font-weight: 800; color: var(--g700);
+  line-height: 1.1; margin-bottom: 4px;
+}
+.impact-stat span {
+  font-size: 0.65rem; font-weight: 700; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.impact-note {
+  font-size: 0.68rem; color: var(--muted); font-style: italic;
+  margin: 0.85rem 0 0 0; line-height: 1.5;
+}
+
+.action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+@media (max-width: 640px) { .action-row { grid-template-columns: 1fr; } }
+.action-btn {
+  display: flex; align-items: center; justify-content: center; gap: 0.55rem;
+  padding: 0.95rem 1rem; font-size: 0.88rem; font-weight: 700;
+  border-radius: 14px; background: #fff;
+  border: 1px solid var(--line); color: #0f172a;
+  transition: all .15s ease;
+}
+.action-btn:hover {
+  border-color: var(--g500); color: var(--g700);
+  background: var(--g50);
+}
+.action-btn.primary {
+  background: linear-gradient(135deg, var(--g700), var(--g600));
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 8px 20px rgba(11,159,110,.3);
+}
+.action-btn.primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 26px rgba(11,159,110,.4);
+  background: linear-gradient(135deg, var(--g700), var(--g600));
+  color: #fff;
+}
+
+/* Leaflet tweaks */
+.leaflet-container { font-family: 'Inter', sans-serif !important; }
+.leaflet-popup-content-wrapper {
+  border-radius: 12px !important; padding: 0 !important;
+  box-shadow: 0 10px 32px rgba(11,18,36,.18) !important;
+}
+.leaflet-popup-content { margin: 12px 14px !important; font-size: 12px; }
+
+.route-dash {
+  stroke-dasharray: 10 8;
+  animation: routeMarch 1.4s linear infinite;
+}
+@keyframes routeMarch {
+  to { stroke-dashoffset: -36; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-container">
+    <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
+           stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6"  x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+    <a href="index.html" class="brand-logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="tile" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#067A54"/>
+              <stop offset="100%" stop-color="#10B981"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="44" height="44" rx="11" fill="url(#tile)"/>
+          <g transform="translate(8 20)">
+            <path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4
+                     C7.4 0.4 9.2 1.8 10 3.4 C10.8 1.8 12.6 0.4 15 0.4
+                     C18.3 0.4 21 2.6 21 6 C21 10 18 14 10 20 Z"
+                  fill="#FF5A7A"/>
+          </g>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">FeedFood<span>Forward</span></span>
+        <span class="brand-subtitle">AI FOOD REDISTRIBUTION PLATFORM</span>
+      </div>
+    </a>
+
+    <nav class="site-nav" id="site-nav" aria-label="Primary">
+      <a href="index.html" class="nav-link" data-nav="home">Home</a>
+      <a href="donor-dashboard.html" class="nav-link nav-donor-only" data-nav="dashboard" hidden>Dashboard</a>
+      <a href="my-donations.html" class="nav-link nav-donor-only" data-nav="donations" hidden>My Donations</a>
+      <a href="donate-food.html" class="nav-link" data-nav="donate">Donate Food</a>
+      <a href="ai-inspection.html" class="nav-link" data-nav="ai">AI Inspection</a>
+      <a href="find-ashrams.html" class="nav-link" data-nav="ashrams">Find Ashrams</a>
+      <a href="driver-hub.html" class="nav-link nav-driver-only" data-nav="driver" hidden>Driver Hub</a>
+      <a href="ngo-dashboard.html" class="nav-link nav-ashram-only" data-nav="ngo" hidden>NGO Dashboard</a>
+      <a href="pickup-track.html" class="nav-link nav-donor-only" data-nav="pickup" hidden>Pickup</a>
+    </nav>
+
+    <div class="header-utilities">
+      <div class="user-chip">
+        <span class="user-avatar" id="user-avatar">🏨</span>
+        <span id="user-name">Anushka Zalke</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- SUCCESS BANNER -->
+<div class="pickup-success-banner" id="pickup-success-banner" role="status" aria-live="polite">
+  <div class="psb-icon">✅</div>
+  <div class="psb-body">
+    <strong>Your order has been picked up successfully!</strong>
+    <span>Driver <b id="psb-driver-name">—</b> is now on the way to <b id="psb-ashram">—</b>.</span>
+  </div>
+  <button class="psb-close" id="psb-close" aria-label="Close">×</button>
+</div>
+
+<div class="page">
+
+  <div class="page-top">
+    <a href="donor-dashboard.html" class="btn-back" aria-label="Back">←</a>
+    <div class="page-title-block">
+      <h1>Track your pickup</h1>
+      <p>
+        Donation <b id="track-donation-id">—</b>
+        <span class="arrow">•</span>
+        <span id="track-donor-name">—</span>
+        <span class="arrow">→</span>
+        <span id="track-ashram-name">—</span>
+      </p>
+    </div>
+    <span class="status-tag driver-assigned" id="page-status-tag">
+      <span class="dot"></span> <span id="page-status-text">Driver Assigned · On the Way</span>
+    </span>
+  </div>
+
+  <div class="main-grid">
+
+    <div class="map-card rv rv-left">
+      <div id="pickup-map"></div>
+
+      <div class="map-status">
+        <span class="map-status-dot"></span>
+        <span id="map-status-text">Driver is on the way</span>
+      </div>
+
+      <div class="map-eta">
+        <span>🛵</span>
+        <span>Arrives in <strong id="eta-min">—</strong> min</span>
+        <span class="sub"><strong id="eta-dist">—</strong> km away</span>
+      </div>
+    </div>
+
+    <div class="side">
+
+      <div class="status-banner" id="status-banner">
+        <div class="status-left">
+          <span class="status-scooter" id="status-emoji">🛵</span>
+          <span class="status-title" id="status-banner-title">Driver on the way</span>
+        </div>
+        <span class="status-pill" id="status-banner-pill">En Route</span>
+      </div>
+
+      <div class="pickup-card">
+
+        <div class="pc-row pc-donor">
+          <img class="pc-thumb" id="pc-donor-thumb"
+               src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=200&auto=format&fit=crop&q=80"
+               alt="Donor">
+          <div class="pc-donor-info">
+            <h3 id="pc-donor-name">Loading…</h3>
+            <p id="pc-donor-addr">📍 —</p>
+          </div>
+          <span class="pc-chevron">›</span>
+        </div>
+
+        <div class="pc-row">
+          <div class="pc-ico">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/>
+              <path d="M7 2v20"/>
+              <path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/>
+            </svg>
+          </div>
+          <div class="pc-body">
+            <small>Food Items</small>
+            <b id="pc-food">Loading…</b>
+          </div>
+        </div>
+
+        <div class="pc-row">
+          <div class="pc-ico">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <div class="pc-body">
+            <small>Pickup Time</small>
+            <b id="pc-time">—</b>
+          </div>
+        </div>
+
+        <div class="pc-row pc-driver">
+          <img class="pc-avatar" id="pc-driver-avatar"
+               src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&auto=format&fit=crop&q=80"
+               alt="Driver">
+          <div class="pc-body">
+            <b class="pc-driver-name" id="pc-driver-name">Assigning driver…</b>
+            <span class="pc-driver-phone">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07
+                         19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2
+                         2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09
+                         9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34
+                         1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>
+              </svg>
+              <span id="pc-driver-phone-text">—</span>
+            </span>
+          </div>
+          <a href="tel:+919876543210" class="pc-call" id="pc-call" aria-label="Call driver">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07
+                       19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2
+                       2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09
+                       9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34
+                       1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+          </a>
+        </div>
+
+      </div>
+
+      <div class="eta-card">
+        <div class="eta-half">
+          <span class="eta-ico">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+            </svg>
+          </span>
+          <div class="eta-text">
+            <b><span id="eta-min-side">—</span> min</b>
+            <small>ETA</small>
+          </div>
+        </div>
+
+        <div class="eta-divider"></div>
+
+        <div class="eta-half">
+          <span class="eta-ico eta-ico-outline">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </span>
+          <div class="eta-text">
+            <b><span id="eta-dist-side">—</span> km</b>
+            <small>Distance</small>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bottom-grid">
+
+    <div class="card rv" style="--d:0;">
+      <p class="card-label">Delivery Progress</p>
+
+      <ul class="timeline" id="timeline">
+        <li class="done" id="tl-step-accepted">
+          <div class="t-dot">✓</div>
+          <div class="t-body">
+            <strong>Donation Accepted</strong>
+            <small id="tl-accepted-time">—</small>
+          </div>
+        </li>
+        <li class="done" id="tl-step-assigned">
+          <div class="t-dot">✓</div>
+          <div class="t-body">
+            <strong>Driver Assigned</strong>
+            <small id="tl-assigned-time">—</small>
+          </div>
+        </li>
+        <li class="active" id="tl-step-enroute">
+          <div class="t-dot"></div>
+          <div class="t-body">
+            <strong>Driver En Route to Pickup</strong>
+            <small id="tl-eta">—</small>
+          </div>
+        </li>
+        <li id="tl-step-pickedup">
+          <div class="t-dot"></div>
+          <div class="t-body">
+            <strong>Picked Up</strong>
+            <small id="tl-pickup-time">Pending</small>
+          </div>
+        </li>
+        <li id="tl-step-delivered">
+          <div class="t-dot"></div>
+          <div class="t-body">
+            <strong>Delivered to Ashram</strong>
+            <small id="tl-delivery-time">Pending</small>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card rv" style="--d:1;">
+      <p class="card-label">Donation Details</p>
+
+      <div class="detail-row">
+        <span class="label"><span class="ico">🍱</span> Food</span>
+        <span class="value" id="detail-food">—</span>
+      </div>
+      <div class="detail-row">
+        <span class="label"><span class="ico">⚖️</span> Quantity</span>
+        <span class="value" id="detail-quantity">—</span>
+      </div>
+      <div class="detail-row">
+        <span class="label"><span class="ico">🍽️</span> Servings</span>
+        <span class="value" id="detail-servings">—</span>
+      </div>
+      <div class="detail-row">
+        <span class="label"><span class="ico">🏛️</span> Ashram</span>
+        <span class="value" id="detail-ashram">—</span>
+      </div>
+      <div class="detail-row">
+        <span class="label"><span class="ico">🚚</span> Driver</span>
+        <span class="value" id="detail-driver">—</span>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="impact-card rv" style="--d:2;">
+    <h4>❤️ This pickup is making an impact</h4>
+
+    <div class="impact-grid">
+      <div class="impact-stat">
+        <strong id="impact-kg">0 kg</strong>
+        <span>Food Rescued</span>
+      </div>
+      <div class="impact-stat">
+        <strong id="impact-meals">0</strong>
+        <span>Meals Estimated</span>
+      </div>
+      <div class="impact-stat">
+        <strong id="impact-people">0</strong>
+        <span>People Served</span>
+      </div>
+      <div class="impact-stat">
+        <strong id="impact-co2">0 kg</strong>
+        <span>CO₂e Avoided*</span>
+      </div>
+    </div>
+
+    <p class="impact-note">
+      *Estimated using standard food-waste conversion factors.
+    </p>
+  </div>
+
+  <div class="action-row rv" style="--d:3;">
+    <button class="action-btn primary" id="download-qr-btn">
+      🔐 Download Pickup QR
+    </button>
+    <button class="action-btn" id="report-issue-btn">
+      ⚠️ Report an Issue
+    </button>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ══════════════════════════════════════════════════════════
+     AUTH GUARD
+     ══════════════════════════════════════════════════════════ */
+  var _user = null;
+  try {
+    var _tabId = sessionStorage.getItem('ff_tab_id') || 'tab_fallback';
+    var _raw = localStorage.getItem('fff_current_user_' + _tabId);
+    _user = _raw ? JSON.parse(_raw) : null;
+    if (_user && _user.role === 'receiver') _user.role = 'ashram';
+  } catch (e) { _user = null; }
+
+  if (!_user) {
+    try { sessionStorage.setItem('ff_redirect_after_login', 'pickup-track.html'); } catch (e) {}
+    window.location.replace('index.html');
+    return;
+  }
+
+  if (_user.role !== 'donor') {
+    var roleHome = { driver: 'driver-hub.html', ashram: 'ngo-dashboard.html', admin: 'admin-portal.html' };
+    window.location.replace(roleHome[_user.role] || 'index.html');
+    return;
+  }
+
+  var _chipName = document.getElementById('user-name');
+  var _chipAvat = document.getElementById('user-avatar');
+  if (_chipName && _user.name)   _chipName.textContent = _user.name;
+  if (_chipAvat && _user.avatar) _chipAvat.textContent = _user.avatar;
+
+  /* ══════════════════════════════════════════════════════════
+     SHARED STATE — SAME key + version as driver-active.html
+     ══════════════════════════════════════════════════════════ */
+  var LIVE_KEY = 'ff_livePickup';
+  var LIVE_VERSION = 4;
+  var DEMO_DURATION_MIN = 0.5;
+
+  /* ★ NEW — read the driver's broadcast position */
+  var DRIVER_POS_KEY = 'ff_driverLivePos';
+  var DRIVER_POS_MAX_AGE_MS = 5000;
+
+  function readDriverPos() {
+    try {
+      var raw = localStorage.getItem(DRIVER_POS_KEY);
+      if (!raw) return null;
+      var d = JSON.parse(raw);
+      if (!d || !d.updatedAt) return null;
+      if (Date.now() - d.updatedAt > DRIVER_POS_MAX_AGE_MS) return null;
+      if (live && live.donationId && d.donationId && d.donationId !== live.donationId) return null;
+      if (typeof d.lat !== 'number' || typeof d.lng !== 'number') return null;
+      return d;
+    } catch (e) { return null; }
+  }
+
+  function readLive() {
+    try {
+      var r = localStorage.getItem(LIVE_KEY);
+      if (!r) return null;
+      var d = JSON.parse(r);
+      if (!d || d._v !== LIVE_VERSION) return null;
+      return d;
+    } catch (e) { return null; }
+  }
+  function writeLive(d) {
+    try { d._v = LIVE_VERSION; localStorage.setItem(LIVE_KEY, JSON.stringify(d)); } catch (e) {}
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     DRIVER POOL (used only when seeding a fresh demo)
+     ══════════════════════════════════════════════════════════ */
+  var DRIVER_POOL = [
+    { name: 'Rajesh Kumar', phone: '+91 98765 43210',
+      avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&auto=format&fit=crop&q=80' },
+    { name: 'Amit Sharma', phone: '+91 91234 56780',
+      avatar: 'https://images.unsplash.com/photo-1531891437562-4301cf35b7e4?w=150&auto=format&fit=crop&q=80' },
+    { name: 'Suresh Patil', phone: '+91 99887 76655',
+      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80' }
+  ];
+
+  /* ══════════════════════════════════════════════════════════
+     LOAD OR SEED — identical shape to driver-active.html
+     ══════════════════════════════════════════════════════════ */
+  var live = readLive();
+  var createdFresh = false;
+
+  if (!live || !live.donationId) {
+    var _active = null;
+    try {
+      var _rawD = sessionStorage.getItem('ff_activeDonation');
+      if (_rawD) _active = JSON.parse(_rawD);
+    } catch (e) {}
+
+    var driver = DRIVER_POOL[Math.floor(Math.random() * DRIVER_POOL.length)];
+
+    var demoPickupLat  = 18.93203951931495;
+    var demoPickupLng  = 72.8314570140827;
+    var demoAshramLat  = 19.00271215516706;
+    var demoAshramLng  = 72.84442105913448;
+
+    live = {
+      donationId:   (_active && _active.donationId) || ('FF-DON-' + Math.floor(10000 + Math.random() * 90000)),
+      donorName:    (_active && _active.donorName)  || 'Burma Burma Restaurant & Tea Room (बर्मा बर्मा)',
+      donorAddr:    (_active && _active.donorAddr)  || 'Kothari House, Allana Centre Lane, opposite Mumbai University, Kala Ghoda, Fort, Mumbai 400001',
+      donorLat:     demoPickupLat,
+      donorLng:     demoPickupLng,
+      donorPhone:   (_active && _active.donorPhone) || '+91 98765 43210',
+      ashramName:   (_active && _active.ashramName) || 'Nandivan Ashram (नंदिवन आश्रम)',
+      ashramAddr:   (_active && _active.ashramAddr) || 'XRWW+M29, GD Ambekar Marg, MINT Colony, Parel, Mumbai 400012',
+      ashramLat:    demoAshramLat,
+      ashramLng:    demoAshramLng,
+      ashramPhone:  (_active && _active.ashramPhone) || '+91 98765 76543',
+      foodName:     (_active && _active.foodName) || 'Paneer Butter Masala with Naan',
+      weightKg:     (_active && _active.weightKg) || 5,
+      servings:     (_active && _active.servings) || 22,
+      foodCategory: (_active && _active.foodCategory) || 'Prepared Vegetarian Meal',
+      /* EXACT same driver start as driver-active.html */
+      driverStart:  [demoPickupLat + 0.012, demoPickupLng + 0.010],
+      status:       'assigned',
+      phase:        'to_pickup',
+      phaseStartTime: Date.now(),
+      durationMin:  DEMO_DURATION_MIN,
+      createdAt:    new Date().toISOString(),
+      driver:       driver
+    };
+    writeLive(live);
+    createdFresh = true;
+  }
+
+  /* Ensure driver exists (older state might not have it) */
+  if (!live.driver) {
+    live.driver = DRIVER_POOL[Math.floor(Math.random() * DRIVER_POOL.length)];
+    writeLive(live);
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     FILL UI
+     ══════════════════════════════════════════════════════════ */
+  function setText(id, val) { var el = document.getElementById(id); if (el) el.textContent = val; }
+  function formatTimeOfDay(iso) {
+    var d = (iso instanceof Date) ? iso : new Date(iso || Date.now());
+    if (isNaN(d.getTime())) return '—';
+    return d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  setText('track-donation-id', live.donationId);
+  setText('track-donor-name',  live.donorName);
+  setText('track-ashram-name', live.ashramName);
+
+  setText('pc-donor-name', live.donorName);
+  setText('pc-donor-addr', '📍 ' + (live.donorAddr || 'Address on file'));
+  setText('pc-food', live.foodName);
+  setText('pc-time', formatTimeOfDay(live.createdAt));
+  setText('pc-driver-name', live.driver.name);
+  setText('pc-driver-phone-text', live.driver.phone);
+  var _avatarEl = document.getElementById('pc-driver-avatar');
+  if (_avatarEl && live.driver.avatar) _avatarEl.src = live.driver.avatar;
+  var _callEl = document.getElementById('pc-call');
+  if (_callEl) _callEl.href = 'tel:' + live.driver.phone.replace(/\s/g, '');
+
+  setText('detail-food',     live.foodName);
+  setText('detail-quantity', (Number(live.weightKg) || 0) + ' kg');
+  setText('detail-servings', (Number(live.servings) || 0) + ' servings');
+  setText('detail-ashram',   live.ashramName);
+  setText('detail-driver',   live.driver.name);
+
+  var kg  = Number(live.weightKg) || 0;
+  var srv = Number(live.servings) || 0;
+  setText('impact-kg',     Math.round(kg) + ' kg');
+  setText('impact-meals',  srv);
+  setText('impact-people', Math.round(srv * 0.4));
+  setText('impact-co2',    '↓ ' + (kg * 0.7).toFixed(1) + ' kg');
+
+  setText('tl-accepted-time', formatTimeOfDay(live.createdAt));
+  setText('tl-assigned-time', formatTimeOfDay(live.createdAt));
+
+  /* ══════════════════════════════════════════════════════════
+     SUCCESS BANNER
+     ══════════════════════════════════════════════════════════ */
+  var successBanner = document.getElementById('pickup-success-banner');
+  setText('psb-driver-name', live.driver.name);
+  setText('psb-ashram', live.ashramName);
+  var psbClose = document.getElementById('psb-close');
+  if (psbClose) {
+    psbClose.addEventListener('click', function () { successBanner.classList.remove('show'); });
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     MAP — SAME coords + driver start as driver-active.html
+     ══════════════════════════════════════════════════════════ */
+  var PICKUP = [live.donorLat, live.donorLng];
+  var ASHRAM = [live.ashramLat, live.ashramLng];
+  var DRIVER_START = live.driverStart || [PICKUP[0] + 0.012, PICKUP[1] + 0.010];
+
+  var map = L.map('pickup-map', {
+    zoomControl: true, attributionControl: true
+  }).setView([19.02, 72.85], 12);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors',
+    maxZoom: 19
+  }).addTo(map);
+
+  function pinIcon(emoji, colorClass) {
+    return L.divIcon({
+      className: '',
+      html: '<div class="pin-wrap"><div class="pin ' + colorClass + '"><span>' + emoji + '</span></div></div>',
+      iconSize: [44, 44], iconAnchor: [22, 44]
+    });
+  }
+
+  L.marker(PICKUP, { icon: pinIcon('🏨', 'pin-donor') })
+    .addTo(map)
+    .bindPopup('<b>🏨 ' + live.donorName + '</b><br>' + (live.donorAddr || 'Pickup location'));
+
+  L.marker(ASHRAM, { icon: pinIcon('🏛️', 'pin-ashram') })
+    .addTo(map)
+    .bindPopup('<b>🏛️ ' + live.ashramName + '</b><br>' + (live.ashramAddr || 'Destination'));
+
+  /* Orange scooter matching driver-active.html */
+  var _seed = readDriverPos() || { lat: DRIVER_START[0], lng: DRIVER_START[1] };
+  var driverMarker = L.marker([_seed.lat, _seed.lng], {
+    icon: L.divIcon({
+      className: '',
+      html:
+        '<div class="scooter-wrap">' +
+          '<div class="scooter-glow"></div>' +
+          '<div class="scooter-halo"></div>' +
+          '<div class="scooter-halo-2"></div>' +
+          '<div class="scooter-puck"><span class="scooter-flip">🛵</span></div>' +
+        '</div>',
+      iconSize: [58, 58], iconAnchor: [29, 29]
+    }),
+    zIndexOffset: 1000
+  }).addTo(map);
+
+  var completedLine = L.polyline([], {
+    color: '#86efac', weight: 10, opacity: 0.5, lineCap: 'round', lineJoin: 'round'
+  }).addTo(map);
+
+  var activeLine = L.polyline([], {
+    color: '#047857', weight: 5, opacity: 0.95, lineCap: 'round', lineJoin: 'round'
+  }).addTo(map);
+
+  var remainingLine = L.polyline([], {
+    color: '#2563eb', weight: 5, opacity: 0.9,
+    lineCap: 'round', lineJoin: 'round', className: 'route-dash'
+  }).addTo(map);
+
+  var deliveryLine = L.polyline([], {
+    color: '#7c3aed', weight: 4, opacity: 0.35, dashArray: '6 10',
+    lineCap: 'round', lineJoin: 'round'
+  }).addTo(map);
+
+  /* ══════════════════════════════════════════════════════════
+     OSRM
+     ══════════════════════════════════════════════════════════ */
+  function fetchOSRMRoute(start, end) {
+    var url = 'https://router.project-osrm.org/route/v1/driving/' +
+              start[1] + ',' + start[0] + ';' + end[1] + ',' + end[0] +
+              '?overview=full&geometries=geojson';
+    return fetch(url)
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (data && data.routes && data.routes[0] &&
+            data.routes[0].geometry && data.routes[0].geometry.coordinates) {
+          return {
+            coords: data.routes[0].geometry.coordinates.map(function (c) { return [c[1], c[0]]; }),
+            distanceKm: data.routes[0].distance / 1000,
+            durationMin: data.routes[0].duration / 60
+          };
+        }
+        return null;
+      })
+      .catch(function () { return null; });
+  }
+
+  function haversineKm(a, b) {
+    var R = 6371;
+    var dLat = (b[0] - a[0]) * Math.PI / 180;
+    var dLng = (b[1] - a[1]) * Math.PI / 180;
+    var l1 = a[0] * Math.PI / 180, l2 = b[0] * Math.PI / 180;
+    var h = Math.sin(dLat/2) ** 2 + Math.cos(l1) * Math.cos(l2) * Math.sin(dLng/2) ** 2;
+    return R * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
+  }
+  function bearing(a, b) {
+    var lat1 = a[0] * Math.PI / 180, lat2 = b[0] * Math.PI / 180;
+    var dLng = (b[1] - a[1]) * Math.PI / 180;
+    var y = Math.sin(dLng) * Math.cos(lat2);
+    var x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLng);
+    return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     ANIMATION STATE
+     ══════════════════════════════════════════════════════════ */
+  var ROUTE_COORDS = [DRIVER_START, PICKUP];
+  var SEGMENTS = [], CUMULATIVE = [0], TOTAL_KM = 0;
+
+  var etaMinEl   = document.getElementById('eta-min');
+  var etaDistEl  = document.getElementById('eta-dist');
+  var tlEtaEl    = document.getElementById('tl-eta');
+  var statusText = document.getElementById('map-status-text');
+
+  function rebuildSegments() {
+    SEGMENTS = []; CUMULATIVE = [0]; TOTAL_KM = 0;
+    for (var i = 0; i < ROUTE_COORDS.length - 1; i++) {
+      var d = haversineKm(ROUTE_COORDS[i], ROUTE_COORDS[i + 1]);
+      SEGMENTS.push(d);
+      TOTAL_KM += d;
+      CUMULATIVE.push(TOTAL_KM);
+    }
+  }
+
+  function pointAt(t) {
+    if (!ROUTE_COORDS.length) return DRIVER_START;
+    if (t <= 0) return ROUTE_COORDS[0];
+    if (t >= 1) return ROUTE_COORDS[ROUTE_COORDS.length - 1];
+    var target = t * TOTAL_KM;
+    for (var i = 0; i < SEGMENTS.length; i++) {
+      if (CUMULATIVE[i] + SEGMENTS[i] >= target) {
+        var localT = SEGMENTS[i] === 0 ? 0 : (target - CUMULATIVE[i]) / SEGMENTS[i];
+        var a = ROUTE_COORDS[i], b = ROUTE_COORDS[i + 1];
+        return [a[0] + (b[0] - a[0]) * localT, a[1] + (b[1] - a[1]) * localT];
+      }
+    }
+    return ROUTE_COORDS[ROUTE_COORDS.length - 1];
+  }
+
+  function splitAtNearest(pos) {
+    var bestIdx = 0, bestD = Infinity;
+    for (var i = 0; i < ROUTE_COORDS.length; i++) {
+      var d = haversineKm(ROUTE_COORDS[i], pos);
+      if (d < bestD) { bestD = d; bestIdx = i; }
+    }
+    return bestIdx;
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     PICKED-UP HANDLER
+     Fires exactly once, the instant driver verifies pickup
+     ══════════════════════════════════════════════════════════ */
+  var pickedUpShown = false;
+
+  function markPickedUp() {
+    if (pickedUpShown) return;
+    pickedUpShown = true;
+
+    /* Freeze scooter at pickup point */
+    driverMarker.setLatLng(PICKUP);
+    activeLine.setLatLngs(ROUTE_COORDS);
+    remainingLine.setLatLngs([]);
+
+    /* Tag → green */
+    var tag = document.getElementById('page-status-tag');
+    if (tag) {
+      tag.classList.remove('driver-assigned');
+      tag.classList.add('picked-up');
+    }
+    setText('page-status-text', 'Picked Up · En Route to Ashram');
+    setText('status-banner-title', 'Food picked up — heading to ashram');
+    setText('status-banner-pill', 'Picked Up');
+    setText('status-emoji', '✅');
+    if (statusText) statusText.textContent = 'Picked up — on the way to ashram';
+
+    /* Timeline */
+    var stepEnroute  = document.getElementById('tl-step-enroute');
+    var stepPickedUp = document.getElementById('tl-step-pickedup');
+    if (stepEnroute) {
+      stepEnroute.classList.remove('active');
+      stepEnroute.classList.add('done');
+      var d1 = stepEnroute.querySelector('.t-dot');
+      if (d1) d1.textContent = '✓';
+      var etaS = document.getElementById('tl-eta');
+      if (etaS) etaS.textContent = 'Arrived';
+    }
+    if (stepPickedUp) {
+      stepPickedUp.classList.remove('active');
+      stepPickedUp.classList.add('done');
+      var d2 = stepPickedUp.querySelector('.t-dot');
+      if (d2) d2.textContent = '✓';
+      var pt = document.getElementById('tl-pickup-time');
+      if (pt) pt.textContent = formatTimeOfDay(new Date());
+    }
+
+    /* ETA / distance → 0 */
+    if (etaMinEl)  etaMinEl.textContent  = '0';
+    if (etaDistEl) etaDistEl.textContent = '0.0';
+    setText('eta-min-side', '0');
+    setText('eta-dist-side', '0.0');
+
+    /* Show popup banner with actions */
+    if (successBanner) {
+      successBanner.classList.add('show');
+      var bannerBody = successBanner.querySelector('.psb-body');
+      if (bannerBody && !bannerBody.querySelector('.pickup-actions')) {
+        var actions = document.createElement('div');
+        actions.className = 'pickup-actions';
+        actions.style.cssText = 'display:flex;gap:.5rem;margin-top:.6rem;flex-wrap:wrap;';
+        actions.innerHTML =
+          '<a href="donor-dashboard.html" style="flex:1;min-width:120px;text-align:center;padding:.6rem 1rem;background:linear-gradient(135deg,#047857,#0B9F6E);color:#fff;border-radius:10px;font-weight:800;font-size:.78rem;text-decoration:none;">🏠 Back to Home</a>' +
+          '<a href="donate-food.html" style="flex:1;min-width:120px;text-align:center;padding:.6rem 1rem;background:#fff;color:#047857;border:1.5px solid #10b981;border-radius:10px;font-weight:800;font-size:.78rem;text-decoration:none;">🍱 Donate More</a>';
+        bannerBody.appendChild(actions);
+      }
+    }
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     ANIMATION LOOP — SAME time-based logic as driver-active.html
+     ══════════════════════════════════════════════════════════ */
+  var routeReady = false;
+  var lastProgress = -1;
+
+  function tick() {
+    if (!routeReady) { requestAnimationFrame(tick); return; }
+
+    /* If driver verified pickup → freeze + show popup */
+    if (live.phase === 'to_drop' || live.phase === 'waiting_drop' || live.phase === 'done' ||
+        live.status === 'picked' || live.status === 'at_ashram' || live.status === 'delivered') {
+      markPickedUp();
+      return;
+    }
+
+    /* Compute progress from shared phase timing (matches driver) */
+    var dur = (live.durationMin || DEMO_DURATION_MIN) * 60 * 1000;
+    var elapsed = Date.now() - (live.phaseStartTime || Date.now());
+    var progress = elapsed / dur;
+    if (progress < 0) progress = 0;
+    if (progress > 1) progress = 1;
+
+    /* ★ Prefer the driver's broadcast position */
+    var broadcast = readDriverPos();
+    var pos, head;
+
+    if (broadcast) {
+      pos  = [broadcast.lat, broadcast.lng];
+      head = broadcast.bearing || 0;
+    } else {
+      pos  = pointAt(progress);
+      var ahead = pointAt(Math.min(1, progress + 0.01));
+      head = bearing(pos, ahead);
+    }
+
+    if (progress !== lastProgress || broadcast) {
+      lastProgress = progress;
+
+      driverMarker.setLatLng(pos);
+
+      /* Rotate scooter */
+      var el = driverMarker.getElement && driverMarker.getElement();
+      var puck = el && el.querySelector('.scooter-puck');
+      if (puck) puck.style.transform = 'rotate(' + head + 'deg)';
+
+      /* Split route */
+      var idx = splitAtNearest(pos);
+      activeLine.setLatLngs(ROUTE_COORDS.slice(0, idx + 1).concat([pos]));
+      remainingLine.setLatLngs([pos].concat(ROUTE_COORDS.slice(idx + 1)));
+
+      /* ETA / distance */
+      var remainKm = TOTAL_KM * (1 - progress);
+      var remainMin = Math.max(0, Math.round((live.durationMin || DEMO_DURATION_MIN) * (1 - progress)));
+      if (etaMinEl)  etaMinEl.textContent  = remainMin;
+      if (etaDistEl) etaDistEl.textContent = remainKm.toFixed(2);
+      if (tlEtaEl)   tlEtaEl.textContent   = 'Arrives in ' + remainMin + ' min';
+      setText('eta-min-side', remainMin);
+      setText('eta-dist-side', remainKm.toFixed(1));
+    }
+
+    if (statusText) {
+      if (progress < 0.5)       statusText.textContent = 'Driver is on the way';
+      else if (progress < 0.85) statusText.textContent = 'Driver is nearby';
+      else                      statusText.textContent = 'Driver is arriving soon';
+    }
+
+    /* Arrived — waiting for driver's verification */
+    if (progress >= 1) {
+      if (statusText) statusText.textContent = 'Driver has arrived at pickup';
+      setText('page-status-text', 'Driver Arrived · Awaiting Verification');
+      setText('status-banner-title', 'Driver at pickup — verifying');
+      setText('status-banner-pill', 'At Pickup');
+      if (etaMinEl)  etaMinEl.textContent  = '0';
+      if (etaDistEl) etaDistEl.textContent = '0.0';
+      setText('eta-min-side', '0');
+      setText('eta-dist-side', '0.0');
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     SYNC — polls localStorage + listens for cross-tab events
+     ══════════════════════════════════════════════════════════ */
+  setInterval(function () {
+    var latest = readLive();
+    if (!latest) return;
+
+    /* Adopt driver's duration + phase start if they changed */
+    if (latest.durationMin && latest.durationMin !== live.durationMin) {
+      live.durationMin = latest.durationMin;
+    }
+    if (latest.phaseStartTime && latest.phaseStartTime !== live.phaseStartTime) {
+      live.phaseStartTime = latest.phaseStartTime;
+    }
+    if (latest.phase && latest.phase !== live.phase) {
+      live.phase = latest.phase;
+      writeLive(live);
+    }
+    if (latest.status && latest.status !== live.status) {
+      live.status = latest.status;
+      writeLive(live);
+    }
+
+    /* Pickup verified? Show popup now */
+    if ((latest.phase === 'to_drop' || latest.phase === 'waiting_drop' || latest.phase === 'done' ||
+         latest.status === 'picked' || latest.status === 'at_ashram' || latest.status === 'delivered')) {
+      markPickedUp();
+    }
+  }, 500);
+
+   window.addEventListener('storage', function (e) {
+    /* ★ NEW — mirror the driver's broadcast position immediately */
+    if (e.key === DRIVER_POS_KEY) {
+      var b = readDriverPos();
+      if (b && driverMarker) {
+        driverMarker.setLatLng([b.lat, b.lng]);
+        var puck = driverMarker.getElement() &&
+                   driverMarker.getElement().querySelector('.scooter-puck');
+        if (puck && typeof b.bearing === 'number') {
+          puck.style.transform = 'rotate(' + b.bearing + 'deg)';
+        }
+      }
+      return;
+    }
+
+    if (e.key !== LIVE_KEY || !e.newValue) return;
+    try {
+      var updated = JSON.parse(e.newValue);
+      if (!updated) return;
+      live.phase = updated.phase || live.phase;
+      live.status = updated.status || live.status;
+      live.durationMin = updated.durationMin || live.durationMin;
+      live.phaseStartTime = updated.phaseStartTime || live.phaseStartTime;
+      if ((updated.phase === 'to_drop' || updated.phase === 'waiting_drop' || updated.phase === 'done' ||
+           updated.status === 'picked' || updated.status === 'at_ashram' || updated.status === 'delivered')) {
+        markPickedUp();
+      }
+    } catch (err) {}
+  });
+
+  /* ══════════════════════════════════════════════════════════
+     BOOT
+     ══════════════════════════════════════════════════════════ */
+  Promise.all([
+    fetchOSRMRoute(DRIVER_START, PICKUP),
+    fetchOSRMRoute(PICKUP, ASHRAM)
+  ]).then(function (results) {
+    var toPickup = results[0];
+    var toAshram = results[1];
+
+    ROUTE_COORDS = (toPickup && toPickup.coords && toPickup.coords.length > 1)
+      ? toPickup.coords
+      : [DRIVER_START, PICKUP];
+
+    if (toAshram && toAshram.coords && toAshram.coords.length > 1) {
+      deliveryLine.setLatLngs(toAshram.coords);
+    } else {
+      deliveryLine.setLatLngs([PICKUP, ASHRAM]);
+    }
+
+    rebuildSegments();
+
+    /* If we seeded fresh, sync the duration back so driver matches */
+    if (createdFresh && toPickup && toPickup.durationMin) {
+      live.durationMin = DEMO_DURATION_MIN;   /* use short demo duration */
+      live.phaseStartTime = Date.now();
+      writeLive(live);
+    }
+
+    routeReady = true;
+    requestAnimationFrame(tick);
+
+    var bounds = L.latLngBounds([DRIVER_START, PICKUP, ASHRAM]);
+    map.fitBounds(bounds, { padding: [70, 70], maxZoom: 13 });
+
+    /* If phase already past pickup → show popup immediately */
+    if (live.phase === 'to_drop' || live.phase === 'waiting_drop' || live.phase === 'done' ||
+        live.status === 'picked' || live.status === 'at_ashram' || live.status === 'delivered') {
+      markPickedUp();
+    }
+  });
+
+  /* ══════════════════════════════════════════════════════════
+     ACTION BUTTONS
+     ══════════════════════════════════════════════════════════ */
+  var dqBtn = document.getElementById('download-qr-btn');
+  if (dqBtn) {
+    dqBtn.addEventListener('click', function () {
+      var realId = live.donationId || 'FF-PKL-XXXXX';
+      var realDonor = live.donorName || 'Donor';
+      var realFood = live.foodName || 'Prepared Meal';
+      var payload = JSON.stringify({ type: 'PICKUP', donationId: realId, donor: realDonor, food: realFood });
+
+      function download(dataUrl, filename) {
+        var a = document.createElement('a');
+        a.href = dataUrl; a.download = filename;
+        document.body.appendChild(a); a.click();
+        document.body.removeChild(a);
+      }
+
+      if (typeof QRCode !== 'undefined') {
+        QRCode.toDataURL(payload, {
+          width: 512, margin: 2,
+          color: { dark: '#0f172a', light: '#ffffff' },
+          errorCorrectionLevel: 'H'
+        }, function (err, url) {
+          if (err) { alert('⚠️ Could not generate QR'); return; }
+          download(url, realId + '-pickup-qr.png');
+        });
+      } else {
+        var fallback = 'https://api.qrserver.com/v1/create-qr-code/?size=512x512&qzone=2&data=' +
+                       encodeURIComponent(payload);
+        download(fallback, realId + '-pickup-qr.png');
+      }
+    });
+  }
+
+  var riBtn = document.getElementById('report-issue-btn');
+  if (riBtn) {
+    riBtn.addEventListener('click', function () {
+      alert('⚠️ Issue report form will open here.');
+    });
+  }
+
+})();
+</script>
+
+<script src="app.js"></script>
+<script src="header-nav.js"></script>
+<script src="sidebar.js"></script>
+<script src="animations.js"></script>
+
+</body>
+</html>

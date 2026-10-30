@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard | Driver | FeedFoodForward</title>
+<meta name="description" content="Your driver dashboard — active missions, delivery stats, earnings, and quick actions.">
+<meta name="theme-color" content="#16a34a">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2316a34a'/%3E%3Cpath d='M50 80 C28 62 18 50 18 37 A17 17 0 0 1 50 28 A17 17 0 0 1 82 37 C82 50 72 62 50 80 Z' fill='%23ffffff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="guest-guard.js"></script>
+<style>
+/* ============================================================
+   DRIVER DASHBOARD — Delivery-focused layout
+   ============================================================ */
+.ddb {
+  --ddb-ink:#0B1224;
+  --ddb-muted:#64748b;
+  --ddb-soft:#94a3b8;
+  --ddb-line:#e8edf3;
+  --ddb-bg:#f6f9fc;
+  --ddb-green:#0B9F6E;
+  --ddb-green-dark:#047857;
+  --ddb-green-deep:#064e3b;
+  --ddb-green-50:#ecfdf5;
+  --ddb-amber:#f59e0b;
+  --ddb-blue:#3b82f6;
+  --ddb-violet:#8b5cf6;
+  --ddb-red:#dc2626;
+  background:var(--ddb-bg);
+  min-height:100vh;
+  position:relative;
+  overflow-x:hidden;
+  padding-bottom:3rem;
+}
+
+.ddb-bg { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+.ddb-orb { position:absolute; border-radius:50%; filter:blur(90px); opacity:.5; }
+.ddb-orb-1 { width:520px; height:520px; top:-180px; left:-150px;
+  background: radial-gradient(circle, rgba(16,185,129,.42), transparent 70%);
+  animation: ddbFloat 22s ease-in-out infinite; }
+.ddb-orb-2 { width:460px; height:460px; top:25%; right:-180px;
+  background: radial-gradient(circle, rgba(245,158,11,.30), transparent 70%);
+  animation: ddbFloat 26s ease-in-out infinite -8s; }
+.ddb-orb-3 { width:420px; height:420px; bottom:-160px; left:40%;
+  background: radial-gradient(circle, rgba(139,92,246,.22), transparent 70%);
+  animation: ddbFloat 24s ease-in-out infinite -14s; }
+@keyframes ddbFloat {
+  0%,100% { transform: translate(0,0) scale(1); }
+  33%     { transform: translate(40px,-30px) scale(1.08); }
+  66%     { transform: translate(-30px,40px) scale(.95); }
+}
+
+.ddb-progress {
+  position:fixed; top:0; left:0; right:0; height:3px; z-index:999;
+  transform-origin:0 50%; transform:scaleX(0);
+  background: linear-gradient(90deg,#10b981,#f59e0b,#8b5cf6,#10b981);
+  background-size:200% 100%;
+  animation: ddbHue 8s linear infinite;
+}
+@keyframes ddbHue { to { background-position: 200% 50%; } }
+
+.ddb-btn {
+  display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
+  padding:.9rem 1.5rem; font-family:inherit;
+  font-size:.88rem; font-weight:800;
+  border-radius:12px; text-decoration:none; cursor:pointer;
+  transition: all .25s cubic-bezier(.2,.7,.2,1);
+  border:1.5px solid transparent;
+  position:relative; overflow:hidden;
+}
+.ddb-btn-primary {
+  background: linear-gradient(135deg, #10b981, #047857);
+  color:#fff;
+  box-shadow: 0 12px 28px -12px rgba(11,159,110,.6);
+}
+.ddb-btn-primary:hover { transform: translateY(-3px); box-shadow: 0 18px 36px -12px rgba(11,159,110,.85); }
+.ddb-btn-outline {
+  background:#fff; color: var(--ddb-green-dark);
+  border-color: #a7f3d0;
+}
+.ddb-btn-outline:hover {
+  background: var(--ddb-green-50);
+  border-color: var(--ddb-green);
+  transform: translateY(-3px);
+}
+
+/* ============================================================
+   STATS GRID (4 cards)
+   ============================================================ */
+.ddb-stats {
+  position:relative; z-index:1;
+  max-width:1280px; margin:0 auto; padding:2.5rem 1.5rem 2rem;
+  display:grid; grid-template-columns:repeat(4,1fr); gap:1.15rem;
+}
+@media(max-width:900px){ .ddb-stats { grid-template-columns:repeat(2,1fr); } }
+@media(max-width:520px){ .ddb-stats { grid-template-columns:1fr; } }
+
+.ddb-stat {
+  background:#fff; border:1px solid var(--ddb-line);
+  border-radius:18px; padding:1.4rem 1.4rem;
+  position:relative; overflow:hidden;
+  opacity:0; transform:translateY(24px);
+  transition: all .55s cubic-bezier(.2,.7,.2,1);
+}
+.ddb-stat.ddb-in { opacity:1; transform:none; }
+.ddb-stat::before {
+  content:""; position:absolute; top:0; left:0; right:0; height:3px;
+  background: linear-gradient(90deg, var(--ddb-green), var(--ddb-amber));
+  transform: scaleX(0); transform-origin:left;
+  transition: transform .55s ease;
+}
+.ddb-stat.ddb-in::before { transform:scaleX(1); }
+.ddb-stat:hover {
+  transform: translateY(-6px);
+  border-color: var(--ddb-green);
+  box-shadow: 0 24px 48px -22px rgba(16,185,129,.32);
+}
+.ddb-stat-head {
+  display:flex; justify-content:space-between; align-items:center;
+  font-size:.72rem; font-weight:800; color:#64748b;
+  text-transform:uppercase; letter-spacing:.06em;
+  margin-bottom:.9rem;
+}
+.ddb-stat-ico {
+  width:30px; height:30px; border-radius:9px;
+  background: linear-gradient(135deg, var(--ddb-green-50), rgba(16,185,129,.14));
+  color: var(--ddb-green-dark);
+  display:grid; place-items:center; font-size:.95rem;
+}
+.ddb-stat strong {
+  display:block; font-family:'Outfit',sans-serif;
+  font-size:2rem; font-weight:800; color: var(--ddb-ink);
+  letter-spacing:-.02em; line-height:1; margin-bottom:.35rem;
+}
+.ddb-stat span { font-size:.78rem; font-weight:700; color:#64748b; }
+.ddb-stat small {
+  display:block; font-size:.68rem; font-weight:700;
+  color: var(--ddb-green-dark); margin-top:.5rem;
+}
+
+/* ============================================================
+   PANELS
+   ============================================================ */
+.ddb-grid {
+  position:relative; z-index:1;
+  max-width:1280px; margin:0 auto; padding:0 1.5rem 2rem;
+  display:grid; grid-template-columns: 1.6fr 1fr;
+  gap:1.25rem;
+}
+@media(max-width:960px){ .ddb-grid { grid-template-columns:1fr; } }
+
+.ddb-panel {
+  background:#fff; border:1px solid var(--ddb-line);
+  border-radius:20px; padding:1.5rem 1.6rem;
+  box-shadow: 0 4px 20px rgba(11,18,36,.03);
+  opacity:0; transform:translateY(24px);
+  transition: all .6s cubic-bezier(.2,.7,.2,1);
+}
+.ddb-panel.ddb-in { opacity:1; transform:none; }
+
+.ddb-panel-head {
+  display:flex; justify-content:space-between; align-items:center;
+  gap:.75rem; margin-bottom:1.15rem; flex-wrap:wrap;
+}
+.ddb-panel-head h2 {
+  font-family:'Outfit',sans-serif; font-size:1.1rem; font-weight:800;
+  color: var(--ddb-ink); margin:0;
+  display:flex; align-items:center; gap:.5rem;
+}
+.ddb-panel-link {
+  font-size:.78rem; font-weight:800; color: var(--ddb-green-dark);
+  text-decoration:none; transition: gap .2s ease;
+  display:inline-flex; align-items:center; gap:.3rem;
+}
+.ddb-panel-link:hover { gap:.5rem; text-decoration:underline; }
+
+/* ---------- Current active delivery card ---------- */
+.ddb-active-card {
+  background: linear-gradient(135deg, #ecfdf5 0%, #ffffff 100%);
+  border:2px solid var(--ddb-green);
+  border-radius:16px; padding:1.35rem 1.45rem;
+  margin-bottom:1.25rem; position:relative; overflow:hidden;
+  animation: ddbActivePulse 3s ease-in-out infinite;
+}
+@keyframes ddbActivePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129,.25); }
+  50%      { box-shadow: 0 0 0 8px rgba(16,185,129,0); }
+}
+.ddb-active-head {
+  display:flex; justify-content:space-between; align-items:flex-start;
+  gap:.75rem; margin-bottom:.85rem; flex-wrap:wrap;
+}
+.ddb-active-head h3 {
+  font-family:'Outfit',sans-serif; font-size:1.15rem; font-weight:800;
+  color: var(--ddb-ink); margin:0;
+}
+.ddb-active-head .id {
+  font-family:monospace; font-size:.7rem; color:#64748b;
+  margin-top:2px;
+}
+.ddb-active-body {
+  display:grid; grid-template-columns:1fr 1fr; gap:.75rem;
+  margin-bottom:1rem;
+}
+@media(max-width:640px){ .ddb-active-body { grid-template-columns:1fr; } }
+
+.ddb-active-info {
+  display:flex; gap:.65rem; align-items:flex-start;
+  padding:.7rem .8rem; background:rgba(255,255,255,.7);
+  border-radius:10px;
+}
+.ddb-active-info-ico {
+  width:34px; height:34px; border-radius:9px;
+  background:#fff; display:grid; place-items:center;
+  font-size:1rem; flex-shrink:0;
+  border:1px solid #d1fae5;
+}
+.ddb-active-info-body { min-width:0; }
+.ddb-active-info-body small {
+  display:block; font-size:.62rem; font-weight:800;
+  color:var(--ddb-muted); text-transform:uppercase;
+  letter-spacing:.06em; margin-bottom:2px;
+}
+.ddb-active-info-body strong {
+  display:block; font-size:.85rem; font-weight:800;
+  color: var(--ddb-ink); line-height:1.35;
+  word-break:break-word;
+}
+.ddb-active-info-body span {
+  display:block; font-size:.74rem; color:var(--ddb-muted);
+  line-height:1.5; margin-top:2px;
+}
+
+.ddb-active-actions {
+  display:flex; gap:.6rem; flex-wrap:wrap;
+}
+.ddb-active-actions .ddb-btn { flex:1; min-width:150px; }
+
+/* ---------- Next Action strip ---------- */
+.ddb-next {
+  display:flex; align-items:center; gap:1rem;
+  padding:1rem 1.2rem; border-radius:14px;
+  background: linear-gradient(135deg, #0B1224 0%, #1e293b 100%);
+  color:#fff; margin-bottom:1.25rem;
+}
+.ddb-next-ico {
+  width:48px; height:48px; border-radius:12px;
+  background:rgba(16,185,129,.2);
+  border:1px solid rgba(16,185,129,.4);
+  display:grid; place-items:center; font-size:1.4rem;
+  flex-shrink:0;
+}
+.ddb-next-body { flex:1; min-width:0; }
+.ddb-next-body small {
+  display:block; font-size:.66rem; font-weight:800;
+  color:#6ee7b7; text-transform:uppercase;
+  letter-spacing:.08em; margin-bottom:2px;
+}
+.ddb-next-body strong {
+  display:block; font-family:'Outfit',sans-serif;
+  font-size:1rem; font-weight:800; line-height:1.3;
+}
+.ddb-next-btn {
+  display:inline-flex; align-items:center; gap:.4rem;
+  padding:.65rem 1.15rem; font-family:inherit;
+  font-size:.78rem; font-weight:800;
+  border-radius:10px; text-decoration:none;
+  background:#fff; color: var(--ddb-green-deep);
+  border:none; cursor:pointer;
+  white-space:nowrap;
+  transition: all .2s ease;
+  flex-shrink:0;
+}
+.ddb-next-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(255,255,255,.25); }
+@media(max-width:640px){ .ddb-next { flex-direction:column; align-items:stretch; } .ddb-next-btn { justify-content:center; } }
+
+/* ---------- Mission cards ---------- */
+.ddb-mission {
+  display:grid; grid-template-columns: 56px 1fr auto;
+  gap:1.1rem; align-items:center;
+  padding:1rem 1.1rem;
+  background:#f8fafc; border:1px solid #eef2f7;
+  border-radius:14px; margin-bottom:.75rem;
+  transition: all .3s cubic-bezier(.2,.7,.2,1);
+}
+.ddb-mission:last-child { margin-bottom:0; }
+.ddb-mission:hover {
+  background:#f0fdf4; border-color: var(--ddb-green);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -14px rgba(16,185,129,.3);
+}
+.ddb-mission-ico {
+  width:56px; height:56px; border-radius:14px;
+  background: linear-gradient(135deg, var(--ddb-green-50), rgba(16,185,129,.14));
+  display:grid; place-items:center; font-size:1.4rem; flex-shrink:0;
+}
+.ddb-mission-body { min-width:0; }
+.ddb-mission-body strong {
+  display:block; font-family:'Outfit',sans-serif;
+  font-size:.98rem; font-weight:800; color: var(--ddb-ink);
+  margin-bottom:.25rem;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.ddb-mission-meta {
+  display:flex; gap:.9rem; flex-wrap:wrap;
+  font-size:.74rem; color: var(--ddb-muted); font-weight:600;
+}
+.ddb-mission-meta span { display:inline-flex; align-items:center; gap:.25rem; }
+
+.ddb-mission-right {
+  display:flex; flex-direction:column; align-items:flex-end;
+  gap:.5rem; flex-shrink:0;
+}
+.ddb-pill {
+  display:inline-block; padding:.28rem .7rem;
+  font-size:.66rem; font-weight:800; letter-spacing:.03em;
+  border-radius:999px; text-transform:uppercase; white-space:nowrap;
+}
+.ddb-pill.green  { background:#d1fae5; color:#065f46; }
+.ddb-pill.amber  { background:#fef3c7; color:#92400e; }
+.ddb-pill.blue   { background:#dbeafe; color:#1e40af; }
+.ddb-pill.red    { background:#fee2e2; color:#991b1b; }
+.ddb-pill.violet { background:#ede9fe; color:#5b21b6; }
+
+.ddb-mission-btn {
+  display:inline-flex; align-items:center; gap:.35rem;
+  padding:.5rem .9rem; font-family:inherit;
+  font-size:.74rem; font-weight:800;
+  border-radius:9px; text-decoration:none; cursor:pointer;
+  background: linear-gradient(135deg, var(--ddb-green-dark), var(--ddb-green));
+  color:#fff; border:none;
+  transition: all .2s ease;
+  white-space:nowrap;
+}
+.ddb-mission-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -8px rgba(11,159,110,.5);
+}
+
+/* ---------- Empty state ---------- */
+.ddb-empty {
+  text-align:center; padding:2.5rem 1.5rem;
+  background:#f8fafc; border:1px dashed var(--ddb-line);
+  border-radius:14px; color: var(--ddb-muted);
+}
+.ddb-empty-ico { font-size:3rem; margin-bottom:.75rem; opacity:.7; }
+.ddb-empty strong {
+  display:block; font-family:'Outfit',sans-serif;
+  font-size:1.05rem; font-weight:800; color: var(--ddb-ink);
+  margin-bottom:.35rem;
+}
+.ddb-empty p { font-size:.85rem; margin:0; line-height:1.6; }
+.ddb-empty a {
+  display:inline-block; margin-top:1rem; padding:.7rem 1.4rem;
+  border-radius:10px; font-size:.82rem; font-weight:800;
+  background: var(--ddb-green-dark); color:#fff;
+  text-decoration:none;
+  transition: all .2s ease;
+}
+.ddb-empty a:hover { background: var(--ddb-green-deep); transform: translateY(-2px); }
+
+/* ---------- Quick actions ---------- */
+.ddb-quick {
+  display:grid; grid-template-columns:1fr 1fr; gap:.75rem;
+  margin-bottom:1.25rem;
+}
+@media(max-width:520px){ .ddb-quick { grid-template-columns:1fr; } }
+.ddb-quick-card {
+  display:flex; align-items:center; gap:.75rem;
+  padding:1rem 1.05rem;
+  background:#f8fafc; border:1px solid var(--ddb-line);
+  border-radius:14px; text-decoration:none; color:inherit;
+  transition: all .25s cubic-bezier(.2,.7,.2,1);
+}
+.ddb-quick-card:hover {
+  background: var(--ddb-green-50);
+  border-color: var(--ddb-green);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 28px -14px rgba(16,185,129,.3);
+}
+.ddb-quick-ico {
+  width:42px; height:42px; border-radius:11px;
+  background: linear-gradient(135deg, var(--ddb-green-50), rgba(16,185,129,.18));
+  color: var(--ddb-green-dark);
+  display:grid; place-items:center; font-size:1.15rem;
+  flex-shrink:0;
+}
+.ddb-quick-body { min-width:0; }
+.ddb-quick-body strong {
+  display:block; font-size:.86rem; font-weight:800;
+  color: var(--ddb-ink); margin-bottom:.15rem;
+}
+.ddb-quick-body span {
+  display:block; font-size:.72rem; color: var(--ddb-muted);
+  font-weight:600;
+}
+
+/* ---------- Availability toggle ---------- */
+.ddb-avail {
+  display:flex; align-items:center; justify-content:space-between;
+  gap:1rem; padding:1rem 1.15rem;
+  background: linear-gradient(135deg, var(--ddb-green-50), #ffffff);
+  border:1px solid #bbf7d0; border-radius:14px;
+  margin-bottom:1.25rem;
+}
+.ddb-avail-body { min-width:0; }
+.ddb-avail-body strong {
+  display:block; font-size:.88rem; font-weight:800;
+  color: var(--ddb-green-deep); margin-bottom:.15rem;
+}
+.ddb-avail-body span {
+  display:block; font-size:.74rem; color: var(--ddb-green-dark);
+  font-weight:600;
+}
+.ddb-avail-toggle {
+  position:relative; width:54px; height:30px;
+  background:#cbd5e1; border-radius:999px;
+  cursor:pointer; flex-shrink:0;
+  transition: background .25s ease;
+  border:none;
+}
+.ddb-avail-toggle::after {
+  content:""; position:absolute; top:3px; left:3px;
+  width:24px; height:24px; background:#fff; border-radius:50%;
+  transition: transform .28s cubic-bezier(.34,1.56,.64,1);
+  box-shadow: 0 2px 6px rgba(0,0,0,.2);
+}
+.ddb-avail-toggle.on { background: var(--ddb-green); }
+.ddb-avail-toggle.on::after { transform: translateX(24px); }
+
+/* ---------- Activity list ---------- */
+.ddb-activity {
+  display:flex; flex-direction:column; gap:.6rem;
+}
+.ddb-activity-row {
+  display:flex; align-items:center; gap:.85rem;
+  padding:.8rem 1rem; background:#f8fafc;
+  border-radius:12px; border-left:3px solid var(--ddb-green);
+  transition: all .22s ease;
+}
+.ddb-activity-row:hover { background:#f0fdf4; transform: translateX(4px); }
+.ddb-activity-ico {
+  width:38px; height:38px; border-radius:10px;
+  background: linear-gradient(135deg, var(--ddb-green-50), rgba(16,185,129,.15));
+  color: var(--ddb-green-dark);
+  display:grid; place-items:center; font-size:1rem; flex-shrink:0;
+}
+.ddb-activity-body { flex:1; min-width:0; }
+.ddb-activity-body strong {
+  display:block; font-size:.86rem; font-weight:800;
+  color: var(--ddb-ink); margin-bottom:2px;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.ddb-activity-body span {
+  display:block; font-size:.72rem; color: var(--ddb-muted);
+  font-weight:600;
+}
+.ddb-activity-time {
+  font-size:.7rem; font-weight:700; color: var(--ddb-muted);
+  white-space:nowrap; flex-shrink:0;
+}
+
+/* ---------- History table ---------- */
+.ddb-table-wrap { overflow-x:auto; margin-top:.5rem; }
+.ddb-table { width:100%; border-collapse:collapse; font-size:.84rem; }
+.ddb-table thead th {
+  background:#f8fafc; padding:.75rem .9rem; text-align:left;
+  font-size:.66rem; font-weight:800; color:#64748b;
+  text-transform:uppercase; letter-spacing:.06em;
+  border-bottom:1px solid var(--ddb-line);
+  white-space:nowrap;
+}
+.ddb-table tbody td {
+  padding:.85rem .9rem; border-bottom:1px solid #f1f5f9;
+  color:#334155; vertical-align:middle;
+}
+.ddb-table tbody tr:last-child td { border-bottom:none; }
+.ddb-table tbody tr:hover { background:#f8fafc; }
+.ddb-table .food {
+  font-weight:800; color: var(--ddb-ink);
+  font-size:.88rem;
+}
+.ddb-table .id {
+  font-family:monospace; font-size:.72rem; color:#94a3b8;
+  margin-top:2px;
+}
+.ddb-table .route {
+  font-size:.78rem; color:#64748b;
+  margin-top:2px;
+}
+@media(max-width:720px){
+  .ddb-table thead { display:none; }
+  .ddb-table tbody td { display:block; padding:.5rem .9rem; border:none; }
+  .ddb-table tbody tr {
+    display:block; border:1px solid var(--ddb-line);
+    border-radius:14px; padding:.65rem 0;
+    margin-bottom:.6rem;
+  }
+}
+
+/* ---------- Impact strip ---------- */
+.ddb-impact {
+  position:relative; z-index:1;
+  max-width:1280px; margin:0 auto; padding:0 1.5rem 2rem;
+}
+.ddb-impact-inner {
+  background: linear-gradient(135deg, #0B1224 0%, #1e293b 100%);
+  border-radius:24px; padding:2.25rem 2.5rem;
+  color:#fff; position:relative; overflow:hidden;
+  display:grid; grid-template-columns: 1.3fr 1fr;
+  gap:2rem; align-items:center;
+  opacity:0; transform:translateY(24px);
+  transition: all .8s cubic-bezier(.2,.7,.2,1);
+}
+.ddb-impact-inner.ddb-in { opacity:1; transform:none; }
+@media(max-width:900px){
+  .ddb-impact-inner { grid-template-columns:1fr; padding:1.75rem 1.5rem; gap:1.5rem; }
+}
+.ddb-impact-inner::before {
+  content:""; position:absolute; top:-140px; right:-90px;
+  width:400px; height:400px; border-radius:50%;
+  background: radial-gradient(circle, rgba(16,185,129,.42), transparent 65%);
+  animation: ddbFloat 14s ease-in-out infinite;
+}
+.ddb-impact-inner::after {
+  content:""; position:absolute; bottom:-140px; left:-90px;
+  width:340px; height:340px; border-radius:50%;
+  background: radial-gradient(circle, rgba(245,158,11,.28), transparent 65%);
+  animation: ddbFloat 16s ease-in-out infinite reverse;
+}
+.ddb-impact-text { position:relative; z-index:1; }
+.ddb-impact-text h2 {
+  font-family:'Outfit',sans-serif;
+  font-size: clamp(1.35rem, 2.6vw, 1.9rem);
+  font-weight:800; letter-spacing:-.02em;
+  margin:0 0 .65rem; line-height:1.15;
+}
+.ddb-impact-text h2 em {
+  font-style:normal;
+  background: linear-gradient(120deg, #6ee7b7, #34d399, #fbbf24);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.ddb-impact-text p {
+  font-size:.92rem; color:rgba(255,255,255,.75);
+  line-height:1.65; margin:0; max-width:480px;
+}
+.ddb-impact-metrics {
+  position:relative; z-index:1;
+  display:grid; grid-template-columns:repeat(2,1fr); gap:.85rem;
+}
+.ddb-impact-metric {
+  background: rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:14px; padding:1.05rem 1rem;
+  transition: all .3s ease;
+}
+.ddb-impact-metric:hover { background: rgba(255,255,255,.12); transform: translateY(-3px); }
+.ddb-impact-metric .ico { font-size:1.1rem; margin-bottom:.4rem; opacity:.9; }
+.ddb-impact-metric strong {
+  display:block; font-family:'Outfit',sans-serif;
+  font-size:1.4rem; font-weight:800; color:#6ee7b7;
+  letter-spacing:-.02em; line-height:1.1;
+}
+.ddb-impact-metric span {
+  font-size:.66rem; font-weight:700;
+  color:rgba(255,255,255,.65);
+  text-transform:uppercase; letter-spacing:.05em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ddb-orb, .ddb-progress, .ddb-impact-inner::before, .ddb-impact-inner::after,
+  .ddb-active-card {
+    animation: none !important;
+  }
+  .ddb-stat, .ddb-panel,
+  .ddb-impact-inner, .ddb-mission {
+    opacity:1 !important; transform:none !important;
+    transition:none !important; animation:none !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="ddb-progress" id="ddb-progress" aria-hidden="true"></div>
+
+<div class="ddb-bg" aria-hidden="true">
+  <div class="ddb-orb ddb-orb-1"></div>
+  <div class="ddb-orb ddb-orb-2"></div>
+  <div class="ddb-orb ddb-orb-3"></div>
+</div>
+
+<header class="site-header">
+  <div class="header-container">
+    <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <a href="driver-dashboard.html" class="brand-logo" aria-label="FeedFoodForward driver home">
+      <div class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="ffTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#067A54"/><stop offset="55%" stop-color="#0B9F6E"/><stop offset="100%" stop-color="#10B981"/></linearGradient>
+            <linearGradient id="ffHeart" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#FF5A7A"/><stop offset="100%" stop-color="#F03E64"/></linearGradient>
+          </defs>
+          <rect x="2" y="2" width="44" height="44" rx="11" fill="url(#ffTile)"/>
+          <g transform="translate(8 20)"><path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4 C7.4 0.4 9.2 1.8 10 3.4 C10.8 1.8 12.6 0.4 15 0.4 C18.3 0.4 21 2.6 21 6 C21 10 18 14 10 20 Z" fill="url(#ffHeart)"/></g>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">FeedFood<span>Forward</span></span>
+        <span class="brand-subtitle">DRIVER DASHBOARD</span>
+      </div>
+    </a>
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation menu">☰</button>
+    <nav class="site-nav" id="site-nav" aria-label="Primary"></nav>
+    <div class="header-utilities">
+      <div id="header-guest" class="header-auth-group">
+        <button type="button" class="btn btn-outline btn-sm" id="header-login-btn">Login</button>
+        <button type="button" class="btn btn-primary btn-sm" id="header-signup-btn">Sign Up</button>
+      </div>
+      <div id="header-user" class="header-user-group" hidden>
+        <button type="button" class="user-chip" id="user-chip" aria-haspopup="true" aria-expanded="false">
+          <span class="user-avatar" id="user-avatar">🚚</span>
+          <span class="user-name" id="user-name">Driver</span>
+          <span class="user-caret" aria-hidden="true">▾</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="ddb">
+
+  <!-- ============ SUMMARY STAT CARDS ============ -->
+  <section class="ddb-stats" id="ddb-stats">
+    <div class="ddb-stat" data-reveal>
+      <div class="ddb-stat-head">
+        Total Assigned
+        <span class="ddb-stat-ico">📋</span>
+      </div>
+      <strong data-count="0" data-metric="total">0</strong>
+      <span>All-time missions</span>
+      <small id="ddb-note-total">—</small>
+    </div>
+
+    <div class="ddb-stat" data-reveal>
+      <div class="ddb-stat-head">
+        Pending Pickup
+        <span class="ddb-stat-ico">⏳</span>
+      </div>
+      <strong data-count="0" data-metric="pending">0</strong>
+      <span>Awaiting collection</span>
+      <small id="ddb-note-pending">Waiting for you</small>
+    </div>
+
+    <div class="ddb-stat" data-reveal>
+      <div class="ddb-stat-head">
+        In Transit
+        <span class="ddb-stat-ico">🚚</span>
+      </div>
+      <strong data-count="0" data-metric="transit">0</strong>
+      <span>On the road now</span>
+      <small id="ddb-note-transit">Driving to receiver</small>
+    </div>
+
+    <div class="ddb-stat" data-reveal>
+      <div class="ddb-stat-head">
+        Completed Today
+        <span class="ddb-stat-ico">✅</span>
+      </div>
+      <strong data-count="0" data-metric="today">0</strong>
+      <span>Delivered today</span>
+      <small id="ddb-note-today">Keep it up</small>
+    </div>
+  </section>
+
+  <!-- ============ MAIN GRID ============ -->
+  <section class="ddb-grid">
+
+    <!-- ---------- LEFT: Active + Assigned ---------- -->
+    <div style="display:flex; flex-direction:column; gap:1.25rem;">
+
+      <!-- ---------- CURRENT ACTIVE DELIVERY ---------- -->
+      <div class="ddb-panel" data-reveal>
+        <div class="ddb-panel-head">
+          <h2>🚚 Current Active Delivery</h2>
+          <a href="driver-active.html" class="ddb-panel-link">Open Full View →</a>
+        </div>
+        <div id="ddb-active-container">
+          <div class="ddb-empty">
+            <div class="ddb-empty-ico">⏳</div>
+            <strong>Loading…</strong>
+            <p>Checking for an active delivery.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---------- MY ASSIGNED DELIVERIES ---------- -->
+      <div class="ddb-panel" data-reveal>
+        <div class="ddb-panel-head">
+          <h2>📦 My Assigned Deliveries</h2>
+          <a href="driver-hub.html" class="ddb-panel-link">View all →</a>
+        </div>
+        <div id="ddb-missions-list">
+          <div class="ddb-empty">
+            <div class="ddb-empty-ico">⏳</div>
+            <strong>Loading your missions…</strong>
+            <p>Checking the network for new deliveries.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ---------- RIGHT: Availability + Quick + Activity ---------- -->
+    <div style="display:flex; flex-direction:column; gap:1.25rem;">
+
+      <div class="ddb-panel" data-reveal>
+        <!-- Availability toggle -->
+        <div class="ddb-avail">
+          <div class="ddb-avail-body">
+            <strong id="ddb-avail-title">You are available</strong>
+            <span id="ddb-avail-sub">Ready to accept new missions</span>
+          </div>
+          <button type="button" class="ddb-avail-toggle on" id="ddb-avail-toggle" role="switch" aria-checked="true" aria-label="Toggle availability"></button>
+        </div>
+
+        <div class="ddb-panel-head" style="margin-bottom:.85rem;">
+          <h2>⚡ Quick Actions</h2>
+        </div>
+
+        <div class="ddb-quick">
+          <a href="driver-hub.html" class="ddb-quick-card">
+            <div class="ddb-quick-ico">🚚</div>
+            <div class="ddb-quick-body">
+              <strong>Driver Hub</strong>
+              <span>Accept & navigate</span>
+            </div>
+          </a>
+
+          <a href="driver-history.html" class="ddb-quick-card">
+            <div class="ddb-quick-ico">📜</div>
+            <div class="ddb-quick-body">
+              <strong>History</strong>
+              <span>Past deliveries</span>
+            </div>
+          </a>
+
+          <a href="rescue-track.html" class="ddb-quick-card">
+            <div class="ddb-quick-ico">🗺️</div>
+            <div class="ddb-quick-body">
+              <strong>Live Map</strong>
+              <span>Rescue network</span>
+            </div>
+          </a>
+
+          <a href="profile.html" class="ddb-quick-card">
+            <div class="ddb-quick-ico">👤</div>
+            <div class="ddb-quick-body">
+              <strong>My Profile</strong>
+              <span>Vehicle & info</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- ---------- RECENT ACTIVITY ---------- -->
+      <div class="ddb-panel" data-reveal>
+        <div class="ddb-panel-head">
+          <h2>🕐 Recent Activity</h2>
+          <a href="driver-history.html" class="ddb-panel-link">All →</a>
+        </div>
+        <div class="ddb-activity" id="ddb-activity-list">
+          <div class="ddb-empty" style="padding:1.5rem 1rem;">
+            <p style="font-size:.8rem;">Loading activity…</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ RECENT DELIVERIES TABLE ============ -->
+  <section class="ddb-grid" style="grid-template-columns:1fr;">
+    <div class="ddb-panel" data-reveal>
+      <div class="ddb-panel-head">
+        <h2>📜 Recent Deliveries</h2>
+        <a href="driver-history.html" class="ddb-panel-link">View all →</a>
+      </div>
+
+      <div class="ddb-table-wrap">
+        <table class="ddb-table">
+          <thead>
+            <tr>
+              <th>Food Item</th>
+              <th>Route</th>
+              <th>Weight</th>
+              <th>Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="ddb-history-tbody">
+            <tr><td colspan="5" style="text-align:center;padding:1.5rem;color:#94a3b8;">⏳ Loading delivery history…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ IMPACT STRIP ============ -->
+  <section class="ddb-impact">
+    <div class="ddb-impact-inner" data-reveal>
+      <div class="ddb-impact-text">
+        <h2>Every delivery <em>feeds a community.</em></h2>
+        <p>Your missions are part of a network that rescues surplus food from kitchens and puts it on the plates of people who need it most.</p>
+      </div>
+      <div class="ddb-impact-metrics">
+        <div class="ddb-impact-metric">
+          <div class="ico">📦</div>
+          <strong id="ddb-impact-kg">0 kg</strong>
+          <span>Food Delivered</span>
+        </div>
+        <div class="ddb-impact-metric">
+          <div class="ico">🍽️</div>
+          <strong id="ddb-impact-meals">0</strong>
+          <span>Meals Supported</span>
+        </div>
+        <div class="ddb-impact-metric">
+          <div class="ico">🛣️</div>
+          <strong id="ddb-impact-km">0 km</strong>
+          <span>Distance Covered</span>
+        </div>
+        <div class="ddb-impact-metric">
+          <div class="ico">🌱</div>
+          <strong id="ddb-impact-co2">0 kg</strong>
+          <span>CO₂ Prevented</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-brand"><h3>FeedFoodForward</h3><p>"Rescue Food. Reduce Waste. Feed Communities."</p></div>
+    <div class="footer-copyright">© 2026 FeedFoodForward Platform.</div>
+  </div>
+</footer>
+
+<div id="ff-toast" role="status" aria-live="polite" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);background:#0f172a;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:all .3s ease;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.25);"></div>
+
+<script src="app.js"></script>
+<script src="header-nav.js"></script>
+<script src="sidebar.js"></script>
+<script src="animations.js"></script>
+<script src="chatbot.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  'use strict';
+
+  const user  = (window.ffAuth && window.ffAuth.getUser) ? window.ffAuth.getUser() : null;
+  const toast = m => window.ffToast && window.ffToast(m);
+
+  if (user && user.name) {
+    const un = document.getElementById('user-name');
+    if (un) un.textContent = user.name;
+  }
+
+  /* ---------- Progress bar ---------- */
+  const progress = document.getElementById('ddb-progress');
+  let tick = false;
+  function updateProgress() {
+    if (!progress) return;
+    const h = document.documentElement;
+    const sc = h.scrollTop || document.body.scrollTop;
+    const height = (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
+    progress.style.transform = 'scaleX(' + (height > 0 ? sc / height : 0) + ')';
+  }
+  window.addEventListener('scroll', () => {
+    if (tick) return;
+    tick = true;
+    requestAnimationFrame(() => { updateProgress(); tick = false; });
+  }, { passive: true });
+  updateProgress();
+
+  /* ---------- Reveal ---------- */
+  const reveals = document.querySelectorAll('[data-reveal], .ddb-stat, .ddb-panel, .ddb-impact-inner');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('ddb-in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
+    reveals.forEach(el => io.observe(el));
+  } else {
+    reveals.forEach(el => el.classList.add('ddb-in'));
+  }
+
+  /* ---------- Counter animation ---------- */
+  function animateCounter(el) {
+    if (el.dataset._counted) return;
+    el.dataset._counted = '1';
+    const target = parseFloat(el.dataset.count) || 0;
+    const decimals = parseInt(el.dataset.decimal || '0', 10);
+    const isFloat = decimals > 0;
+    const dur = 1400;
+    const start = performance.now();
+    (function step(now) {
+      const t = Math.min((now - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      const val = target * eased;
+      el.textContent = isFloat ? val.toFixed(decimals) : Math.round(val).toLocaleString('en-IN');
+      if (t < 1) requestAnimationFrame(step);
+    })(start);
+  }
+
+  /* ---------- Availability toggle ---------- */
+  const availToggle = document.getElementById('ddb-avail-toggle');
+  const availTitle  = document.getElementById('ddb-avail-title');
+  const availSub    = document.getElementById('ddb-avail-sub');
+  let available = true;
+
+  function reflectAvailability() {
+    if (availToggle) { availToggle.classList.toggle('on', available); availToggle.setAttribute('aria-checked', String(available)); }
+    if (availTitle) availTitle.textContent = available ? 'You are available' : 'You are offline';
+    if (availSub)   availSub.textContent   = available ? 'Ready to accept new missions' : 'Not accepting missions right now';
+  }
+  if (availToggle) {
+    availToggle.addEventListener('click', async () => {
+      available = !available;
+      reflectAvailability();
+      toast(available ? '🟢 You are now available' : '🟡 You are now offline');
+      if (user && user.email) {
+        try {
+          await fetch('/api/drivers/availability', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId: user.email, available })
+          });
+        } catch (e) {}
+      }
+    });
+  }
+  reflectAvailability();
+
+  /* ---------- Helpers ---------- */
+  function esc(s) {
+    return String(s || '').replace(/[&<>"']/g, c => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[c]));
+  }
+  function fmtDate(iso) {
+    if (!iso) return '—';
+    try {
+      return new Date(iso).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+    } catch (e) { return '—'; }
+  }
+  function fmtRelative(iso) {
+    if (!iso) return '—';
+    try {
+      const d = new Date(iso);
+      const diffMin = Math.floor((Date.now() - d) / 60000);
+      if (diffMin < 1) return 'just now';
+      if (diffMin < 60) return diffMin + ' min ago';
+      const hr = Math.floor(diffMin / 60);
+      if (hr < 24) return hr + ' hr ago';
+      const day = Math.floor(hr / 24);
+      if (day < 7) return day + ' day' + (day > 1 ? 's' : '') + ' ago';
+      return d.toLocaleDateString('en-IN', { day:'numeric', month:'short' });
+    } catch (e) { return '—'; }
+  }
+  function classify(d) {
+    const s = (d.status || '').toLowerCase();
+    if (s.includes('deliver') || s.includes('complet')) return 'completed';
+    if (s.includes('reject')) return 'rejected';
+    if (s.includes('cancel')) return 'cancelled';
+    if (s.includes('transit') || s.includes('picked')) return 'in-transit';
+    return 'active';
+  }
+  function isToday(iso) {
+    if (!iso) return false;
+    try {
+      const d = new Date(iso);
+      const now = new Date();
+      return d.getFullYear() === now.getFullYear() &&
+             d.getMonth() === now.getMonth() &&
+             d.getDate() === now.getDate();
+    } catch (e) { return false; }
+  }
+
+  /* ---------- Determine Next Action ---------- */
+  function getNextAction(d) {
+    const s = (d.status || '').toLowerCase();
+    if (s.includes('deliver') || s.includes('complet')) {
+      return {
+        ico: '✅',
+        label: 'Next Step',
+        text: 'Delivery complete — view history',
+        href: 'driver-history.html',
+        cta: 'View History'
+      };
+    }
+    if (s.includes('transit') || s.includes('picked')) {
+      return {
+        ico: '🏛️',
+        label: 'Next Step',
+        text: 'Navigate to Ashram & scan Delivery QR',
+        href: 'driver-verify.html?step=delivery',
+        cta: 'Scan Delivery QR'
+      };
+    }
+    if (s.includes('approved') || s.includes('accepted')) {
+      return {
+        ico: '📍',
+        label: 'Next Step',
+        text: 'Head to the pickup location',
+        href: 'driver-active.html',
+        cta: 'Go to Pickup'
+      };
+    }
+    return {
+      ico: '🚚',
+      label: 'Next Step',
+      text: 'Head to the pickup location',
+      href: 'driver-active.html',
+      cta: 'Go to Pickup'
+    };
+  }
+
+  /* ---------- LOAD DRIVER DATA ---------- */
+  async function loadDriverData() {
+    if (!user) return;
+
+    try {
+      const drvId = user.email || user.name;
+      const res = await fetch('/api/donations?driver=' + encodeURIComponent(drvId));
+      const data = await res.json();
+      const all = (data && data.donations) || [];
+
+      const mine = all.filter(d => {
+        const dId = d.driverId || '';
+        const dName = d.driverName || '';
+        return dId === drvId || dName === (user.name || '');
+      });
+
+      /* Categorise */
+      const pendingPickup = mine.filter(d => {
+        const s = (d.status || '').toLowerCase();
+        return s.includes('approved') || s.includes('accepted') || s.includes('assigned');
+      });
+      const inTransit = mine.filter(d => {
+        const s = (d.status || '').toLowerCase();
+        return s.includes('transit') || s.includes('picked');
+      });
+      const completed = mine.filter(d => classify(d) === 'completed');
+      const completedToday = completed.filter(d => isToday(d.deliveryVerifiedAt || d.createdAt));
+      const active = pendingPickup.concat(inTransit);
+
+      /* Stats */
+      const totalKg    = completed.reduce((sum, d) => sum + (Number(d.weightKg) || 0), 0);
+      const totalMeals = completed.reduce((sum, d) => sum + (Number(d.servings) || 0), 0);
+
+      const setStat = (metric, value, decimals) => {
+        const el = document.querySelector(`.ddb-stat [data-metric="${metric}"]`);
+        if (!el) return;
+        el.dataset.count = value;
+        if (decimals) el.dataset.decimal = decimals;
+        animateCounter(el);
+      };
+      setStat('total',   mine.length);
+      setStat('pending', pendingPickup.length);
+      setStat('transit', inTransit.length);
+      setStat('today',   completedToday.length);
+
+      /* Notes */
+      const noteTotal   = document.getElementById('ddb-note-total');
+      const notePending = document.getElementById('ddb-note-pending');
+      const noteTransit = document.getElementById('ddb-note-transit');
+      const noteToday   = document.getElementById('ddb-note-today');
+
+      if (noteTotal)   noteTotal.textContent   = mine.length ? 'All-time' : 'No missions yet';
+      if (notePending) notePending.textContent = pendingPickup.length ? pendingPickup.length + ' waiting now' : 'All caught up';
+      if (noteTransit) noteTransit.textContent = inTransit.length ? inTransit.length + ' on the road' : 'No active transit';
+      if (noteToday)   noteToday.textContent   = completedToday.length ? 'Great work today!' : 'Nothing delivered yet today';
+
+      /* Impact metrics */
+      const impactKg    = document.getElementById('ddb-impact-kg');
+      const impactMeals = document.getElementById('ddb-impact-meals');
+      const impactCo2   = document.getElementById('ddb-impact-co2');
+      const impactKm    = document.getElementById('ddb-impact-km');
+      if (impactKg)    impactKg.textContent    = Math.round(totalKg) + ' kg';
+      if (impactMeals) impactMeals.textContent = totalMeals;
+      if (impactCo2)   impactCo2.textContent   = (totalKg * 2.5).toFixed(0) + ' kg';
+      if (impactKm)    impactKm.textContent    = Math.round(totalKg * 0.35) + ' km';
+
+      /* ---------- CURRENT ACTIVE DELIVERY ---------- */
+      const activeEl = document.getElementById('ddb-active-container');
+      if (activeEl) {
+        if (!active.length) {
+          activeEl.innerHTML = `
+            <div class="ddb-empty">
+              <div class="ddb-empty-ico">📭</div>
+              <strong>No active delivery right now</strong>
+              <p>The system will assign you a mission as soon as a nearby donor's donation is approved.</p>
+          <a href="driver-active.html">🎬 Start Demo Delivery →</a>
+            </div>`;
+        } else {
+          const d = active[0];
+          const next = getNextAction(d);
+          const status = d.status || 'Approved';
+          const s = status.toLowerCase();
+          const pillCls = s.includes('transit') || s.includes('picked') ? 'blue' : 'amber';
+
+          activeEl.innerHTML = `
+            <div class="ddb-active-card">
+              <div class="ddb-active-head">
+                <div>
+                  <h3>${esc(d.foodName || 'Prepared Meal')}</h3>
+                  <div class="id">#${esc(d.donationId || '')}</div>
+                </div>
+                <span class="ddb-pill ${pillCls}">${esc(status)}</span>
+              </div>
+
+              <div class="ddb-active-body">
+                <div class="ddb-active-info">
+                  <div class="ddb-active-info-ico">🏨</div>
+                  <div class="ddb-active-info-body">
+                    <small>Pickup From</small>
+                    <strong>${esc(d.donorName || 'Donor')}</strong>
+                    <span>${esc(d.pickupAddress || d.donorAddress || 'Address on file')}</span>
+                  </div>
+                </div>
+                <div class="ddb-active-info">
+                  <div class="ddb-active-info-ico">🏛️</div>
+                  <div class="ddb-active-info-body">
+                    <small>Deliver To</small>
+                    <strong>${esc(d.ashramName || 'Ashram')}</strong>
+                    <span>${esc(d.deliveryAddress || d.ashramAddress || 'Address on file')}</span>
+                  </div>
+                </div>
+                <div class="ddb-active-info">
+                  <div class="ddb-active-info-ico">⚖️</div>
+                  <div class="ddb-active-info-body">
+                    <small>Quantity</small>
+                    <strong>${Number(d.weightKg) || 0} kg</strong>
+                    <span>${Number(d.servings) || 0} servings</span>
+                  </div>
+                </div>
+                <div class="ddb-active-info">
+                  <div class="ddb-active-info-ico">📅</div>
+                  <div class="ddb-active-info-body">
+                    <small>Assigned</small>
+                    <strong>${fmtRelative(d.approvedAt || d.createdAt)}</strong>
+                    <span>${fmtDate(d.approvedAt || d.createdAt)}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ddb-active-actions">
+                <a href="driver-active.html" class="ddb-btn ddb-btn-outline">📍 View Details</a>
+                <a href="${next.href}" class="ddb-btn ddb-btn-primary">${next.cta} →</a>
+              </div>
+            </div>
+
+            <div class="ddb-next">
+              <div class="ddb-next-ico">${next.ico}</div>
+              <div class="ddb-next-body">
+                <small>${next.label}</small>
+                <strong>${next.text}</strong>
+              </div>
+              <a href="${next.href}" class="ddb-next-btn">${next.cta} →</a>
+            </div>
+          `;
+
+          try { sessionStorage.setItem('ff_activeDonation', JSON.stringify(d)); } catch (e) {}
+        }
+      }
+
+      /* ---------- MY ASSIGNED DELIVERIES (excluding primary) ---------- */
+      const missionsEl = document.getElementById('ddb-missions-list');
+      if (missionsEl) {
+        const others = active.slice(1);
+        if (!others.length) {
+          if (active.length === 1) {
+            missionsEl.innerHTML = `
+              <div class="ddb-empty">
+                <div class="ddb-empty-ico">✅</div>
+                <strong>No other assigned deliveries</strong>
+                <p>You're all set — the active delivery above is your only current mission.</p>
+              </div>`;
+          } else {
+            missionsEl.innerHTML = `
+              <div class="ddb-empty">
+                <div class="ddb-empty-ico">📭</div>
+                <strong>No assigned deliveries</strong>
+                <p>New missions will appear here as soon as they're assigned to you.</p>
+               <a href="driver-active.html">🎬 Start Demo Delivery →</a>
+              </div>`;
+          }
+        } else {
+          missionsEl.innerHTML = others.map((d, i) => {
+            const status = d.status || 'Approved';
+            const s = status.toLowerCase();
+            const pillCls = s.includes('transit') || s.includes('picked') ? 'blue'
+                          : s.includes('approved') || s.includes('accepted') ? 'amber'
+                          : 'amber';
+            return `
+              <div class="ddb-mission" data-reveal style="transition-delay:${i * 50}ms;">
+                <div class="ddb-mission-ico">📦</div>
+                <div class="ddb-mission-body">
+                  <strong>${esc(d.foodName || 'Prepared Meal')}</strong>
+                  <div class="ddb-mission-meta">
+                    <span>⚖️ ${Number(d.weightKg) || 0} kg</span>
+                    <span>🍽️ ${Number(d.servings) || 0} servings</span>
+                    <span>🆔 ${esc(d.donationId || '')}</span>
+                  </div>
+                  <div class="ddb-mission-meta" style="margin-top:.35rem;">
+                    <span>📍 ${esc(d.donorName || 'Donor')}</span>
+                    <span style="color:#94a3b8;">→</span>
+                    <span>🏛️ ${esc(d.ashramName || 'Ashram')}</span>
+                  </div>
+                </div>
+                <div class="ddb-mission-right">
+                  <span class="ddb-pill ${pillCls}">${esc(status)}</span>
+                  <a href="driver-active.html" class="ddb-mission-btn">View →</a>
+                </div>
+              </div>`;
+          }).join('');
+
+          const newCards = missionsEl.querySelectorAll('[data-reveal]');
+          if ('IntersectionObserver' in window) {
+            const io2 = new IntersectionObserver((entries) => {
+              entries.forEach(e => {
+                if (e.isIntersecting) { e.target.classList.add('ddb-in'); io2.unobserve(e.target); }
+              });
+            }, { threshold: 0.1 });
+            newCards.forEach(el => io2.observe(el));
+          } else {
+            newCards.forEach(el => el.classList.add('ddb-in'));
+          }
+        }
+      }
+
+      /* ---------- RECENT ACTIVITY ---------- */
+      const activityEl = document.getElementById('ddb-activity-list');
+      if (activityEl) {
+        const recent = completed
+          .sort((a, b) => new Date(b.deliveryVerifiedAt || b.createdAt || 0) - new Date(a.deliveryVerifiedAt || a.createdAt || 0))
+          .slice(0, 5);
+
+        if (!recent.length) {
+          activityEl.innerHTML = `
+            <div class="ddb-empty" style="padding:1.5rem 1rem;">
+              <div class="ddb-empty-ico" style="font-size:2rem;">🕐</div>
+              <strong style="font-size:.9rem;">No activity yet</strong>
+              <p style="font-size:.78rem;">Your completed deliveries will appear here.</p>
+            </div>`;
+        } else {
+          activityEl.innerHTML = recent.map(d => `
+            <div class="ddb-activity-row">
+              <div class="ddb-activity-ico">✅</div>
+              <div class="ddb-activity-body">
+                <strong>${esc(d.foodName || 'Prepared Meal')}</strong>
+                <span>→ ${esc(d.ashramName || 'Ashram')}</span>
+              </div>
+              <span class="ddb-activity-time">${fmtRelative(d.deliveryVerifiedAt || d.createdAt)}</span>
+            </div>`).join('');
+        }
+      }
+
+      /* ---------- RECENT DELIVERIES TABLE ---------- */
+      const tbody = document.getElementById('ddb-history-tbody');
+      if (tbody) {
+        if (!completed.length) {
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:1.5rem;color:#94a3b8;">No completed deliveries yet.</td></tr>';
+        } else {
+          const recent = completed
+            .sort((a, b) => new Date(b.deliveryVerifiedAt || b.createdAt || 0) - new Date(a.deliveryVerifiedAt || a.createdAt || 0))
+            .slice(0, 8);
+
+          tbody.innerHTML = recent.map(d => `
+            <tr>
+              <td>
+                <div class="food">${esc(d.foodName || 'Prepared Meal')}</div>
+                <div class="id">${esc(d.donationId || '')}</div>
+              </td>
+              <td>
+                <div>${esc(d.donorName || 'Donor')}</div>
+                <div class="route">→ ${esc(d.ashramName || 'Ashram')}</div>
+              </td>
+              <td>${Number(d.weightKg) || 0} kg</td>
+              <td>${fmtDate(d.deliveryVerifiedAt || d.createdAt)}</td>
+              <td><span class="ddb-pill green">Delivered</span></td>
+            </tr>`).join('');
+        }
+      }
+
+    } catch (err) {
+      console.error('Driver dashboard load failed:', err);
+      const missionsEl = document.getElementById('ddb-missions-list');
+      if (missionsEl) {
+        missionsEl.innerHTML = `
+          <div class="ddb-empty">
+            <div class="ddb-empty-ico">⚠️</div>
+            <strong>Could not load missions</strong>
+            <p>Please refresh the page.</p>
+          </div>`;
+      }
+    }
+  }
+
+  loadDriverData();
+  setInterval(loadDriverData, 20000);
+});
+</script>
+
+</body>
+</html>

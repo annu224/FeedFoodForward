@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pickup & Delivery Verification | FeedFoodForward</title>
+<meta name="theme-color" content="#16a34a">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2316a34a'/%3E%3Cpath d='M50 80 C28 62 18 50 18 37 A17 17 0 0 1 50 28 A17 17 0 0 1 82 37 C82 50 72 62 50 80 Z' fill='%23ffffff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="guest-guard.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<script src="https://unpkg.com/jsqr@1.4.0/dist/jsQR.js"></script>
+<style>
+.dv { --dv-ink:#0B1224; --dv-muted:#64748b; --dv-line:#e8edf3; --dv-bg:#f6f9fc;
+  --dv-green:#0B9F6E; --dv-green-dark:#047857; --dv-green-deep:#064e3b; --dv-green-50:#ecfdf5;
+  --dv-amber:#f59e0b; --dv-blue:#3b82f6; --dv-red:#dc2626;
+  background: var(--dv-bg); min-height: 100vh; position: relative; overflow-x: hidden; padding-bottom: 3rem; }
+.dv-bg { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+.dv-orb { position:absolute; border-radius:50%; filter:blur(90px); opacity:.5; }
+.dv-orb-1 { width:520px;height:520px;top:-180px;left:-150px; background:radial-gradient(circle,rgba(16,185,129,.45),transparent 70%); animation: dvFloat 22s ease-in-out infinite; }
+.dv-orb-2 { width:460px;height:460px;top:25%;right:-180px; background:radial-gradient(circle,rgba(245,158,11,.32),transparent 70%); animation: dvFloat 26s ease-in-out infinite -8s; }
+@keyframes dvFloat { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(40px,-30px) scale(1.08)} 66%{transform:translate(-30px,40px) scale(.95)} }
+@keyframes dvFadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
+
+.dv-top { position:relative; z-index:1; max-width:1120px; margin:0 auto; padding: 2.25rem 1.5rem 1rem; display:flex; justify-content:space-between; align-items:flex-start; gap:1.5rem; flex-wrap:wrap; opacity:0; animation: dvFadeUp .7s cubic-bezier(.2,.7,.2,1) forwards .1s; }
+.dv-top h1 { font-family:'Outfit',sans-serif; font-weight:800; font-size: clamp(1.6rem, 3.2vw, 2.3rem); line-height:1.1; letter-spacing:-.03em; color: var(--dv-ink); margin:0 0 .35rem; }
+.dv-top h1 em { font-style:normal; background: linear-gradient(100deg,#067a54 0%,#10b981 45%,#f59e0b 65%,#10b981 85%,#067a54 100%); background-size:250% 100%; -webkit-background-clip:text; background-clip:text; color:transparent; animation: dvShimmer 8s linear infinite; }
+@keyframes dvShimmer { from{background-position:0% 50%} to{background-position:250% 50%} }
+.dv-top p { font-size:.92rem; color: var(--dv-muted); margin:0; max-width:560px; }
+.dv-status-pill { display:inline-flex; align-items:center; gap:.6rem; padding:.85rem 1.25rem; background:#fff; border:1px solid var(--dv-line); border-radius:999px; font-size:.8rem; font-weight:800; color: var(--dv-green-deep); }
+.dv-status-pill .dot { width:10px;height:10px;border-radius:50%; background: var(--dv-green); box-shadow: 0 0 0 0 rgba(16,185,129,.6); animation: dvPulse 1.8s infinite; }
+.dv-status-pill.amber { color:#92400e; } .dv-status-pill.amber .dot { background: var(--dv-amber); }
+.dv-status-pill.blue { color:#1e40af; } .dv-status-pill.blue .dot { background: var(--dv-blue); }
+@keyframes dvPulse { 0%{box-shadow:0 0 0 0 rgba(16,185,129,.6)} 70%{box-shadow:0 0 0 12px rgba(16,185,129,0)} 100%{box-shadow:0 0 0 0 rgba(16,185,129,0)} }
+.dv-wrap { position:relative; z-index:1; max-width:1120px; margin:0 auto; padding: 0 1.5rem 2rem; display:flex; flex-direction:column; gap:1.25rem; }
+.dv-step { background:#fff; border:1px solid var(--dv-line); border-radius:22px; overflow:hidden; opacity:0; transform: translateY(28px); transition: all .6s ease; position:relative; }
+.dv-step.dv-in { opacity:1; transform:none; }
+.dv-step::before { content:""; position:absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg, var(--dv-green), var(--dv-amber)); transform: scaleX(0); transform-origin:left; transition: transform .6s ease; }
+.dv-step.dv-in::before { transform: scaleX(1); }
+.dv-step[hidden] { display: none !important; }
+.dv-step-head { display:flex; align-items:flex-start; gap:1.15rem; padding:1.5rem 1.65rem 1.15rem; border-bottom:1px solid #f1f5f9; }
+.dv-step-num { width:52px; height:52px; flex-shrink:0; border-radius:16px; background: linear-gradient(135deg, var(--dv-green-50), rgba(16,185,129,.15)); color: var(--dv-green-dark); display:grid; place-items:center; font-family:'Outfit',sans-serif; font-size:1.35rem; font-weight:800; }
+.dv-step-body { flex:1; min-width:0; }
+.dv-step-title { font-family:'Outfit',sans-serif; font-size:1.15rem; font-weight:800; color: var(--dv-ink); margin:0 0 .35rem; display:flex; align-items:center; gap:.6rem; flex-wrap:wrap; }
+.dv-step-sub { font-size:.87rem; color: var(--dv-muted); margin:0; line-height:1.55; }
+.dv-step-content { padding: 1.35rem 1.65rem 1.5rem; }
+
+.dv-job { background:#f8fafc; border-radius:14px; padding:1rem 1.15rem; margin-bottom:1.15rem; }
+.dv-job-row { display:flex; gap:1rem; align-items:flex-start; }
+.dv-job-ico { width:38px; height:38px; flex-shrink:0; border-radius:11px; display:grid; place-items:center; font-size:1.05rem; }
+.dv-job-ico.from { background:#ecfdf5; color: var(--dv-green-dark); }
+.dv-job-ico.to   { background:#ede9fe; color:#5b21b6; }
+.dv-job-body { min-width:0; flex:1; }
+.dv-job-label { font-size:.62rem; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:.06em; margin-bottom:2px; }
+.dv-job-name { font-size:.92rem; font-weight:800; color: var(--dv-ink); margin-bottom:2px; }
+.dv-job-meta { display:flex; gap:.85rem; font-size:.75rem; color: var(--dv-muted); flex-wrap:wrap; margin-top:.25rem; }
+
+.dv-fresh { background: linear-gradient(135deg, var(--dv-green-50), #f0fdf4); border:1px solid #bbf7d0; border-radius:14px; padding:1.15rem 1.35rem; margin-bottom:1.15rem; }
+.dv-fresh-head { display:flex; align-items:center; gap:.6rem; margin-bottom:.6rem; }
+.dv-fresh-ico { font-size:1.35rem; }
+.dv-fresh-title { font-family:'Outfit',sans-serif; font-size:1rem; font-weight:800; color: var(--dv-green-deep); }
+.dv-fresh-score { display:inline-flex; align-items:center; gap:.4rem; margin-left:auto; background:#fff; border:1px solid #a7f3d0; padding:.35rem .7rem; border-radius:999px; font-size:.75rem; font-weight:800; color: var(--dv-green-dark); }
+.dv-fresh-sub { font-size:.82rem; color: var(--dv-green-deep); line-height:1.55; margin:0; }
+
+.dv-actions { display:flex; gap:.6rem; flex-wrap:wrap; margin-top:1rem; }
+.dv-btn { display:inline-flex; align-items:center; justify-content:center; gap:.5rem; padding:.9rem 1.35rem; font-family:inherit; font-size:.85rem; font-weight:800; border-radius:12px; border:1.5px solid transparent; cursor:pointer; text-decoration:none; transition: all .2s ease; }
+.dv-btn-primary { background: linear-gradient(135deg, var(--dv-green-dark), var(--dv-green)); color:#fff; box-shadow: 0 8px 20px -8px rgba(6,95,70,.55); }
+.dv-btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 12px 26px -8px rgba(6,95,70,.75); }
+.dv-btn-primary:disabled { opacity:.55; cursor:not-allowed; transform:none; box-shadow:none; }
+.dv-btn-danger { background: linear-gradient(135deg, #dc2626, #b91c1c); color:#fff; }
+.dv-btn-danger:hover { transform: translateY(-2px); }
+
+.dv-final-check {
+  display:flex;
+  gap:.85rem;
+  align-items:flex-start;
+  padding:1rem 1.15rem;
+  background:#fff;
+  border:2px solid var(--dv-line);
+  border-radius:14px;
+  cursor:pointer;
+  transition: all .25s ease;
+  font-size:.92rem;
+  line-height:1.5;
+  color:#334155;
+  user-select:none;
+}
+.dv-final-check:hover {
+  border-color: var(--dv-green);
+  background: var(--dv-green-50);
+}
+.dv-final-check input {
+  width:22px; height:22px; accent-color: var(--dv-green);
+  cursor:pointer; flex-shrink:0; margin-top:1px;
+}
+.dv-final-check.checked {
+  border-color: var(--dv-green);
+  background: linear-gradient(135deg, #ecfdf5, #f0fdf4);
+  box-shadow: 0 6px 18px -6px rgba(6,95,70,.25);
+}
+.dv-final-check.checked span {
+  font-weight: 700;
+  color: var(--dv-green-deep);
+}
+
+.dv-qr-section { display:none; margin-top:1.35rem; padding:1.35rem 1.25rem; background: linear-gradient(135deg, #ecfdf5, #f0fdf4); border:1px solid #bbf7d0; border-radius:16px; }
+.dv-qr-section.active { display:block; animation: dvFadeUp .4s ease; }
+.dv-qr-head { text-align:center; margin-bottom:.9rem; }
+.dv-qr-head h4 { font-family:'Outfit',sans-serif; font-size:1rem; font-weight:800; color: var(--dv-green-deep); margin:0 0 .25rem; }
+.dv-qr-head p { font-size:.8rem; color: #047857; margin:0; }
+.dv-qr-frame {
+  width:220px; height:220px; margin:0 auto 1rem;
+  padding:.65rem; background:#fff; border-radius:16px;
+  box-shadow: 0 10px 30px -10px rgba(6,95,70,.35), 0 0 0 4px rgba(16,185,129,.15);
+  position:relative;
+}
+.dv-qr-frame::before, .dv-qr-frame::after {
+  content:""; position:absolute; width:32px; height:32px; border:3px solid #10b981;
+}
+.dv-qr-frame::before { top:-6px; left:-6px; border-right:none; border-bottom:none; border-top-left-radius:14px; }
+.dv-qr-frame::after  { bottom:-6px; right:-6px; border-left:none; border-top:none; border-bottom-right-radius:14px; }
+.dv-qr-frame img { width:100%; height:100%; display:block; border-radius:8px; object-fit:contain; }
+.dv-qr-actions { display:flex; gap:.6rem; justify-content:center; flex-wrap:wrap; }
+
+.dv-result { display:none; margin-top:1rem; padding:1rem 1.15rem; border-radius:13px; align-items:center; gap:.75rem; }
+.dv-result.active { display:flex; animation: dvFadeUp .35s ease; }
+.dv-result.ok   { background:#ecfdf5; border:1px solid #a7f3d0; color: var(--dv-green-deep); }
+.dv-result.err  { background:#fef2f2; border:1px solid #fecaca; color:#991b1b; }
+.dv-result .ico { font-size:1.5rem; flex-shrink:0; }
+.dv-result-body { flex:1; min-width:0; }
+.dv-result-body strong { display:block; font-size:.9rem; font-weight:800; margin-bottom:.15rem; }
+.dv-result-body span { font-size:.78rem; opacity:.9; }
+
+.dv-success { text-align:center; padding:2.5rem 1.5rem; }
+.dv-success-ico { width:88px; height:88px; border-radius:50%; background: linear-gradient(135deg, #d1fae5, #a7f3d0); color: var(--dv-green-dark); display:grid; place-items:center; font-size:2.5rem; margin:0 auto 1.25rem; animation: successPop .8s cubic-bezier(.3,1.5,.5,1) both; }
+@keyframes successPop { 0%{transform:scale(.3) rotate(-15deg);} 60%{transform:scale(1.15) rotate(6deg);} 100%{transform:scale(1) rotate(0);} }
+.dv-success h3 { font-family:'Outfit',sans-serif; font-size:1.4rem; font-weight:800; color: var(--dv-green-deep); margin:0 0 .5rem; }
+.dv-success p { font-size:.92rem; color: var(--dv-muted); margin:0 0 1.5rem; max-width:400px; margin-left:auto; margin-right:auto; line-height:1.6; }
+.dv-success-actions { display:flex; gap:.6rem; justify-content:center; flex-wrap:wrap; }
+.dv-success-actions a { padding:.85rem 1.5rem; border-radius:12px; font-size:.85rem; font-weight:800; text-decoration:none; }
+.dv-success-actions .primary { background: var(--dv-green-dark); color:#fff; }
+
+/* ══════════════════════════════════════════════
+   CAMERA SCANNER MODAL
+   ══════════════════════════════════════════════ */
+.dv-cam-modal {
+  position: fixed; inset: 0;
+  background: rgba(11, 18, 36, .88);
+  backdrop-filter: blur(8px);
+  z-index: 6000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  opacity: 0;
+  transition: opacity .35s ease;
+}
+.dv-cam-modal.show { display: flex; opacity: 1; }
+
+.dv-cam-box {
+  background: #fff;
+  border-radius: 22px;
+  padding: 1.35rem;
+  max-width: 480px;
+  width: 100%;
+  box-shadow: 0 40px 100px -20px rgba(0,0,0,.7);
+  transform: scale(.9) translateY(20px);
+  transition: transform .5s cubic-bezier(.3,1.5,.5,1);
+  position: relative;
+}
+.dv-cam-modal.show .dv-cam-box { transform: scale(1) translateY(0); }
+
+.dv-cam-title {
+  font-family:'Outfit',sans-serif;
+  font-size:1.05rem;font-weight:800;color:#064e3b;
+  margin:0 0 .35rem;text-align:center;
+}
+.dv-cam-sub {
+  font-size:.8rem;color:#64748b;text-align:center;
+  margin:0 0 1rem;line-height:1.5;
+}
+
+.dv-cam-view {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #0B1224;
+  aspect-ratio: 4/3;
+  margin-bottom: 1rem;
+}
+.dv-cam-view video {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+}
+.dv-cam-view::before,
+.dv-cam-view::after {
+  content: ""; position: absolute;
+  width: 56px; height: 56px;
+  border: 3px solid #34d399;
+  border-radius: 12px;
+  pointer-events: none;
+}
+.dv-cam-view::before { top: 14px; left: 14px; border-right: none; border-bottom: none; }
+.dv-cam-view::after  { bottom: 14px; right: 14px; border-left: none; border-top: none; }
+
+.dv-cam-scanline {
+  position: absolute; left: 8%; right: 8%;
+  top: 6%; height: 3px;
+  background: linear-gradient(90deg, transparent, #34d399, transparent);
+  box-shadow: 0 0 20px 6px rgba(52,211,153,.7);
+  animation: dvCamScan 2.2s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes dvCamScan {
+  0%   { top: 6%; }
+  50%  { top: 92%; }
+  100% { top: 6%; }
+}
+.dv-cam-hint {
+  position: absolute; left: 50%; bottom: 16px;
+  transform: translateX(-50%);
+  background: rgba(15,23,42,.7);
+  backdrop-filter: blur(8px);
+  color: #fff; padding: .35rem .9rem;
+  border-radius: 999px;
+  font-size: .72rem; font-weight: 700;
+  white-space: nowrap;
+}
+.dv-cam-status {
+  font-size:.78rem;color:#475569;text-align:center;
+  margin:0 0 1rem;min-height:1.2em;
+}
+.dv-cam-actions {
+  display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;
+}
+.dv-cam-btn {
+  display:inline-flex;align-items:center;justify-content:center;gap:.45rem;
+  padding:.75rem 1.25rem;
+  border-radius:11px;border:none;
+  font-family:inherit;font-size:.82rem;font-weight:800;
+  cursor:pointer;transition:transform .15s ease;
+}
+.dv-cam-btn.primary {
+  background:linear-gradient(135deg,#047857,#0B9F6E);color:#fff;
+  box-shadow:0 8px 20px -8px rgba(6,95,70,.55);
+}
+.dv-cam-btn.primary:hover { transform:translateY(-2px); }
+.dv-cam-btn.ghost {
+  background:#f1f5f9;color:#0f172a;
+}
+.dv-cam-btn.ghost:hover { background:#e2e8f0; }
+
+@media (prefers-reduced-motion: reduce) { .dv-orb, .dv-status-pill .dot, .dv-cam-scanline { animation: none !important; } .dv-step { opacity:1 !important; transform:none !important; } }
+/* ══════════════════════════════════════════
+   SUCCESS OVERLAY MODAL
+   ══════════════════════════════════════════ */
+.dv-success-overlay {
+  position: fixed; inset: 0;
+  background: rgba(11,18,36,.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 7000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  transition: opacity .4s ease;
+}
+.dv-success-overlay.show { display: flex; opacity: 1; }
+.dv-success-card {
+  background: #fff;
+  border-radius: 26px;
+  padding: 2.5rem 2rem 2rem;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 40px 100px -20px rgba(6,95,70,.55);
+  transform: scale(.85) translateY(20px);
+  transition: transform .55s cubic-bezier(.3,1.5,.5,1);
+  position: relative;
+}
+.dv-success-overlay.show .dv-success-card { transform: scale(1) translateY(0); }
+
+.dv-success-card .ico {
+  width: 88px; height: 88px;
+  margin: 0 auto 1.25rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #10b981, #047857);
+  display: grid; place-items: center;
+  font-size: 3rem; color: #fff;
+  box-shadow: 0 20px 40px -10px rgba(6,95,70,.6);
+  animation: dvPop .9s cubic-bezier(.3,1.6,.5,1) both;
+}
+@keyframes dvPop {
+  0%   { transform: scale(.3) rotate(-20deg); }
+  60%  { transform: scale(1.15) rotate(8deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+.dv-success-card h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.55rem; font-weight: 800;
+  color: #065f46; margin: 0 0 .5rem;
+  letter-spacing: -.02em;
+}
+.dv-success-card p {
+  font-size: .92rem; color: #475569;
+  line-height: 1.65; margin: 0 0 1.75rem;
+}
+.dv-success-card p b { color: #0f172a; font-weight: 800; }
+.dv-success-card .actions {
+  display: flex; flex-direction: column; gap: .7rem;
+}
+.dv-success-card .actions a,
+.dv-success-card .actions button {
+  display: flex; align-items: center; justify-content: center;
+  gap: .5rem;
+  padding: 1rem 1.25rem;
+  border-radius: 14px;
+  font-family: inherit; font-size: .92rem; font-weight: 800;
+  text-decoration: none; cursor: pointer; border: none;
+  transition: transform .15s ease;
+}
+.dv-success-card .actions .primary {
+  background: linear-gradient(135deg, #047857, #0B9F6E);
+  color: #fff;
+  box-shadow: 0 12px 26px -8px rgba(6,95,70,.6);
+}
+.dv-success-card .actions .primary:hover { transform: translateY(-2px); }
+.dv-success-card .actions .ghost {
+  background: #f1f5f9; color: #0f172a;
+}
+.dv-success-card .actions .ghost:hover { background: #e2e8f0; }
+
+.dv-confetti {
+  position: absolute;
+  width: 8px; height: 14px;
+  border-radius: 2px;
+  top: -20px;
+  animation: dvConfetti linear forwards;
+  pointer-events: none;
+}
+@keyframes dvConfetti {
+  to { transform: translateY(120vh) rotate(720deg); opacity: 0; }
+}
+</style>
+</head>
+<body>
+
+<div class="dv-bg" aria-hidden="true">
+  <div class="dv-orb dv-orb-1"></div>
+  <div class="dv-orb dv-orb-2"></div>
+</div>
+
+<header class="site-header">
+  <div class="header-container">
+    <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <a href="driver-home.html" class="brand-logo">
+      <div class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="ffTile" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#067A54"/><stop offset="55%" stop-color="#0B9F6E"/><stop offset="100%" stop-color="#10B981"/></linearGradient>
+          <linearGradient id="ffHeart" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0%" stop-color="#FF5A7A"/><stop offset="100%" stop-color="#F03E64"/></linearGradient></defs>
+          <rect x="2" y="2" width="44" height="44" rx="11" fill="url(#ffTile)"/>
+          <g transform="translate(8 20)"><path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4 C7.4 0.4 9.2 1.8 10 3.4 C10.8 1.8 12.6 0.4 15 0.4 C18.3 0.4 21 2.6 21 6 C21 10 18 14 10 20 Z" fill="url(#ffHeart)"/></g>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">FeedFood<span>Forward</span></span>
+        <span class="brand-subtitle">AI FOOD REDISTRIBUTION PLATFORM</span>
+      </div>
+    </a>
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation menu">☰</button>
+    <nav class="site-nav" id="site-nav" aria-label="Primary"></nav>
+    <div class="header-utilities">
+      <div id="header-guest" class="header-auth-group">
+        <button type="button" class="btn btn-outline btn-sm" id="header-login-btn">Login</button>
+        <button type="button" class="btn btn-primary btn-sm" id="header-signup-btn">Sign Up</button>
+      </div>
+      <div id="header-user" class="header-user-group" hidden>
+        <button type="button" class="user-chip" id="user-chip" aria-haspopup="true" aria-expanded="false">
+          <span class="user-avatar" id="user-avatar">🚚</span>
+          <span class="user-name" id="user-name">Driver</span>
+          <span class="user-caret" aria-hidden="true">▾</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="dv">
+
+  <section class="dv-top">
+    <div>
+      <h1 id="dv-page-title">Pickup <em>verification.</em></h1>
+      <p id="dv-page-sub">Inspect the food, confirm it's safe, and start the delivery.</p>
+    </div>
+    <div class="dv-status-pill" id="dv-status-pill">
+      <span class="dot"></span>
+      <span id="dv-status-label">Loading mission…</span>
+    </div>
+  </section>
+
+  <div class="dv-wrap" id="dv-wrap">
+
+    <!-- ═══════════════ PICKUP STEP ═══════════════ -->
+    <section class="dv-step dv-in" id="dv-step-pickup">
+      <div class="dv-step-head">
+        <div class="dv-step-num">1</div>
+        <div class="dv-step-body">
+          <h2 class="dv-step-title">🔍 Inspect the Food</h2>
+          <p class="dv-step-sub">You are the last line of defence. Physically verify the food before accepting it.</p>
+        </div>
+      </div>
+      <div class="dv-step-content">
+
+        <div class="dv-job">
+          <div class="dv-job-row">
+            <div class="dv-job-ico from">🏨</div>
+            <div class="dv-job-body">
+              <div class="dv-job-label">Pickup from</div>
+              <div class="dv-job-name" id="dv-p-donor">—</div>
+              <div class="dv-job-meta"><span id="dv-p-donor-addr">—</span></div>
+            </div>
+          </div>
+          <div class="dv-job-row" style="margin-top:.75rem;">
+            <div class="dv-job-ico to">🏛️</div>
+            <div class="dv-job-body">
+              <div class="dv-job-label">Deliver to</div>
+              <div class="dv-job-name" id="dv-p-ashram">—</div>
+              <div class="dv-job-meta"><span id="dv-p-ashram-addr">—</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dv-fresh">
+          <div class="dv-fresh-head">
+            <span class="dv-fresh-ico">🤖</span>
+            <span class="dv-fresh-title">AI Pre-Screening Result</span>
+            <span class="dv-fresh-score">92% freshness</span>
+          </div>
+          <p class="dv-fresh-sub">AI estimates this food is safe. You must <strong>physically confirm</strong> it is safe to deliver before accepting.</p>
+        </div>
+
+        <label class="dv-final-check" id="dv-pickup-check-wrap">
+          <input type="checkbox" id="dv-pickup-confirm">
+          <span>I have physically inspected the food and confirm it is safe to deliver.</span>
+        </label>
+
+        <div class="dv-actions">
+          <button type="button" class="dv-btn dv-btn-primary" id="dv-pickup-accept" disabled>✅ Accept Food</button>
+          <button type="button" class="dv-btn dv-btn-danger" id="dv-pickup-reject">✕ Reject Food</button>
+        </div>
+
+        <!-- QR scan section (revealed after accept) -->
+        <div class="dv-qr-section" id="dv-pickup-qr-section">
+          <div class="dv-qr-head">
+            <h4>🔐 Scan Pickup QR</h4>
+            <p>Point your camera at the donor's Pickup QR to confirm collection.</p>
+          </div>
+          <div class="dv-qr-frame">
+            <img id="dv-pickup-qr-img" alt="Pickup QR">
+          </div>
+          <div class="dv-qr-actions">
+            <button type="button" class="dv-btn dv-btn-primary" id="dv-pickup-simulate">📷 Open Camera &amp; Scan</button>
+          </div>
+        </div>
+
+        <div class="dv-result" id="dv-result-pickup">
+          <span class="ico"></span>
+          <div class="dv-result-body"><strong></strong><span></span></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════ DELIVERY STEP ═══════════════ -->
+    <section class="dv-step" id="dv-step-delivery" hidden>
+      <div class="dv-step-head">
+        <div class="dv-step-num">2</div>
+        <div class="dv-step-body">
+          <h2 class="dv-step-title">🏛️ Confirm the Handover</h2>
+          <p class="dv-step-sub">Inspect the food with the receiver, then confirm the handover to complete the mission.</p>
+        </div>
+      </div>
+      <div class="dv-step-content">
+
+        <div class="dv-job">
+          <div class="dv-job-row">
+            <div class="dv-job-ico to">🏛️</div>
+            <div class="dv-job-body">
+              <div class="dv-job-label">Delivering to</div>
+              <div class="dv-job-name" id="dv-d-ashram">—</div>
+              <div class="dv-job-meta"><span id="dv-d-ashram-addr">—</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dv-fresh">
+          <div class="dv-fresh-head">
+            <span class="dv-fresh-ico">🔍</span>
+            <span class="dv-fresh-title">Final Food Inspection</span>
+            <span class="dv-fresh-score">Required</span>
+          </div>
+          <p class="dv-fresh-sub">Physically inspect the food with the receiver before handover. If anything looks off, <strong>report it instead of accepting</strong>.</p>
+        </div>
+
+        <label class="dv-final-check" id="dv-delivery-check-wrap">
+          <input type="checkbox" id="dv-delivery-confirm">
+          <span>I have physically inspected the food with the receiver and confirm it is safe to hand over.</span>
+        </label>
+
+        <div class="dv-actions">
+          <button type="button" class="dv-btn dv-btn-primary" id="dv-delivery-accept" disabled>✅ Accept &amp; Confirm Handover</button>
+          <button type="button" class="dv-btn dv-btn-danger" id="dv-delivery-reject">✕ Report Issue</button>
+        </div>
+
+        <!-- QR scan section (revealed after accept) -->
+        <div class="dv-qr-section" id="dv-delivery-qr-section">
+          <div class="dv-qr-head">
+            <h4>🔐 Scan Receiver's Delivery QR</h4>
+            <p>Ask the receiver to show their Delivery QR and scan it to complete the handover.</p>
+          </div>
+          <div class="dv-qr-frame">
+            <img id="dv-delivery-qr-img" alt="Delivery QR">
+          </div>
+          <div class="dv-qr-actions">
+            <button type="button" class="dv-btn dv-btn-primary" id="dv-delivery-simulate">📷 Open Camera &amp; Scan</button>
+          </div>
+        </div>
+
+        <div class="dv-result" id="dv-result-delivery">
+          <span class="ico"></span>
+          <div class="dv-result-body"><strong></strong><span></span></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════ STEP 3 · FINAL QR VERIFICATION ═══════════════ -->
+    <section class="dv-step" id="dv-step-finalqr" hidden>
+      <div class="dv-step-head">
+        <div class="dv-step-num">3</div>
+        <div class="dv-step-body">
+          <h2 class="dv-step-title">🔐 Verify &amp; Complete</h2>
+          <p class="dv-step-sub">You've reached the receiver. Scan their QR one last time to lock in the delivery and close the mission.</p>
+        </div>
+      </div>
+      <div class="dv-step-content">
+
+        <div class="dv-fresh">
+          <div class="dv-fresh-head">
+            <span class="dv-fresh-ico">📱</span>
+            <span class="dv-fresh-title">Receiver Confirmation QR</span>
+            <span class="dv-fresh-score">Required</span>
+          </div>
+          <p class="dv-fresh-sub">Ask the receiver to display their confirmation QR, then scan it to <strong>complete the handover</strong>.</p>
+        </div>
+
+        <div class="dv-qr-section active" id="dv-finalqr-section">
+          <div class="dv-qr-head">
+            <h4>🔐 Scan Receiver's QR</h4>
+            <p>Point your camera at the receiver's QR code to finish the mission.</p>
+          </div>
+          <div class="dv-qr-frame">
+            <img id="dv-finalqr-img" alt="Final verification QR">
+          </div>
+          <div class="dv-qr-actions">
+            <button type="button" class="dv-btn dv-btn-primary" id="dv-finalqr-scan">📷 Open Camera &amp; Scan</button>
+          </div>
+        </div>
+
+        <div class="dv-result" id="dv-result-finalqr">
+          <span class="ico"></span>
+          <div class="dv-result-body"><strong></strong><span></span></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════ SUCCESS VIEW ═══════════════ -->
+    <section class="dv-step" id="dv-step-success" hidden>
+      <div class="dv-success">
+        <div class="dv-success-ico" id="dv-success-ico">🎉</div>
+        <h3 id="dv-success-title">Mission Complete</h3>
+        <p id="dv-success-text">Delivery confirmed. Thank you for rescuing food!</p>
+        <div class="dv-success-actions">
+          <a href="driver-home.html" class="primary" id="dv-back-to-dashboard">🏠 Back to Driver Home</a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-brand"><h3>FeedFoodForward</h3><p>"Rescue Food. Reduce Waste. Feed Communities."</p></div>
+    <div class="footer-copyright">© 2026 FeedFoodForward Platform.</div>
+  </div>
+</footer>
+
+<div id="ff-toast" role="status" aria-live="polite" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);background:#0f172a;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:all .3s ease;z-index:9999;"></div>
+
+<!-- ═══════════════ SUCCESS OVERLAY ═══════════════ -->
+<div class="dv-success-overlay" id="dv-success-overlay">
+  <div class="dv-success-card" id="dv-success-card">
+    <div class="ico" id="dv-success-ico">🎉</div>
+    <h2 id="dv-success-title">Donation Started!</h2>
+    <p id="dv-success-text">Food collected. Driver is now on the way to the ashram.</p>
+    <div class="actions" id="dv-success-actions">
+      <a href="driver-active.html" class="primary">🚚 Continue to Delivery →</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ CAMERA SCANNER MODAL ═══════════════ -->
+<div class="dv-cam-modal" id="dv-cam-modal">
+  <div class="dv-cam-box">
+    <h3 class="dv-cam-title" id="dv-cam-title">Scan Pickup QR</h3>
+    <p class="dv-cam-sub" id="dv-cam-sub">Point your camera at the donor's Pickup QR code.</p>
+
+    <div class="dv-cam-view">
+      <video id="dv-cam-video" playsinline muted autoplay></video>
+      <div class="dv-cam-scanline"></div>
+      <div class="dv-cam-hint">Align the QR inside the frame</div>
+    </div>
+
+    <p class="dv-cam-status" id="dv-cam-status">Starting camera…</p>
+
+    <div class="dv-cam-actions">
+      <button type="button" class="dv-cam-btn ghost" id="dv-cam-cancel">Cancel</button>
+      <button type="button" class="dv-cam-btn primary" id="dv-cam-demo">Simulate Scan (Demo)</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script src="header-nav.js"></script>
+<script src="sidebar.js"></script>
+<script src="animations.js"></script>
+<script src="chatbot.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  'use strict';
+
+  const toast = m => window.ffToast && window.ffToast(m);
+  const params = new URLSearchParams(location.search);
+  const STEP = (params.get('step') || 'pickup').toLowerCase();
+
+  const LIVE_KEY = 'ff_livePickup';
+  const LIVE_VERSION = 4;
+  const readLive = () => {
+    try {
+      const r = localStorage.getItem(LIVE_KEY);
+      if (!r) return null;
+      const d = JSON.parse(r);
+      if (!d || d._v !== LIVE_VERSION) return null;
+      return d;
+    } catch (e) { return null; }
+  };
+  const writeLive = d => {
+    try { d._v = LIVE_VERSION; localStorage.setItem(LIVE_KEY, JSON.stringify(d)); } catch (e) {}
+  };
+
+  /* Load or seed demo mission */
+  let live = readLive();
+
+  /* ★ If the last completed delivery is very recent (within 5 min),
+     reconstruct the delivered state from ff_deliveryHistory so we
+     show the "Back to Driver Home" screen instead of re-seeding
+     a fresh pickup wizard. */
+  if (!live) {
+    try {
+      const hist = JSON.parse(localStorage.getItem('ff_deliveryHistory') || '[]');
+      if (hist.length) {
+        const latest = hist[0];
+        const ts = new Date(latest.deliveryVerifiedAt || latest.createdAt || 0).getTime();
+        if (latest.status === 'delivered' && (Date.now() - ts) < 5 * 60 * 1000) {
+          live = {
+            donationId:   latest.donationId,
+            donorName:    latest.donorName    || 'Donor',
+            donorAddr:    latest.donorAddr    || '',
+            donorLat:     latest.donorLat     || 0,
+            donorLng:     latest.donorLng     || 0,
+            donorPhone:   latest.donorPhone   || '',
+            ashramName:   latest.ashramName   || 'Ashram',
+            ashramAddr:   latest.ashramAddr   || '',
+            ashramLat:    latest.ashramLat    || 0,
+            ashramLng:    latest.ashramLng    || 0,
+            ashramPhone:  latest.ashramPhone  || '',
+            foodName:     latest.foodName     || 'Prepared Meal',
+            weightKg:     latest.weightKg     || 0,
+            servings:     latest.servings     || 0,
+            foodCategory: latest.foodCategory || 'Prepared Meals',
+            status:       'delivered',
+            phase:        'done',
+            createdAt:    latest.createdAt,
+            deliveredAt:  latest.deliveryVerifiedAt
+          };
+          writeLive(live);
+        }
+      }
+    } catch (e) {}
+  }
+
+  if (!live) {
+    live = {
+      donationId:   'FF-DON-93246',
+      donorName:    'Burma Burma Restaurant & Tea Room (बर्मा बर्मा)',
+      
+      donorAddr:    'Kothari House, Allana Centre Lane, opposite Mumbai University, Kala Ghoda, Fort, Mumbai 400001',
+      donorLat:     18.93203951931495,
+      donorLng:     72.8314570140827,
+      donorPhone:   '+91 98765 43210',
+      ashramName:   'Nandivan Ashram (नंदिवन आश्रम)',
+      ashramAddr:   'XRWW+M29, GD Ambekar Marg, MINT Colony, Parel, Mumbai 400012',
+      ashramLat:    19.00271215516706,
+      ashramLng:    72.84442105913448,
+      ashramPhone:  '+91 98765 76543',
+      foodName:     'Paneer Butter Masala with Naan',
+      weightKg:     5,
+      servings:     22,
+      foodCategory: 'Prepared Vegetarian Meal',
+      driverStart:  [18.9440, 72.8415],
+      status:       'assigned',
+      phase:        'to_pickup',
+      phaseStartTime: Date.now(),
+      durationMin:  0.5,
+      createdAt:    new Date().toISOString()
+    };
+    writeLive(live);
+  }
+
+  /* Fill UI */
+  const fill = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v || '—'; };
+  fill('dv-p-donor', live.donorName);
+  fill('dv-p-donor-addr', live.donorAddr);
+  fill('dv-p-ashram', live.ashramName);
+  fill('dv-p-ashram-addr', live.ashramAddr);
+  fill('dv-d-ashram', live.ashramName);
+  fill('dv-d-ashram-addr', live.ashramAddr);
+
+  /* Step switching */
+  function showStep(which) {
+    document.getElementById('dv-step-pickup').hidden   = which !== 'pickup';
+    document.getElementById('dv-step-delivery').hidden = which !== 'delivery';
+    document.getElementById('dv-step-success').hidden  = which !== 'success';
+    document.getElementById('dv-step-pickup').classList.add('dv-in');
+    document.getElementById('dv-step-delivery').classList.add('dv-in');
+
+    if (which === 'pickup') {
+      document.getElementById('dv-page-title').innerHTML = 'Pickup <em>verification.</em>';
+      document.getElementById('dv-page-sub').textContent = 'Inspect the food, confirm it is safe, and start the delivery.';
+      document.getElementById('dv-status-pill').classList.add('amber');
+      document.getElementById('dv-status-label').textContent = 'Pickup Pending';
+    } else if (which === 'delivery') {
+      document.getElementById('dv-page-title').innerHTML = 'Delivery <em>verification.</em>';
+      document.getElementById('dv-page-sub').textContent = 'Inspect the food with the receiver, then confirm the handover.';
+      document.getElementById('dv-status-pill').classList.remove('amber');
+      document.getElementById('dv-status-pill').classList.add('blue');
+      document.getElementById('dv-status-label').textContent = 'In Transit';
+    }
+  }
+
+  function showSuccess() {
+    document.getElementById('dv-step-pickup').hidden   = true;
+    document.getElementById('dv-step-delivery').hidden = true;
+    document.getElementById('dv-step-success').hidden  = false;
+    document.getElementById('dv-step-success').classList.add('dv-in');
+    document.getElementById('dv-status-pill').classList.remove('amber', 'blue');
+    document.getElementById('dv-status-label').textContent = 'Delivered';
+  }
+
+  function showResult(which, kind, title, subtitle) {
+    const el = document.getElementById('dv-result-' + which);
+    if (!el) return;
+    el.className = 'dv-result active ' + kind;
+    el.querySelector('.ico').textContent = kind === 'ok' ? '✅' : '⚠️';
+    el.querySelector('strong').textContent = title;
+    el.querySelector('span').textContent = subtitle;
+  }
+
+  /* ══════════════════════════════════════════════════════
+     SUCCESS OVERLAY — big popup with confetti
+     ══════════════════════════════════════════════════════ */
+  function escapeHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c];
+    });
+  }
+
+  function showSuccessModal(opts) {
+    var overlay = document.getElementById('dv-success-overlay');
+    var ico     = document.getElementById('dv-success-ico');
+    var title   = document.getElementById('dv-success-title');
+    var text    = document.getElementById('dv-success-text');
+    var actions = document.getElementById('dv-success-actions');
+    if (!overlay) return;
+
+    ico.textContent     = opts.icon || '🎉';
+    title.textContent   = opts.title || 'Success!';
+    text.innerHTML      = opts.text  || '';
+    actions.innerHTML   = opts.actionsHtml || '';
+
+    /* Re-trigger the pop animation */
+    ico.style.animation = 'none';
+    void ico.offsetWidth;
+    ico.style.animation = '';
+
+    overlay.classList.add('show');
+    spawnConfetti();
+  }
+
+  function spawnConfetti() {
+    var card = document.getElementById('dv-success-card');
+    if (!card) return;
+    var colors = ['#10b981', '#f97316', '#8b5cf6', '#fbbf24', '#06b6d4'];
+    for (var i = 0; i < 40; i++) {
+      var c = document.createElement('div');
+      c.className = 'dv-confetti';
+      c.style.left = Math.random() * 100 + '%';
+      c.style.background = colors[Math.floor(Math.random() * colors.length)];
+      c.style.animationDuration = (2 + Math.random() * 2) + 's';
+      c.style.animationDelay = (Math.random() * 0.4) + 's';
+      c.style.transform = 'rotate(' + (Math.random() * 360) + 'deg)';
+      card.appendChild(c);
+      (function (el) { setTimeout(function () { el.remove(); }, 4500); })(c);
+    }
+  }
+
+  /* Decide step */
+  const liveStatus = (live.status || '').toLowerCase();
+  const livePhase  = (live.phase || '').toLowerCase();
+  const delivered  = liveStatus === 'delivered' || livePhase === 'done';
+
+  if (delivered) {
+    showSuccess();
+  } else if (STEP === 'delivery') {
+    showStep('delivery');
+  } else {
+    showStep('pickup');
+  }
+
+  /* QR renderer — generates an <img> from a data URL */
+  function renderQr(imgId, payload) {
+    const img = document.getElementById(imgId);
+    if (!img) return;
+
+    if (typeof QRCode !== 'undefined' && QRCode.toDataURL) {
+      QRCode.toDataURL(payload, {
+        width: 240,
+        margin: 1,
+        color: { dark: '#064e3b', light: '#ffffff' },
+        errorCorrectionLevel: 'H'
+      }, function (err, url) {
+        if (!err && url) {
+          img.src = url;
+        } else {
+          img.src = 'https://api.qrserver.com/v1/create-qr-code/?size=240x240&qzone=1&color=064e3b&bgcolor=ffffff&data=' +
+                    encodeURIComponent(payload);
+        }
+      });
+    } else {
+      img.src = 'https://api.qrserver.com/v1/create-qr-code/?size=240x240&qzone=1&color=064e3b&bgcolor=ffffff&data=' +
+                encodeURIComponent(payload);
+    }
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     CAMERA QR SCANNER
+     ══════════════════════════════════════════════════════════ */
+  let camStream   = null;
+  let camRafId    = null;
+  let camMode     = null;
+  let camDetected = false;
+
+  const camModal  = document.getElementById('dv-cam-modal');
+  const camVideo  = document.getElementById('dv-cam-video');
+  const camTitle  = document.getElementById('dv-cam-title');
+  const camSub    = document.getElementById('dv-cam-sub');
+  const camStatus = document.getElementById('dv-cam-status');
+  const camCancel = document.getElementById('dv-cam-cancel');
+  const camDemo   = document.getElementById('dv-cam-demo');
+
+  async function openScanner(mode) {
+    camMode = mode;
+    camDetected = false;
+
+    camTitle.textContent = mode === 'pickup' ? 'Scan Pickup QR' : "Scan Receiver's Delivery QR";
+    camSub.textContent   = mode === 'pickup'
+      ? "Point your camera at the donor's Pickup QR code."
+      : "Ask the receiver to show their Delivery QR, then point your camera at it.";
+    camStatus.textContent = 'Starting camera…';
+
+    camModal.classList.add('show');
+
+    try {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        throw new Error('Camera API not available in this browser.');
+      }
+      camStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 960 } },
+        audio: false
+      });
+      camVideo.srcObject = camStream;
+      await camVideo.play();
+      camStatus.textContent = 'Looking for QR code…';
+      startDetectionLoop();
+    } catch (err) {
+      console.warn('[FF Scanner] Camera error:', err);
+      camStatus.textContent = '📵 Camera unavailable — use the demo button below.';
+    }
+  }
+
+  function startDetectionLoop() {
+    if (typeof jsQR === 'undefined') {
+      camStatus.textContent = '⚠️ QR library missing — use the demo button below.';
+      return;
+    }
+
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+
+    function tick() {
+      if (!camStream || camDetected) return;
+
+      if (camVideo.readyState === camVideo.HAVE_ENOUGH_DATA) {
+        canvas.width  = camVideo.videoWidth;
+        canvas.height = camVideo.videoHeight;
+        ctx.drawImage(camVideo, 0, 0, canvas.width, canvas.height);
+
+        const img  = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const code = jsQR(img.data, img.width, img.height, { inversionAttempts: 'dontInvert' });
+
+        if (code && code.data) {
+          camDetected = true;
+          camStatus.textContent = '✅ QR detected! Confirming…';
+          handleScanResult(code.data);
+          return;
+        }
+      }
+      camRafId = requestAnimationFrame(tick);
+    }
+    tick();
+  }
+
+  function closeScanner() {
+    camModal.classList.remove('show');
+    if (camStream) {
+      camStream.getTracks().forEach(t => t.stop());
+      camStream = null;
+    }
+    if (camRafId) { cancelAnimationFrame(camRafId); camRafId = null; }
+    camDetected = false;
+  }
+
+  function handleScanResult(raw) {
+    let parsed = null;
+    try { parsed = JSON.parse(raw); } catch (e) {}
+
+    const expectedType = camMode === 'pickup' ? 'PICKUP' : 'DELIVERY';
+
+    if (!parsed || parsed.type !== expectedType) {
+      camDetected = false;
+      camStatus.textContent = '⚠️ Wrong QR code. Please scan the ' +
+        (camMode === 'pickup' ? "donor's Pickup QR." : "receiver's Delivery QR.");
+      startDetectionLoop();
+      return;
+    }
+
+    setTimeout(() => {
+      closeScanner();
+      if (camMode === 'pickup') {
+        finishPickupScan();
+      } else {
+        finishDeliveryScan();
+      }
+    }, 500);
+  }
+  function finishPickupScan() {
+    const fresh = readLive() || live;
+    fresh.status = 'picked';
+    fresh.phase  = 'to_drop';
+    fresh.pickedAt = new Date().toISOString();
+    fresh.phaseStartTime = Date.now();
+    writeLive(fresh);
+
+    try {
+      const ad = JSON.parse(sessionStorage.getItem('ff_activeDonation') || '{}');
+      ad.status = 'transit';
+      ad.pickedAt = fresh.pickedAt;
+      sessionStorage.setItem('ff_activeDonation', JSON.stringify(ad));
+    } catch (e) {}
+
+    toast('✅ Donation started — food collected');
+
+    /* 🎉 Big "Donation Started" popup */
+    showSuccessModal({
+      icon: '🎉',
+      title: 'Donation Started!',
+      text:
+        'Food collected from <b>' + escapeHtml(live.donorName) + '</b>.<br>' +
+        'Driver is now on the way to <b>' + escapeHtml(live.ashramName) + '</b>.',
+      actionsHtml:
+        '<a href="driver-active.html" class="primary">🚚 Continue to Delivery →</a>' +
+        '<a href="driver-home.html" class="ghost">🏠 Back to Driver Home</a>'
+    });
+  }
+
+  /* ══════════════════════════════════════════════════════
+     HISTORY STORE — persist completed/rejected missions
+     ══════════════════════════════════════════════════════ */
+  const HISTORY_KEY = 'ff_deliveryHistory';
+
+  function pushToHistory(entry) {
+    try {
+      var arr = [];
+      var raw = localStorage.getItem(HISTORY_KEY);
+      if (raw) arr = JSON.parse(raw) || [];
+      arr = arr.filter(function (h) { return h.donationId !== entry.donationId; });
+      arr.unshift(entry);
+      arr = arr.slice(0, 200);
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(arr));
+    } catch (e) {}
+  }
+
+  function finishDeliveryScan() {
+    const fresh = readLive() || live;
+    fresh.status = 'delivered';
+    fresh.phase  = 'done';
+    fresh.deliveredAt = new Date().toISOString();
+    writeLive(fresh);
+
+    try {
+      const ad = JSON.parse(sessionStorage.getItem('ff_activeDonation') || '{}');
+      ad.status = 'delivered';
+      ad.deliveredAt = fresh.deliveredAt;
+      sessionStorage.setItem('ff_activeDonation', JSON.stringify(ad));
+    } catch (e) {}
+
+    /* ✨ Persist to history so driver-history.html can show it */
+    var driverInfo = (window.ffAuth && window.ffAuth.getUser) ? window.ffAuth.getUser() : null;
+    pushToHistory({
+      donationId:           fresh.donationId || live.donationId || ('FF-' + Date.now()),
+      driverId:             (driverInfo && (driverInfo.email || driverInfo.name)) || '',
+      driverName:           (driverInfo && driverInfo.name) || 'Driver',
+      donorName:            fresh.donorName    || live.donorName   || 'Donor',
+      donorAddr:            fresh.donorAddr    || live.donorAddr   || '',
+      ashramName:           fresh.ashramName   || live.ashramName  || 'Ashram',
+      ashramAddr:           fresh.ashramAddr   || live.ashramAddr  || '',
+      foodName:             fresh.foodName     || live.foodName    || 'Prepared Meal',
+      foodCategory:         fresh.foodCategory || live.foodCategory|| 'Prepared Meals',
+      weightKg:             Number(fresh.weightKg || live.weightKg || 0),
+      servings:             Number(fresh.servings || live.servings || 0),
+      status:               'delivered',
+      createdAt:            fresh.createdAt    || live.createdAt   || new Date().toISOString(),
+      pickupVerifiedAt:     fresh.pickedAt     || '',
+      deliveryVerifiedAt:   fresh.deliveredAt
+    });
+
+    toast('🎉 Successfully donated');
+
+    /* 🎉 Big "Successfully Donated" popup */
+    showSuccessModal({
+      icon: '✅',
+      title: 'Successfully Donated!',
+      text:
+        'Food has been delivered to <b>' + escapeHtml(live.ashramName) + '</b>.<br>' +
+        'Thank you for rescuing food and making a difference!',
+      actionsHtml:
+        '<a href="driver-home.html" class="primary">🏠 Back to Driver Home</a>'
+    });
+  }
+
+  camCancel.addEventListener('click', closeScanner);
+  camDemo.addEventListener('click', () => {
+    camStatus.textContent = '✅ Simulating scan…';
+    camDetected = true;
+    if (camMode === 'pickup') {
+      setTimeout(() => { closeScanner(); finishPickupScan(); }, 400);
+    } else {
+      setTimeout(() => { closeScanner(); finishDeliveryScan(); }, 400);
+    }
+  });
+
+  camModal.addEventListener('click', (e) => {
+    if (e.target === camModal) closeScanner();
+  });
+
+  /* ══════════════════════════════════════════════════════════
+     PICKUP STEP
+     ══════════════════════════════════════════════════════════ */
+  const pickupConfirm   = document.getElementById('dv-pickup-confirm');
+  const pickupWrap      = document.getElementById('dv-pickup-check-wrap');
+  const pickupAccept    = document.getElementById('dv-pickup-accept');
+  const pickupQrSection = document.getElementById('dv-pickup-qr-section');
+
+  function updatePickupBtn() {
+    const ok = pickupConfirm.checked;
+    pickupAccept.disabled = !ok;
+    pickupWrap.classList.toggle('checked', ok);
+  }
+  pickupConfirm.addEventListener('change', updatePickupBtn);
+
+  pickupAccept.addEventListener('click', () => {
+    pickupAccept.disabled = true;
+    pickupAccept.textContent = '✅ Food accepted';
+
+    pickupQrSection.classList.add('active');
+    pickupQrSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    const payload = JSON.stringify({
+      type: 'PICKUP',
+      donationId: live.donationId,
+      donor: live.donorName,
+      food: live.foodName
+    });
+    renderQr('dv-pickup-qr-img', payload);
+
+    showResult('pickup', 'ok', 'Food accepted',
+      "Now scan the donor's Pickup QR to confirm collection.");
+  });
+
+  /* ── "Open Camera & Scan" for pickup — opens the camera modal ── */
+  document.getElementById('dv-pickup-simulate').addEventListener('click', () => {
+    openScanner('pickup');
+  });
+
+  document.getElementById('dv-pickup-reject').addEventListener('click', () => {
+    var reason = prompt('Why are you rejecting this food?');
+    if (!reason) return;
+
+    var driverInfo = (window.ffAuth && window.ffAuth.getUser) ? window.ffAuth.getUser() : null;
+    pushToHistory({
+      donationId:    live.donationId || ('FF-' + Date.now()),
+      driverId:      (driverInfo && (driverInfo.email || driverInfo.name)) || '',
+      driverName:    (driverInfo && driverInfo.name) || 'Driver',
+      donorName:     live.donorName  || 'Donor',
+      donorAddr:     live.donorAddr  || '',
+      ashramName:    live.ashramName || 'Ashram',
+      ashramAddr:    live.ashramAddr || '',
+      foodName:      live.foodName   || 'Prepared Meal',
+      foodCategory:  live.foodCategory || 'Prepared Meals',
+      weightKg:      Number(live.weightKg || 0),
+      servings:      Number(live.servings || 0),
+      status:        'rejected',
+      rejectReason:  reason,
+      createdAt:     live.createdAt || new Date().toISOString(),
+      rejectedAt:    new Date().toISOString()
+    });
+
+    toast('❌ Food rejected — mission cancelled');
+    try { localStorage.removeItem(LIVE_KEY); } catch (e) {}
+    try { sessionStorage.removeItem('ff_activeDonation'); } catch (e) {}
+    setTimeout(function () { window.location.href = 'driver-hub.html'; }, 900);
+  });
+
+  /* ══════════════════════════════════════════════════════════
+     DELIVERY STEP
+     ══════════════════════════════════════════════════════════ */
+  const deliveryConfirm   = document.getElementById('dv-delivery-confirm');
+  const deliveryWrap      = document.getElementById('dv-delivery-check-wrap');
+  const deliveryAccept    = document.getElementById('dv-delivery-accept');
+  const deliveryQrSection = document.getElementById('dv-delivery-qr-section');
+
+  function updateDeliveryBtn() {
+    const ok = deliveryConfirm && deliveryConfirm.checked;
+    if (deliveryAccept) deliveryAccept.disabled = !ok;
+    if (deliveryWrap) deliveryWrap.classList.toggle('checked', !!ok);
+  }
+  if (deliveryConfirm) deliveryConfirm.addEventListener('change', updateDeliveryBtn);
+
+  if (deliveryAccept) {
+    deliveryAccept.addEventListener('click', () => {
+      deliveryAccept.disabled = true;
+      deliveryAccept.textContent = '✅ Handover accepted';
+
+      deliveryQrSection.classList.add('active');
+      deliveryQrSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      const payload = JSON.stringify({
+        type: 'DELIVERY',
+        donationId: live.donationId,
+        ashram: live.ashramName
+      });
+      renderQr('dv-delivery-qr-img', payload);
+
+      showResult('delivery', 'ok', 'Handover accepted',
+        "Now scan the receiver's Delivery QR to finish the mission.");
+    });
+  }
+
+  /* ── "Open Camera & Scan" for delivery — opens the camera modal ── */
+  const deliverySimulate = document.getElementById('dv-delivery-simulate');
+  if (deliverySimulate) {
+    deliverySimulate.addEventListener('click', () => {
+      openScanner('delivery');
+    });
+  }
+
+  const deliveryReject = document.getElementById('dv-delivery-reject');
+  if (deliveryReject) {
+    deliveryReject.addEventListener('click', () => {
+      const reason = prompt('Describe the food issue:');
+      if (!reason) return;
+      toast('⚠️ Issue reported — the platform team has been notified.');
+    });
+  }
+
+  function spawnConfetti() {
+    const colors = ['#10b981', '#f97316', '#8b5cf6', '#fbbf24', '#06b6d4'];
+    for (let i = 0; i < 40; i++) {
+      const c = document.createElement('div');
+      c.style.cssText = 'position:fixed;top:-20px;width:8px;height:14px;border-radius:2px;pointer-events:none;z-index:9999;left:' +
+        Math.random() * 100 + 'vw;background:' + colors[Math.floor(Math.random() * colors.length)] +
+        ';transform:rotate(' + Math.random() * 360 + 'deg);transition:transform 3s linear,top 3s linear,opacity 3s ease;opacity:1;';
+      document.body.appendChild(c);
+      requestAnimationFrame(() => {
+        c.style.top = '110vh';
+        c.style.transform = 'rotate(' + (Math.random() * 720 + 360) + 'deg)';
+        c.style.opacity = '0';
+      });
+      setTimeout(() => c.remove(), 3200);
+    }
+  }
+
+  const backBtn = document.getElementById('dv-back-to-dashboard');
+  if (backBtn) {
+    backBtn.addEventListener('click', () => {
+      /* Only clear state if the mission is NOT yet complete.
+         If it IS complete, leave ff_livePickup in place so that
+         reopening this page still shows the success screen
+         instead of re-seeding a fresh pickup wizard. */
+      try {
+        const cur = readLive();
+        if (!cur || (cur.status !== 'delivered' && cur.phase !== 'done')) {
+          localStorage.removeItem(LIVE_KEY);
+        }
+      } catch (e) {}
+      try { sessionStorage.removeItem('ff_activeDonation'); } catch (e) {}
+    });
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     STEP 3 · FINAL QR VERIFICATION
+     Runs after the delivery handover is accepted.
+     ══════════════════════════════════════════════════════════ */
+  const finalQrStep    = document.getElementById('dv-step-finalqr');
+  const finalQrScanBtn = document.getElementById('dv-finalqr-scan');
+  const deliveryQrSec  = document.getElementById('dv-delivery-qr-section');
+
+  if (deliveryAccept) {
+    // Runs AFTER the existing handler (which reveals step 2's inline QR).
+    // Collapse that inline block and advance the driver to Step 3 instead.
+    deliveryAccept.addEventListener('click', () => {
+      if (deliveryQrSec) deliveryQrSec.classList.remove('active');
+
+      if (finalQrStep) {
+        finalQrStep.hidden = false;
+        finalQrStep.classList.add('dv-in');
+        finalQrStep.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      renderQr('dv-finalqr-img', JSON.stringify({
+        type: 'DELIVERY',
+        donationId: live.donationId,
+        ashram: live.ashramName
+      }));
+
+      showResult('finalqr', 'ok', 'Handover accepted',
+        "Scan the receiver's QR below to complete the mission.");
+    });
+  }
+
+  if (finalQrScanBtn) {
+    finalQrScanBtn.addEventListener('click', () => openScanner('delivery'));
+  }
+});
+</script>
+
+</body>
+</html>

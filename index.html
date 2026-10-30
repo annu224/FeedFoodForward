@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FeedFoodForward — AI Food Redistribution Platform</title>
+  <meta name="description" content="Turn surplus food into meaningful impact. FeedFoodForward connects food donors with verified Ashrams, NGOs and delivery partners.">
+  <meta name="theme-color" content="#0B9F6E">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="FeedFoodForward — AI Food Redistribution Platform">
+  <meta property="og:description" content="Rescue Food. Reduce Waste. Feed Communities.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=1200&h=630&auto=format&fit=crop&q=80">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2316a34a'/%3E%3Cpath d='M50 80 C28 62 18 50 18 37 A17 17 0 0 1 50 28 A17 17 0 0 1 82 37 C82 50 72 62 50 80 Z' fill='%23ffffff'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<noscript>
+  <div style="background:#fef3c7;color:#92400e;padding:12px 16px;text-align:center;font-weight:600;font-size:14px;border-bottom:1px solid #fde68a;">
+    ⚠️ JavaScript is disabled. Login and interactive features won't work.
+  </div>
+</noscript>
+
+<div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+<!-- ==================== HEADER ==================== -->
+<header class="site-header">
+  <div class="header-container">
+
+    <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6"  x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+    <a href="index.html" class="brand-logo" aria-label="FeedFoodForward home">
+      <div class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img">
+          <defs>
+            <linearGradient id="ffTile" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#067A54"/>
+              <stop offset="55%" stop-color="#0B9F6E"/>
+              <stop offset="100%" stop-color="#10B981"/>
+            </linearGradient>
+            <linearGradient id="ffHeart" x1="0" y1="0" x2="0.5" y2="1">
+              <stop offset="0%" stop-color="#FF5A7A"/>
+              <stop offset="100%" stop-color="#F03E64"/>
+            </linearGradient>
+            <linearGradient id="ffLeaf" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#A3E635"/>
+              <stop offset="100%" stop-color="#65A30D"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="44" height="44" rx="11" fill="url(#ffTile)"/>
+          <rect x="2" y="2" width="44" height="20" rx="11" fill="#ffffff" opacity="0.08"/>
+          <g transform="translate(28 6) rotate(20)">
+            <path d="M0 14 C0 6 5 1 12 0 C12 8 7 14 0 14 Z" fill="url(#ffLeaf)"/>
+            <path d="M1 13 C4 10 8 6 11.5 1" stroke="#3E8A4E" stroke-width="0.9"
+                  stroke-linecap="round" fill="none" opacity="0.65"/>
+          </g>
+          <g transform="translate(8 20)">
+            <path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4
+                     C7.4 0.4 9.2 1.8 10 3.4 C10.8 1.8 12.6 0.4 15 0.4
+                     C18.3 0.4 21 2.6 21 6 C21 10 18 14 10 20 Z"
+                  fill="url(#ffHeart)"/>
+            <path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4
+                     C7.4 0.4 9.2 1.8 10 3.4"
+                  fill="#ffffff" opacity="0.22"/>
+          </g>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">FeedFood<span>Forward</span></span>
+        <span class="brand-subtitle">AI FOOD REDISTRIBUTION PLATFORM</span>
+      </div>
+    </a>
+
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation menu">☰</button>
+
+    <nav class="site-nav" id="site-nav" aria-label="Primary"></nav>
+
+    <div class="header-utilities">
+      <div id="header-guest" class="header-auth-group">
+        <button type="button" class="btn btn-outline btn-sm" id="header-login-btn">Login</button>
+        <button type="button" class="btn btn-primary btn-sm" id="header-signup-btn">Sign Up</button>
+      </div>
+
+      <div id="header-user" class="header-user-group" hidden>
+        <button type="button" class="user-chip" id="user-chip" aria-haspopup="true" aria-expanded="false">
+          <span class="user-avatar" id="user-avatar">🏨</span>
+          <span class="user-name" id="user-name">Hotel Green Leaf</span>
+          <span class="user-caret" aria-hidden="true">▾</span>
+        </button>
+
+        <div class="user-menu" id="user-menu" hidden>
+          <a href="profile.html" class="user-menu-item">👤 Profile</a>
+          <a href="donor-dashboard.html" class="user-menu-item" data-role-link="donor">📊 Dashboard</a>
+          <a href="my-donations.html" class="user-menu-item" data-role-link="donor">📦 My Donations</a>
+          <a href="driver-hub.html" class="user-menu-item" data-role-link="driver">🚚 Driver Hub</a>
+          <a href="find-ashrams.html" class="user-menu-item" data-role-link="ashram">🍽️ Available Donations</a>
+          <a href="impact-csr.html" class="user-menu-item">📊 My Impact</a>
+          <a href="admin-portal.html" class="user-menu-item" data-role-link="admin">⚡ Admin Portal</a>
+          <div class="user-menu-divider"></div>
+          <button type="button" class="user-menu-item user-menu-logout" id="user-logout-btn">🚪 Logout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="home-main">
+
+<!-- ============ 1. HERO ============ -->
+<section class="hp-hero">
+  <div class="hp-container hp-hero-grid">
+    <div class="hp-hero-left">
+      <span class="hp-eyebrow">⚡ AI-POWERED FOOD RESCUE NETWORK</span>
+
+      <h1 class="hp-hero-headline">
+        Rescue Food.<br>
+        <span class="hp-hero-accent">Reduce Waste.</span><br>
+        Feed Communities.
+      </h1>
+
+      <p class="hp-hero-desc">
+        Turn surplus food into meaningful impact. FeedFoodForward connects food donors with verified Ashrams, NGOs and delivery partners through AI-powered inspection, smart matching and live tracking.
+      </p>
+
+      <div class="hp-hero-actions">
+        <a href="donate-food.html" class="hp-btn hp-btn-primary">
+          Donate Surplus Food
+          <span aria-hidden="true">→</span>
+        </a>
+        <a href="rescue-track.html#map" class="hp-btn hp-btn-ghost">
+          See a Live Rescue
+        </a>
+      </div>
+
+      <div class="hp-hero-impact">
+        <div><strong>1,420+</strong><span>KG Rescued</span></div>
+        <div><strong>3,570+</strong><span>Meals Served</span></div>
+        <div><strong>48+</strong><span>Active Donors</span></div>
+        <div><strong>14</strong><span>Ashrams</span></div>
+      </div>
+    </div>
+
+    <div class="hp-hero-right">
+      <div class="hp-preview">
+        <div class="hp-preview-head">
+          <span class="hp-preview-dot"></span>
+          <span class="hp-preview-title">Live Rescue • #FF-DON-98241</span>
+          <span class="hp-preview-tag">IN TRANSIT</span>
+        </div>
+
+        <div class="hp-map">
+          <svg viewBox="0 0 400 200" preserveAspectRatio="none" class="hp-map-svg" aria-hidden="true">
+            <path d="M0 60 L400 90"  stroke="#e6ecf4" stroke-width="6" fill="none"/>
+            <path d="M0 130 L400 120" stroke="#e6ecf4" stroke-width="6" fill="none"/>
+            <path d="M90 0 L120 200" stroke="#e6ecf4" stroke-width="6" fill="none"/>
+            <path d="M280 0 L260 200" stroke="#e6ecf4" stroke-width="6" fill="none"/>
+            <path d="M0 170 L400 40" stroke="#eef3f9" stroke-width="4" fill="none"/>
+            <path d="M0 30 L400 170" stroke="#eef3f9" stroke-width="4" fill="none"/>
+            <path d="M68 58 C150 88, 200 118, 328 138"
+                  stroke="#0B9F6E" stroke-width="4"
+                  stroke-dasharray="6 6" fill="none"
+                  stroke-linecap="round"/>
+          </svg>
+
+          <div class="hp-mk hp-mk-donor" style="top:29%;left:17%;">
+            <span class="hp-mk-pin hp-mk-pin-donor">🏨</span>
+            <span class="hp-mk-label">Hotel Green Leaf</span>
+          </div>
+
+          <div class="hp-mk hp-mk-driver" style="top:56%;left:47%;">
+            <span class="hp-mk-pin hp-mk-pin-driver">🚚</span>
+          </div>
+
+          <div class="hp-mk hp-mk-ashram" style="top:66%;left:78%;">
+            <span class="hp-mk-pin hp-mk-pin-ashram">👵</span>
+            <span class="hp-mk-label">Shanti Vruddhashram</span>
+          </div>
+        </div>
+
+        <div class="hp-info-row">
+          <div class="hp-info-ico hp-info-ico-donor"><i data-lucide="building-2"></i></div>
+          <div class="hp-info-body">
+            <strong>Hotel Green Leaf</strong>
+            <span>42 KG • Prepared Food</span>
+          </div>
+          <span class="hp-info-tag hp-info-tag-green">PICKED</span>
+        </div>
+
+        <div class="hp-info-row">
+          <div class="hp-info-ico hp-info-ico-driver"><i data-lucide="truck"></i></div>
+          <div class="hp-info-body">
+            <strong>Rohit Kumar</strong>
+            <span>On the way to receiver</span>
+          </div>
+          <span class="hp-info-tag hp-info-tag-orange">EN ROUTE</span>
+        </div>
+
+        <div class="hp-info-row">
+          <div class="hp-info-ico hp-info-ico-ashram"><i data-lucide="heart-handshake"></i></div>
+          <div class="hp-info-body">
+            <strong>Shanti Vruddhashram</strong>
+            <span>ETA 12 min</span>
+          </div>
+          <span class="hp-info-tag hp-info-tag-green">MATCHED</span>
+        </div>
+
+        <div class="hp-preview-foot">
+          <div><strong>42 KG</strong><span>Food</span></div>
+          <div><strong>12 min</strong><span>ETA</span></div>
+          <div><strong>IN TRANSIT</strong><span>Status</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST STRIP -->
+<section class="hp-marquee" aria-label="Who donates surplus food">
+  <p class="hp-marquee-label">Surplus food comes from</p>
+  <div class="hp-marquee-viewport">
+    <div class="hp-marquee-track">
+      <span>Hotels</span><i></i><span>Restaurants</span><i></i><span>Bakeries</span><i></i><span>Cafés</span><i></i><span>Banquet Halls</span><i></i><span>Cloud Kitchens</span><i></i><span>Corporate Kitchens</span><i></i><span>Event Organizers</span><i></i>
+      <span aria-hidden="true">Hotels</span><i></i><span aria-hidden="true">Restaurants</span><i></i><span aria-hidden="true">Bakeries</span><i></i><span aria-hidden="true">Cafés</span><i></i><span aria-hidden="true">Banquet Halls</span><i></i><span aria-hidden="true">Cloud Kitchens</span><i></i><span aria-hidden="true">Corporate Kitchens</span><i></i><span aria-hidden="true">Event Organizers</span><i></i>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="hp-hiw" id="how-it-works">
+  <div class="hp-container">
+    <div class="hp-sec-title">
+      <span class="hp-sec-eyebrow">HOW IT WORKS</span>
+      <h2>From surplus to smiles in 4 steps</h2>
+      <p>Simple for donors, safe for receivers.</p>
+    </div>
+
+    <div class="hp-steps2 hp-steps2-four">
+      <a href="donate-food.html" class="hp-step2 hp-step2-link">
+        <span class="hp-step2-num">01</span>
+        <div class="hp-step2-icon"><i data-lucide="camera"></i></div>
+        <h4>Donate</h4>
+        <p>Add food details and a photo.</p>
+        <span class="hp-step2-cta">Start donation →</span>
+      </a>
+
+      <a href="ai-inspection.html" class="hp-step2 hp-step2-link">
+        <span class="hp-step2-num">02</span>
+        <div class="hp-step2-icon"><i data-lucide="scan-search"></i></div>
+        <h4>AI Inspect</h4>
+        <p>AI checks freshness, food type and quality.</p>
+        <span class="hp-step2-cta">Run AI check →</span>
+      </a>
+
+      <a href="find-ashrams.html" class="hp-step2 hp-step2-link">
+        <span class="hp-step2-num">03</span>
+        <div class="hp-step2-icon"><i data-lucide="target"></i></div>
+        <h4>Match &amp; Pickup</h4>
+        <p>We find the right NGO and a nearby driver collects it.</p>
+        <span class="hp-step2-cta">Find receivers →</span>
+      </a>
+
+      <a href="rescue-track.html" class="hp-step2 hp-step2-link">
+        <span class="hp-step2-num">04</span>
+        <div class="hp-step2-icon"><i data-lucide="check-circle-2"></i></div>
+        <h4>Track &amp; Deliver</h4>
+        <p>Follow live GPS and confirm QR-verified handover.</p>
+        <span class="hp-step2-cta">Track delivery →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- AI SHOWCASE -->
+<section class="ai-showcase">
+  <div class="ai-container">
+    <div class="ai-showcase-grid">
+      <div class="ai-visual">
+        <div class="ai-glow"></div>
+        <div class="ai-card">
+          <div class="ai-card-top">
+            <span class="ai-live-badge"><span class="ai-live-dot"></span>AI ANALYSIS</span>
+            <span class="ai-card-time">2.4s</span>
+          </div>
+          <div class="ai-image-wrap">
+            <img src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=800&auto=format&fit=crop&q=80" alt="Food being inspected by AI" class="ai-image">
+            <div class="ai-scan-line"></div>
+            <div class="ai-bounding-box ai-bb-1"><span>Roti 97%</span></div>
+            <div class="ai-bounding-box ai-bb-2"><span>Curry 94%</span></div>
+            <div class="ai-bounding-box ai-bb-3"><span>Dal 91%</span></div>
+          </div>
+          <div class="ai-card-bottom">
+            <div class="ai-verdict-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+              Suitable for rescue
+            </div>
+          </div>
+        </div>
+        <div class="ai-float ai-float-1"><strong>92%</strong><span>Freshness</span></div>
+        <div class="ai-float ai-float-2"><strong>94%</strong><span>Confidence</span></div>
+      </div>
+
+      <div class="ai-text">
+        <span class="section-eyebrow">AI INSPECTION</span>
+        <h2 class="ai-headline">Smart checks.<br><span class="ai-headline-accent">Safer food.</span></h2>
+        <p class="ai-sub">Upload a photo of surplus food and let the platform assess its condition before matching it with a recipient.</p>
+        <ul class="ai-checklist">
+          <li><span class="ai-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span>Food / non-food detection</span></li>
+          <li><span class="ai-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span>Food category detection</span></li>
+          <li><span class="ai-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span>Freshness assessment</span></li>
+          <li><span class="ai-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span>Preparation-time analysis</span></li>
+          <li><span class="ai-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span>Rescue priority scoring</span></li>
+        </ul>
+        <a href="ai-inspection.html" class="ai-cta">Try AI Inspection<span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIVE ACTIVITY -->
+<section class="hp-live">
+  <div class="hp-container">
+    <div class="hp-sec-title">
+      <span class="hp-sec-eyebrow">LIVE ACTIVITY</span>
+      <h2>Rescues happening right now.</h2>
+      <p>Real-time updates from our rescue network.</p>
+    </div>
+    <div class="hp-live-grid">
+      <div class="hp-live-card">
+        <div class="hp-live-dot hp-live-dot-green"></div>
+        <div class="hp-live-body">
+          <div class="hp-live-head"><strong>Hotel Green Leaf</strong><span>2 min ago</span></div>
+          <p>42 KG • Prepared Meals</p>
+          <div class="hp-live-route">→ Shanti Vruddhashram</div>
+          <span class="hp-live-tag hp-live-tag-green">Driver Assigned</span>
+        </div>
+      </div>
+      <div class="hp-live-card">
+        <div class="hp-live-dot hp-live-dot-orange"></div>
+        <div class="hp-live-body">
+          <div class="hp-live-head"><strong>Sunrise Bakery</strong><span>8 min ago</span></div>
+          <p>18 KG • Bakery Items</p>
+          <div class="hp-live-route">→ Anand Seva Ashram</div>
+          <span class="hp-live-tag hp-live-tag-orange">In Transit</span>
+        </div>
+      </div>
+      <div class="hp-live-card">
+        <div class="hp-live-dot hp-live-dot-gold"></div>
+        <div class="hp-live-body">
+          <div class="hp-live-head"><strong>Fresh Basket Restaurant</strong><span>14 min ago</span></div>
+          <p>12 KG • Fruits &amp; Produce</p>
+          <div class="hp-live-route">→ Annapurna NGO</div>
+          <span class="hp-live-tag hp-live-tag-gold">Matching…</span>
+        </div>
+      </div>
+    </div>
+    <div class="hp-live-cta">
+      <a href="rescue-track.html#map" class="hp-btn hp-btn-ghost">View All Rescues →</a>
+    </div>
+  </div>
+</section>
+
+<!-- WHO IS IT FOR -->
+<section class="hp-who">
+  <div class="hp-container">
+    <div class="hp-sec-title">
+      <span class="hp-sec-eyebrow">WHO IS IT FOR</span>
+      <h2>Built for everyone in the rescue network.</h2>
+      <p>Whether you're donating food, delivering it, or receiving it — everything happens in one connected platform.</p>
+    </div>
+    <div class="hp-who-grid">
+      <a href="donate-food.html" class="hp-who-card">
+        <div class="hp-who-ico"><i data-lucide="utensils-crossed"></i></div>
+        <h4>Food Donor</h4>
+        <p>Hotels • Restaurants • Cafés • Events</p>
+        <span class="hp-who-cta">Donate Surplus Food →</span>
+      </a>
+      <a href="driver-hub.html" class="hp-who-card">
+        <div class="hp-who-ico"><i data-lucide="truck"></i></div>
+        <h4>Delivery Partner</h4>
+        <p>Pickup • Route • Delivery</p>
+        <span class="hp-who-cta">Open Driver Hub →</span>
+      </a>
+      <a href="find-ashrams.html" class="hp-who-card">
+        <div class="hp-who-ico"><i data-lucide="home"></i></div>
+        <h4>Ashram / NGO</h4>
+        <p>Receive food matched to your needs</p>
+        <span class="hp-who-cta">Find Donations →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="hp-faq" id="faq">
+  <div class="hp-container">
+    <div class="hp-sec-title">
+      <span class="hp-sec-eyebrow">FAQ</span>
+      <h2>Frequently Asked Questions</h2>
+    </div>
+    <div class="hp-faq-list">
+      <details class="hp-faq-item">
+        <summary>Is FeedFoodForward free to use?</summary>
+        <p>Yes. Donating surplus food and requesting food as an Ashram or NGO is completely free. We only ask partners to keep pickup windows accurate so drivers aren't kept waiting.</p>
+      </details>
+      <details class="hp-faq-item">
+        <summary>Who can donate food?</summary>
+        <p>Hotels, restaurants, cafés, bakeries, cloud kitchens, banquet halls, corporate kitchens and event organizers can all donate surplus food.</p>
+      </details>
+      <details class="hp-faq-item">
+        <summary>How does the AI freshness inspection work?</summary>
+        <p>You upload a photo of the surplus food. A vision model estimates food type, freshness score and urgency. The result helps match the donation to the nearest suitable receiver.</p>
+      </details>
+      <details class="hp-faq-item">
+        <summary>How is delivery verified?</summary>
+        <p>Two QR scans confirm the chain of custody: the driver scans the donor's QR at pickup, and the Ashram scans the driver's QR at handover. Each scan is timestamped and logged.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="hp-cta">
+  <div class="hp-container hp-cta-box">
+    <div class="hp-cta-text">
+      <h2>Ready to rescue surplus food?</h2>
+      <p>Connect surplus food with communities that need it.</p>
+      <div class="hp-cta-actions">
+        <a href="donate-food.html" class="hp-btn hp-btn-white">Donate Food →</a>
+        <a href="impact-csr.html" class="hp-btn hp-btn-outline-white">See Our Impact</a>
+      </div>
+    </div>
+    <div class="hp-cta-img" aria-hidden="true">
+      <img src="https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=600&auto=format&fit=crop&q=80" alt="">
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>FeedFoodForward</h3>
+        <p>AI-powered food redistribution for a more connected community.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Platform</h4>
+        <a href="donate-food.html">Donate Food</a>
+        <a href="ai-inspection.html">AI Inspection</a>
+        <a href="rescue-track.html">Rescue Map</a>
+        <a href="rescue-track.html#track">Track Delivery</a>
+      </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <a href="find-ashrams.html">Find Ashrams</a>
+        <a href="driver-hub.html">Driver Hub</a>
+        <a href="impact-csr.html">Impact &amp; CSR</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#how-it-works">How It Works</a>
+        <a href="leaderboard.html">Leaderboard</a>
+        <a href="profile.html">Profile</a>
+        <a href="admin-portal.html">Admin Portal</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copyright">© 2026 FeedFoodForward. Built to rescue surplus food.</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     MODAL: LOGIN
+     ============================================================ -->
+<div class="modal-overlay" id="login-modal" hidden>
+  <div class="modal-card modal-card-sm" role="dialog" aria-modal="true" aria-labelledby="login-title">
+
+    <div class="auth-brand">
+      <div class="auth-brand-mark">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="ffAuthTile" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#067A54"/>
+              <stop offset="55%" stop-color="#0B9F6E"/>
+              <stop offset="100%" stop-color="#10B981"/>
+            </linearGradient>
+            <linearGradient id="ffAuthHeart" x1="0" y1="0" x2="0.5" y2="1">
+              <stop offset="0%" stop-color="#FF5A7A"/>
+              <stop offset="100%" stop-color="#F03E64"/>
+            </linearGradient>
+            <linearGradient id="ffAuthLeaf" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#A3E635"/>
+              <stop offset="100%" stop-color="#65A30D"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="44" height="44" rx="11" fill="url(#ffAuthTile)"/>
+          <rect x="2" y="2" width="44" height="20" rx="11" fill="#ffffff" opacity="0.08"/>
+          <g transform="translate(28 6) rotate(20)">
+            <path d="M0 14 C0 6 5 1 12 0 C12 8 7 14 0 14 Z" fill="url(#ffAuthLeaf)"/>
+            <path d="M1 13 C4 10 8 6 11.5 1" stroke="#3E8A4E" stroke-width="0.9"
+                  stroke-linecap="round" fill="none" opacity="0.65"/>
+          </g>
+          <g transform="translate(8 20)">
+            <path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4
+                     C7.4 0.4 9.2 1.8 10 3.4 C10.8 1.8 12.6 0.4 15 0.4
+                     C18.3 0.4 21 2.6 21 6 C21 10 18 14 10 20 Z"
+                  fill="url(#ffAuthHeart)"/>
+            <path d="M10 20 C2 14 -1 10 -1 6 C-1 2.6 1.7 0.4 5 0.4
+                     C7.4 0.4 9.2 1.8 10 3.4"
+                  fill="#ffffff" opacity="0.22"/>
+          </g>
+        </svg>
+      </div>
+      <h2 class="auth-brand-title">FeedFoodForward</h2>
+      <p class="auth-brand-sub">Turning surplus food into shared hope.</p>
+    </div>
+
+    <div class="modal-body">
+      <h3 class="auth-welcome">Welcome back!</h3>
+      <p class="modal-subtitle" style="margin-bottom:1rem;">Login to your account to continue.</p>
+
+      <form class="food-form" id="login-form" onsubmit="return false;" novalidate>
+
+        <div class="form-group">
+          <label for="login-email">Email address</label>
+          <input type="email" id="login-email" placeholder="Enter your registered email" required>
+        </div>
+
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" minlength="4" placeholder="Enter your password" required>
+        </div>
+
+        <div class="auth-row">
+          <label class="auth-checkbox">
+            <input type="checkbox" id="login-remember">
+            <span>Remember me</span>
+          </label>
+          <button type="button" class="link-btn" id="forgot-pw-btn">Forgot password?</button>
+        </div>
+
+        <p class="field-error" id="login-error" style="display:none;">Please enter a valid email and password.</p>
+
+        <button type="button" class="btn btn-primary auth-submit" id="login-submit-btn">Login</button>
+      </form>
+
+      <p class="modal-footer-hint">
+        Don't have an account?
+        <button type="button" class="link-btn" data-open-signup>Sign Up</button>
+      </p>
+
+      <p class="auth-admin-hint">
+        Platform owner?
+        <button type="button" class="link-btn" id="admin-info-btn">Admin access information</button>
+      </p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     MODAL: REGISTER  (Role-aware dynamic fields)
+     ============================================================ -->
+<div class="modal-overlay" id="signup-modal" hidden>
+  <div class="modal-card modal-card-lg" role="dialog" aria-modal="true" aria-labelledby="signup-title">
+
+    <div class="auth-brand">
+      <div class="auth-brand-mark">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="44" height="44" rx="11" fill="#0B9F6E"/>
+        </svg>
+      </div>
+      <h2 class="auth-brand-title">Create your account</h2>
+      <p class="auth-brand-sub">Join the rescue network — Donor, Receiver or Driver.</p>
+    </div>
+
+    <div class="modal-body">
+      <form class="food-form" id="signup-form" onsubmit="return false;" novalidate>
+
+        <!-- ACCOUNT TYPE — first, drives dynamic fields -->
+        <div class="form-group">
+          <label>Account type</label>
+          <div class="role-select-grid" role="radiogroup" aria-label="Select account type">
+            <label class="role-select-option">
+              <input type="radio" name="signup-role" value="donor" checked>
+              <span>🏨 Donor</span>
+            </label>
+            <label class="role-select-option">
+              <input type="radio" name="signup-role" value="ashram">
+              <span>👵 Ashram</span>
+            </label>
+            <label class="role-select-option">
+              <input type="radio" name="signup-role" value="driver">
+              <span>🚚 Driver</span>
+            </label>
+          </div>
+          <p class="modal-footnote" style="margin-top:0.5rem;">
+            Admin accounts are created only by the platform owner.
+          </p>
+        </div>
+
+        <!-- COMMON FIELDS -->
+        <div class="form-group">
+          <label for="signup-name">Full name</label>
+          <input type="text" id="signup-name" placeholder="Your name or contact person" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="signup-email">Email</label>
+            <input type="email" id="signup-email" placeholder="you@example.com" required>
+          </div>
+          <div class="form-group">
+            <label for="signup-phone">Phone number</label>
+            <input type="tel" id="signup-phone" placeholder="+91 98xxx xxxxx" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="signup-password">Password</label>
+            <input type="password" id="signup-password" minlength="8" placeholder="At least 8 characters" required>
+          </div>
+          <div class="form-group">
+            <label for="signup-confirm">Confirm password</label>
+            <input type="password" id="signup-confirm" minlength="8" placeholder="Re-enter password" required>
+          </div>
+        </div>
+
+        <!-- DYNAMIC ROLE-SPECIFIC FIELDS -->
+        <div id="signup-role-fields">
+
+          <!-- DONOR-specific -->
+          <div class="role-fields" data-role="donor">
+            <div class="form-group">
+              <label for="donor-org">Organization / Hotel / Restaurant name</label>
+              <input type="text" id="donor-org" placeholder="e.g. Hotel Green Leaf">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="donor-type">Donor type</label>
+                <select id="donor-type">
+                  <option value="">Select type</option>
+                  <option value="hotel">Hotel</option>
+                  <option value="restaurant">Restaurant</option>
+                  <option value="bakery">Bakery</option>
+                  <option value="cafe">Café</option>
+                  <option value="caterer">Caterer</option>
+                  <option value="event">Event Organizer</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="donor-address">Pickup address</label>
+                <input type="text" id="donor-address" placeholder="Street, Area, City">
+              </div>
+            </div>
+          </div>
+
+          <!-- RECEIVER-specific (role saved internally as "ashram") -->
+          <div class="role-fields" data-role="ashram" hidden>
+            <div class="form-group">
+              <label for="receiver-org">Organization name</label>
+              <input type="text" id="receiver-org" placeholder="e.g. Sunshine Ashram / NGO name">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="receiver-type">Receiver type</label>
+                <select id="receiver-type">
+                  <option value="">Select type</option>
+                  <option value="ashram">Ashram</option>
+                  <option value="vruddhashram">Vruddhashram (Old Age Home)</option>
+                  <option value="anath-ashram">Anath Ashram (Orphanage)</option>
+                  <option value="ngo">NGO</option>
+                  <option value="shelter">Shelter</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="receiver-residents">Number of residents</label>
+                <input type="number" id="receiver-residents" min="1" placeholder="e.g. 85">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="receiver-address">Organization address</label>
+              <input type="text" id="receiver-address" placeholder="Street, Area, City">
+            </div>
+            <div class="form-group">
+              <label for="receiver-needs">Food requirements</label>
+              <input type="text" id="receiver-needs" placeholder="e.g. Vegetarian meals, 60 servings daily">
+            </div>
+          </div>
+
+          <!-- DRIVER-specific -->
+          <div class="role-fields" data-role="driver" hidden>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="driver-vehicle">Vehicle type</label>
+                <select id="driver-vehicle">
+                  <option value="">Select vehicle</option>
+                  <option value="two-wheeler">Two-wheeler</option>
+                  <option value="three-wheeler">Three-wheeler (Auto)</option>
+                  <option value="ev-van">Electric Cargo Van</option>
+                  <option value="four-wheeler">Four-wheeler</option>
+                  <option value="truck">Truck</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="driver-license">Driving licence number</label>
+                <input type="text" id="driver-license" placeholder="e.g. KA01 2023 XXXX">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="driver-area">Operating area / city</label>
+              <input type="text" id="driver-area" placeholder="e.g. Indiranagar, Bengaluru">
+            </div>
+          </div>
+
+        </div>
+
+        <p class="field-error" id="signup-error" style="display:none;">Please fill in all fields correctly.</p>
+
+        <button type="button" class="btn btn-primary auth-submit" id="signup-submit-btn">
+          Create Account
+        </button>
+      </form>
+
+      <p class="modal-footer-hint">
+        Already have an account?
+        <button type="button" class="link-btn" data-open-login>Login</button>
+      </p>
+    </div>
+  </div>
+</div>
+
+
+<!-- PROFILE SIDEBAR is auto-injected by sidebar.js -->
+
+
+<!-- Toast -->
+<div id="ff-toast" role="status" aria-live="polite"
+     style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);background:#0f172a;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:all .3s ease;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.25);"></div>
+
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="app.js"></script>
+<script src="header-nav.js"></script>
+<script src="sidebar.js"></script>
+<script src="animations.js"></script>
+<script src="chatbot.js"></script>
+
+<script>
+/* ==========================================================
+   AUTH-GATE — runs IMMEDIATELY (before app.js strips the query).
+   • ?login=1 / ?signup=1  → hide the donor page, open the modal,
+                             and redirect to guest-home.html if the
+                             modal is closed without logging in.
+   • No session, no query   → redirect to guest-home.html.
+   • Wrong role             → redirect to their own home page.
+   ========================================================== */
+(function() {
+  var params = new URLSearchParams(location.search);
+  var isAuthFlow = params.get('login') === '1' || params.get('signup') === '1';
+
+  /* ---- AUTH FLOW: blank the page, open the modal ---- */
+  if (isAuthFlow) {
+    /* Hide the donor homepage content immediately so nothing
+       shows behind the modal. */
+    document.documentElement.style.visibility = 'hidden';
+
+    function openAuthModal() {
+      document.documentElement.style.visibility = '';
+
+      var id = params.get('login') === '1' ? 'login-modal' : 'signup-modal';
+      var m = document.getElementById(id);
+      if (m) {
+        m.hidden = false;
+        m.removeAttribute('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+
+      /* If the guest closes the modal without logging in,
+         send them back to guest-home.html. */
+      if (m) {
+        var goGuest = function() {
+          /* Only redirect if still not logged in */
+          var u = null;
+          try {
+            var _tabId = sessionStorage.getItem('ff_tab_id') || 'tab_fallback';
+            var raw = localStorage.getItem('fff_current_user_' + _tabId);
+            u = raw ? JSON.parse(raw) : null;
+          } catch (e) {}
+          if (!u) window.location.replace('guest-home.html');
+        };
+        /* Watch for the modal being hidden again */
+        var obs = new MutationObserver(function() {
+          if (m.hidden || m.hasAttribute('hidden')) {
+            obs.disconnect();
+            setTimeout(goGuest, 60);
+          }
+        });
+        obs.observe(m, { attributes: true, attributeFilter: ['hidden'] });
+
+        /* Also watch ✕ button + backdrop click explicitly,
+           in case they don't toggle the hidden attribute. */
+        m.addEventListener('click', function(e) {
+          if (e.target === m) setTimeout(goGuest, 60);
+        });
+        var closeBtns = m.querySelectorAll('[data-modal-close], .modal-close');
+        closeBtns.forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            setTimeout(goGuest, 60);
+          });
+        });
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', openAuthModal);
+    } else {
+      openAuthModal();
+    }
+    return;
+  }
+
+  /* ---- NO SESSION: send to guest home ---- */
+  var user = null;
+  try {
+    var _tabId2 = sessionStorage.getItem('ff_tab_id') || 'tab_fallback';
+    var raw = localStorage.getItem('fff_current_user_' + _tabId2);
+    user = raw ? JSON.parse(raw) : null;
+  } catch (e) {}
+
+  if (!user) {
+    window.location.replace('guest-home.html');
+    return;
+  }
+
+  /* ---- WRONG ROLE: send to their home ---- */
+  if (user.role && user.role !== 'donor') {
+    var ROLE_HOME = {
+      driver: 'driver-hub.html',
+      ashram: 'ngo-dashboard.html',
+      admin:  'admin-portal.html'
+    };
+    window.location.replace(ROLE_HOME[user.role] || 'guest-home.html');
+    return;
+  }
+})();
+</script>
+</body>
+</html>
